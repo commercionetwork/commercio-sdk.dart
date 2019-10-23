@@ -32,5 +32,5 @@ Entirely based on [Sacco.dart](https://github.com/commercionetwork/sacco.dart)
 - [x] Close CDP
 
 ### CommercioMEMBERSHIP
-- [ ] Invite user
-- [ ] Buy membership
+- [x] Invite user
+- [x] Buy membership
