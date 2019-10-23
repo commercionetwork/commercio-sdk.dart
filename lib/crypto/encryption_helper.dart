@@ -7,6 +7,12 @@ import 'package:encrypt/encrypt.dart';
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
 class EncryptionHelper {
+  /// Returns the RSA public key associated to the government that should be used when
+  /// encrypting the data that only it should see.
+  static Future<RSAPublicKey> getGovernmentRsaPubKey() {
+    // TODO
+  }
+
   /// Encrypts the given [data] with AES using the specified [key].
   static Uint8List encryptStringWithAes(String data, Key key) {
     return AES(key, mode: AESMode.ecb).encrypt(utf8.encode(data)).bytes;

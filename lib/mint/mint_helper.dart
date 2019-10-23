@@ -16,7 +16,7 @@ class MintHelper {
         )
       ],
       signerDid: wallet.bech32Address,
-      timeStamp: Utils.getTimeStamp(),
+      timeStamp: getTimeStamp(),
     );
     return TxHelper.createSignAndSendTx([msg], wallet);
   }

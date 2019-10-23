@@ -17,13 +17,9 @@ class MembershipHelper {
 
   /// Buys the membership with the given [membershipType].
   static Future<TransactionResult> buyMembership(
-    String membershipType,
+    MembershipType membershipType,
     Wallet wallet,
   ) async {
-    if (!validateMembership(membershipType)) {
-      throw UnsupportedError("Unrecognized membership type: ${membershipType}");
-    }
-
     final msg = MsgBuyMembership(
       membershipType: membershipType,
       buyerDid: wallet.bech32Address,

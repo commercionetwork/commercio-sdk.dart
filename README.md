@@ -21,8 +21,8 @@ Entirely based on [Sacco.dart](https://github.com/commercionetwork/sacco.dart)
 - [ ] List receipts
 
 ### CommercioID
-- [ ] Create Did Document
-- [ ] Request deposit
+- [x] Create Did Document
+- [x] Request deposit
 - [ ] Request power up
 - [ ] Create connection invitation
 - [ ] Accept connection invitation
