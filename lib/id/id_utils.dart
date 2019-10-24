@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:commerciosdk/crypto/export.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-class ProofGenerationResult {
+/// Contains the data that is returned from the [generateProof] method.
+class ProofGenerationResult extends Equatable {
   final Uint8List encryptedProof;
   final Uint8List encryptedAesKey;
 
@@ -11,9 +13,12 @@ class ProofGenerationResult {
     @required this.encryptedProof,
     @required this.encryptedAesKey,
   })  : assert(encryptedProof != null),
-        assert(encryptedAesKey != null);
+        assert(encryptedAesKey != null),
+        super([encryptedProof, encryptedAesKey]);
 }
 
+/// Given a [payload], creates a new AES-256 key and uses that to encrypt
+/// the payload itself.
 Future<ProofGenerationResult> generateProof(dynamic payload) async {
   // Generate the AES key
   final aesKey = await KeysHelper.generateAesKey();

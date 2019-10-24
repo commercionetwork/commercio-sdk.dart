@@ -23,7 +23,7 @@ Entirely based on [Sacco.dart](https://github.com/commercionetwork/sacco.dart)
 ### CommercioID
 - [x] Create Did Document
 - [x] Request deposit
-- [ ] Request power up
+- [x] Request power up
 - [ ] Create connection invitation
 - [ ] Accept connection invitation
 

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'did_deposit_request_signature_json.g.dart';
 
@@ -15,8 +16,8 @@ class DidDepositRequestSignatureJson extends Equatable {
   final String timeStamp;
 
   DidDepositRequestSignatureJson({
-    this.recipient,
-    this.timeStamp,
+    @required this.recipient,
+    @required this.timeStamp,
   })  : assert(recipient != null),
         assert(timeStamp != null),
         super([recipient, timeStamp]);

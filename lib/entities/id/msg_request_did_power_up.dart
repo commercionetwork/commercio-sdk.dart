@@ -3,13 +3,13 @@ import 'package:sacco/sacco.dart';
 
 /// Represents the transaction message that should be used when asking
 /// for a private Did power up.
-class MsgRequestDidPowerIp extends StdMsg {
+class MsgRequestDidPowerUp extends StdMsg {
   final String claimantDid;
   final List<StdCoin> amount;
   final String powerUpProof;
   final String encryptionKey;
 
-  MsgRequestDidPowerIp({
+  MsgRequestDidPowerUp({
     @required this.claimantDid,
     @required this.amount,
     @required this.powerUpProof,
