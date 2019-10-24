@@ -2,14 +2,10 @@ language: dart
 
 jobs:
   include:
-    # Generate the code that needs to be present
-    - state: generate_code
-      script:
-        - pub run build_runner build
-
     # Check that everything analyzes properly and is formatted.
     - stage: analyze_and_format
       script:
+        - pub run build_runner build
         - dartanalyzer --fatal-warnings .
         - dartfmt -n --set-exit-if-changed .
 
@@ -35,7 +31,6 @@ jobs:
 
 # Specify the ordering of your stages
 stages:
-  - generate_code
   - analyze_and_format
   - build
   - unit_test
