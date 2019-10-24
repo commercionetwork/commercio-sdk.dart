@@ -15,10 +15,10 @@ Entirely based on [Sacco.dart](https://github.com/commercionetwork/sacco.dart)
 - [x] Generate RSA key
 
 ### CommercioDOCS
-- [ ] Share document
-- [ ] Send receipt
-- [ ] List documents
-- [ ] List receipts
+- [x] Share document
+- [x] Send receipt
+- [x] List documents
+- [x] List receipts
 
 ### CommercioID
 - [x] Create Did Document

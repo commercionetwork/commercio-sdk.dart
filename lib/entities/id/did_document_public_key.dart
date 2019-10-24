@@ -9,10 +9,13 @@ part 'did_document_public_key.g.dart';
 class DidDocumentPublicKey extends Equatable {
   @JsonKey(name: "id")
   final String id;
+
   @JsonKey(name: "type")
   final DidDocumentPubKeyType type;
+
   @JsonKey(name: "controller")
   final String controller;
+
   @JsonKey(name: "publicKeyHex")
   final String publicKeyHex;
 
@@ -33,19 +36,11 @@ class DidDocumentPublicKey extends Equatable {
   Map<String, dynamic> toJson() => _$DidDocumentPublicKeyToJson(this);
 }
 
-/// Returns true iff the given [pubKeyType] is a valid public key type.
-bool validateType(String pubKeyType) {
-  var type = pubKeyType.toLowerCase();
-  return type == DidDocumentPubKeyType.RSA ||
-      type == DidDocumentPubKeyType.ED25519 ||
-      type == DidDocumentPubKeyType.SECP256K1;
-}
-
 enum DidDocumentPubKeyType {
-  @JsonKey(name: "RsaVerificationKey2018")
+  @JsonValue("RsaVerificationKey2018")
   RSA,
-  @JsonKey(name: "Ed25519VerificationKey2018")
+  @JsonValue("Ed25519VerificationKey2018")
   ED25519,
-  @JsonKey(name: "Secp256k1VerificationKey2018")
+  @JsonValue("Secp256k1VerificationKey2018")
   SECP256K1,
 }

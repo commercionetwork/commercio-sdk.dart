@@ -1,6 +1,6 @@
+import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:commerciosdk/export.dart';
 import 'package:meta/meta.dart';
 
 part 'did_document.g.dart';
@@ -11,14 +11,19 @@ part 'did_document.g.dart';
 class DidDocument extends Equatable {
   @JsonKey(name: "@context")
   final String context;
+
   @JsonKey(name: "id")
   final String id;
+
   @JsonKey(name: "publicKey")
   final List<DidDocumentPublicKey> publicKeys;
+
   @JsonKey(name: "authentication")
   final List<String> authentication;
+
   @JsonKey(name: "proof")
   final DidDocumentProof proof;
+
   @JsonKey(name: "service")
   final List<DidDocumentService> services;
 

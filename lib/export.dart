@@ -1,5 +1,7 @@
 // Crypto
 export 'crypto/export.dart';
+export 'docs/docs_helper.dart';
+export 'docs/docs_utils.dart';
 export 'entities/export.dart';
 export 'id/did_deposit_request_payload.dart';
 export 'id/did_deposit_request_signature_json.dart';

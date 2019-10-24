@@ -11,10 +11,13 @@ part 'did_document_proof.g.dart';
 class DidDocumentProof extends Equatable {
   @JsonKey(name: "type")
   final String type;
+
   @JsonKey(name: "created")
   final String iso8601creationTimestamp;
+
   @JsonKey(name: "creator")
   final String creatorKeyId;
+
   @JsonKey(name: "signatureValue")
   final String signatureValue;
 

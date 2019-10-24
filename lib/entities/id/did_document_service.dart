@@ -10,8 +10,10 @@ part 'did_document_service.g.dart';
 class DidDocumentService extends Equatable {
   @JsonKey(name: "id")
   final String id;
+
   @JsonKey(name: "type")
   final String type;
+
   @JsonKey(name: "serviceEndpoint")
   final String endpoint;
 

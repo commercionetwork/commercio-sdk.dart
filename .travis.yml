@@ -1,5 +1,44 @@
 language: dart
-dart_task:
-  - test: --platform vm
-  - dartfmt
-  - dartanalyzer: --fatal-warnings lib
+
+jobs:
+  include:
+    # First, check that everything analyzes properly and is formatted.
+    - stage: analyze_and_format
+      script:
+        - dartanalyzer --fatal-warnings .
+        - dartfmt -n --set-exit-if-changed .
+
+    # Next, build the entire `test` directory
+    - stage: build
+      script:
+        - pub run build_runner build test
+
+        # Set up several jobs in the next stage, using the built in sharding
+        # feature from the `test` package.
+        #
+        # Since a build already happened in the previous stage, these tasks will
+        # perform no-op builds which are fast (assuming you set up your cache
+        # properly above!).
+        - stage: unit_test
+          script:
+            - pub run build_runner test -- --total-shards 4 --shard-index 0
+        - stage: unit_test
+          script:
+            - pub run build_runner test -- --total-shards 4 --shard-index 1
+        - stage: unit_test
+          script:
+            - pub run build_runner test -- --total-shards 4 --shard-index 2
+        - stage: unit_test
+          script:
+            - pub run build_runner test -- --total-shards 4 --shard-index 3
+
+# Specify the ordering of your stages
+stages:
+  - analyze_and_format
+  - build
+  - unit_test
+
+cache:
+  directories:
+    - $HOME/.pub-cache
+    - .dart_tool/build
