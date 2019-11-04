@@ -1,5 +1,5 @@
 module.exports = {
-    title: "Commercio.network SDK Documentation",
+    title: "CN Dart SDK Documentation",
     description: "Documentation for the Commercio.network blockhain.",
     head: [
         ['link', { rel: "commercio-icon", href: "/.vuepress/icon.png" }]
@@ -27,15 +27,30 @@ module.exports = {
                 ]
             },
             {
-                title: "Helpers",
+                title: "Blockchain's Helpers",
                 collapsable: false,
                 children: [
-                    ["lib/crypto/encryption_helper", "Encryption helper"],
-                    ["lib/docs/docs_helper", "Docs helper"],
                     ["lib/id/id_helper", "Id helper"],
+                    ["lib/docs/docs_helper", "Docs helper"],
                     ["lib/membership/membership_helper", "Membership helper"],
                     ["lib/mint/mint_helper", "Mint helper"],
                     ["lib/tx/tx_helper", "Tx helper"],
+                    ["lib/crypto/sign_helper", "Sign Helper"]
+                ]
+            },
+            {
+                title: "Utility Helpers",
+                collapsable: false,
+                children: [
+                    ["lib/crypto/keys_helper", "Keys Helper"],
+                    ["lib/crypto/encryption_helper", "Encryption helper"]
+                ]
+            },
+            {
+                title: "Glossary",
+                collapsable:false,
+                children: [
+
                 ]
             }
         ]

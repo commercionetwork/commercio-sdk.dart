@@ -1,7 +1,7 @@
-# Commercio.network SDK(Dart) Documentation 
+# Commercio.network SDK (Dart) Documentation 
 Inside the following page you will learn how to perform all the Commercio.network
 transactions  by using the Commercio.network SDK.  
-:::tip  
+:::tip Disclaimer
 This documentation is valid for the **version** sdk version  
 ::: 
 ## Installation
@@ -17,15 +17,22 @@ To know what a wallet is and how to create it, you can read the
 :::
 
 ### Helpers
-After creating the wallet, you can use it inside **Helpers**,
-specific classes used to allow a simple way to send Commercio.network blockchain's messages.  
-Here's the list of helpers:  
-* [`EncryptionHelper`](lib/crypto/encryption_helper.md)  
-* [`DocsHelper`](lib/docs/docs_helper.md)
+
+#### Blockchain's helpers
+After creating the wallet, you can use it inside the blockchain's **Helpers**,
+specific classes used to allow a simple way to send Commercio.network blockchain's messages and perform transactions.  
+Here's the list:  
 * [`IdHelper`](lib/id/id_helper.md)
+* [`DocsHelper`](lib/docs/docs_helper.md)
 * [`MembershipHelper`](lib/membership/membership_helper.md)
 * [`MintHelper`](lib/mint/mint_helper.md)
-* [`TxHelper`](lib/tx/tx_helper.md)  
+* [`TxHelper`](lib/tx/tx_helper.md)
+* [`SignHelper`](lib/crypto/sign_helper.md)  
 
-Each one of these allows the creation of a messages' set with which you can interact in different ways with the blockchain.
+#### Utility helpers
+Beside the above helpers, there is a few more that allows you to perform specific operations such as  string or bytes encryption/decryption,
+RSA/AES keys generation, JSON signature.  
+Here's the list: 
+* [`EncryptionHelper`](lib/crypto/encryption_helper.md)  
+* [`KeysHelper`](lib/crypto/keys_helper.md)
 
