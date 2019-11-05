@@ -14,7 +14,7 @@ static Future<TransactionResult> setDidDocument(
   Wallet wallet,
 ) 
 ```
-3. Creates a new [Did deposit request](../glossary.md) for the given `recipient` and of the given `amount`  
+3. Creates a new [Did deposit request](../glossary.md) for the given `recipient` and of the given `amount`.  
 Signs everything that need to be signed (i.e. the signature JSON inside the payload) with the private key contained inside the
 given `wallet`
 ```dart
@@ -24,7 +24,7 @@ static Future<TransactionResult> requestDidDeposit(
   Wallet wallet
 ) async
 ```
-4. Create a new [Did power up request](../glossary.md) for the given `pairwiseDid` and of the given `amount`  
+4. Create a new [Did power up request](../glossary.md) for the given `pairwiseDid` and of the given `amount`.  
 Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the private key contained
 inside the given `wallet`
 ```dart

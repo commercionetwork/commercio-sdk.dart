@@ -1,5 +1,5 @@
 ## Tx helper 
-Allows to easily perform common transaction operations
+Allows to easily perform common transaction operations.
 
 ## Provided operations
 

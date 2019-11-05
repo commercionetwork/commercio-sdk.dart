@@ -1,5 +1,5 @@
 # Keys helper
-Keys helper allows to easily generate new RSA or AES keys
+Keys helper allows to easily generate new RSA or AES keys.
 
 ## Provided operations
 Below you can find the keys helper's provided operations with some examples

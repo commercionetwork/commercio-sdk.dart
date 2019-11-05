@@ -6,4 +6,5 @@ todo
 ##Did Document 
 todo
 ##Did Deposit Request
+##Did Power up Request
 ##CDP
