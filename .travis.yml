@@ -1,41 +1,55 @@
-language: dart
-
-jobs:
+matrix:
   include:
-    # Check that everything analyzes properly and is formatted.
-    - stage: analyze_and_format
-      script:
-        - pub run build_runner build
-        - dartanalyzer --fatal-warnings .
-        - dartfmt -n --set-exit-if-changed .
+    - language: dart
+      jobs:
+      include:
+      # Check that everything analyzes properly and is formatted.
+      - stage: analyze_and_format
+          script:
+            - pub run build_runner build
+            - dartanalyzer --fatal-warnings .
+            - dartfmt -n --set-exit-if-changed .
+      # Build the entire `test` directory
+      - stage: build
+          script:
+            - pub run build_runner build test
+      # Set up several jobs in the next stage, using the built in sharding
+      # feature from the `test` package.
+      - stage: unit_test
+          script:
+            - pub run build_runner test -- --total-shards 4 --shard-index 0
+      - stage: unit_test
+          script:
+            - pub run build_runner test -- --total-shards 4 --shard-index 1
+      - stage: unit_test
+          script:
+            - pub run build_runner test -- --total-shards 4 --shard-index 2
+      - stage: unit_test
+          script:
+            - pub run build_runner test -- --total-shards 4 --shard-index 3
+      # Specify the ordering of your stages
+      stages:
+        - analyze_and_format
+        - build
+        - unit_test
 
-    # Build the entire `test` directory
-    - stage: build
+      cache:
+        directories:
+          - $HOME/.pub-cache
+          - .dart_tool/build
+    - language: node_js
+      node_js:
+        - lts*
+      install:
+        - npm ci
       script:
-        - pub run build_runner build test
-
-    # Set up several jobs in the next stage, using the built in sharding
-    # feature from the `test` package.
-    - stage: unit_test
-      script:
-        - pub run build_runner test -- --total-shards 4 --shard-index 0
-    - stage: unit_test
-      script:
-        - pub run build_runner test -- --total-shards 4 --shard-index 1
-    - stage: unit_test
-      script:
-        - pub run build_runner test -- --total-shards 4 --shard-index 2
-    - stage: unit_test
-      script:
-        - pub run build_runner test -- --total-shards 4 --shard-index 3
-
-# Specify the ordering of your stages
-stages:
-  - analyze_and_format
-  - build
-  - unit_test
-
-cache:
-  directories:
-    - $HOME/.pub-cache
-    - .dart_tool/build
+        - npm run docs:build
+        - echo 'docs.commercio.network.dart.sdk' > docs/.vuepress/dist/CNAME
+      deploy:
+       provider: pages
+       skip_cleanup: true
+       local_dir: docs/.vuepress/dist
+       github-token: $GITHUB_TOKEN
+       keep-history: true
+       on:
+         branch: docs
