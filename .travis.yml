@@ -44,7 +44,7 @@ matrix:
         - npm ci
       script:
         - npm run docs:build
-        - echo 'docs.commercio.network.dart.sdk' > docs/.vuepress/dist/CNAME
+        - echo 'dart.sdk.docs.commercio.network' > docs/.vuepress/dist/CNAME
       deploy:
        provider: pages
        skip_cleanup: true
@@ -52,4 +52,4 @@ matrix:
        github-token: $GITHUB_TOKEN
        keep-history: true
        on:
-         branch: docs
+         tags: true
