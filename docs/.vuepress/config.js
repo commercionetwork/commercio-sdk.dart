@@ -1,5 +1,5 @@
 module.exports = {
-    title: "CN Dart SDK Documentation",
+    title: "Commercio.network Dart SDK Documentation",
     description: "Documentation for the Commercio.network blockhain.",
     head: [
         ['link', { rel: "commercio-icon", href: "/.vuepress/icon.png" }]
