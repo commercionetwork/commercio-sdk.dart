@@ -14,3 +14,7 @@ export 'membership/msg_buy_membership.dart';
 export 'membership/msg_invite_user.dart';
 export 'mint/msg_close_cdp.dart';
 export 'mint/msg_open_cdp.dart';
+export 'keys/PublicKey.dart';
+export 'keys/RSAPublicKey.dart';
+export 'keys/ECPublicKey.dart';
+export 'keys/Ed25519Key.dart';

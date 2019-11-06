@@ -1,11 +1,9 @@
 import 'package:commerciosdk/crypto/sign_helper.dart';
+import 'package:commerciosdk/entities/export.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:commerciosdk/id/did_document_proof_signature_content.dart';
 import 'package:hex/hex.dart';
-import 'package:pointycastle/export.dart';
 import 'package:sacco/sacco.dart';
-import 'package:xpx_crypto/xpx_crypto.dart' as ed25519;
-
 
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
@@ -52,15 +50,16 @@ class DidDocumentHelper {
       keyType = DidDocumentPubKeyType.RSA;
     } else if (pubKey is ECPublicKey) {
       keyType = DidDocumentPubKeyType.SECP256K1;
-    } else if(pubKey is ed25519.PublicKey) {
+    } else if(pubKey is Ed25519Key) {
       keyType = DidDocumentPubKeyType.ED25519;
     }
+
 
     return DidDocumentPublicKey(
         id: '${wallet.bech32Address}#keys-$index',
         type: keyType,
         controller: wallet.bech32Address,
-        publicKeyHex: HEX.encode(pubKey)
+        publicKeyHex: HEX.encode(pubKey.getEncoded())
     );
   }
 
@@ -68,7 +67,7 @@ class DidDocumentHelper {
   static DidDocumentProof _computeProof(String authKeyId, DidDocumentProofSignatureContent proofContent, Wallet wallet) {
     return DidDocumentProof(
         type: "LinkedDataSignature2015",
-        iso8601creationTimestamp: DateTime.now().millisecondsSinceEpoch.toString(),
+        iso8601creationTimestamp: getTimeStamp(),
         creatorKeyId: authKeyId,
         signatureValue: HEX.encode(SignHelper.signSorted(proofContent.toMap(), wallet))
     );

@@ -18,8 +18,8 @@ dependencies:
   # Crypto utils
   sacco: ^0.0.10
   encrypt: ^3.3.1
-  #ED25519 https://github.com/proximax-storage/dart-xpx-crypto
-  xpx_crypto: ^0.0.1
+  ed25519_hd_key: ^1.0.1
+
 
 dev_dependencies:
   build_runner: ^1.0.0
