@@ -18,4 +18,29 @@ class DidDocumentProofSignatureContent extends Equatable {
 
   @JsonKey(name: "authentication")
   final List<String> authentication;
+
+  DidDocumentProofSignatureContent({
+    @required this.context,
+    @required this.did,
+    @required this.publicKeys,
+    @required this.authentication,
+  }) : assert(context != null),
+       assert(did != null),
+       assert(publicKeys != null),
+       assert(authentication != null),
+       super([context, did, publicKeys, authentication]);
+
+  factory DidDocumentProofSignatureContent.fromJson(Map<String, dynamic> json) =>
+      _$DidDocumentProofSignatureContentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DidDocumentProofSignatureContentToJson(this);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'context': context,
+      'id': did,
+      'publicKey': publicKeys.asMap(),
+      'authentication': authentication.asMap(),
+    };
+  }
 }
