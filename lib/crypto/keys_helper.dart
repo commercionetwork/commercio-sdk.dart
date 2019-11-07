@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:commerciosdk/entities/export.dart';
 import 'package:encrypt/encrypt.dart' hide SecureRandom;
 import 'package:pointycastle/export.dart';
 
@@ -20,7 +21,7 @@ class KeysHelper {
 
   /// Generates a new RSA key pair having the given [bytes] length.
   /// If no length is specified, the default is going to be 2048.
-  static Future<AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>>
+  static Future<AsymmetricKeyPair<LocalRSAPublicKey, RSAPrivateKey>>
       generateRsaKeyPair({
     int bytes = 2048,
   }) async {
@@ -30,7 +31,7 @@ class KeysHelper {
     keyGenerator.init(params);
     var keyPair = keyGenerator.generateKeyPair();
     return AsymmetricKeyPair(
-      keyPair.publicKey as RSAPublicKey,
+      keyPair.publicKey as LocalRSAPublicKey,
       keyPair.privateKey as RSAPrivateKey,
     );
   }

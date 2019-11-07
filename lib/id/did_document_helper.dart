@@ -3,13 +3,14 @@ import 'package:commerciosdk/entities/export.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:commerciosdk/id/did_document_proof_signature_content.dart';
 import 'package:hex/hex.dart';
+import 'package:meta/meta.dart';
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
   /// Creates a Did Document from the given [wallet] and optional [pubKeys].
   static DidDocument fromWallet(Wallet wallet, List<LocalPublicKey> pubKeys) {
-    final authKeyId = '${wallet.bech32Address}"#keys-1';
+    final authKeyId = '${wallet.bech32Address}#keys-1';
     final authKey = DidDocumentPublicKey(
         id: authKeyId,
         type: DidDocumentPubKeyType.SECP256K1,
@@ -18,9 +19,8 @@ class DidDocumentHelper {
     );
 
     var didKeys = [authKey];
-    for (var index = 0; index < pubKeys.length; index++) {
-      didKeys.add(_convertKey(pubKeys[index], index, wallet));
-    }
+    didKeys = didKeys + mapIndexed(pubKeys, (index, item) => _convertKey(item, index + 2, wallet)
+    ).toList();
 
     final proofContent = DidDocumentProofSignatureContent(
         context: "https://www.w3.org/2019/did/v1",
@@ -63,13 +63,13 @@ class DidDocumentHelper {
     );
   }
 
-  /// Computes the [DidDocumentProof] based on the given [authKeyId] and [proofContent]
-  static DidDocumentProof _computeProof(String authKeyId, DidDocumentProofSignatureContent proofContent, Wallet wallet) {
+  /// Computes the [DidDocumentProof] based on the given [authKeyId] and [proofSignatureContent]
+  static DidDocumentProof _computeProof(String authKeyId, DidDocumentProofSignatureContent proofSignatureContent, Wallet wallet) {
     return DidDocumentProof(
         type: "LinkedDataSignature2015",
         iso8601creationTimestamp: getTimeStamp(),
         creatorKeyId: authKeyId,
-        signatureValue: HEX.encode(SignHelper.signSorted(proofContent.toMap(), wallet))
+        signatureValue: HEX.encode(SignHelper.signSorted(proofSignatureContent.toJson(), wallet))
     );
   }
 

@@ -34,13 +34,4 @@ class DidDocumentProofSignatureContent extends Equatable {
       _$DidDocumentProofSignatureContentFromJson(json);
 
   Map<String, dynamic> toJson() => _$DidDocumentProofSignatureContentToJson(this);
-
-  Map<String, dynamic> toMap() {
-    return {
-      'context': context,
-      'id': did,
-      'publicKey': publicKeys.asMap(),
-      'authentication': authentication.asMap(),
-    };
-  }
 }
