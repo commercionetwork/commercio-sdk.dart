@@ -3,13 +3,14 @@ import 'dart:typed_data';
 
 import 'package:commerciosdk/crypto/export.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:commerciosdk/export.dart';
 
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
 class EncryptionHelper {
   /// Returns the RSA public key associated to the government that should be used when
   /// encrypting the data that only it should see.
-  static Future<RSAPublicKey> getGovernmentRsaPubKey() {
+  static Future<RSAPubKey> getGovernmentRsaPubKey() {
     // TODO
   }
 
@@ -29,17 +30,17 @@ class EncryptionHelper {
   }
 
   /// Encrypts the given [data] with RSA using the specified [key].
-  static Uint8List encryptStringWithRsa(String data, RSAPublicKey key) {
-    return RSA(publicKey: key).encrypt(utf8.encode(data)).bytes;
+  static Uint8List encryptStringWithRsa(String data, RSAPubKey key) {
+    return RSA(publicKey: key.pubKey).encrypt(utf8.encode(data)).bytes;
   }
 
   /// Encrypts the given [data] with RSA using the specified [key].
-  static Uint8List encryptBytesWithRsa(Uint8List data, RSAPublicKey key) {
-    return RSA(publicKey: key).encrypt(data).bytes;
+  static Uint8List encryptBytesWithRsa(Uint8List data, RSAPubKey key) {
+    return RSA(publicKey: key.pubKey).encrypt(data).bytes;
   }
 
   /// Decrypts the given data using the specified private [key].
-  static Uint8List decryptBytesWithRsa(Uint8List data, RSAPrivateKey key) {
-    return RSA(privateKey: key).decrypt(Encrypted(data));
+  static Uint8List decryptBytesWithRsa(Uint8List data, RSASecretKey key) {
+    return RSA(privateKey: key.secretKey).decrypt(Encrypted(data));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:commerciosdk/crypto/export.dart' as pointyCastle;
 import 'package:commerciosdk/entities/export.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
@@ -42,10 +43,10 @@ class DidDocument extends Equatable {
         assert(proof != null),
         super([context, id, publicKeys, authentication, proof, services]);
 
-  /// Returns the [LocalPublicKey] that should be used as the public encryption
+  /// Returns the [PubKey] that should be used as the public encryption
   /// key when encrypting data that can later be read only by the owner of
   /// this Did Document.
-  LocalRSAPublicKey get encryptionKey {
+  RSAPubKey get encryptionKey {
     final pubKey = publicKeys.firstWhere(
       (key) => key.type == DidDocumentPubKeyType.RSA,
       orElse: () => null,
@@ -54,7 +55,7 @@ class DidDocument extends Equatable {
 
     final modulus = BigInt.parse(pubKey.publicKeyHex, radix: 16);
     final exponent = BigInt.from(65537);
-    return LocalRSAPublicKey(modulus, exponent);
+    return RSAPubKey(pointyCastle.RSAPublicKey(modulus, exponent));
   }
 
   factory DidDocument.fromJson(Map<String, dynamic> json) =>

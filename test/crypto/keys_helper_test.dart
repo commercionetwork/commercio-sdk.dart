@@ -1,15 +1,17 @@
+import 'package:commerciosdk/entities/export.dart';
+import 'package:commerciosdk/entities/keys/asymmetric_key_pair.dart' as local;
 import 'package:test/test.dart';
 import 'package:commerciosdk/crypto/export.dart';
 
 void main() {
   test('generateRsaKeyPair generates random keys', () async {
-    List<AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>> keys = [];
+    List<local.KeyPair<RSAPubKey, RSASecretKey>> keys = [];
     for (int i = 0; i < 10; i++) {
       keys.add(await KeysHelper.generateRsaKeyPair());
     }
 
     var unique =
-        keys.map((keypair) => keypair.publicKey.modulus).toSet().toList();
+        keys.map((keypair) => keypair.publicKey.pubKey.modulus).toSet().toList();
     expect(unique.length, 10);
   });
 

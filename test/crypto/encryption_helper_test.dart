@@ -1,4 +1,3 @@
-/*
 import 'dart:convert';
 
 import 'package:hex/hex.dart';
@@ -65,4 +64,4 @@ void main() {
     expect(utf8.decode(decrypted), input);
   });
 }
-*/
+
