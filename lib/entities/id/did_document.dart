@@ -1,3 +1,4 @@
+import 'package:commerciosdk/entities/export.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -41,10 +42,10 @@ class DidDocument extends Equatable {
         assert(proof != null),
         super([context, id, publicKeys, authentication, proof, services]);
 
-  /// Returns the [PublicKey] that should be used as the public encryption
+  /// Returns the [LocalPublicKey] that should be used as the public encryption
   /// key when encrypting data that can later be read only by the owner of
   /// this Did Document.
-  RSAPublicKey get encryptionKey {
+  LocalRSAPublicKey get encryptionKey {
     final pubKey = publicKeys.firstWhere(
       (key) => key.type == DidDocumentPubKeyType.RSA,
       orElse: () => null,
@@ -53,7 +54,7 @@ class DidDocument extends Equatable {
 
     final modulus = BigInt.parse(pubKey.publicKeyHex, radix: 16);
     final exponent = BigInt.from(65537);
-    return RSAPublicKey(modulus, exponent);
+    return LocalRSAPublicKey(modulus, exponent);
   }
 
   factory DidDocument.fromJson(Map<String, dynamic> json) =>

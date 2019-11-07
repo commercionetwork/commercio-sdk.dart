@@ -1,11 +1,11 @@
 import 'package:commerciosdk/crypto/export.dart' as byteArray;
 import 'package:commerciosdk/entities/keys/PublicKey.dart';
 
-class ECPublicKey implements PublicKey, byteArray.ECPublicKey {
+class LocalECPublicKey implements LocalPublicKey, byteArray.ECPublicKey {
   final byteArray.ECPoint q;
   final byteArray.ECDomainParameters param;
 
-  ECPublicKey(this.q, this.param);
+  LocalECPublicKey(this.q, this.param);
 
   @override
   byteArray.Uint8List getEncoded() {

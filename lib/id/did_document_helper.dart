@@ -8,7 +8,7 @@ import 'package:sacco/sacco.dart';
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
   /// Creates a Did Document from the given [wallet] and optional [pubKeys].
-  static DidDocument fromWallet(Wallet wallet, List<PublicKey> pubKeys) {
+  static DidDocument fromWallet(Wallet wallet, List<LocalPublicKey> pubKeys) {
     final authKeyId = '${wallet.bech32Address}"#keys-1';
     final authKey = DidDocumentPublicKey(
         id: authKeyId,
@@ -44,11 +44,11 @@ class DidDocumentHelper {
 
   /// Converts the given [pubKey] into a [DidDocumentPublicKey] placed at position [index],
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
-  static DidDocumentPublicKey _convertKey(PublicKey pubKey, int index, Wallet wallet) {
+  static DidDocumentPublicKey _convertKey(LocalPublicKey pubKey, int index, Wallet wallet) {
     var keyType;
-    if (pubKey is RSAPublicKey) {
+    if (pubKey is LocalRSAPublicKey) {
       keyType = DidDocumentPubKeyType.RSA;
-    } else if (pubKey is ECPublicKey) {
+    } else if (pubKey is LocalECPublicKey) {
       keyType = DidDocumentPubKeyType.SECP256K1;
     } else if(pubKey is Ed25519Key) {
       keyType = DidDocumentPubKeyType.ED25519;

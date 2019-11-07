@@ -1,3 +1,4 @@
+import 'package:commerciosdk/entities/export.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
@@ -12,7 +13,7 @@ enum EncryptedData {
 /// Represents a pair that associates a Did document to its encryption key.
 class _Pair {
   final DidDocument first;
-  final RSAPublicKey second;
+  final LocalRSAPublicKey second;
 
   _Pair({this.first, this.second});
 }
