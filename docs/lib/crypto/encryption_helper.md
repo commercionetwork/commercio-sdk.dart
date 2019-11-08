@@ -17,15 +17,19 @@ static Uint8List decryptWithAes(Uint8List data, Key key)
 ```
 4. Encrypts the given **string** `data` with RSA using the specified `key`
 ```dart
-static Uint8List encryptStringWithRsa(String data, RSAPublicKey key) 
+static Uint8List encryptStringWithRsa(String data, RSAPubKey key)
 ```
 5. Encrypts the given **bytes** `data` with RSA using the specified `key`
 ```dart
-static Uint8List encryptBytesWithRsa(Uint8List data, RSAPublicKey key)
+static Uint8List encryptBytesWithRsa(Uint8List data, RSAPubKey key)
 ```
 6. Decrypts the given **bytes** `data` with RSA using the specified private `key`
 ```dart
-static Uint8List decryptBytesWithRsa(Uint8List data, RSAPrivateKey key)
+static Uint8List decryptBytesWithRsa(Uint8List data, RSASecretKey key)
+```
+7. Returns the RSA Public key associated to the government that should be used when encrypting the data that only it should see
+```dart
+static Future<RSAPubKey> getGovernmentRsaPubKey() async 
 ```
 
 ## Usage examples

@@ -31,6 +31,7 @@ module.exports = {
                 collapsable: false,
                 children: [
                     ["lib/id/id_helper", "Id helper"],
+                    ["lib/id/did_document_helper", "Did Document helper"],
                     ["lib/docs/docs_helper", "Docs helper"],
                     ["lib/membership/membership_helper", "Membership helper"],
                     ["lib/mint/mint_helper", "Mint helper"],
@@ -50,7 +51,7 @@ module.exports = {
                 title: "Glossary",
                 collapsable:false,
                 children: [
-
+                    ["lib/glossary", "Glossary"]
                 ]
             }
         ]
