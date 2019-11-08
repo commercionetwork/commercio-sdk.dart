@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 class Network {
   /// Queries the given [url] and returns an object of type [T],
   /// or `null` if some error raised.
-  static Future<dynamic> query(String url) async {
+  static Future<dynamic> query(String url, http.Client client) async {
     try {
       // Get the response
-      final response = await http.Client().get(url);
+      final response = await client.get(url);
       if (response.statusCode != 200) {
         throw Exception(
           "Expected status code 200 but got ${response.statusCode} - ${response.body}",
