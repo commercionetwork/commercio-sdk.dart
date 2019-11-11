@@ -65,22 +65,22 @@ void main() async {
   final newUserWallet = Wallet.derive(newUserMnemonic, info);
 
   // --- Invite user
-  // inviteUser(user: newUserWallet.bech32Address, wallet: userWallet);
+  // _inviteUser(user: newUserWallet.bech32Address, wallet: userWallet);
 
   // --- Buy a membership
-  // buyMembership(type: MembershipType.GOLD, wallet: newUserWallet);
+  // _buyMembership(type: MembershipType.GOLD, wallet: newUserWallet);
 }
 
 /// Shows how to perform a transaction to invite a user.
 /// Note that in order to invite a user, you must already have a membership.
-Future<void> inviteUser({String user, Wallet wallet}) async {
+Future<void> _inviteUser({String user, Wallet wallet}) async {
   final response = await MembershipHelper.inviteUser(user, wallet);
   checkResponse(response);
 }
 
 /// Shows how to perform the transaction that allows the owner of the
 /// given [wallet] to buy a membership of the specified [membershipType].
-Future<void> buyMembership({MembershipType type, Wallet wallet}) async {
+Future<void> _buyMembership({MembershipType type, Wallet wallet}) async {
   final response = await MembershipHelper.buyMembership(type, wallet);
   checkResponse(response);
 }
