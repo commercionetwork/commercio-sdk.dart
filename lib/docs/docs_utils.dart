@@ -13,7 +13,7 @@ enum EncryptedData {
 /// Represents a pair that associates a Did document to its encryption key.
 class _Pair {
   final DidDocument first;
-  final RSAPubKey second;
+  final RSAPublicKey second;
 
   _Pair({this.first, this.second});
 }

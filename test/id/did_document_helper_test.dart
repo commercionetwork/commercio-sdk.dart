@@ -1,7 +1,5 @@
-import 'package:commerciosdk/crypto/export.dart' as local;
-import 'package:commerciosdk/entities/export.dart';
 import 'package:commerciosdk/export.dart';
-import 'package:commerciosdk/id/did_document_helper.dart';
+import 'package:pointycastle/export.dart' as pointyCastle;
 import 'package:sacco/sacco.dart';
 import 'package:test/test.dart';
 
@@ -15,7 +13,7 @@ void main() {
 
   final modulus = BigInt.from(125);
   final exponent = BigInt.from(126);
-  final rsaPubKey = RSAPubKey(local.RSAPublicKey(modulus, exponent));
+  final rsaPubKey = RSAPublicKey(pointyCastle.RSAPublicKey(modulus, exponent));
 
   final expectedPubKey = DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-2',

@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 part 'did_document_public_key.g.dart';
 
 /// Contains the data of public key contained inside a Did document.'
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(explicitToJson: true)
 class DidDocumentPublicKey extends Equatable {
   @JsonKey(name: "id")
   final String id;

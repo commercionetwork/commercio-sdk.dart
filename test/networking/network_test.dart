@@ -20,7 +20,7 @@ void main() {
     // Setup the client
     Network.client = client;
 
-    final result = await Network.query("http://example.com") as List<dynamic>;
+    final result = await Network.queryChain("http://example.com") as List<dynamic>;
     final testDataList = result.map((json) => TestData.fromJson(json)).toList();
     expect(testDataList.length, 4);
     expect("did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v",

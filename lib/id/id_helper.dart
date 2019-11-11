@@ -10,7 +10,7 @@ class IdHelper {
   /// or `null` if no Did Document was found.
   static Future<DidDocument> getDidDocument(String did, Wallet wallet) async {
     final url = "${wallet.networkInfo.lcdUrl}/identities/${did}";
-    final response = await Network.query(url);
+    final response = await Network.queryChain(url);
     if (response == null) {
       return null;
     }

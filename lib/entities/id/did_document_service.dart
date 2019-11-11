@@ -6,7 +6,7 @@ part 'did_document_service.g.dart';
 
 /// Contains the data of a service that can accept the Did Document as
 /// authentication method or something else.
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(explicitToJson: true)
 class DidDocumentService extends Equatable {
   @JsonKey(name: "id")
   final String id;
