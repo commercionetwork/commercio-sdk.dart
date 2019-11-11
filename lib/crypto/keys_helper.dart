@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:encrypt/encrypt.dart' hide SecureRandom;
-import 'package:pointycastle/export.dart';
 import 'package:commerciosdk/crypto/export.dart';
 import 'package:commerciosdk/export.dart';
+import 'package:encrypt/encrypt.dart' hide SecureRandom;
+import 'package:pointycastle/export.dart';
 
 /// Allows to easily generate new keys either to be used with AES or RSA key.
 class KeysHelper {
@@ -22,8 +22,7 @@ class KeysHelper {
 
   /// Generates a new RSA key pair having the given [bytes] length.
   /// If no length is specified, the default is going to be 2048.
-  static Future<KeyPair<RSAPubKey, RSASecretKey>>
-      generateRsaKeyPair({
+  static Future<KeyPair<RSAPubKey, RSASecretKey>> generateRsaKeyPair({
     int bytes = 2048,
   }) async {
     var rsa = new RSAKeyGeneratorParameters(BigInt.from(65537), bytes, 5);
@@ -32,9 +31,7 @@ class KeysHelper {
     keyGenerator.init(params);
     var keyPair = keyGenerator.generateKeyPair();
     return KeyPair(
-        RSAPubKey(keyPair.publicKey),
-        RSASecretKey(keyPair.privateKey)
-    );
+        RSAPubKey(keyPair.publicKey), RSASecretKey(keyPair.privateKey));
   }
 
   /// Generates a new AES key having the desired [length].

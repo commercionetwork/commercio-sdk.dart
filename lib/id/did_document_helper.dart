@@ -14,19 +14,19 @@ class DidDocumentHelper {
         id: authKeyId,
         type: DidDocumentPubKeyType.SECP256K1,
         controller: wallet.bech32Address,
-        publicKeyHex: HEX.encode(wallet.publicKey)
-    );
+        publicKeyHex: HEX.encode(wallet.publicKey));
 
     var didKeys = [authKey];
-    didKeys = didKeys + mapIndexed(pubKeys, (index, item) => _convertKey(item, index + 2, wallet)
-    ).toList();
+    didKeys = didKeys +
+        mapIndexed(
+                pubKeys, (index, item) => _convertKey(item, index + 2, wallet))
+            .toList();
 
     final proofContent = DidDocumentProofSignatureContent(
         context: "https://www.w3.org/2019/did/v1",
         did: wallet.bech32Address,
         publicKeys: didKeys,
-        authentication: [authKeyId]
-    );
+        authentication: [authKeyId]);
 
     final proof = _computeProof(authKeyId, proofContent, wallet);
 
@@ -36,42 +36,37 @@ class DidDocumentHelper {
         publicKeys: proofContent.publicKeys,
         authentication: proofContent.authentication,
         proof: proof,
-        services: List()
-    );
-
+        services: List());
   }
 
   /// Converts the given [pubKey] into a [DidDocumentPublicKey] placed at position [index],
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
-  static DidDocumentPublicKey _convertKey(PubKey pubKey, int index, Wallet wallet) {
+  static DidDocumentPublicKey _convertKey(
+      PubKey pubKey, int index, Wallet wallet) {
     var keyType;
     if (pubKey is RSAPubKey) {
       keyType = DidDocumentPubKeyType.RSA;
     } else if (pubKey is ECPubKey) {
       keyType = DidDocumentPubKeyType.SECP256K1;
-    } else if(pubKey is Ed25519PublicKey) {
+    } else if (pubKey is Ed25519PublicKey) {
       keyType = DidDocumentPubKeyType.ED25519;
     }
-
 
     return DidDocumentPublicKey(
         id: '${wallet.bech32Address}#keys-$index',
         type: keyType,
         controller: wallet.bech32Address,
-        publicKeyHex: HEX.encode(pubKey.getEncoded())
-    );
+        publicKeyHex: HEX.encode(pubKey.getEncoded()));
   }
 
   /// Computes the [DidDocumentProof] based on the given [authKeyId] and [proofSignatureContent]
-  static DidDocumentProof _computeProof(String authKeyId, DidDocumentProofSignatureContent proofSignatureContent, Wallet wallet) {
+  static DidDocumentProof _computeProof(String authKeyId,
+      DidDocumentProofSignatureContent proofSignatureContent, Wallet wallet) {
     return DidDocumentProof(
         type: "LinkedDataSignature2015",
         iso8601creationTimestamp: getTimeStamp(),
         creatorKeyId: authKeyId,
-        signatureValue: HEX.encode(SignHelper.signSorted(proofSignatureContent.toJson(), wallet))
-    );
+        signatureValue: HEX.encode(
+            SignHelper.signSorted(proofSignatureContent.toJson(), wallet)));
   }
-
-
 }
-

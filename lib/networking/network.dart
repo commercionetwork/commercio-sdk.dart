@@ -4,9 +4,11 @@ import 'package:http/http.dart' as http;
 
 /// Allows to easily perform network-related operations.
 class Network {
+  static var client = http.Client();
+
   /// Queries the given [url] and returns an object of type [T],
   /// or `null` if some error raised.
-  static Future<dynamic> query(String url, http.Client client) async {
+  static Future<dynamic> query(String url) async {
     try {
       // Get the response
       final response = await client.get(url);

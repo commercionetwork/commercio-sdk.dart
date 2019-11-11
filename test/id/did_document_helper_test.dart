@@ -7,7 +7,8 @@ import 'package:test/test.dart';
 
 void main() {
   final networkInfo = NetworkInfo(bech32Hrp: "did:com:", lcdUrl: "");
-  final mnemonicString = "dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet "
+  final mnemonicString =
+      "dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet "
       "sound ostrich increase resist short ship lift town ice split payment round apology";
   final mnemonic = mnemonicString.split(" ");
   final wallet = Wallet.derive(mnemonic, networkInfo);
@@ -16,20 +17,24 @@ void main() {
   final exponent = BigInt.from(126);
   final rsaPubKey = RSAPubKey(local.RSAPublicKey(modulus, exponent));
 
-  final expectedPubKey = DidDocumentPublicKey(id: '${wallet.bech32Address}#keys-2',
-      type: DidDocumentPubKeyType.RSA, controller: wallet.bech32Address, publicKeyHex: "300602017d02017e");
+  final expectedPubKey = DidDocumentPublicKey(
+      id: '${wallet.bech32Address}#keys-2',
+      type: DidDocumentPubKeyType.RSA,
+      controller: wallet.bech32Address,
+      publicKeyHex: "300602017d02017e");
   final expectedAuthKey = DidDocumentPublicKey(
-    id: '${wallet.bech32Address}#keys-1',
-    type: DidDocumentPubKeyType.SECP256K1,
-    controller: wallet.bech32Address,
-    publicKeyHex: "0261789822ac69c632dcbab267bf3ff544fdd8ea55a373ef0c320bef9f55f8611e"
-  );
+      id: '${wallet.bech32Address}#keys-1',
+      type: DidDocumentPubKeyType.SECP256K1,
+      controller: wallet.bech32Address,
+      publicKeyHex:
+          "0261789822ac69c632dcbab267bf3ff544fdd8ea55a373ef0c320bef9f55f8611e");
 
   final expectedComputedProof = DidDocumentProof(
     type: "LinkedDataSignature2015",
     iso8601creationTimestamp: getTimeStamp(),
     creatorKeyId: expectedPubKey.id,
-    signatureValue: "625ec032c14affec8f1e4d78b55f7eeb225c4ef98daed5f601d0f436e0bb8bd27bbf3f208af28af9fe59b6beed364765f14423e0ebcd675e2a9dead77d73d892",
+    signatureValue:
+        "625ec032c14affec8f1e4d78b55f7eeb225c4ef98daed5f601d0f436e0bb8bd27bbf3f208af28af9fe59b6beed364765f14423e0ebcd675e2a9dead77d73d892",
   );
 
   final expectedDidDocument = DidDocument(
@@ -38,10 +43,11 @@ void main() {
       publicKeys: [expectedAuthKey, expectedPubKey],
       authentication: [expectedAuthKey.id],
       proof: expectedComputedProof,
-      services: List()
-  );
+      services: List());
 
-  test("fromWallet return a well-formed, ready to be send to blockchain, did document", (){
+  test(
+      "fromWallet return a well-formed, ready to be send to blockchain, did document",
+      () {
     final didDocument = DidDocumentHelper.fromWallet(wallet, [rsaPubKey]);
     expect(didDocument.context, expectedDidDocument.context);
     expect(didDocument.id, expectedDidDocument.id);
