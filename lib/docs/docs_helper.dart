@@ -70,7 +70,7 @@ class DocsHelper {
     Wallet wallet,
   ) async {
     final url = "${wallet.networkInfo.lcdUrl}/docs/${address}/sent";
-    final response = await Network.query(url) as List<Map<String, dynamic>>;
+    final response = await Network.queryChain(url) as List<Map<String, dynamic>>;
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
   }
 
@@ -81,7 +81,7 @@ class DocsHelper {
     Wallet wallet,
   ) async {
     final url = "${wallet.networkInfo.lcdUrl}/docs/${address}/received";
-    final response = await Network.query(url) as List<Map<String, dynamic>>;
+    final response = await Network.queryChain(url) as List<Map<String, dynamic>>;
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
   }
 
@@ -115,7 +115,7 @@ class DocsHelper {
     Wallet wallet,
   ) async {
     final url = "${wallet.networkInfo.lcdUrl}/receipts/${address}/sent";
-    final response = await Network.query(url) as List<Map<String, dynamic>>;
+    final response = await Network.queryChain(url) as List<Map<String, dynamic>>;
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();
   }
 
@@ -126,7 +126,7 @@ class DocsHelper {
     Wallet wallet,
   ) async {
     final url = "${wallet.networkInfo.lcdUrl}/receipts/${address}/received";
-    final response = await Network.query(url) as List<Map<String, dynamic>>;
+    final response = await Network.queryChain(url) as List<Map<String, dynamic>>;
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();
   }
 }

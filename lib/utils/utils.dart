@@ -1,8 +1,6 @@
-
-
 /// Returns the ISO-8601 current time stamp
 String getTimeStamp() {
-  return DateTime.now().toIso8601String();
+  return DateTime.now().toUtc().toIso8601String();
 }
 
 ///Porting of Kotlin mapIndexed()

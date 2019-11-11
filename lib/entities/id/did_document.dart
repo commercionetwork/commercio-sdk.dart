@@ -1,15 +1,14 @@
-import 'package:commerciosdk/crypto/export.dart' as pointyCastle;
-import 'package:commerciosdk/entities/export.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:pointycastle/export.dart' as pointyCastle;
 
 part 'did_document.g.dart';
 
 /// Commercio network's did document is described here:
 /// https://scw-gitlab.zotsell.com/Commercio.network/Cosmos-application/blob/master/Commercio%20Decentralized%20ID%20framework.md
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(explicitToJson: true)
 class DidDocument extends Equatable {
   @JsonKey(name: "@context")
   final String context;
@@ -43,10 +42,10 @@ class DidDocument extends Equatable {
         assert(proof != null),
         super([context, id, publicKeys, authentication, proof, services]);
 
-  /// Returns the [PubKey] that should be used as the public encryption
+  /// Returns the [PublicKey] that should be used as the public encryption
   /// key when encrypting data that can later be read only by the owner of
   /// this Did Document.
-  RSAPubKey get encryptionKey {
+  RSAPublicKey get encryptionKey {
     final pubKey = publicKeys.firstWhere(
       (key) => key.type == DidDocumentPubKeyType.RSA,
       orElse: () => null,
@@ -55,7 +54,7 @@ class DidDocument extends Equatable {
 
     final modulus = BigInt.parse(pubKey.publicKeyHex, radix: 16);
     final exponent = BigInt.from(65537);
-    return RSAPubKey(pointyCastle.RSAPublicKey(modulus, exponent));
+    return RSAPublicKey(pointyCastle.RSAPublicKey(modulus, exponent));
   }
 
   factory DidDocument.fromJson(Map<String, dynamic> json) =>

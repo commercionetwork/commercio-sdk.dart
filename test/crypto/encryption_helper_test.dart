@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:commerciosdk/crypto/export.dart';
+import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
 import 'package:test/test.dart';
 
