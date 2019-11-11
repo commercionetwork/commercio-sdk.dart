@@ -14,11 +14,13 @@ dependencies:
   equatable: ^0.5.0
   json_annotation: ^3.0.0
   uuid: ^2.0.2
+  asn1lib: ^0.5.13
 
   # Crypto utils
   sacco: ^0.0.10
   encrypt: ^3.3.1
   ed25519_hd_key: ^1.0.1
+  pointycastle: ^1.0.1
 
 
 dev_dependencies:
