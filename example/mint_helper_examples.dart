@@ -38,10 +38,10 @@ void main() async {
   final userWallet = Wallet.derive(userMnemonic, info);
 
   // --- Open CDP
-  // _openCdp(amount: 100000, wallet: userWallet);
+  // await _openCdp(amount: 100000, wallet: userWallet);
 
   // --- Close CDP
-  // _closeCdp(timestamp: 757, wallet: userWallet);
+  // await _closeCdp(timestamp: 757, wallet: userWallet);
 }
 
 /// Shows how to open a new Collateralized Debt Position in order to get half

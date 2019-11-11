@@ -5,6 +5,7 @@ import 'package:commerciosdk/id/id_utils.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
 
+/// Allows to perform common operations related to CommercioID.
 class IdHelper {
   /// Returns the Did Document associated with the given [did],
   /// or `null` if no Did Document was found.
@@ -48,9 +49,10 @@ class IdHelper {
 
     // Build the payload
     var payload = DidDepositRequestPayload(
-        recipient: recipient,
-        timeStamp: timestamp,
-        signature: HEX.encode(signedJson));
+      recipient: recipient,
+      timeStamp: timestamp,
+      signature: HEX.encode(signedJson),
+    );
 
     // Build the proof
     var result = await generateProof(payload);
@@ -69,7 +71,7 @@ class IdHelper {
   /// Creates a new Did power up request for the given [pairwiseDid] and of the given [amount].
   /// Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the
   /// private key contained inside the given [wallet].
-  Future<TransactionResult> requestDidPowerUp(
+  static Future<TransactionResult> requestDidPowerUp(
     String pairwiseDid,
     List<StdCoin> amount,
     Wallet wallet,
@@ -96,7 +98,7 @@ class IdHelper {
 
     // Build the message and send the tx
     final msg = MsgRequestDidPowerUp(
-      claimantDid: pairwiseDid,
+      claimantDid: wallet.bech32Address,
       amount: amount,
       powerUpProof: HEX.encode(result.encryptedProof),
       encryptionKey: HEX.encode(result.encryptedAesKey),

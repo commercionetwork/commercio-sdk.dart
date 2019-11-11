@@ -4,10 +4,9 @@ import 'package:meta/meta.dart';
 
 part 'did_deposit_request_signature_json.g.dart';
 
-/**
- * Represents the JSON object that should be created, signed and put
- * inside a [DidDepositRequestPayload] as the signature value.
- */
+
+/// Represents the JSON object that should be created, signed and put
+/// inside a [DidDepositRequestPayload] as the signature value.
 @JsonSerializable()
 class DidDepositRequestSignatureJson extends Equatable {
   @JsonKey(name: "recipient")

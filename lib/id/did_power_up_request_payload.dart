@@ -23,4 +23,9 @@ class DidPowerUpRequestPayload extends Equatable {
         assert(timestamp != null),
         assert(signature != null),
         super([pairwiseDid, timestamp, signature]);
+
+  factory DidPowerUpRequestPayload.fromJson(Map<String, dynamic> json) =>
+      _$DidPowerUpRequestPayloadFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DidPowerUpRequestPayloadToJson(this);
 }
