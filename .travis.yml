@@ -10,7 +10,7 @@ jobs:
     - language: dart
       dart_task:
         - test: --platform vm
-        - dartftm
+        - dartfmt
         - dartanalyzer: --fatal-warnings lib
 
     ## ----------------------------------------------------
