@@ -1,6 +1,6 @@
+import 'package:commerciosdk/export.dart';
 import 'package:meta/meta.dart';
 import 'package:sacco/models/export.dart';
-import 'package:commerciosdk/export.dart';
 
 /// Represents the transaction message that must be used when wanting to buy a membership.
 class MsgBuyMembership extends StdMsg {
@@ -16,7 +16,8 @@ class MsgBuyMembership extends StdMsg {
 
   @override
   Map<String, dynamic> get value => {
-        'membership_type': membershipType.toString().toLowerCase(),
+        'membership_type':
+            membershipType.toString().split(".").last.toLowerCase(),
         'buyer': buyerDid,
       };
 }
