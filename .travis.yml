@@ -1,4 +1,4 @@
-matrix:
+jobs:
   include:
 
     ## ----------------------------------------
@@ -10,30 +10,30 @@ matrix:
       include:
       # Check that everything analyzes properly and is formatted.
       - stage: analyze_and_format
-          script:
-            - pub run build_runner build
-            - dartanalyzer --fatal-warnings .
-            - dartfmt -n --set-exit-if-changed .
+        script:
+          - pub run build_runner build
+          - dartanalyzer --fatal-warnings .
+          - dartfmt -n --set-exit-if-changed .
 
       # Build the entire `test` directory
       - stage: build
-          script:
-            - pub run build_runner build test
+        script:
+          - pub run build_runner build test
 
       # Set up several jobs in the next stage, using the built in sharding
       # feature from the `test` package.
       - stage: unit_test
-          script:
-            - pub run build_runner test -- --total-shards 4 --shard-index 0
+        script:
+          - pub run build_runner test -- --total-shards 4 --shard-index 0
       - stage: unit_test
-          script:
-            - pub run build_runner test -- --total-shards 4 --shard-index 1
+        script:
+          - pub run build_runner test -- --total-shards 4 --shard-index 1
       - stage: unit_test
-          script:
-            - pub run build_runner test -- --total-shards 4 --shard-index 2
+        script:
+          - pub run build_runner test -- --total-shards 4 --shard-index 2
       - stage: unit_test
-          script:
-            - pub run build_runner test -- --total-shards 4 --shard-index 3
+        script:
+          - pub run build_runner test -- --total-shards 4 --shard-index 3
 
       # Specify the ordering of your stages
       stages:
@@ -63,10 +63,10 @@ matrix:
         - echo 'dart.sdk.docs.commercio.network' > docs/.vuepress/dist/CNAME
 
       deploy:
-       provider: pages
-       skip_cleanup: true
-       local_dir: docs/.vuepress/dist
-       github-token: $GITHUB_TOKEN
-       keep-history: true
-       on:
-         tags: true
+        provider: pages
+        skip_cleanup: true
+        local_dir: docs/.vuepress/dist
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        on:
+          tags: true
