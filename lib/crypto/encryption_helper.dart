@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:commerciosdk/export.dart';
-import 'package:encrypt/encrypt.dart';
 
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
@@ -15,7 +14,7 @@ class EncryptionHelper {
     if (response == null) {
       throw FormatException("Cannot get government RSA public key");
     }
-    final rsaPublicKey = RSAKeyParser().parse(response.toString());
+    final rsaPublicKey = RSAKeyParser.parsePublicKeyFromPem(response);
     return RSAPublicKey(rsaPublicKey);
   }
 

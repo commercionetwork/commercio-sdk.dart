@@ -44,11 +44,11 @@ void main() async {
 
   // --- Request the Did deposit
   final depositAmount = [StdCoin(denom: "ucommercio", amount: "10")];
-  // TODO: This should be tested
-  // _postDepositRequest(depositAmount, userWallet);
+  _postDepositRequest(depositAmount, userWallet);
 }
 
-/// Shows how to create a Did Document and associate it to an existing account Did.
+/// Shows how to create a Did Document and associate it to an existing
+/// account Did.
 /// Documentation: https://docs.commercio.network/x/id/tx/associate-a-did-document.html
 Future<void> _createDidDocument(Wallet wallet, List<PublicKey> keys) async {
   final didDocument = DidDocumentHelper.fromWallet(wallet, keys);
@@ -56,10 +56,9 @@ Future<void> _createDidDocument(Wallet wallet, List<PublicKey> keys) async {
   checkResponse(response);
 }
 
-/**
- * Shows how to post a request for a deposit that will be later read from the centralized APIs.
- * Documentation: https://docs.commercio.network/x/id/tx/request-did-deposit.html
- */
+/// Shows how to post a request for a deposit that will be later read from the
+/// centralized APIs.
+/// Documentation: https://docs.commercio.network/x/id/tx/request-did-deposit.html
 Future<void> _postDepositRequest(List<StdCoin> amount, Wallet wallet) async {
   final response = await IdHelper.requestDidDeposit(
     wallet.bech32Address,
