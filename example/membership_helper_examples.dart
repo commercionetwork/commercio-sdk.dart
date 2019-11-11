@@ -1,25 +1,5 @@
-# Membership helper
-Membership helper allows to easily perform all the operations related to the commercio.network `membership` module.
-## Provided operations
-1. Sends a new transaction in order to invite the given `userDid`
-```dart
-static Future<TransactionResult> inviteUser(
-  String userDid,
-  Wallet wallet,
-) async
-```
-2. Buys the membership with the given `membershipType`
-```dart
-static Future<TransactionResult> buyMembership(
-  MembershipType membershipType,
-  Wallet wallet,
-) async
-```
-## Usage examples
-You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
-
-```dart
 import 'package:commerciosdk/export.dart';
+
 import 'commons.dart';
 
 void main() async {
@@ -85,13 +65,22 @@ void main() async {
   final newUserWallet = Wallet.derive(newUserMnemonic, info);
 
   // --- Invite user
+  // await _inviteUser(user: newUserWallet.bech32Address, wallet: userWallet);
+
+  // --- Buy a membership
+  // await _buyMembership(type: MembershipType.GOLD, wallet: newUserWallet);
+}
+
+/// Shows how to perform a transaction to invite a user.
+/// Note that in order to invite a user, you must already have a membership.
+Future<void> _inviteUser({String user, Wallet wallet}) async {
   final response = await MembershipHelper.inviteUser(user, wallet);
   checkResponse(response);
-  // --- Buy a membership
-  final response = await MembershipHelper.buyMembership(
-                           type: MembershipType.GOLD, 
-                           wallet: newUserWallet
-  );
+}
+
+/// Shows how to perform the transaction that allows the owner of the
+/// given [wallet] to buy a membership of the specified [membershipType].
+Future<void> _buyMembership({MembershipType type, Wallet wallet}) async {
+  final response = await MembershipHelper.buyMembership(type, wallet);
   checkResponse(response);
 }
-```

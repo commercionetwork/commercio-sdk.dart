@@ -44,11 +44,45 @@ void main() async {
 
   // --- Request the Did deposit
   final depositAmount = [StdCoin(denom: "ucommercio", amount: "10")];
-  // TODO: This should be tested
-  // _postDepositRequest(depositAmount, userWallet);
+  // await _postDepositRequest(depositAmount, userWallet);
+
+  // --- Request the Did power up
+  final pairwiseMnemonic = [
+    "push",
+    "grace",
+    "power",
+    "desk",
+    "arrive",
+    "horror",
+    "gallery",
+    "physical",
+    "kingdom",
+    "ecology",
+    "fat",
+    "firm",
+    "future",
+    "service",
+    "table",
+    "little",
+    "live",
+    "reason",
+    "maximum",
+    "short",
+    "motion",
+    "planet",
+    "stage",
+    "second"
+  ];
+  final pairwiseWallet = Wallet.derive(pairwiseMnemonic, info);
+  await _postPowerUpRequest(
+    pairwiseWallet.bech32Address,
+    depositAmount,
+    userWallet,
+  );
 }
 
-/// Shows how to create a Did Document and associate it to an existing account Did.
+/// Shows how to create a Did Document and associate it to an existing
+/// account Did.
 /// Documentation: https://docs.commercio.network/x/id/tx/associate-a-did-document.html
 Future<void> _createDidDocument(Wallet wallet, List<PublicKey> keys) async {
   final didDocument = DidDocumentHelper.fromWallet(wallet, keys);
@@ -56,13 +90,29 @@ Future<void> _createDidDocument(Wallet wallet, List<PublicKey> keys) async {
   checkResponse(response);
 }
 
-/**
- * Shows how to post a request for a deposit that will be later read from the centralized APIs.
- * Documentation: https://docs.commercio.network/x/id/tx/request-did-deposit.html
- */
+/// Shows how to post a request for a deposit that will be later read from the
+/// centralized APIs.
+/// Documentation: https://docs.commercio.network/x/id/tx/request-did-deposit.html
 Future<void> _postDepositRequest(List<StdCoin> amount, Wallet wallet) async {
   final response = await IdHelper.requestDidDeposit(
     wallet.bech32Address,
+    amount,
+    wallet,
+  );
+  checkResponse(response);
+}
+
+/// Shows how to request a pairwise Did power up. This request will later be
+/// read and handled by the centralized APIs that will send the funds
+/// to such account.
+/// Documentation: https://docs.commercio.network/x/id/tx/request-did-power-up.html
+Future<void> _postPowerUpRequest(
+  String pairwiseDid,
+  List<StdCoin> amount,
+  Wallet wallet,
+) async {
+  final response = await IdHelper.requestDidPowerUp(
+    pairwiseDid,
     amount,
     wallet,
   );

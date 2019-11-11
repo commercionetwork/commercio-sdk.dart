@@ -18,4 +18,53 @@ static Future<TransactionResult> closeCdp(
 ) 
 ```
 ## Usage examples
-TODO
+You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
+
+```dart
+import 'package:commerciosdk/export.dart';
+import 'commons.dart';
+
+void main() async {
+  final info = NetworkInfo(
+    bech32Hrp: "did:com:",
+    lcdUrl: "http://localhost:1317",
+  );
+
+  final userMnemonic = [
+    "will",
+    "hard",
+    "topic",
+    "spray",
+    "beyond",
+    "ostrich",
+    "moral",
+    "morning",
+    "gas",
+    "loyal",
+    "couch",
+    "horn",
+    "boss",
+    "across",
+    "age",
+    "post",
+    "october",
+    "blur",
+    "piece",
+    "wheel",
+    "film",
+    "notable",
+    "word",
+    "man"
+  ];
+
+  final userWallet = Wallet.derive(userMnemonic, info);
+
+  // --- Open CDP
+  final response = await MintHelper.openCdp(amount: 100000, wallet: userWallet);
+  checkResponse(response);
+
+  // --- Close CDP
+  final response = await MintHelper.closeCdp(timestamp: 757, wallet: userWallet);
+  checkResponse(response);
+}
+```

@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 part 'did_document_proof_signature_content.g.dart';
 
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable()
 class DidDocumentProofSignatureContent extends Equatable {
   @JsonKey(name: "@context")
   final String context;

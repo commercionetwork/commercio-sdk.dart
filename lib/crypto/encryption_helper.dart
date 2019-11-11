@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:commerciosdk/export.dart';
-import 'package:encrypt/encrypt.dart';
 
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
@@ -10,11 +9,12 @@ class EncryptionHelper {
   /// Returns the RSA public key associated to the government that should be used when
   /// encrypting the data that only it should see.
   static Future<RSAPublicKey> getGovernmentRsaPubKey() async {
-    final response = await Network.query("http://localhost:8080/government/publicKey");
+    final response =
+        await Network.query("http://localhost:8080/government/publicKey");
     if (response == null) {
       throw FormatException("Cannot get government RSA public key");
     }
-    final rsaPublicKey = RSAKeyParser().parse(response.toString());
+    final rsaPublicKey = RSAKeyParser.parsePublicKeyFromPem(response);
     return RSAPublicKey(rsaPublicKey);
   }
 

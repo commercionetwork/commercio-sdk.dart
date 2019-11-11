@@ -1,4 +1,4 @@
-matrix:
+jobs:
   include:
 
     ## ----------------------------------------
@@ -6,54 +6,25 @@ matrix:
     ## ----------------------------------------
 
     - language: dart
-      jobs:
-      include:
-      # Check that everything analyzes properly and is formatted.
-      - stage: analyze_and_format
-          script:
-            - pub run build_runner build
-            - dartanalyzer --fatal-warnings .
-            - dartfmt -n --set-exit-if-changed .
+      stage: Analyze and test
+      if: branch != gh-pages
+      install:
+        - pub get
+        - pub run build_runner build test
 
-      # Build the entire `test` directory
-      - stage: build
-          script:
-            - pub run build_runner build test
-
-      # Set up several jobs in the next stage, using the built in sharding
-      # feature from the `test` package.
-      - stage: unit_test
-          script:
-            - pub run build_runner test -- --total-shards 4 --shard-index 0
-      - stage: unit_test
-          script:
-            - pub run build_runner test -- --total-shards 4 --shard-index 1
-      - stage: unit_test
-          script:
-            - pub run build_runner test -- --total-shards 4 --shard-index 2
-      - stage: unit_test
-          script:
-            - pub run build_runner test -- --total-shards 4 --shard-index 3
-
-      # Specify the ordering of your stages
-      stages:
-        - analyze_and_format
-        - build
-        - unit_test
-
-      cache:
-        directories:
-          - $HOME/.pub-cache
-          - .dart_tool/build
-
+      script:
+        - dartanalyzer --fatal-warnings .
+        - dartfmt -n --set-exit-if-changed .
+        - pub run test
 
     ## ----------------------------------------------------
     ## --- Steps to build and publish the documentation
     ## ----------------------------------------------------
 
     - language: node_js
+      stage: Build docs
       node_js:
-        - lts*
+        - lts/*
 
       install:
         - npm ci
@@ -63,10 +34,10 @@ matrix:
         - echo 'dart.sdk.docs.commercio.network' > docs/.vuepress/dist/CNAME
 
       deploy:
-       provider: pages
-       skip_cleanup: true
-       local_dir: docs/.vuepress/dist
-       github-token: $GITHUB_TOKEN
-       keep-history: true
-       on:
-         tags: true
+        provider: pages
+        cleanup: false
+        local_dir: docs/.vuepress/dist
+        token: $GITHUB_TOKEN
+        keep_history: true
+        on:
+          tags: true

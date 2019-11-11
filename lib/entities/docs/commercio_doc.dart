@@ -8,6 +8,12 @@ part 'commercio_doc.g.dart';
 /// a user wants to share a document with another user.
 @JsonSerializable()
 class CommercioDoc extends Equatable {
+  @JsonKey(name: "sender")
+  final String senderDid;
+
+  @JsonKey(name: "recipients")
+  final List<String> recipientDids;
+
   @JsonKey(name: "uuid")
   final String uuid;
 
@@ -25,15 +31,27 @@ class CommercioDoc extends Equatable {
 
   CommercioDoc({
     @required this.uuid,
+    @required this.senderDid,
+    @required this.recipientDids,
     @required this.contentUri,
     @required this.metadata,
     @required this.checksum,
     @required this.encryptionData,
-  })  : assert(uuid != null),
+  })  : assert(senderDid != null),
+        assert(recipientDids != null),
+        assert(recipientDids.isNotEmpty),
+        assert(uuid != null),
         assert(contentUri != null),
         assert(metadata != null),
-        assert(checksum != null),
-        super([uuid, contentUri, metadata, checksum, encryptionData]);
+        super([
+          uuid,
+          senderDid,
+          recipientDids,
+          contentUri,
+          metadata,
+          checksum,
+          encryptionData,
+        ]);
 
   factory CommercioDoc.fromJson(Map<String, dynamic> json) =>
       _$CommercioDocFromJson(json);
@@ -55,9 +73,10 @@ class CommercioDocMetadata extends Equatable {
   CommercioDocMetadata({
     @required this.contentUri,
     this.schema = null,
-    this.schemaType = null,
+    this.schemaType = "",
   })  : assert(contentUri != null),
-        assert(schema != null || schemaType != null),
+        assert(schemaType != null),
+        assert(schema != null || schemaType.isNotEmpty),
         super([contentUri, schema, schemaType]);
 
   factory CommercioDocMetadata.fromJson(Map<String, dynamic> json) =>
