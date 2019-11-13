@@ -35,4 +35,99 @@ Future<TransactionResult> requestDidPowerUp(
 ) async
 ```
 ## Usage examples
-TODO
+You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
+
+```dart
+import 'package:commerciosdk/export.dart';
+import 'commons.dart';
+
+void main() async {
+  final info = NetworkInfo(
+    bech32Hrp: "did:com:",
+    lcdUrl: "http://localhost:1317",
+  );
+
+  final userMnemonic = [
+    "will",
+    "hard",
+    "topic",
+    "spray",
+    "beyond",
+    "ostrich",
+    "moral",
+    "morning",
+    "gas",
+    "loyal",
+    "couch",
+    "horn",
+    "boss",
+    "across",
+    "age",
+    "post",
+    "october",
+    "blur",
+    "piece",
+    "wheel",
+    "film",
+    "notable",
+    "word",
+    "man"
+  ];
+
+  final userWallet = Wallet.derive(userMnemonic, info);
+
+  // --- Create Did Document
+  final rsaKeyPair = await KeysHelper.generateRsaKeyPair();
+  final ecKeyPair = await KeysHelper.generateEcKeyPair();
+  final didDocument =  DidDocumentHelper.fromWallet(
+                          userWallet, 
+                          [rsaKeyPair.publicKey, ecKeyPair.publicKey]
+  );
+  
+  // --- Set the Did Document
+  await IdHelper.setDidDocument(didocument, wallet);
+  
+  // --- Request the Did deposit
+  final depositAmount = [StdCoin(denom: "ucommercio", amount: "100")];
+  await IdHelper.requestDidDeposit(
+    userWallet.bech32address, 
+    depositAmount, userWallet
+  );
+
+  // --- Request the Did power up
+  final pairwiseMnemonic = [
+    "push",
+    "grace",
+    "power",
+    "desk",
+    "arrive",
+    "horror",
+    "gallery",
+    "physical",
+    "kingdom",
+    "ecology",
+    "fat",
+    "firm",
+    "future",
+    "service",
+    "table",
+    "little",
+    "live",
+    "reason",
+    "maximum",
+    "short",
+    "motion",
+    "planet",
+    "stage",
+    "second"
+  ];
+
+  final pairwiseWallet = Wallet.derive(pairwiseMnemonic, info);
+
+  await IdHelper.requestDidPowerUp(
+    pairwiseWallet.bech32Address,
+    depositAmount,
+    userWallet,
+  );
+}
+```

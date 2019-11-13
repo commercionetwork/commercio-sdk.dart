@@ -32,5 +32,3 @@ static Uint8List decryptBytesWithRsa(Uint8List data, RSASecretKey key)
 static Future<RSAPubKey> getGovernmentRsaPubKey() async 
 ```
 
-## Usage examples
-TODO

@@ -8,4 +8,4 @@ Below you can find the sign helper's provided operations with some examples
 ```dart
 static Uint8List signSorted(Map<String, dynamic> data, Wallet wallet) 
 ```
-## Usage examples
+

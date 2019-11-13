@@ -16,3 +16,82 @@ static Future<TransactionResult> buyMembership(
 ) async
 ```
 ## Usage examples
+You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
+
+```dart
+import 'package:commerciosdk/export.dart';
+import 'commons.dart';
+
+void main() async {
+  final info = NetworkInfo(
+    bech32Hrp: "did:com:",
+    lcdUrl: "http://localhost:1317",
+  );
+
+  final userMnemonic = [
+    "will",
+    "hard",
+    "topic",
+    "spray",
+    "beyond",
+    "ostrich",
+    "moral",
+    "morning",
+    "gas",
+    "loyal",
+    "couch",
+    "horn",
+    "boss",
+    "across",
+    "age",
+    "post",
+    "october",
+    "blur",
+    "piece",
+    "wheel",
+    "film",
+    "notable",
+    "word",
+    "man"
+  ];
+  final userWallet = Wallet.derive(userMnemonic, info);
+
+  final newUserMnemonic = [
+    "often",
+    "emerge",
+    "table",
+    "boat",
+    "add",
+    "crowd",
+    "obtain",
+    "creek",
+    "skill",
+    "flat",
+    "master",
+    "gift",
+    "provide",
+    "peasant",
+    "famous",
+    "blur",
+    "flight",
+    "lady",
+    "elephant",
+    "twenty",
+    "join",
+    "depth",
+    "laptop",
+    "arrest"
+  ];
+  final newUserWallet = Wallet.derive(newUserMnemonic, info);
+
+  // --- Invite user
+  final response = await MembershipHelper.inviteUser(user, wallet);
+  checkResponse(response);
+  // --- Buy a membership
+  final response = await MembershipHelper.buyMembership(
+                           type: MembershipType.GOLD, 
+                           wallet: newUserWallet
+  );
+  checkResponse(response);
+}
+```

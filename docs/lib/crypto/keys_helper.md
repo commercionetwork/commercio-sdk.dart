@@ -13,6 +13,3 @@ static Future<KeyPair<RSAPubKey, RSASecretKey>> generateRsaKeyPair({int bytes = 
 ```dart
 static Future<Key> generateAesKey({int length = 356}) async 
 ```
-
-## Usage examples
-TODO
