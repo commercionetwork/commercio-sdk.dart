@@ -1,6 +1,6 @@
 os: linux
 language: shell
-jobs:
+matrix:
   include:
 
     ## ----------------------------------------
@@ -8,11 +8,15 @@ jobs:
     ## ----------------------------------------
 
     - language: dart
-      dart_task:
-        - test: --platform vm
-        - dartfmt
-        - dartanalyzer: --fatal-warnings lib
-
+      jobs:
+        - stage: analyze_and_format
+            script:
+              - dartfmt
+              - dartfmt -n --set-exit-if-changed .
+        - stage: build
+            script:
+              - pub run build_runner build
+              - pub run build_runner build test
     ## ----------------------------------------------------
     ## --- Steps to build and publish the documentation
     ## ----------------------------------------------------
