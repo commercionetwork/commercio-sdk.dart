@@ -40,4 +40,4 @@ jobs:
         token: $GITHUB_TOKEN
         keep_history: true
         on:
-          tags: true
+          branch: master
