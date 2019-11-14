@@ -8,10 +8,12 @@ jobs:
     ## ----------------------------------------
 
     - language: dart
-      dart_task:
-        - test: --platform vm
+      script:
+        - test --platform vm
         - dartfmt
-        - dartanalyzer: --fatal-warnings lib
+        - dartanalyzer --fatal-warnings lib
+        - pub run build_runner build
+        - pub run build_runner build test
 
     ## ----------------------------------------------------
     ## --- Steps to build and publish the documentation
