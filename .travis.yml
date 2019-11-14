@@ -9,9 +9,8 @@ jobs:
 
     - language: dart
       dart:
-      - stable
+      - dev
       dart_task:
-      - test: --plaftorm vm
       - dartanalyzer: true
       - dartfmt: true
 
