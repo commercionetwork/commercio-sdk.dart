@@ -9,11 +9,11 @@ jobs:
 
     - language: dart
       dart:
-        - stable
+      - stable
       dart_task:
-        - test: --plaftorm vm
-        - dartanalyzer: true
-        - dartfmt: true
+      - test: --plaftorm vm
+      - dartanalyzer: true
+      - dartfmt: true
 
     ## ----------------------------------------------------
     ## --- Steps to build and publish the documentation
