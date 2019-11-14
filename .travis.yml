@@ -9,7 +9,6 @@ jobs:
 
     - language: dart
       script:
-        - test --platform vm
         - dartfmt
         - dartanalyzer --fatal-warnings lib
         - pub run build_runner build
