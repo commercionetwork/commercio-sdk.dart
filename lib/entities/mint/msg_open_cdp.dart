@@ -7,21 +7,17 @@ import 'package:sacco/sacco.dart';
 class MsgOpenCdp extends StdMsg {
   final List<StdCoin> depositAmount;
   final String signerDid;
-  final String timeStamp;
 
   MsgOpenCdp({
     @required this.depositAmount,
     @required this.signerDid,
-    @required this.timeStamp,
   })  : assert(depositAmount != null),
         assert(signerDid != null),
-        assert(timeStamp != null),
         super(type: "commercio/MsgOpenCdp", value: Map());
 
   @override
   Map<String, dynamic> get value => {
         'deposit_amount': depositAmount.map((coin) => coin.toJson()).toList(),
-        'signer': signerDid,
-        'timestamp': timeStamp,
+        'depositor': signerDid,
       };
 }

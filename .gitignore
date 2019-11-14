@@ -9,6 +9,10 @@
 .history
 .svn/
 
+### Docs
+/node_modules
+dist/
+
 # IDEs
 *.iml
 .idea/

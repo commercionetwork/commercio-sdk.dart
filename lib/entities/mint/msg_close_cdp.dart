@@ -6,7 +6,7 @@ import 'package:sacco/sacco.dart';
 /// back the Commercio Tokens that have been locked with it.
 class MsgCloseCdp extends StdMsg {
   final String signerDid;
-  final String timeStamp;
+  final int timeStamp;
 
   MsgCloseCdp({
     @required this.signerDid,
@@ -18,6 +18,6 @@ class MsgCloseCdp extends StdMsg {
   @override
   Map<String, dynamic> get value => {
         'signer': this.signerDid,
-        'timestamp': this.timeStamp,
+        'cdp_timestamp': this.timeStamp.toString(),
       };
 }

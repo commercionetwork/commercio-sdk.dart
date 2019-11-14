@@ -1,42 +1,50 @@
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:commerciosdk/export.dart';
 import 'package:encrypt/encrypt.dart' hide SecureRandom;
-import 'package:pointycastle/export.dart';
 
 /// Allows to easily generate new keys either to be used with AES or RSA key.
 class KeysHelper {
   /// Generates a SecureRandom
   static SecureRandom _getSecureRandom() {
-    var secureRandom = FortunaRandom();
-    var random = Random.secure();
-    List<int> seeds = [];
-    for (int i = 0; i < 32; i++) {
-      seeds.add(random.nextInt(255));
-    }
-    secureRandom.seed(new KeyParameter(new Uint8List.fromList(seeds)));
+    final secureRandom = FortunaRandom();
+    final random = Random.secure();
+    final seed = List<int>.generate(32, (_) => random.nextInt(256));
+    secureRandom.seed(new KeyParameter(new Uint8List.fromList(seed)));
     return secureRandom;
+  }
+
+  /// Generates a new AES key having the desired [length].
+  static Future<Key> generateAesKey({int length = 256}) async {
+    return Key.fromSecureRandom(length ~/ 16);
   }
 
   /// Generates a new RSA key pair having the given [bytes] length.
   /// If no length is specified, the default is going to be 2048.
-  static Future<AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>>
-      generateRsaKeyPair({
+  static Future<KeyPair<RSAPublicKey, RSAPrivateKey>> generateRsaKeyPair({
     int bytes = 2048,
   }) async {
-    var rsa = new RSAKeyGeneratorParameters(BigInt.from(65537), bytes, 5);
-    var params = new ParametersWithRandom(rsa, _getSecureRandom());
-    var keyGenerator = new RSAKeyGenerator();
+    final rsa = new RSAKeyGeneratorParameters(BigInt.from(65537), bytes, 5);
+    final params = new ParametersWithRandom(rsa, _getSecureRandom());
+    final keyGenerator = new RSAKeyGenerator();
     keyGenerator.init(params);
-    var keyPair = keyGenerator.generateKeyPair();
-    return AsymmetricKeyPair(
-      keyPair.publicKey as RSAPublicKey,
-      keyPair.privateKey as RSAPrivateKey,
+    final keyPair = keyGenerator.generateKeyPair();
+    return KeyPair(
+      RSAPublicKey(keyPair.publicKey),
+      RSAPrivateKey(keyPair.privateKey),
     );
   }
 
-  /// Generates a new AES key having the desired [length].
-  static Future<Key> generateAesKey({int length = 356}) async {
-    return Key.fromSecureRandom(length);
+  /// Generates a new random EC key pair.
+  static Future<KeyPair<ECPublicKey, ECPrivateKey>> generateEcKeyPair() async {
+    final keyParams = ECKeyGeneratorParameters(ECCurve_secp256k1());
+    final generator = ECKeyGenerator();
+    generator.init(ParametersWithRandom(keyParams, _getSecureRandom()));
+    final keyPair = generator.generateKeyPair();
+    return KeyPair(
+      ECPublicKey(keyPair.publicKey),
+      ECPrivateKey(keyPair.privateKey),
+    );
   }
 }

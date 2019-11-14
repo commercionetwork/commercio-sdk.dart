@@ -1,6 +1,6 @@
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
-import 'package:sacco/sacco.dart';
+import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
 class DocsHelper {
@@ -11,12 +11,14 @@ class DocsHelper {
   /// and [checksum]. If [encryptedData] is specified, encrypts the proper
   /// data for the specified [recipients] and then sends the transaction
   /// to the blockchain.
-  static Future<TransactionResult> shareDocument(
-    String contentUri,
-    CommercioDocMetadata metadata,
-    CommercioDocChecksum checksum,
-    List<String> recipientsDids,
-    Wallet wallet, {
+  static Future<TransactionResult> shareDocument({
+    @required String id,
+    @required String contentUri,
+    @required CommercioDocMetadata metadata,
+    @required List<String> recipients,
+    @required List<StdCoin> fees,
+    @required Wallet wallet,
+    CommercioDocChecksum checksum = null,
     Key aesKey = null,
     List<EncryptedData> encryptedData = const [],
   }) async {
@@ -27,7 +29,9 @@ class DocsHelper {
 
     // Build a generic document
     final document = CommercioDoc(
-      uuid: new Uuid().v4(),
+      senderDid: wallet.bech32Address,
+      recipientDids: recipients,
+      uuid: id,
       contentUri: contentUri,
       metadata: metadata,
       checksum: checksum,
@@ -41,25 +45,17 @@ class DocsHelper {
         document,
         aesKey,
         encryptedData,
-        recipientsDids,
+        recipients,
         wallet,
       );
     }
 
     // Build the tx message
-    final msg = MsgShareDocument(
-      senderDid: wallet.bech32Address,
-      document: finalDoc,
-      recipientDids: recipientsDids,
-    );
-
+    final msg = MsgShareDocument(document: finalDoc);
     return TxHelper.createSignAndSendTx(
       [msg],
       wallet,
-      fee: StdFee(
-        gas: "200000",
-        amount: [StdCoin(denom: "uccc", amount: "10000")],
-      ),
+      fee: StdFee(gas: "200000", amount: fees),
     );
   }
 
@@ -70,7 +66,7 @@ class DocsHelper {
     Wallet wallet,
   ) async {
     final url = "${wallet.networkInfo.lcdUrl}/docs/${address}/sent";
-    final response = await Network.query(url) as List<Map<String, dynamic>>;
+    final response = await Network.queryChain(url) as List;
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
   }
 
@@ -81,7 +77,7 @@ class DocsHelper {
     Wallet wallet,
   ) async {
     final url = "${wallet.networkInfo.lcdUrl}/docs/${address}/received";
-    final response = await Network.query(url) as List<Map<String, dynamic>>;
+    final response = await Network.queryChain(url) as List;
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
   }
 
@@ -89,15 +85,16 @@ class DocsHelper {
   /// having the specified [documentId] and present inside the transaction with
   /// hash [txHash] has been properly seen.
   /// [proof] optional proof of reading.
-  static Future<TransactionResult> sendDocumentReceipt(
-    String recipient,
-    String txHash,
-    String documentId,
-    Wallet wallet, {
-    String proof = null,
+  static Future<TransactionResult> sendDocumentReceipt({
+    @required String recipient,
+    @required String txHash,
+    @required String documentId,
+    @required Wallet wallet,
+    String proof = "",
   }) {
     final msg = MsgSendDocumentReceipt(
       CommercioDocReceipt(
+        uuid: new Uuid().v4(),
         recipientDid: recipient,
         txHash: txHash,
         documentUuid: documentId,
@@ -115,7 +112,7 @@ class DocsHelper {
     Wallet wallet,
   ) async {
     final url = "${wallet.networkInfo.lcdUrl}/receipts/${address}/sent";
-    final response = await Network.query(url) as List<Map<String, dynamic>>;
+    final response = await Network.queryChain(url) as List;
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();
   }
 
@@ -126,7 +123,7 @@ class DocsHelper {
     Wallet wallet,
   ) async {
     final url = "${wallet.networkInfo.lcdUrl}/receipts/${address}/received";
-    final response = await Network.query(url) as List<Map<String, dynamic>>;
+    final response = await Network.queryChain(url) as List;
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();
   }
 }

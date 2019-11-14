@@ -7,7 +7,7 @@ part 'did_document_proof.g.dart';
 /// Contains the data of the proof that makes sure the user has properly
 /// signed the Did Document contents with his authentication key so that
 /// he can guarantee that he is the real controller of the Did Document itself.
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(explicitToJson: true)
 class DidDocumentProof extends Equatable {
   @JsonKey(name: "type")
   final String type;

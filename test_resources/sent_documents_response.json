@@ -1,0 +1,81 @@
+{
+  "height": "0",
+  "result": [
+    {
+      "sender": "did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v",
+      "recipient": "did:com:1g5cxz9p7dqux80sw5tljwg2pwz6x7zlq84km56",
+      "uuid": "6a881ef0-04da-4524-b7ca-6e5e3b7e61dc",
+      "metadata": {
+        "content_uri": "https://www.vargroup.it/managed-security-services/",
+        "schema_type": "",
+        "schema": {
+          "uri": "https://www.vargroup.it/managed-security-services/metadata/schema",
+          "version": "1.0.0"
+        },
+        "proof": "yes"
+      },
+      "content_uri": "https://www.vargroup.it/managed-security-services/",
+      "checksum": {
+        "value": "7815696ecbf1c96e6894b779456d330e",
+        "algorithm": "md5"
+      }
+    },
+    {
+      "sender": "did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v",
+      "recipient": "did:com:1g5cxz9p7dqux80sw5tljwg2pwz6x7zlq84km56",
+      "uuid": "6a881ef0-04da-4524-b7ca-6e5e3b7e61dc",
+      "metadata": {
+        "content_uri": "https://www.vargroup.it/managed-security-services/",
+        "schema_type": "",
+        "schema": {
+          "uri": "https://www.vargroup.it/managed-security-services/metadata/schema",
+          "version": "1.1.0"
+        },
+        "proof": "yes"
+      },
+      "content_uri": "https://www.vargroup.it/managed-security-services/",
+      "checksum": {
+        "value": "7815696ecbf1c96e6894b779456d330e",
+        "algorithm": "md5"
+      }
+    },
+    {
+      "sender": "did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v",
+      "recipient": "did:com:1g5cxz9p7dqux80sw5tljwg2pwz6x7zlq84km56",
+      "uuid": "688a1ef0-04da-4524-b7ca-6e5e3b7e61dc",
+      "metadata": {
+        "content_uri": "https://www.vargroup.it/managed-security-services/",
+        "schema_type": "",
+        "schema": {
+          "uri": "https://www.vargroup.it/managed-security-services/metadata/schema",
+          "version": "1.1.0"
+        },
+        "proof": "yes"
+      },
+      "content_uri": "https://www.vargroup.it/managed-security-services/",
+      "checksum": {
+        "value": "7815696ecbf1c96e6894b779456d330e",
+        "algorithm": "md5"
+      }
+    },
+    {
+      "sender": "did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v",
+      "recipient": "did:com:1g5cxz9p7dqux80sw5tljwg2pwz6x7zlq84km56",
+      "uuid": "688a1ef0-04da-4524-b7ca-6e5e3b7e61dc",
+      "metadata": {
+        "content_uri": "https://www.vargroup.it/managed-security-services/",
+        "schema_type": "",
+        "schema": {
+          "uri": "https://www.vargroup.it/managed-security-services/",
+          "version": "1.1.0"
+        },
+        "proof": "yes"
+      },
+      "content_uri": "https://www.vargroup.it/managed-security-services/",
+      "checksum": {
+        "value": "7815696ecbf1c96e6894b779456d330e",
+        "algorithm": "md5"
+      }
+    }
+  ]
+}

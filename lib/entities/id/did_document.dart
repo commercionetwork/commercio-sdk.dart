@@ -2,12 +2,13 @@ import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:pointycastle/export.dart' as pointyCastle;
 
 part 'did_document.g.dart';
 
 /// Commercio network's did document is described here:
 /// https://scw-gitlab.zotsell.com/Commercio.network/Cosmos-application/blob/master/Commercio%20Decentralized%20ID%20framework.md
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(explicitToJson: true)
 class DidDocument extends Equatable {
   @JsonKey(name: "@context")
   final String context;
@@ -53,7 +54,7 @@ class DidDocument extends Equatable {
 
     final modulus = BigInt.parse(pubKey.publicKeyHex, radix: 16);
     final exponent = BigInt.from(65537);
-    return RSAPublicKey(modulus, exponent);
+    return RSAPublicKey(pointyCastle.RSAPublicKey(modulus, exponent));
   }
 
   factory DidDocument.fromJson(Map<String, dynamic> json) =>
