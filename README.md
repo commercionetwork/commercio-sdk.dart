@@ -2,35 +2,48 @@
 <!--
 [![Release](https://jitpack.io/v/commercionetwork/sdk.svg)](https://jitpack.io/#commercionetwork/sdk)
 --> 
-![Travis (.org)](https://img.shields.io/travis/commercionetwork/sdk.dart)
-![](https://img.shields.io/badge/compatible-flutter-blue)
+[![Travis](https://img.shields.io/travis/com/commercionetwork/sdk.dart)](https://travis-ci.com/commercionetwork/sdk.dart)
+[![](https://img.shields.io/badge/compatible-flutter-blue)](https://flutter.dev)
 
-The official Commercio.network SDK made in pure [Dart](https://dart.dev).  
-Entirely based on [Sacco.dart](https://github.com/commercionetwork/sacco.dart) 
+This repository contains the code of the official [Commercio.network](https://commercio.network) Dart SDK, 
+entirely based on [Sacco.dart](https://github.com/commercionetwork/sacco.dart). 
 
-## Road map
-### Utils 
-- [x] Create HD wallet
-- [x] Generate AES key
-- [x] Generate RSA key
+The main features are: 
+* Entirely made in Kotlin-JVM
+* Completely stateless
+
+Thanks to these characteristics, you can use this SDK inside any pure Dart project or even any Flutter application.
+
+## Helper methods
+Inside the SDK you will find the following helper methods that will help you with almost any operation 
+that you might want to perform on the Commercio.network blockchain.
+
+Please note that you can find usage examples of the following methods inside the 
+[example folder](example) file. 
+We highly suggest you checking it out to have a complete reference of the SDK.  
+
+### Crypto
+- Create HD wallet  
+- Generate AES key
+- Generate RSA key
 
 ### CommercioDOCS
-- [x] Share document
-- [x] Send receipt
-- [x] List documents
-- [x] List receipts
+- Share document
+- Send receipt
+- List documents
+- List receipts
 
 ### CommercioID
-- [x] Create Did Document
-- [x] Request deposit
-- [x] Request power up
-- [ ] Create connection invitation
-- [ ] Accept connection invitation
+- Create Did Document
+- Request deposit
+- Request power up
+- Create connection invitation
+- Verify connection invitation
 
 ### CommercioMINT
-- [x] Open CDP
-- [x] Close CDP
+- Open CDP
+- Close CDP
 
 ### CommercioMEMBERSHIP
-- [x] Invite user
-- [x] Buy membership
+- Invite user
+- Buy membership
