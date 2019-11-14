@@ -35,7 +35,7 @@ jobs:
 
       deploy:
         provider: pages
-        cleanup: false
+        skip-cleanup: true
         local_dir: docs/.vuepress/dist
         github_token: $GITHUB_TOKEN
         keep_history: true
