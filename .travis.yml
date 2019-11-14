@@ -14,3 +14,28 @@ jobs:
       - test: --plaftorm vm
       - dartanalyzer: true
       - dartfmt: true
+
+    ## ----------------------------------------------------
+    ## --- Steps to build and publish the documentation
+    ## ----------------------------------------------------
+
+    - language: node_js
+      if: branch != gh-pages
+      node_js:
+        - lts/*
+
+      install:
+        - npm ci
+
+      script:
+        - npm run docs:build
+        - echo 'dart.sdk.docs.commercio.network' > docs/.vuepress/dist/CNAME
+
+      deploy:
+        provider: pages
+        cleanup: false
+        local_dir: docs/.vuepress/dist
+        token: $GITHUB_TOKEN
+        keep_history: true
+        on:
+          tags: true
