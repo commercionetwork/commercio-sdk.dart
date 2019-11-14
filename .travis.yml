@@ -1,5 +1,3 @@
-os: linux
-language: shell
 jobs:
   include:
 
@@ -8,17 +6,23 @@ jobs:
     ## ----------------------------------------
 
     - language: dart
-      dart:
-      - stable
-      dart_task:
-      - dartanalyzer: true
+      stage: Analyze and test
+      if: branch != gh-pages
+      install:
+        - pub get
+        - pub run build_runner build test
+
+      script:
+        - dartanalyzer --fatal-warnings .
+        - dartfmt -n --set-exit-if-changed .
+        - pub run test
 
     ## ----------------------------------------------------
     ## --- Steps to build and publish the documentation
     ## ----------------------------------------------------
 
     - language: node_js
-      if: branch != gh-pages
+      stage: Build docs
       node_js:
         - lts/*
 
