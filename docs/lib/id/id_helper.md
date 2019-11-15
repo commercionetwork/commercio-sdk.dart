@@ -80,12 +80,12 @@ void main() async {
   final rsaKeyPair = await KeysHelper.generateRsaKeyPair();
   final ecKeyPair = await KeysHelper.generateEcKeyPair();
   final didDocument =  DidDocumentHelper.fromWallet(
-                          userWallet, 
-                          [rsaKeyPair.publicKey, ecKeyPair.publicKey]
+    userWallet, 
+    [rsaKeyPair.publicKey, ecKeyPair.publicKey]
   );
   
   // --- Set the Did Document
-  await IdHelper.setDidDocument(didocument, wallet);
+  await IdHelper.setDidDocument(didocument, userWallet);
   
   // --- Request the Did deposit
   final depositAmount = [StdCoin(denom: "ucommercio", amount: "100")];
