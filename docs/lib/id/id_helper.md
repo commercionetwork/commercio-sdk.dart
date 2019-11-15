@@ -91,7 +91,8 @@ void main() async {
   final depositAmount = [StdCoin(denom: "ucommercio", amount: "100")];
   await IdHelper.requestDidDeposit(
     userWallet.bech32address, 
-    depositAmount, userWallet
+    depositAmount, 
+    userWallet
   );
 
   // --- Request the Did power up
