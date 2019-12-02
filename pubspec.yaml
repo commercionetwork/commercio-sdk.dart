@@ -17,7 +17,7 @@ dependencies:
   asn1lib: ^0.5.13
 
   # Crypto utils
-  sacco: ^0.0.12
+  sacco: ^0.0.13
   encrypt: ^3.3.1
   ed25519_hd_key: ^1.0.1
   pointycastle: ^1.0.1
