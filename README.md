@@ -9,10 +9,12 @@ This repository contains the code of the official [Commercio.network](https://co
 entirely based on [Sacco.dart](https://github.com/commercionetwork/sacco.dart). 
 
 The main features are: 
-* Entirely made in Kotlin-JVM
+* Entirely made in Dart
 * Completely stateless
 
 Thanks to these characteristics, you can use this SDK inside any pure Dart project or even any Flutter application.
+
+You can find the official documentation [here](https://dart.sdk.docs.commercio.network/).
 
 ## Helper methods
 Inside the SDK you will find the following helper methods that will help you with almost any operation 
