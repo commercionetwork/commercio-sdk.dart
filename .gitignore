@@ -29,4 +29,4 @@ dist/
 /build/
 
 # Flutter JSON
-*.g.dart
+# *.g.dart
