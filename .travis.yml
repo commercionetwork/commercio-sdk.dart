@@ -10,7 +10,7 @@ jobs:
       if: branch != gh-pages
       install:
         - pub get
-        - pub run build_runner build test
+        - pub run build_runner build test --delete-conflicting-outputs
 
       script:
         - dartanalyzer --fatal-warnings .
