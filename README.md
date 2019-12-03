@@ -14,7 +14,7 @@ The main features are:
 
 Thanks to these characteristics, you can use this SDK inside any pure Dart project or even any Flutter application.
 
-You can find the official documentation [here](https://dart.sdk.docs.commercio.network/).
+You can find the official **documentation** [here](https://dart.sdk.docs.commercio.network/).
 
 ## Helper methods
 Inside the SDK you will find the following helper methods that will help you with almost any operation 
