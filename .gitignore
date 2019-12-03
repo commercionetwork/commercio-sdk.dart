@@ -28,5 +28,3 @@ dist/
 .pub/
 /build/
 
-# Flutter JSON
-*.g.dart
