@@ -85,7 +85,7 @@ void main() async {
   final newUserWallet = Wallet.derive(newUserMnemonic, info);
 
   // --- Invite user
-  final response = await MembershipHelper.inviteUser(user, wallet);
+  final response = await MembershipHelper.inviteUser(newUserWallet.bech32Address, userWallet);
   checkResponse(response);
   // --- Buy a membership
   final response = await MembershipHelper.buyMembership(
