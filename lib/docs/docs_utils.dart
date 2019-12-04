@@ -46,21 +46,21 @@ Future<CommercioDoc> encryptField(
   // -----------------
 
   // Encrypt the contents
-  var encryptedContentUri = null;
+  var encryptedContentUri;
   if (encryptedData.contains(EncryptedData.CONTENT_URI)) {
     encryptedContentUri = HEX.encode(
       EncryptionHelper.encryptStringWithAes(doc.contentUri, aesKey),
     );
   }
 
-  var encryptedMetadataContentUri = null;
+  var encryptedMetadataContentUri;
   if (encryptedData.contains(EncryptedData.METADATA_CONTENT_URI)) {
     encryptedMetadataContentUri = HEX.encode(
       EncryptionHelper.encryptStringWithAes(doc.metadata.contentUri, aesKey),
     );
   }
 
-  var encryptedMetadataSchemaUri = null;
+  var encryptedMetadataSchemaUri;
   if (encryptedData.contains(EncryptedData.METADATA_SCHEMA_URI)) {
     var schemaUri = doc.metadata.schema?.uri;
     if (schemaUri != null) {
@@ -108,6 +108,8 @@ Future<CommercioDoc> encryptField(
 
   // Return a copy of the document
   return CommercioDoc(
+    senderDid: doc.senderDid,
+    recipientDids: doc.recipientDids,
     uuid: doc.uuid,
     checksum: doc.checksum,
     contentUri: encryptedContentUri ?? doc.contentUri,

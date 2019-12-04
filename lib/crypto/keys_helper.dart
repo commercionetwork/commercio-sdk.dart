@@ -11,7 +11,7 @@ class KeysHelper {
     final secureRandom = FortunaRandom();
     final random = Random.secure();
     final seed = List<int>.generate(32, (_) => random.nextInt(256));
-    secureRandom.seed(new KeyParameter(new Uint8List.fromList(seed)));
+    secureRandom.seed(KeyParameter(Uint8List.fromList(seed)));
     return secureRandom;
   }
 
@@ -25,9 +25,9 @@ class KeysHelper {
   static Future<KeyPair<RSAPublicKey, RSAPrivateKey>> generateRsaKeyPair({
     int bytes = 2048,
   }) async {
-    final rsa = new RSAKeyGeneratorParameters(BigInt.from(65537), bytes, 5);
-    final params = new ParametersWithRandom(rsa, _getSecureRandom());
-    final keyGenerator = new RSAKeyGenerator();
+    final rsa = RSAKeyGeneratorParameters(BigInt.from(65537), bytes, 5);
+    final params = ParametersWithRandom(rsa, _getSecureRandom());
+    final keyGenerator = RSAKeyGenerator();
     keyGenerator.init(params);
     final keyPair = keyGenerator.generateKeyPair();
     return KeyPair(
