@@ -23,8 +23,12 @@ class DidDocumentService extends Equatable {
     @required this.endpoint,
   })  : assert(id != null),
         assert(type != null),
-        assert(endpoint != null),
-        super([id, type, endpoint]);
+        assert(endpoint != null);
+
+  @override
+  List<Object> get props {
+    return [id, type, endpoint];
+  }
 
   factory DidDocumentService.fromJson(Map<String, dynamic> json) =>
       _$DidDocumentServiceFromJson(json);

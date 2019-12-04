@@ -27,8 +27,12 @@ class DidDocumentPublicKey extends Equatable {
   })  : assert(id != null),
         assert(type != null),
         assert(controller != null),
-        assert(publicKeyHex != null),
-        super([id, type, controller, publicKeyHex]);
+        assert(publicKeyHex != null);
+
+  @override
+  List<Object> get props {
+    return [id, type, controller, publicKeyHex];
+  }
 
   factory DidDocumentPublicKey.fromJson(Map<String, dynamic> json) =>
       _$DidDocumentPublicKeyFromJson(json);

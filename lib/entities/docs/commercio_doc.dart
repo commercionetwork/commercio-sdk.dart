@@ -42,16 +42,20 @@ class CommercioDoc extends Equatable {
         assert(recipientDids.isNotEmpty),
         assert(uuid != null),
         assert(contentUri != null),
-        assert(metadata != null),
-        super([
-          uuid,
-          senderDid,
-          recipientDids,
-          contentUri,
-          metadata,
-          checksum,
-          encryptionData,
-        ]);
+        assert(metadata != null);
+
+  @override
+  List<Object> get props {
+    return [
+      uuid,
+      senderDid,
+      recipientDids,
+      contentUri,
+      metadata,
+      checksum,
+      encryptionData,
+    ];
+  }
 
   factory CommercioDoc.fromJson(Map<String, dynamic> json) =>
       _$CommercioDocFromJson(json);
@@ -76,8 +80,12 @@ class CommercioDocMetadata extends Equatable {
     this.schemaType = "",
   })  : assert(contentUri != null),
         assert(schemaType != null),
-        assert(schema != null || schemaType.isNotEmpty),
-        super([contentUri, schema, schemaType]);
+        assert(schema != null || schemaType.isNotEmpty);
+
+  @override
+  List<Object> get props {
+    return [contentUri, schema, schemaType];
+  }
 
   factory CommercioDocMetadata.fromJson(Map<String, dynamic> json) =>
       _$CommercioDocMetadataFromJson(json);
@@ -97,8 +105,12 @@ class CommercioDocMetadataSchema extends Equatable {
     @required this.uri,
     @required this.version,
   })  : assert(uri != null),
-        assert(version != null),
-        super([uri, version]);
+        assert(version != null);
+
+  @override
+  List<Object> get props {
+    return [uri, version];
+  }
 
   factory CommercioDocMetadataSchema.fromJson(Map<String, dynamic> json) =>
       _$CommercioDocMetadataSchemaFromJson(json);
@@ -118,8 +130,12 @@ class CommercioDocChecksum extends Equatable {
     @required this.value,
     @required this.algorithm,
   })  : assert(value != null),
-        assert(algorithm != null),
-        super([value, algorithm]);
+        assert(algorithm != null);
+
+  @override
+  List<Object> get props {
+    return [value, algorithm];
+  }
 
   factory CommercioDocChecksum.fromJson(Map<String, dynamic> json) =>
       _$CommercioDocChecksumFromJson(json);
@@ -156,8 +172,11 @@ class CommercioDocEncryptionData extends Equatable {
     @required this.keys,
     @required this.encryptedData,
   })  : assert(keys != null),
-        assert(encryptedData != null),
-        super([keys, encryptedData]);
+        assert(encryptedData != null);
+
+  List<Object> get props {
+    return [keys, encryptedData];
+  }
 
   factory CommercioDocEncryptionData.fromJson(Map<String, dynamic> json) =>
       _$CommercioDocEncryptionDataFromJson(json);
@@ -177,8 +196,11 @@ class CommercioDocEncryptionDataKey extends Equatable {
     @required this.recipientDid,
     @required this.value,
   })  : assert(recipientDid != null),
-        assert(value != null),
-        super([recipientDid, value]);
+        assert(value != null);
+
+  List<Object> get props {
+    return [recipientDid, value];
+  }
 
   factory CommercioDocEncryptionDataKey.fromJson(Map<String, dynamic> json) =>
       _$CommercioDocEncryptionDataKeyFromJson(json);

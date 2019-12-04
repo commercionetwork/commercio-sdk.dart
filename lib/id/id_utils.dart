@@ -14,8 +14,12 @@ class ProofGenerationResult extends Equatable {
     @required this.encryptedProof,
     @required this.encryptedAesKey,
   })  : assert(encryptedProof != null),
-        assert(encryptedAesKey != null),
-        super([encryptedProof, encryptedAesKey]);
+        assert(encryptedAesKey != null);
+
+  @override
+  List<Object> get props {
+    return [encryptedProof, encryptedAesKey];
+  }
 }
 
 /// Given a [payload], creates a new AES-256 key and uses that to encrypt

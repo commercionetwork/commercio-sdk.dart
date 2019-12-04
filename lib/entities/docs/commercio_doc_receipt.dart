@@ -40,8 +40,11 @@ class CommercioDocReceipt extends Equatable {
         assert(recipientDid != null),
         assert(txHash != null),
         assert(documentUuid != null),
-        assert(proof != null),
-        super([senderDid, recipientDid, txHash, documentUuid, proof]);
+        assert(proof != null);
+
+  List<Object> get props {
+    return [senderDid, recipientDid, txHash, documentUuid, proof];
+  }
 
   factory CommercioDocReceipt.fromJson(Map<String, dynamic> json) =>
       _$CommercioDocReceiptFromJson(json);

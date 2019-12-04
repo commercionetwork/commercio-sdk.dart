@@ -42,7 +42,7 @@ Directly from [Did Specifications](https://w3c.github.io/did-core/):
       "publicKeyHex": "02b97c30de767f084ce3080168ee293053ba33b235d7116a3263d29f1450936b71"
     }
   ],
-  "authentication": "did:com:14zk9u8894eg7fhgw0dsesnqzmlrx85ga9rvnjc#keys-1",
+  "authentication": ["did:com:14zk9u8894eg7fhgw0dsesnqzmlrx85ga9rvnjc#keys-1"],
   "service": [
     {
       "id": "did:com:14zk9u8894eg7fhgw0dsesnqzmlrx85ga9rvnjc#openid",

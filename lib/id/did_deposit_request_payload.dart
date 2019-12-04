@@ -21,8 +21,12 @@ class DidDepositRequestPayload extends Equatable {
     @required this.signature,
   })  : assert(recipient != null),
         assert(timeStamp != null),
-        assert(signature != null),
-        super([recipient, timeStamp, signature]);
+        assert(signature != null);
+
+  @override
+  List<Object> get props {
+    return [recipient, timeStamp, signature];
+  }
 
   factory DidDepositRequestPayload.fromJson(Map<String, dynamic> json) =>
       _$DidDepositRequestPayloadFromJson(json);

@@ -39,8 +39,12 @@ class DidDocument extends Equatable {
         assert(id != null),
         assert(publicKeys != null),
         assert(authentication != null),
-        assert(proof != null),
-        super([context, id, publicKeys, authentication, proof, services]);
+        assert(proof != null);
+
+  @override
+  List<Object> get props {
+    return [context, id, publicKeys, authentication, proof, services];
+  }
 
   /// Returns the [PublicKey] that should be used as the public encryption
   /// key when encrypting data that can later be read only by the owner of

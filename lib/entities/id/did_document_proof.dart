@@ -29,8 +29,12 @@ class DidDocumentProof extends Equatable {
   })  : assert(type != null),
         assert(iso8601creationTimestamp != null),
         assert(creatorKeyId != null),
-        assert(signatureValue != null),
-        super([type, iso8601creationTimestamp, creatorKeyId, signatureValue]);
+        assert(signatureValue != null);
+
+  @override
+  List<Object> get props {
+    return [type, iso8601creationTimestamp, creatorKeyId, signatureValue];
+  }
 
   factory DidDocumentProof.fromJson(Map<String, dynamic> json) =>
       _$DidDocumentProofFromJson(json);

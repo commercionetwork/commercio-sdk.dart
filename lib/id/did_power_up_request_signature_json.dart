@@ -17,8 +17,12 @@ class DidPowerUpRequestSignatureJson extends Equatable {
     @required this.pairwiseDid,
     @required this.timestamp,
   })  : assert(pairwiseDid != null),
-        assert(timestamp != null),
-        super([pairwiseDid, timestamp]);
+        assert(timestamp != null);
+
+  @override
+  List<Object> get props {
+    return [pairwiseDid, timestamp];
+  }
 
   factory DidPowerUpRequestSignatureJson.fromJson(Map<String, dynamic> json) =>
       _$DidPowerUpRequestSignatureJsonFromJson(json);

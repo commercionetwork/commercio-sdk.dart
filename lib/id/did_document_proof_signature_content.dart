@@ -27,8 +27,12 @@ class DidDocumentProofSignatureContent extends Equatable {
   })  : assert(context != null),
         assert(did != null),
         assert(publicKeys != null),
-        assert(authentication != null),
-        super([context, did, publicKeys, authentication]);
+        assert(authentication != null);
+
+  @override
+  List<Object> get props {
+    return [context, did, publicKeys, authentication];
+  }
 
   factory DidDocumentProofSignatureContent.fromJson(
           Map<String, dynamic> json) =>
