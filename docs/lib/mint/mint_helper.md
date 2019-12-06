@@ -60,11 +60,11 @@ void main() async {
   final userWallet = Wallet.derive(userMnemonic, info);
 
   // --- Open CDP
-  final response = await MintHelper.openCdp(amount: 100000, wallet: userWallet);
+  final response = await MintHelper.openCdp(100000, userWallet);
   checkResponse(response);
 
   // --- Close CDP
-  final response = await MintHelper.closeCdp(timestamp: 757, wallet: userWallet);
+  final response = await MintHelper.closeCdp(757, userWallet);
   checkResponse(response);
 }
 ```
