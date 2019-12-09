@@ -36,7 +36,7 @@ void main() {
   );
 
   final expectedDidDocument = DidDocument(
-      context: "https://www.w3.org/2019/did/v1",
+      context: "https://www.w3.org/ns/did/v1",
       id: wallet.bech32Address,
       publicKeys: [expectedAuthKey, expectedPubKey],
       authentication: [expectedAuthKey.id],
