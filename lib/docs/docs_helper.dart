@@ -18,8 +18,8 @@ class DocsHelper {
     @required List<String> recipients,
     @required List<StdCoin> fees,
     @required Wallet wallet,
-    CommercioDocChecksum checksum = null,
-    Key aesKey = null,
+    CommercioDocChecksum checksum,
+    Key aesKey,
     List<EncryptedData> encryptedData = const [],
   }) async {
     // Get a default aes key for encryption if needed
@@ -40,7 +40,7 @@ class DocsHelper {
 
     // Encrypt its contents, if necessary
     var finalDoc = document;
-    if (!encryptedData.isEmpty) {
+    if (encryptedData.isNotEmpty) {
       finalDoc = await encryptField(
         document,
         aesKey,
@@ -94,7 +94,7 @@ class DocsHelper {
   }) {
     final msg = MsgSendDocumentReceipt(
       CommercioDocReceipt(
-        uuid: new Uuid().v4(),
+        uuid: Uuid().v4(),
         recipientDid: recipient,
         txHash: txHash,
         documentUuid: documentId,

@@ -76,7 +76,7 @@ class CommercioDocMetadata extends Equatable {
 
   CommercioDocMetadata({
     @required this.contentUri,
-    this.schema = null,
+    this.schema,
     this.schemaType = "",
   })  : assert(contentUri != null),
         assert(schemaType != null),
