@@ -2,7 +2,7 @@ import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:pointycastle/export.dart' as pointyCastle;
+import 'package:pointycastle/export.dart' as pointy_castle;
 
 part 'did_document.g.dart';
 
@@ -58,7 +58,7 @@ class DidDocument extends Equatable {
 
     final modulus = BigInt.parse(pubKey.publicKeyHex, radix: 16);
     final exponent = BigInt.from(65537);
-    return RSAPublicKey(pointyCastle.RSAPublicKey(modulus, exponent));
+    return RSAPublicKey(pointy_castle.RSAPublicKey(modulus, exponent));
   }
 
   factory DidDocument.fromJson(Map<String, dynamic> json) =>

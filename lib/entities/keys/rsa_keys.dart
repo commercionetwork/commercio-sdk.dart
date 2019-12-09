@@ -2,11 +2,11 @@ import 'dart:typed_data';
 
 import "package:asn1lib/asn1lib.dart";
 import 'package:commerciosdk/entities/export.dart';
-import 'package:pointycastle/export.dart' as pointyCastle;
+import 'package:pointycastle/export.dart' as pointy_castle;
 
 /// Wrapper of the pointyCastle RSAPublicKey
 class RSAPublicKey implements PublicKey {
-  final pointyCastle.RSAPublicKey pubKey;
+  final pointy_castle.RSAPublicKey pubKey;
 
   RSAPublicKey(this.pubKey);
 
@@ -21,7 +21,7 @@ class RSAPublicKey implements PublicKey {
 
 /// Wrapper of the pointyCastle RSAPrivateKey
 class RSAPrivateKey implements PrivateKey {
-  final pointyCastle.RSAPrivateKey secretKey;
+  final pointy_castle.RSAPrivateKey secretKey;
 
   RSAPrivateKey(this.secretKey);
 }
