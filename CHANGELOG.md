@@ -1,6 +1,6 @@
 
 ## Version 0.1.2 - 2019-12-09
-# updated sdk with hints provided by pub.dev
+* updated sdk with hints provided by pub.dev
 
 ## Version 0.1.1 - 2019-12-09
 * updated the code with the hints provided by pub.dev
