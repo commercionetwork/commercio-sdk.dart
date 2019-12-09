@@ -26,7 +26,7 @@ Directly from [Did Specifications](https://w3c.github.io/did-core/):
 :::tip Did Document Example (specific for Commercio.network)
 ```json
 {
-  "@context": "https://www.w3.org/2019/did/v1",
+  "@context": "https://www.w3.org/ns/did/v1",
   "id": "did:com:14zk9u8894eg7fhgw0dsesnqzmlrx85ga9rvnjc",
   "publicKey": [
     {

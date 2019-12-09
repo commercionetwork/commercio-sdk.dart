@@ -19,7 +19,7 @@ class DidDocumentHelper {
         .toList();
 
     final proofContent = DidDocumentProofSignatureContent(
-      context: "https://www.w3.org/2019/did/v1",
+      context: "https://www.w3.org/ns/did/v1",
       did: wallet.bech32Address,
       publicKeys: [authKey] + otherKeys,
       authentication: [authKeyId],
