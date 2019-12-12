@@ -22,6 +22,7 @@ dependencies:
   encrypt: ^3.3.1
   ed25519_hd_key: ^1.0.1
   pointycastle: ^1.0.1
+  x509csr: ^1.0.2
 
 
 dev_dependencies:
