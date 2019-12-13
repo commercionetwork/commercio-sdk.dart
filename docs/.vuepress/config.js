@@ -8,7 +8,7 @@ module.exports = {
         lineNumbers: true,
     },
     themeConfig: {
-        repo: "commercionetwork/sdk.dart",
+        repo: "commercionetwork/commercio-sdk.dart",
         editLinks: true,
         docsDir: "docs",
         docsBranch: "master",
