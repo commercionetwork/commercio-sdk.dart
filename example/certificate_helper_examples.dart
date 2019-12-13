@@ -2,7 +2,6 @@ import 'package:commerciosdk/export.dart';
 import 'package:x509csr/crypto.dart';
 import 'commons.dart';
 
-
 void main() async {
   final info = NetworkInfo(
     bech32Hrp: "did:com:",
@@ -42,8 +41,7 @@ void main() async {
   final certificate = CertificateHelper.X509CertificateFromWallet(
       userWallet.bech32Address,
       rsaKeyPair.publicKey.pubKey,
-      rsaKeyPair.privateKey.secretKey
-  );
+      rsaKeyPair.privateKey.secretKey);
 
   print(encodeCSRToPem(certificate));
 }
