@@ -1,4 +1,4 @@
-## Version 0.1.3 - 2019-12-
+## Version 0.1.3 - 2019-12-16
 * updated `context` link in `DidDocumentHelper` with https://www.w3.org/ns/did/v1.
 
 ## Version 0.1.2 - 2019-12-09
