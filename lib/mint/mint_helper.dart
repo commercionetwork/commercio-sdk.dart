@@ -6,16 +6,16 @@ class MintHelper {
   /// Opens a new CDP depositing the given Commercio Token [amount].
   static Future<TransactionResult> openCdp(int amount, Wallet wallet,
       {StdFee fee}) {
-    final depositAmount = fee.amount
-        .map((stdCoin) => StdCoin(
-            denom: stdCoin.denom,
-            amount: (stdCoin.amount * 1000000).toString()))
-        .toList();
     final msg = MsgOpenCdp(
-      depositAmount: depositAmount,
+      depositAmount: [
+        StdCoin(
+          denom: "ucommercio",
+          amount: (amount * 1000000).toString(),
+        )
+      ],
       signerDid: wallet.bech32Address,
     );
-    return TxHelper.createSignAndSendTx([msg], wallet);
+    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 
   /// Closes the CDP having the given [timestamp].
