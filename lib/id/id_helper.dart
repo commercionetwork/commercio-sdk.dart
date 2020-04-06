@@ -22,21 +22,18 @@ class IdHelper {
   /// Performs a transaction setting the specified [didDocument] as being
   /// associated with the address present inside the specified [wallet].
   static Future<TransactionResult> setDidDocument(
-    DidDocument didDocument,
-    Wallet wallet,
-  ) {
+      DidDocument didDocument, Wallet wallet,
+      {StdFee fee}) {
     final msg = MsgSetDidDocument(didDocument: didDocument);
-    return TxHelper.createSignAndSendTx([msg], wallet);
+    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 
   /// Creates a new Did deposit request for the given [recipient] and of the given [amount].
   /// Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the
   /// private key contained inside the given [wallet].
   static Future<TransactionResult> requestDidDeposit(
-    String recipient,
-    List<StdCoin> amount,
-    Wallet wallet,
-  ) async {
+      String recipient, List<StdCoin> amount, Wallet wallet,
+      {StdFee fee}) async {
     // Get the timestamp
     var timestamp = getTimeStamp();
 
@@ -65,17 +62,15 @@ class IdHelper {
       encryptionKey: HEX.encode(result.encryptedAesKey),
       senderDid: wallet.bech32Address,
     );
-    return TxHelper.createSignAndSendTx([msg], wallet);
+    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 
   /// Creates a new Did power up request for the given [pairwiseDid] and of the given [amount].
   /// Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the
   /// private key contained inside the given [wallet].
   static Future<TransactionResult> requestDidPowerUp(
-    String pairwiseDid,
-    List<StdCoin> amount,
-    Wallet wallet,
-  ) async {
+      String pairwiseDid, List<StdCoin> amount, Wallet wallet,
+      {StdFee fee}) async {
     // Get the timestamp
     final timestamp = getTimeStamp();
 
@@ -103,6 +98,6 @@ class IdHelper {
       powerUpProof: HEX.encode(result.encryptedProof),
       encryptionKey: HEX.encode(result.encryptedAesKey),
     );
-    return TxHelper.createSignAndSendTx([msg], wallet);
+    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 }

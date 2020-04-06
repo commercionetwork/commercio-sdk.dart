@@ -4,26 +4,23 @@ import 'package:sacco/sacco.dart';
 /// Allows to easily perform CommercioMEMBERSHIP related operations.
 class MembershipHelper {
   /// Sends a new transaction in order to invite the given [userDid].
-  static Future<TransactionResult> inviteUser(
-    String userDid,
-    Wallet wallet,
-  ) async {
+  static Future<TransactionResult> inviteUser(String userDid, Wallet wallet,
+      {StdFee fee}) async {
     final msg = MsgInviteUser(
       recipientDid: userDid,
       senderDid: wallet.bech32Address,
     );
-    return TxHelper.createSignAndSendTx([msg], wallet);
+    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 
   /// Buys the membership with the given [membershipType].
   static Future<TransactionResult> buyMembership(
-    MembershipType membershipType,
-    Wallet wallet,
-  ) async {
+      MembershipType membershipType, Wallet wallet,
+      {StdFee fee}) async {
     final msg = MsgBuyMembership(
       membershipType: membershipType,
       buyerDid: wallet.bech32Address,
     );
-    return TxHelper.createSignAndSendTx([msg], wallet);
+    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 }
