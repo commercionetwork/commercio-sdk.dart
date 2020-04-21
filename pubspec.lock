@@ -51,7 +51,7 @@ packages:
     source: hosted
     version: "1.0.3"
   bip_bech32:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: bip_bech32
       url: "https://pub.dartlang.org"
