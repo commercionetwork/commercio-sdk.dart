@@ -91,6 +91,7 @@ class DocsHelper {
     @required String documentId,
     @required Wallet wallet,
     String proof = "",
+    StdFee fee,
   }) {
     final msg = MsgSendDocumentReceipt(
       CommercioDocReceipt(
@@ -102,7 +103,7 @@ class DocsHelper {
         senderDid: wallet.bech32Address,
       ),
     );
-    return TxHelper.createSignAndSendTx([msg], wallet);
+    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 
   /// Returns the list of all the [CommercioDocReceipt] that
