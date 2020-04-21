@@ -56,7 +56,7 @@ class DidDocument extends Equatable {
     );
     if (pubKey == null) return null;
 
-    final modulus = BigInt.parse(pubKey.publicKeyHex, radix: 16);
+    final modulus = BigInt.parse(pubKey.publicKeyPem, radix: 16);
     final exponent = BigInt.from(65537);
     return RSAPublicKey(pointy_castle.RSAPublicKey(modulus, exponent));
   }

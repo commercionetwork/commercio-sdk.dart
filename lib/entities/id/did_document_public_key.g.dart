@@ -11,7 +11,7 @@ DidDocumentPublicKey _$DidDocumentPublicKeyFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     type: _$enumDecodeNullable(_$DidDocumentPubKeyTypeEnumMap, json['type']),
     controller: json['controller'] as String,
-    publicKeyHex: json['publicKeyHex'] as String,
+    publicKeyPem: json['publicKeyPem'] as String,
   );
 }
 
@@ -21,7 +21,7 @@ Map<String, dynamic> _$DidDocumentPublicKeyToJson(
       'id': instance.id,
       'type': _$DidDocumentPubKeyTypeEnumMap[instance.type],
       'controller': instance.controller,
-      'publicKeyHex': instance.publicKeyHex,
+      'publicKeyPem': instance.publicKeyPem,
     };
 
 T _$enumDecode<T>(

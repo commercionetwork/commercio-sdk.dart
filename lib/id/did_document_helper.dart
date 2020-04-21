@@ -1,3 +1,4 @@
+import 'package:bip_bech32/bip_bech32.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
@@ -11,12 +12,17 @@ class DidDocumentHelper {
       id: authKeyId,
       type: DidDocumentPubKeyType.SECP256K1,
       controller: wallet.bech32Address,
-      publicKeyHex: HEX.encode(wallet.publicKey),
+      publicKeyPem: HEX.encode(wallet.publicKey),
     );
 
     final otherKeys = mapIndexed(
             pubKeys, (index, item) => _convertKey(item, index + 2, wallet))
         .toList();
+
+    final bech32codec = Bech32Codec();
+    final bech32Hrp = "did:com:";
+    final data = Uint8List.fromList(wallet.publicKey);
+    final verificationMethod = bech32codec.encode(Bech32(bech32Hrp, data));
 
     final proofContent = DidDocumentProofSignatureContent(
       context: "https://www.w3.org/ns/did/v1",
@@ -25,7 +31,8 @@ class DidDocumentHelper {
       authentication: [authKeyId],
     );
 
-    final proof = _computeProof(authKeyId, proofContent, wallet);
+    final proof =
+        _computeProof(authKeyId, verificationMethod, proofContent, wallet);
 
     return DidDocument(
       context: proofContent.context,
@@ -54,20 +61,23 @@ class DidDocumentHelper {
       id: '${wallet.bech32Address}#keys-$index',
       type: keyType,
       controller: wallet.bech32Address,
-      publicKeyHex: HEX.encode(pubKey.getEncoded()),
+      publicKeyPem: HEX.encode(pubKey.getEncoded()),
     );
   }
 
   /// Computes the [DidDocumentProof] based on the given [authKeyId] and [proofSignatureContent]
   static DidDocumentProof _computeProof(
     String authKeyId,
+    String verificationMethod,
     DidDocumentProofSignatureContent proofSignatureContent,
     Wallet wallet,
   ) {
     return DidDocumentProof(
       type: "LinkedDataSignature2015",
       iso8601creationTimestamp: getTimeStamp(),
-      creatorKeyId: authKeyId,
+      proofPurpose: "authentication",
+      controller: authKeyId,
+      verificationMethod: verificationMethod,
       signatureValue: HEX.encode(
         SignHelper.signSorted(proofSignatureContent.toJson(), wallet),
       ),

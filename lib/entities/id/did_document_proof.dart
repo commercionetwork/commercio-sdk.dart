@@ -15,8 +15,14 @@ class DidDocumentProof extends Equatable {
   @JsonKey(name: "created")
   final String iso8601creationTimestamp;
 
-  @JsonKey(name: "creator")
-  final String creatorKeyId;
+  @JsonKey(name: "proofPurpose")
+  final String proofPurpose;
+
+  @JsonKey(name: "controller")
+  final String controller;
+
+  @JsonKey(name: "verificationMethod")
+  final String verificationMethod;
 
   @JsonKey(name: "signatureValue")
   final String signatureValue;
@@ -24,16 +30,20 @@ class DidDocumentProof extends Equatable {
   DidDocumentProof({
     @required this.type,
     @required this.iso8601creationTimestamp,
-    @required this.creatorKeyId,
+    @required this.proofPurpose,
+    @required this.controller,
+    @required this.verificationMethod,
     @required this.signatureValue,
   })  : assert(type != null),
         assert(iso8601creationTimestamp != null),
-        assert(creatorKeyId != null),
+        assert(proofPurpose != null),
+        assert(controller != null),
+        assert(verificationMethod != null),
         assert(signatureValue != null);
 
   @override
   List<Object> get props {
-    return [type, iso8601creationTimestamp, creatorKeyId, signatureValue];
+    return [type, iso8601creationTimestamp, proofPurpose, controller, verificationMethod, signatureValue];
   }
 
   factory DidDocumentProof.fromJson(Map<String, dynamic> json) =>
