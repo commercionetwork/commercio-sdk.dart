@@ -37,7 +37,6 @@ class DidDocumentHelper {
       context: proofContent.context,
       id: proofContent.did,
       publicKeys: proofContent.publicKeys,
-      authentication: proofContent.authentication,
       proof: proof,
       services: null,
     );

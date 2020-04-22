@@ -19,9 +19,6 @@ class DidDocument extends Equatable {
   @JsonKey(name: "publicKey")
   final List<DidDocumentPublicKey> publicKeys;
 
-  @JsonKey(name: "authentication")
-  final List<String> authentication;
-
   @JsonKey(name: "proof")
   final DidDocumentProof proof;
 
@@ -32,18 +29,16 @@ class DidDocument extends Equatable {
     @required this.context,
     @required this.id,
     @required this.publicKeys,
-    @required this.authentication,
     @required this.proof,
-    @required this.services,
+    this.services,
   })  : assert(context != null),
         assert(id != null),
         assert(publicKeys != null),
-        assert(authentication != null),
         assert(proof != null);
 
   @override
   List<Object> get props {
-    return [context, id, publicKeys, authentication, proof, services];
+    return [context, id, publicKeys, proof, services];
   }
 
   /// Returns the [PublicKey] that should be used as the public encryption

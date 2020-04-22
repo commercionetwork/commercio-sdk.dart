@@ -15,8 +15,6 @@ DidDocument _$DidDocumentFromJson(Map<String, dynamic> json) {
             ? null
             : DidDocumentPublicKey.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    authentication:
-        (json['authentication'] as List)?.map((e) => e as String)?.toList(),
     proof: json['proof'] == null
         ? null
         : DidDocumentProof.fromJson(json['proof'] as Map<String, dynamic>),
@@ -33,7 +31,6 @@ Map<String, dynamic> _$DidDocumentToJson(DidDocument instance) =>
       '@context': instance.context,
       'id': instance.id,
       'publicKey': instance.publicKeys?.map((e) => e?.toJson())?.toList(),
-      'authentication': instance.authentication,
       'proof': instance.proof?.toJson(),
       'service': instance.services?.map((e) => e?.toJson())?.toList(),
     };
