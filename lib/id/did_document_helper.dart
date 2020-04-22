@@ -1,3 +1,4 @@
+import 'package:commerciosdk/entities/keys/pem_keys.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
@@ -5,21 +6,24 @@ import 'package:sacco/utils/bech32_encoder.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
-  /// Creates a Did Document from the given [wallet].
-  static DidDocument fromWallet(Wallet wallet) {
+  /// Creates a Did Document from the given [wallet] and optional [pubKeys].
+  static DidDocument fromWallet(Wallet wallet, List<PublicKey> pubKeys) {
     final firstKey = DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-1',
       type: DidDocumentPubKeyType.RSA,
       controller: wallet.bech32Address,
-      publicKeyPem: HEX.encode(wallet.publicKey),
+      publicKeyPem: PEMPublicKey(keyData: wallet.publicKey).getDecoded(),
     );
     final secondKey = DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-2',
       type: DidDocumentPubKeyType.RSA_SIG,
       controller: wallet.bech32Address,
-      publicKeyPem: HEX.encode(wallet.publicKey),
+      publicKeyPem: PEMPublicKey(keyData: wallet.publicKey).getDecoded(),
     );
-    final publicKeys = [firstKey, secondKey];
+
+    final otherKeys = mapIndexed(
+            pubKeys, (index, item) => _convertKey(item, index + 2, wallet))
+        .toList();
 
     final prefix = "did:com:pub";
     final verificationMethod = Bech32Encoder.encode(prefix, wallet.publicKey);
@@ -27,11 +31,11 @@ class DidDocumentHelper {
     final proofContent = DidDocumentProofSignatureContent(
       context: "https://www.w3.org/ns/did/v1",
       did: wallet.bech32Address,
-      publicKeys: publicKeys,
+      publicKeys: [firstKey, secondKey] + otherKeys,
     );
 
-    final proof =
-        _computeProof(proofContent.did, verificationMethod, proofContent, wallet);
+    final proof = _computeProof(
+        proofContent.did, verificationMethod, proofContent, wallet);
 
     return DidDocument(
       context: proofContent.context,
@@ -39,6 +43,27 @@ class DidDocumentHelper {
       publicKeys: proofContent.publicKeys,
       proof: proof,
       services: null,
+    );
+  }
+
+  /// Converts the given [pubKey] into a [DidDocumentPublicKey] placed at position [index],
+  /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
+  static DidDocumentPublicKey _convertKey(
+      PublicKey pubKey, int index, Wallet wallet) {
+    var keyType;
+    if (pubKey is RSAPublicKey) {
+      keyType = DidDocumentPubKeyType.RSA;
+    } else if (pubKey is ECPublicKey) {
+      keyType = DidDocumentPubKeyType.SECP256K1;
+    } else if (pubKey is Ed25519PublicKey) {
+      keyType = DidDocumentPubKeyType.ED25519;
+    }
+
+    return DidDocumentPublicKey(
+      id: '${wallet.bech32Address}#keys-$index',
+      type: keyType,
+      controller: wallet.bech32Address,
+      publicKeyPem: HEX.encode(pubKey.getEncoded()),
     );
   }
 
@@ -51,7 +76,7 @@ class DidDocumentHelper {
     String proofPurpose,
   }) {
     proofPurpose = proofPurpose ?? "authentication";
-    
+
     return DidDocumentProof(
       type: "EcdsaSecp256k1VerificationKey2019",
       iso8601creationTimestamp: getTimeStamp(),
