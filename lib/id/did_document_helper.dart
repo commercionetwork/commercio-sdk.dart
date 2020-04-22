@@ -69,12 +69,15 @@ class DidDocumentHelper {
     String authKeyId,
     String verificationMethod,
     DidDocumentProofSignatureContent proofSignatureContent,
-    Wallet wallet,
-  ) {
+    Wallet wallet, {
+    String proofPurpose,
+  }) {
+    proofPurpose = proofPurpose ?? "authentication";
+    
     return DidDocumentProof(
       type: "LinkedDataSignature2015",
       iso8601creationTimestamp: getTimeStamp(),
-      proofPurpose: "authentication",
+      proofPurpose: proofPurpose,
       controller: authKeyId,
       verificationMethod: verificationMethod,
       signatureValue: HEX.encode(
