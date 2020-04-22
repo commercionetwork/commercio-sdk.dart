@@ -19,9 +19,8 @@ class DidDocumentHelper {
             pubKeys, (index, item) => _convertKey(item, index + 2, wallet))
         .toList();
 
-    final bech32Hrp = "did:com:";
-    final data = Uint8List.fromList(wallet.publicKey);
-    final verificationMethod = Bech32Encoder.encode(bech32Hrp, data);
+    final prefix = "did:com:pub";
+    final verificationMethod = Bech32Encoder.encode(prefix, wallet.publicKey);
 
     final proofContent = DidDocumentProofSignatureContent(
       context: "https://www.w3.org/ns/did/v1",
@@ -31,7 +30,7 @@ class DidDocumentHelper {
     );
 
     final proof =
-        _computeProof(authKeyId, verificationMethod, proofContent, wallet);
+        _computeProof(proofContent.did, verificationMethod, proofContent, wallet);
 
     return DidDocument(
       context: proofContent.context,
@@ -65,7 +64,7 @@ class DidDocumentHelper {
 
   /// Computes the [DidDocumentProof] based on the given [authKeyId] and [proofSignatureContent]
   static DidDocumentProof _computeProof(
-    String authKeyId,
+    String controller,
     String verificationMethod,
     DidDocumentProofSignatureContent proofSignatureContent,
     Wallet wallet, {
@@ -74,10 +73,10 @@ class DidDocumentHelper {
     proofPurpose = proofPurpose ?? "authentication";
     
     return DidDocumentProof(
-      type: "LinkedDataSignature2015",
+      type: "EcdsaSecp256k1VerificationKey2019",
       iso8601creationTimestamp: getTimeStamp(),
       proofPurpose: proofPurpose,
-      controller: authKeyId,
+      controller: controller,
       verificationMethod: verificationMethod,
       signatureValue: HEX.encode(
         SignHelper.signSorted(proofSignatureContent.toJson(), wallet),
