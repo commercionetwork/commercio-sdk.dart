@@ -16,8 +16,6 @@ DidDocumentProofSignatureContent _$DidDocumentProofSignatureContentFromJson(
             ? null
             : DidDocumentPublicKey.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    authentication:
-        (json['authentication'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
@@ -27,5 +25,4 @@ Map<String, dynamic> _$DidDocumentProofSignatureContentToJson(
       '@context': instance.context,
       'id': instance.did,
       'publicKey': instance.publicKeys,
-      'authentication': instance.authentication,
     };

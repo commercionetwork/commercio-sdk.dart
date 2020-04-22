@@ -58,6 +58,7 @@ T _$enumDecodeNullable<T>(
 
 const _$DidDocumentPubKeyTypeEnumMap = {
   DidDocumentPubKeyType.RSA: 'RsaVerificationKey2018',
+  DidDocumentPubKeyType.RSA_SIG: 'RsaSignature2018',
   DidDocumentPubKeyType.ED25519: 'Ed25519VerificationKey2018',
   DidDocumentPubKeyType.SECP256K1: 'Secp256k1VerificationKey2018',
 };
