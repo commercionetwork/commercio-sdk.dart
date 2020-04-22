@@ -30,16 +30,16 @@ class DidDocumentHelper {
 
     final proofContent = DidDocumentProofSignatureContent(
       context: "https://www.w3.org/ns/did/v1",
-      did: wallet.bech32Address,
+      id: wallet.bech32Address,
       publicKeys: [firstKey, secondKey] + otherKeys,
     );
 
     final proof = _computeProof(
-        proofContent.did, verificationMethod, proofContent, wallet);
+        proofContent.id, verificationMethod, proofContent, wallet);
 
     return DidDocument(
       context: proofContent.context,
-      id: proofContent.did,
+      id: proofContent.id,
       publicKeys: proofContent.publicKeys,
       proof: proof,
       services: null,

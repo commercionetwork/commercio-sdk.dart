@@ -11,22 +11,22 @@ class DidDocumentProofSignatureContent extends Equatable {
   final String context;
 
   @JsonKey(name: "id")
-  final String did;
+  final String id;
 
   @JsonKey(name: "publicKey")
   final List<DidDocumentPublicKey> publicKeys;
 
   DidDocumentProofSignatureContent({
     @required this.context,
-    @required this.did,
+    @required this.id,
     @required this.publicKeys,
   })  : assert(context != null),
-        assert(did != null),
+        assert(id != null),
         assert(publicKeys != null);
 
   @override
   List<Object> get props {
-    return [context, did, publicKeys];
+    return [context, id, publicKeys];
   }
 
   factory DidDocumentProofSignatureContent.fromJson(
