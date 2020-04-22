@@ -1,7 +1,7 @@
-import 'package:bip_bech32/bip_bech32.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
+import 'package:sacco/utils/bech32_encoder.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
@@ -19,10 +19,9 @@ class DidDocumentHelper {
             pubKeys, (index, item) => _convertKey(item, index + 2, wallet))
         .toList();
 
-    final bech32codec = Bech32Codec();
     final bech32Hrp = "did:com:";
     final data = Uint8List.fromList(wallet.publicKey);
-    final verificationMethod = bech32codec.encode(Bech32(bech32Hrp, data));
+    final verificationMethod = Bech32Encoder.encode(bech32Hrp, data);
 
     final proofContent = DidDocumentProofSignatureContent(
       context: "https://www.w3.org/ns/did/v1",
