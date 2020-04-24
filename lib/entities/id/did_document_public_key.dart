@@ -43,8 +43,6 @@ class DidDocumentPublicKey extends Equatable {
 enum DidDocumentPubKeyType {
   @JsonValue("RsaVerificationKey2018")
   RSA,
-  @JsonValue("RsaSignature2018")
-  RSA_SIG,
   @JsonValue("Ed25519VerificationKey2018")
   ED25519,
   @JsonValue("Secp256k1VerificationKey2018")

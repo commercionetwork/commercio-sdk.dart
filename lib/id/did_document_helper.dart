@@ -1,3 +1,4 @@
+import 'package:commerciosdk/entities/keys/pem_keys.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
@@ -5,37 +6,25 @@ import 'package:sacco/utils/bech32_encoder.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
-  /// Creates a Did Document from the given [wallet] and optional [pubKeys].
+  /// Creates a Did Document from the given [wallet] and [pubKeys].
   static DidDocument fromWallet(Wallet wallet, List<PublicKey> pubKeys) {
-    final prefix = "did:com:pub";
-    final keyType = [235, 90, 233, 135, 33]; // "addwnpep"
-    final fullPublicKey = Uint8List.fromList(keyType + wallet.publicKey);
-
-    final firstKey = DidDocumentPublicKey(
-      id: '${wallet.bech32Address}#keys-1',
-      type: DidDocumentPubKeyType.RSA,
-      controller: wallet.bech32Address,
-      publicKeyPem: HEX.encode(fullPublicKey),
-    );
-    final secondKey = DidDocumentPublicKey(
-      id: '${wallet.bech32Address}#keys-2',
-      type: DidDocumentPubKeyType.RSA_SIG,
-      controller: wallet.bech32Address,
-      publicKeyPem: HEX.encode(fullPublicKey),
-    );
-
-    pubKeys = pubKeys ?? [];
-    final otherKeys = mapIndexed(
-            pubKeys, (index, item) => _convertKey(item, index + 2, wallet))
+    if (pubKeys.length < 2) {
+      throw "At least two keys are required";
+    }
+    final keys = mapIndexed(
+            pubKeys, (index, item) => _convertKey(item, index + 1, wallet))
         .toList();
-
-    final verificationMethod = Bech32Encoder.encode(prefix, fullPublicKey);
 
     final proofContent = DidDocumentProofSignatureContent(
       context: "https://www.w3.org/ns/did/v1",
       id: wallet.bech32Address,
-      publicKeys: [firstKey, secondKey] + otherKeys,
+      publicKeys: keys,
     );
+
+    final prefix = "did:com:pub";
+    final keyType = [235, 90, 233, 135, 33]; // "addwnpep"
+    final fullPublicKey = Uint8List.fromList(keyType + wallet.publicKey);
+    final verificationMethod = Bech32Encoder.encode(prefix, fullPublicKey);
 
     final proof = _computeProof(
         proofContent.id, verificationMethod, proofContent, wallet);
@@ -66,7 +55,7 @@ class DidDocumentHelper {
       id: '${wallet.bech32Address}#keys-$index',
       type: keyType,
       controller: wallet.bech32Address,
-      publicKeyPem: HEX.encode(pubKey.getEncoded()),
+      publicKeyPem: PEMPublicKey.getDecoded(pubKey.getEncoded()),
     );
   }
 
