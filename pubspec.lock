@@ -473,9 +473,9 @@ packages:
   sacco:
     dependency: "direct main"
     description:
-      name: sacco
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "..\\sacco.dart"
+      relative: true
+    source: path
     version: "0.1.2"
   shelf:
     dependency: transitive

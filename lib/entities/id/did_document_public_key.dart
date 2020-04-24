@@ -11,7 +11,7 @@ class DidDocumentPublicKey extends Equatable {
   final String id;
 
   @JsonKey(name: "type")
-  final DidDocumentPubKeyType type;
+  final String type;
 
   @JsonKey(name: "controller")
   final String controller;

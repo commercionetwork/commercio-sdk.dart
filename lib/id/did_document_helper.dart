@@ -21,10 +21,7 @@ class DidDocumentHelper {
       publicKeys: keys,
     );
 
-    final prefix = "did:com:pub";
-    final keyType = [235, 90, 233, 135, 33]; // "addwnpep"
-    final fullPublicKey = Uint8List.fromList(keyType + wallet.publicKey);
-    final verificationMethod = Bech32Encoder.encode(prefix, fullPublicKey);
+    final verificationMethod = wallet.bech32PublicKey;
 
     final proof = _computeProof(
         proofContent.id, verificationMethod, proofContent, wallet);
@@ -42,20 +39,12 @@ class DidDocumentHelper {
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
   static DidDocumentPublicKey _convertKey(
       PublicKey pubKey, int index, Wallet wallet) {
-    var keyType;
-    if (pubKey is RSAPublicKey) {
-      keyType = DidDocumentPubKeyType.RSA;
-    } else if (pubKey is ECPublicKey) {
-      keyType = DidDocumentPubKeyType.SECP256K1;
-    } else if (pubKey is Ed25519PublicKey) {
-      keyType = DidDocumentPubKeyType.ED25519;
-    }
 
     return DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-$index',
-      type: keyType,
+      type: pubKey.keyType,
       controller: wallet.bech32Address,
-      publicKeyPem: PEMPublicKey.getDecoded(pubKey.getEncoded()),
+      publicKeyPem: PEMPublicKey.getEncoded(pubKey.getEncoded()),
     );
   }
 

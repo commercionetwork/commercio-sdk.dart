@@ -24,6 +24,7 @@ class KeysHelper {
   /// If no length is specified, the default is going to be 2048.
   static Future<KeyPair<RSAPublicKey, RSAPrivateKey>> generateRsaKeyPair({
     int bytes = 2048,
+    String type,
   }) async {
     final rsa = RSAKeyGeneratorParameters(BigInt.from(65537), bytes, 5);
     final params = ParametersWithRandom(rsa, _getSecureRandom());
@@ -31,19 +32,20 @@ class KeysHelper {
     keyGenerator.init(params);
     final keyPair = keyGenerator.generateKeyPair();
     return KeyPair(
-      RSAPublicKey(keyPair.publicKey),
+      RSAPublicKey(keyPair.publicKey, type: type),
       RSAPrivateKey(keyPair.privateKey),
     );
   }
 
   /// Generates a new random EC key pair.
-  static Future<KeyPair<ECPublicKey, ECPrivateKey>> generateEcKeyPair() async {
+  static Future<KeyPair<ECPublicKey, ECPrivateKey>> generateEcKeyPair(
+      {String type}) async {
     final keyParams = ECKeyGeneratorParameters(ECCurve_secp256k1());
     final generator = ECKeyGenerator();
     generator.init(ParametersWithRandom(keyParams, _getSecureRandom()));
     final keyPair = generator.generateKeyPair();
     return KeyPair(
-      ECPublicKey(keyPair.publicKey),
+      ECPublicKey(keyPair.publicKey, type: type),
       ECPrivateKey(keyPair.privateKey),
     );
   }
