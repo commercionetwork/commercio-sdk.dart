@@ -21,12 +21,15 @@ class DidDocumentHelper {
       publicKeyPem: PEMPublicKey(keyData: wallet.publicKey).getDecoded(),
     );
 
+    pubKeys = pubKeys ?? [];
     final otherKeys = mapIndexed(
             pubKeys, (index, item) => _convertKey(item, index + 2, wallet))
         .toList();
 
     final prefix = "did:com:pub";
-    final verificationMethod = Bech32Encoder.encode(prefix, wallet.publicKey);
+    final keyType = [235, 90, 233, 135, 33]; // "addwnpep"
+    final fullPublicKey = Uint8List.fromList(keyType + wallet.publicKey);
+    final verificationMethod = Bech32Encoder.encode(prefix, fullPublicKey);
 
     final proofContent = DidDocumentProofSignatureContent(
       context: "https://www.w3.org/ns/did/v1",
