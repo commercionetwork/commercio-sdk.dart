@@ -1,4 +1,3 @@
-import 'package:commerciosdk/entities/keys/pem_keys.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
@@ -8,17 +7,21 @@ import 'package:sacco/utils/bech32_encoder.dart';
 class DidDocumentHelper {
   /// Creates a Did Document from the given [wallet] and optional [pubKeys].
   static DidDocument fromWallet(Wallet wallet, List<PublicKey> pubKeys) {
+    final prefix = "did:com:pub";
+    final keyType = [235, 90, 233, 135, 33]; // "addwnpep"
+    final fullPublicKey = Uint8List.fromList(keyType + wallet.publicKey);
+
     final firstKey = DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-1',
       type: DidDocumentPubKeyType.RSA,
       controller: wallet.bech32Address,
-      publicKeyPem: PEMPublicKey(keyData: wallet.publicKey).getDecoded(),
+      publicKeyPem: HEX.encode(fullPublicKey),
     );
     final secondKey = DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-2',
       type: DidDocumentPubKeyType.RSA_SIG,
       controller: wallet.bech32Address,
-      publicKeyPem: PEMPublicKey(keyData: wallet.publicKey).getDecoded(),
+      publicKeyPem: HEX.encode(fullPublicKey),
     );
 
     pubKeys = pubKeys ?? [];
@@ -26,9 +29,6 @@ class DidDocumentHelper {
             pubKeys, (index, item) => _convertKey(item, index + 2, wallet))
         .toList();
 
-    final prefix = "did:com:pub";
-    final keyType = [235, 90, 233, 135, 33]; // "addwnpep"
-    final fullPublicKey = Uint8List.fromList(keyType + wallet.publicKey);
     final verificationMethod = Bech32Encoder.encode(prefix, fullPublicKey);
 
     final proofContent = DidDocumentProofSignatureContent(
