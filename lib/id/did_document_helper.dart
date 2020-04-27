@@ -1,6 +1,7 @@
+import 'dart:convert';
+
 import 'package:commerciosdk/entities/keys/pem_keys.dart';
 import 'package:commerciosdk/export.dart';
-import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
@@ -63,7 +64,7 @@ class DidDocumentHelper {
       proofPurpose: proofPurpose,
       controller: controller,
       verificationMethod: verificationMethod,
-      signatureValue: HEX.encode(
+      signatureValue: base64.encode(
         SignHelper.signSorted(proofSignatureContent.toJson(), wallet),
       ),
     );
