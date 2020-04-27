@@ -50,7 +50,7 @@ class DidDocumentHelper {
       id: '${wallet.bech32Address}#keys-$index',
       type: pubKey.keyType,
       controller: wallet.bech32Address,
-      publicKeyPem: jsonEncode(PEMPublicKey.getEncoded(pubKey.getEncoded())),
+      publicKeyPem: jsonEncode(PEMPublicKey.getEncoded(pubKey.getEncoded())).replaceAll("\"", ""),
     );
   }
 
