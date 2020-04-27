@@ -46,11 +46,14 @@ class DidDocumentHelper {
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
   static DidDocumentPublicKey _convertKey(
       PublicKey pubKey, int index, Wallet wallet) {
+    final publicKeyPem =
+        jsonEncode(PEMPublicKey.getEncoded(pubKey.getEncoded()));
+        
     return DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-$index',
       type: pubKey.keyType,
       controller: wallet.bech32Address,
-      publicKeyPem: jsonEncode(PEMPublicKey.getEncoded(pubKey.getEncoded())).replaceAll("\"", ""),
+      publicKeyPem: publicKeyPem.substring(1, publicKeyPem.length - 1),
     );
   }
 
