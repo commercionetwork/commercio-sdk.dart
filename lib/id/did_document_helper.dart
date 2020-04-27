@@ -6,11 +6,18 @@ import 'package:sacco/sacco.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
-  /// Creates a Did Document from the given [wallet] and [pubKeys].
-  static DidDocument fromWallet(Wallet wallet, List<PublicKey> pubKeys) {
+  /// Creates a Did Document from the given [wallet], [pubKeys] and optional [service].
+  static DidDocument fromWallet(
+    Wallet wallet,
+    List<PublicKey> pubKeys, {
+    List<DidDocumentService> service,
+  }) {
     if (pubKeys.length < 2) {
       throw "At least two keys are required";
     }
+
+    service = service ?? [];
+
     final keys = mapIndexed(
             pubKeys, (index, item) => _convertKey(item, index + 1, wallet))
         .toList();
@@ -31,7 +38,7 @@ class DidDocumentHelper {
       id: proofContent.id,
       publicKeys: proofContent.publicKeys,
       proof: proof,
-      services: null,
+      service: service,
     );
   }
 
@@ -39,7 +46,6 @@ class DidDocumentHelper {
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
   static DidDocumentPublicKey _convertKey(
       PublicKey pubKey, int index, Wallet wallet) {
-
     return DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-$index',
       type: pubKey.keyType,

@@ -18,7 +18,7 @@ DidDocument _$DidDocumentFromJson(Map<String, dynamic> json) {
     proof: json['proof'] == null
         ? null
         : DidDocumentProof.fromJson(json['proof'] as Map<String, dynamic>),
-    services: (json['service'] as List)
+    service: (json['service'] as List)
         ?.map((e) => e == null
             ? null
             : DidDocumentService.fromJson(e as Map<String, dynamic>))
@@ -32,5 +32,5 @@ Map<String, dynamic> _$DidDocumentToJson(DidDocument instance) =>
       'id': instance.id,
       'publicKey': instance.publicKeys?.map((e) => e?.toJson())?.toList(),
       'proof': instance.proof?.toJson(),
-      'service': instance.services?.map((e) => e?.toJson())?.toList(),
+      'service': instance.service?.map((e) => e?.toJson())?.toList(),
     };
