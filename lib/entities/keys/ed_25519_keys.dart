@@ -4,17 +4,17 @@ import 'package:ed25519_hd_key/ed25519_hd_key.dart' as ed25519;
 ///Wrapper of the Ed25519_hd_key
 class Ed25519PublicKey implements PublicKey {
   final String Seed;
-  final String type;
+  final String keyType;
 
   Ed25519PublicKey(
     this.Seed, {
-    this.type = "Ed25519VerificationKey2018",
+    this.keyType,
   });
 
   String get seed => Seed;
-  
+
   @override
-  String get keyType => type;
+  String get type => keyType ?? "Ed25519VerificationKey2018";
 
   @override
   Uint8List getEncoded() {

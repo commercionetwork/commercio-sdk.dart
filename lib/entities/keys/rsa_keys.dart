@@ -7,15 +7,15 @@ import 'package:pointycastle/export.dart' as pointy_castle;
 /// Wrapper of the pointyCastle RSAPublicKey
 class RSAPublicKey implements PublicKey {
   final pointy_castle.RSAPublicKey pubKey;
-  final String type;
+  final String keyType;
 
   RSAPublicKey(
     this.pubKey, {
-    this.type = "RsaVerificationKey2018",
+    this.keyType,
   });
 
   @override
-  String get keyType => type;
+  String get type => keyType ?? "RsaVerificationKey2018";
 
   @override
   Uint8List getEncoded() {

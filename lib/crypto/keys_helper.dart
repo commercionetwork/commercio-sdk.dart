@@ -32,7 +32,7 @@ class KeysHelper {
     keyGenerator.init(params);
     final keyPair = keyGenerator.generateKeyPair();
     return KeyPair(
-      RSAPublicKey(keyPair.publicKey, type: type),
+      RSAPublicKey(keyPair.publicKey, keyType: type),
       RSAPrivateKey(keyPair.privateKey),
     );
   }
@@ -45,7 +45,7 @@ class KeysHelper {
     generator.init(ParametersWithRandom(keyParams, _getSecureRandom()));
     final keyPair = generator.generateKeyPair();
     return KeyPair(
-      ECPublicKey(keyPair.publicKey, type: type),
+      ECPublicKey(keyPair.publicKey, keyType: type),
       ECPrivateKey(keyPair.privateKey),
     );
   }
