@@ -51,7 +51,7 @@ class DidDocumentHelper {
         
     return DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-$index',
-      type: pubKey.type,
+      type: pubKey.getType(),
       controller: wallet.bech32Address,
       publicKeyPem: publicKeyPem.substring(1, publicKeyPem.length - 1),
     );

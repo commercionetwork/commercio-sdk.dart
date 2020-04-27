@@ -14,7 +14,7 @@ class Ed25519PublicKey implements PublicKey {
   String get seed => Seed;
 
   @override
-  String get type => keyType ?? "Ed25519VerificationKey2018";
+  String getType() => keyType ?? "Ed25519VerificationKey2018";
 
   @override
   Uint8List getEncoded() {

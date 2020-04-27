@@ -15,7 +15,7 @@ class RSAPublicKey implements PublicKey {
   });
 
   @override
-  String get type => keyType ?? "RsaVerificationKey2018";
+  String getType() => keyType ?? "RsaVerificationKey2018";
 
   @override
   Uint8List getEncoded() {

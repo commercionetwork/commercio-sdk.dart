@@ -7,11 +7,6 @@ abstract class PrivateKey {}
 
 /// Represents a generic asymmetric public key
 abstract class PublicKey {
-  final String _type;
-
-  PublicKey(String type) : _type = type;
-
-  String get type => _type;
-
   Uint8List getEncoded();
+  String getType();
 }
