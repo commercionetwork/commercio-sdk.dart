@@ -20,7 +20,7 @@ dependencies:
   # Crypto utils
   # sacco: ^0.1.2
   sacco:
-    path: ..\sacco.dart
+    path: ../sacco.dart
   encrypt: ^3.3.1
   ed25519_hd_key: ^1.0.1
   pem: ^1.0.0
