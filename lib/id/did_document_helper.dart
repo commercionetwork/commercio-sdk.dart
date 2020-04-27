@@ -44,7 +44,7 @@ class DidDocumentHelper {
       id: '${wallet.bech32Address}#keys-$index',
       type: pubKey.keyType,
       controller: wallet.bech32Address,
-      publicKeyPem: PEMPublicKey.getEncoded(pubKey.getEncoded()),
+      publicKeyPem: jsonEncode(PEMPublicKey.getEncoded(pubKey.getEncoded())),
     );
   }
 
