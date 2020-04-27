@@ -21,6 +21,7 @@ class DocsHelper {
     CommercioDocChecksum checksum,
     Key aesKey,
     List<EncryptedData> encryptedData = const [],
+    CommercioDoSign doSign = null,
   }) async {
     // Get a default aes key for encryption if needed
     if (aesKey == null) {
@@ -36,6 +37,7 @@ class DocsHelper {
       metadata: metadata,
       checksum: checksum,
       encryptionData: null,
+      doSign: doSign,
     );
 
     // Encrypt its contents, if necessary

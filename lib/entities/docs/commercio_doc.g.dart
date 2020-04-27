@@ -25,6 +25,9 @@ CommercioDoc _$CommercioDocFromJson(Map<String, dynamic> json) {
         ? null
         : CommercioDocEncryptionData.fromJson(
             json['encryption_data'] as Map<String, dynamic>),
+    doSign: json['do_sign'] == null
+        ? null
+        : CommercioDoSign.fromJson(json['do_sign'] as Map<String, dynamic>),
   );
 }
 
@@ -37,6 +40,7 @@ Map<String, dynamic> _$CommercioDocToJson(CommercioDoc instance) =>
       'metadata': instance.metadata,
       'checksum': instance.checksum,
       'encryption_data': instance.encryptionData,
+      'do_sign': instance.doSign,
     };
 
 CommercioDocMetadata _$CommercioDocMetadataFromJson(Map<String, dynamic> json) {
@@ -124,6 +128,7 @@ const _$CommercioDocChecksumAlgorithmEnumMap = {
   CommercioDocChecksumAlgorithm.MD5: 'md5',
   CommercioDocChecksumAlgorithm.SHA1: 'sha-1',
   CommercioDocChecksumAlgorithm.SHA224: 'sha-224',
+  CommercioDocChecksumAlgorithm.SHA256: 'sha-256',
   CommercioDocChecksumAlgorithm.SHA384: 'sha-384',
   CommercioDocChecksumAlgorithm.SHA512: 'sha-512',
 };
@@ -161,4 +166,23 @@ Map<String, dynamic> _$CommercioDocEncryptionDataKeyToJson(
     <String, dynamic>{
       'recipient': instance.recipientDid,
       'value': instance.value,
+    };
+
+CommercioDoSign _$CommercioDoSignFromJson(Map<String, dynamic> json) {
+  return CommercioDoSign(
+    storageUri: json['storage_uri'] as String,
+    signerIstance: json['signer_instance'] as String,
+    sdnData: (json['sdn_data'] as List)?.map((e) => e as String)?.toList(),
+    vcrId: json['vcrId'] as String,
+    certificateProfile: json['certificateProfile'] as String,
+  );
+}
+
+Map<String, dynamic> _$CommercioDoSignToJson(CommercioDoSign instance) =>
+    <String, dynamic>{
+      'storage_uri': instance.storageUri,
+      'signer_instance': instance.signerIstance,
+      'sdn_data': instance.sdnData,
+      'vcrId': instance.vcrId,
+      'certificateProfile': instance.certificateProfile,
     };

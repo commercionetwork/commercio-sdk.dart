@@ -29,6 +29,10 @@ class CommercioDoc extends Equatable {
   @JsonKey(name: "encryption_data")
   final CommercioDocEncryptionData encryptionData;
 
+ @JsonKey(name: "do_sign")
+  final CommercioDoSign doSign;
+
+
   CommercioDoc({
     @required this.uuid,
     @required this.senderDid,
@@ -37,6 +41,7 @@ class CommercioDoc extends Equatable {
     @required this.metadata,
     @required this.checksum,
     @required this.encryptionData,
+    this.doSign,
   })  : assert(senderDid != null),
         assert(recipientDids != null),
         assert(recipientDids.isNotEmpty),
@@ -54,6 +59,7 @@ class CommercioDoc extends Equatable {
       metadata,
       checksum,
       encryptionData,
+      doSign,
     ];
   }
 
@@ -153,6 +159,9 @@ enum CommercioDocChecksumAlgorithm {
   @JsonValue("sha-224")
   SHA224,
 
+  @JsonValue("sha-256")
+  SHA256,
+  
   @JsonValue("sha-384")
   SHA384,
 
@@ -206,4 +215,43 @@ class CommercioDocEncryptionDataKey extends Equatable {
       _$CommercioDocEncryptionDataKeyFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommercioDocEncryptionDataKeyToJson(this);
+}
+
+
+@JsonSerializable()
+class CommercioDoSign extends Equatable {
+  @JsonKey(name: "storage_uri")
+  final String storageUri;
+
+  @JsonKey(name: "signer_instance")
+  final String signerIstance;
+
+  @JsonKey(name: "sdn_data")
+  final List<String> sdnData;
+
+  @JsonKey(name: "vcrId")
+  final String vcrId;
+
+    @JsonKey(name: "certificateProfile")
+  final String certificateProfile;
+
+  CommercioDoSign({
+    @required this.storageUri,
+    @required this.signerIstance,
+    this.sdnData = null,
+    @required this.vcrId,
+    this.certificateProfile = "",
+  })  : assert(storageUri != null),
+        assert(signerIstance != null),
+        assert(vcrId != null);
+
+  @override
+  List<Object> get props {
+    return [storageUri, signerIstance, sdnData,vcrId, certificateProfile];
+  }
+
+  factory CommercioDoSign.fromJson(Map<String, dynamic> json) =>
+      _$CommercioDoSignFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CommercioDoSignToJson(this);
 }
