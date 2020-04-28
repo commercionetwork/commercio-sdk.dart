@@ -473,7 +473,7 @@ packages:
   sacco:
     dependency: "direct main"
     description:
-      path: "../sacco.dart"
+      path: "..\\sacco.dart"
       relative: true
     source: path
     version: "0.1.2"

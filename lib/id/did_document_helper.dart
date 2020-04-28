@@ -26,12 +26,12 @@ class DidDocumentHelper {
       context: "https://www.w3.org/ns/did/v1",
       id: wallet.bech32Address,
       publicKeys: keys,
-      service: service,
     );
 
     final verificationMethod = wallet.bech32PublicKey;
 
-    final proof = _computeProof(verificationMethod, proofContent, wallet);
+    final proof = _computeProof(
+        proofContent.id, verificationMethod, proofContent, wallet);
 
     return DidDocument(
       context: proofContent.context,
@@ -46,21 +46,20 @@ class DidDocumentHelper {
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
   static DidDocumentPublicKey _convertKey(
       PublicKey pubKey, int index, Wallet wallet) {
-    /*final publicKeyPem =
-        jsonEncode(PEMPublicKey.getEncoded(pubKey.getEncoded()));*/
-    final publicKeyPem = PEMPublicKey.getEncoded(pubKey.getEncoded());
+    final publicKeyPem =
+        jsonEncode(PEMPublicKey.getEncoded(pubKey.getEncoded()));
         
     return DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-$index',
       type: pubKey.getType(),
       controller: wallet.bech32Address,
-      //publicKeyPem: publicKeyPem.substring(1, publicKeyPem.length - 1).replaceAll("\\n", ""),
-      publicKeyPem: publicKeyPem.replaceAll("\n", ""),
+      publicKeyPem: publicKeyPem.substring(1, publicKeyPem.length - 1),
     );
   }
 
   /// Computes the [DidDocumentProof] based on the given [controller], [verificationMethod] and [proofSignatureContent]
   static DidDocumentProof _computeProof(
+    String controller,
     String verificationMethod,
     DidDocumentProofSignatureContent proofSignatureContent,
     Wallet wallet, {
@@ -72,7 +71,7 @@ class DidDocumentHelper {
       type: "EcdsaSecp256k1VerificationKey2019",
       iso8601creationTimestamp: getTimeStamp(),
       proofPurpose: proofPurpose,
-      controller: proofSignatureContent.id,
+      controller: controller,
       verificationMethod: verificationMethod,
       signatureValue: base64.encode(
         SignHelper.signSorted(proofSignatureContent.toJson(), wallet),
