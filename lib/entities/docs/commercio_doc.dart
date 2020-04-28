@@ -6,7 +6,7 @@ part 'commercio_doc.g.dart';
 
 /// Contains all the data related to a document that is sent to the chain when
 /// a user wants to share a document with another user.
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CommercioDoc extends Equatable {
   @JsonKey(name: "sender")
   final String senderDid;
@@ -29,7 +29,7 @@ class CommercioDoc extends Equatable {
   @JsonKey(name: "encryption_data")
   final CommercioDocEncryptionData encryptionData;
 
- @JsonKey(name: "do_sign")
+  @JsonKey(name: "do_sign")
   final CommercioDoSign doSign;
 
 
@@ -41,7 +41,7 @@ class CommercioDoc extends Equatable {
     @required this.metadata,
     @required this.checksum,
     @required this.encryptionData,
-    this.doSign,
+    @required this.doSign,
   })  : assert(senderDid != null),
         assert(recipientDids != null),
         assert(recipientDids.isNotEmpty),
@@ -69,7 +69,7 @@ class CommercioDoc extends Equatable {
   Map<String, dynamic> toJson() => _$CommercioDocToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CommercioDocMetadata extends Equatable {
   @JsonKey(name: "content_uri")
   final String contentUri;
@@ -99,7 +99,7 @@ class CommercioDocMetadata extends Equatable {
   Map<String, dynamic> toJson() => _$CommercioDocMetadataToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CommercioDocMetadataSchema extends Equatable {
   @JsonKey(name: "uri")
   final String uri;
@@ -124,7 +124,7 @@ class CommercioDocMetadataSchema extends Equatable {
   Map<String, dynamic> toJson() => _$CommercioDocMetadataSchemaToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CommercioDocChecksum extends Equatable {
   @JsonKey(name: "value")
   final String value;
@@ -169,7 +169,7 @@ enum CommercioDocChecksumAlgorithm {
   SHA512,
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CommercioDocEncryptionData extends Equatable {
   @JsonKey(name: "keys")
   final List<CommercioDocEncryptionDataKey> keys;
@@ -193,7 +193,7 @@ class CommercioDocEncryptionData extends Equatable {
   Map<String, dynamic> toJson() => _$CommercioDocEncryptionDataToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CommercioDocEncryptionDataKey extends Equatable {
   @JsonKey(name: "recipient")
   final String recipientDid;
@@ -218,7 +218,7 @@ class CommercioDocEncryptionDataKey extends Equatable {
 }
 
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CommercioDoSign extends Equatable {
   @JsonKey(name: "storage_uri")
   final String storageUri;
@@ -227,20 +227,20 @@ class CommercioDoSign extends Equatable {
   final String signerIstance;
 
   @JsonKey(name: "sdn_data")
-  final List<String> sdnData;
+  final List<CommercioSdnData> sdnData;
 
   @JsonKey(name: "vcrId")
   final String vcrId;
 
-    @JsonKey(name: "certificateProfile")
+  @JsonKey(name: "certificateProfile")
   final String certificateProfile;
 
   CommercioDoSign({
     @required this.storageUri,
     @required this.signerIstance,
-    this.sdnData = null,
+    @required this.sdnData,
     @required this.vcrId,
-    this.certificateProfile = "",
+    @required this.certificateProfile,
   })  : assert(storageUri != null),
         assert(signerIstance != null),
         assert(vcrId != null);
@@ -254,4 +254,27 @@ class CommercioDoSign extends Equatable {
       _$CommercioDoSignFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommercioDoSignToJson(this);
+}
+
+
+
+enum CommercioSdnData {
+  @JsonValue("common_name")
+  COMMON_NAME,
+
+  @JsonValue("surname")
+  SURNAME,
+
+  @JsonValue("serial_number")
+  SERIAL_NUMBER,
+
+  @JsonValue("given_name")
+  GIVEN_NAME,
+  
+  @JsonValue("organization")
+  ORGANIZATION,
+
+  @JsonValue("country")
+  COUNTRY,
+  
 }

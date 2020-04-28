@@ -21,7 +21,7 @@ class DocsHelper {
     CommercioDocChecksum checksum,
     Key aesKey,
     List<EncryptedData> encryptedData = const [],
-    CommercioDoSign doSign = null,
+    CommercioDoSign doSign,
   }) async {
     // Get a default aes key for encryption if needed
     if (aesKey == null) {
@@ -51,7 +51,7 @@ class DocsHelper {
         wallet,
       );
     }
-
+print(finalDoc.toJson());
     // Build the tx message
     final msg = MsgShareDocument(document: finalDoc);
     return TxHelper.createSignAndSendTx(

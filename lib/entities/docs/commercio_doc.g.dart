@@ -37,10 +37,10 @@ Map<String, dynamic> _$CommercioDocToJson(CommercioDoc instance) =>
       'recipients': instance.recipientDids,
       'uuid': instance.uuid,
       'content_uri': instance.contentUri,
-      'metadata': instance.metadata,
-      'checksum': instance.checksum,
-      'encryption_data': instance.encryptionData,
-      'do_sign': instance.doSign,
+      'metadata': instance.metadata?.toJson(),
+      'checksum': instance.checksum?.toJson(),
+      'encryption_data': instance.encryptionData?.toJson(),
+      'do_sign': instance.doSign?.toJson(),
     };
 
 CommercioDocMetadata _$CommercioDocMetadataFromJson(Map<String, dynamic> json) {
@@ -58,7 +58,7 @@ Map<String, dynamic> _$CommercioDocMetadataToJson(
         CommercioDocMetadata instance) =>
     <String, dynamic>{
       'content_uri': instance.contentUri,
-      'schema': instance.schema,
+      'schema': instance.schema?.toJson(),
       'schema_type': instance.schemaType,
     };
 
@@ -149,7 +149,7 @@ CommercioDocEncryptionData _$CommercioDocEncryptionDataFromJson(
 Map<String, dynamic> _$CommercioDocEncryptionDataToJson(
         CommercioDocEncryptionData instance) =>
     <String, dynamic>{
-      'keys': instance.keys,
+      'keys': instance.keys?.map((e) => e?.toJson())?.toList(),
       'encrypted_data': instance.encryptedData,
     };
 
@@ -172,7 +172,9 @@ CommercioDoSign _$CommercioDoSignFromJson(Map<String, dynamic> json) {
   return CommercioDoSign(
     storageUri: json['storage_uri'] as String,
     signerIstance: json['signer_instance'] as String,
-    sdnData: (json['sdn_data'] as List)?.map((e) => e as String)?.toList(),
+    sdnData: (json['sdn_data'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$CommercioSdnDataEnumMap, e))
+        ?.toList(),
     vcrId: json['vcrId'] as String,
     certificateProfile: json['certificateProfile'] as String,
   );
@@ -182,7 +184,17 @@ Map<String, dynamic> _$CommercioDoSignToJson(CommercioDoSign instance) =>
     <String, dynamic>{
       'storage_uri': instance.storageUri,
       'signer_instance': instance.signerIstance,
-      'sdn_data': instance.sdnData,
+      'sdn_data':
+          instance.sdnData?.map((e) => _$CommercioSdnDataEnumMap[e])?.toList(),
       'vcrId': instance.vcrId,
       'certificateProfile': instance.certificateProfile,
     };
+
+const _$CommercioSdnDataEnumMap = {
+  CommercioSdnData.COMMON_NAME: 'common_name',
+  CommercioSdnData.SURNAME: 'surname',
+  CommercioSdnData.SERIAL_NUMBER: 'serial_number',
+  CommercioSdnData.GIVEN_NAME: 'given_name',
+  CommercioSdnData.ORGANIZATION: 'organization',
+  CommercioSdnData.COUNTRY: 'country',
+};

@@ -122,5 +122,6 @@ Future<CommercioDoc> encryptField(
       keys: encryptionKeys,
       encryptedData: encryptedData.map((e) => e.toString()).toList(),
     ),
+    doSign: doc.doSign,
   );
 }
