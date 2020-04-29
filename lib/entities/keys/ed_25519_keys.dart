@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:commerciosdk/entities/export.dart';
 import 'package:ed25519_hd_key/ed25519_hd_key.dart' as ed25519;
 
@@ -17,8 +19,8 @@ class Ed25519PublicKey implements PublicKey {
   String getType() => keyType ?? "Ed25519VerificationKey2018";
 
   @override
-  Uint8List getEncoded() {
+  String getEncoded() {
     final masterKey = ed25519.ED25519_HD_KEY.getMasterKeyFromSeed(this.Seed);
-    return ed25519.ED25519_HD_KEY.getBublickKey(masterKey.key);
+    return base64.encode(ed25519.ED25519_HD_KEY.getBublickKey(masterKey.key));
   }
 }

@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:commerciosdk/entities/export.dart';
 import 'package:pointycastle/export.dart' as pointy_castle;
@@ -17,8 +17,8 @@ class ECPublicKey implements PublicKey {
   String getType() => keyType ?? "Secp256k1VerificationKey2018";
 
   @override
-  Uint8List getEncoded() {
-    return this.pubKey.Q.getEncoded(false);
+  String getEncoded() {
+    return base64.encode(this.pubKey.Q.getEncoded(false));
   }
 }
 
