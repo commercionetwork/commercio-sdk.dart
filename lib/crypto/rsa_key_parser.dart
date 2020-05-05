@@ -1,5 +1,5 @@
-import 'package:pointycastle/export.dart' as pointy_castle;
 import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:pointycastle/export.dart' as pointy_castle;
 
 /// Allows to easily parse a PEM-encoded RSA public key.
 class RSAKeyParser {
