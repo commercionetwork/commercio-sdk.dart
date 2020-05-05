@@ -23,7 +23,7 @@ class RSAPublicKey implements PublicKey {
     pubKeySequence.add(ASN1Integer(pubKey.modulus));
     pubKeySequence.add(ASN1Integer(pubKey.exponent));
     var dataBase64 = base64.encode(pubKeySequence.encodedBytes);
-    return """-----BEGIN PUBLIC KEY-----\r\n$dataBase64\r\n-----END PUBLIC KEY-----""";
+    return """-----BEGIN PUBLIC KEY-----\r\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A$dataBase64\r\n-----END PUBLIC KEY-----""";
   }
 }
 

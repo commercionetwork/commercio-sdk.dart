@@ -23,7 +23,6 @@ dependencies:
     path: ..\sacco.dart
   encrypt: ^3.3.1
   ed25519_hd_key: ^1.0.1
-  pem: ^1.0.0
   pointycastle: ^1.0.1
 
 
