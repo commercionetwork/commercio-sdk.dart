@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:commerciosdk/crypto/sign_helper.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:commerciosdk/id/did_power_up_request_signature_json.dart';
@@ -39,6 +41,7 @@ class IdHelper {
 
     // Build the signature
     final signatureJson = DidPowerUpRequestSignatureJson(
+      senderDid: wallet.bech32Address,
       pairwiseDid: pairwiseDid,
       timestamp: timestamp,
     );
@@ -46,9 +49,10 @@ class IdHelper {
 
     // Build the payload
     final payload = DidPowerUpRequestPayload(
+      senderDid: wallet.bech32Address,
       pairwiseDid: pairwiseDid,
       timestamp: timestamp,
-      signature: HEX.encode(signedJson),
+      signature: base64.encode(signedJson),
     );
 
     // Build the proof
