@@ -7,17 +7,20 @@ class MsgRequestDidPowerUp extends StdMsg {
   final String claimantDid;
   final List<StdCoin> amount;
   final String powerUpProof;
+  final String uuid;
   final String encryptionKey;
 
   MsgRequestDidPowerUp({
     @required this.claimantDid,
     @required this.amount,
     @required this.powerUpProof,
+    @required this.uuid,
     @required this.encryptionKey,
   })  : assert(claimantDid != null),
         assert(amount != null),
         assert(amount.isNotEmpty),
         assert(powerUpProof != null),
+        assert(uuid != null),
         assert(encryptionKey != null),
         super(type: "commercio/MsgRequestDidPowerUp", value: Map());
 
@@ -26,6 +29,7 @@ class MsgRequestDidPowerUp extends StdMsg {
         'claimant': claimantDid,
         'amount': amount.map((coin) => coin.toJson()).toList(),
         'proof': powerUpProof,
-        'encryption_key': encryptionKey,
+        'id': uuid,
+        'proof_key': encryptionKey,
       };
 }

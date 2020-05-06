@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -13,6 +14,13 @@ class KeysHelper {
     final seed = List<int>.generate(32, (_) => random.nextInt(256));
     secureRandom.seed(KeyParameter(Uint8List.fromList(seed)));
     return secureRandom;
+  }
+
+  /// Generate a random nonce
+  static Uint8List generateRandomNonce(int length) {
+    final random = Random.secure();
+    final nonce = List<int>.generate(length, (_) => random.nextInt(256));
+    return Uint8List.fromList(nonce);
   }
 
   /// Generates a new AES key having the desired [length].

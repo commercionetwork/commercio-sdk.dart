@@ -4,8 +4,8 @@ import 'package:commerciosdk/crypto/sign_helper.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:commerciosdk/id/did_power_up_request_signature_json.dart';
 import 'package:commerciosdk/id/id_utils.dart';
-import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
+import 'package:uuid/uuid.dart';
 
 /// Allows to perform common operations related to CommercioID.
 class IdHelper {
@@ -62,8 +62,9 @@ class IdHelper {
     final msg = MsgRequestDidPowerUp(
       claimantDid: wallet.bech32Address,
       amount: amount,
-      powerUpProof: HEX.encode(result.encryptedProof),
-      encryptionKey: HEX.encode(result.encryptedAesKey),
+      powerUpProof: result.encodedProof,
+      uuid: Uuid().v4(),
+      encryptionKey: result.encodedAesKey,
     );
     return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
