@@ -8,20 +8,24 @@ part 'did_power_up_request_signature_json.g.dart';
 /// inside a [DidPowerUpRequestPayload] as the signature value.
 @JsonSerializable()
 class DidPowerUpRequestSignatureJson extends Equatable {
+  @JsonKey(name: "sender_did")
+  final String senderDid;
   @JsonKey(name: "pairwise_did")
   final String pairwiseDid;
   @JsonKey(name: "timestamp")
   final String timestamp;
 
   DidPowerUpRequestSignatureJson({
+    @required this.senderDid,
     @required this.pairwiseDid,
     @required this.timestamp,
-  })  : assert(pairwiseDid != null),
+  })  : assert(senderDid != null),
+        assert(pairwiseDid != null),
         assert(timestamp != null);
 
   @override
   List<Object> get props {
-    return [pairwiseDid, timestamp];
+    return [senderDid, pairwiseDid, timestamp];
   }
 
   factory DidPowerUpRequestSignatureJson.fromJson(Map<String, dynamic> json) =>
