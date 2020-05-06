@@ -56,7 +56,7 @@ class IdHelper {
     );
 
     // Build the proof
-    final result = await generateProof(payload);
+    final result = await generateProof(payload, wallet.networkInfo.lcdUrl);
 
     // Build the message and send the tx
     final msg = MsgRequestDidPowerUp(

@@ -24,7 +24,8 @@ class ProofGenerationResult extends Equatable {
 
 /// Given a [payload], creates a new AES-256 key and uses that to encrypt
 /// the payload itself.
-Future<ProofGenerationResult> generateProof(dynamic payload) async {
+Future<ProofGenerationResult> generateProof(
+    dynamic payload, String lcdUrl) async {
   // Generate the AES key
   final aesKey = await KeysHelper.generateAesKey();
 
@@ -36,7 +37,7 @@ Future<ProofGenerationResult> generateProof(dynamic payload) async {
   );
 
   // Encrypt the AES key
-  final rsaKey = await EncryptionHelper.getGovernmentRsaPubKey();
+  final rsaKey = await EncryptionHelper.getGovernmentRsaPubKey(lcdUrl);
   final encryptedAesKey = EncryptionHelper.encryptBytesWithRsa(
     aesKey.bytes,
     rsaKey,
