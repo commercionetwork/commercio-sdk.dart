@@ -22,7 +22,7 @@ class DidDocument extends Equatable {
   @JsonKey(name: "proof")
   final DidDocumentProof proof;
 
-  @JsonKey(name: "service")
+  @JsonKey(name: "service", includeIfNull: false)
   final List<DidDocumentService> service;
 
   DidDocument({
