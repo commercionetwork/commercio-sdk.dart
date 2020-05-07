@@ -175,8 +175,8 @@ CommercioDoSign _$CommercioDoSignFromJson(Map<String, dynamic> json) {
     sdnData: (json['sdn_data'] as List)
         ?.map((e) => _$enumDecodeNullable(_$CommercioSdnDataEnumMap, e))
         ?.toList(),
-    vcrId: json['vcrId'] as String,
-    certificateProfile: json['certificateProfile'] as String,
+    vcrId: json['vcr_id'] as String,
+    certificateProfile: json['certificate_profile'] as String,
   );
 }
 
@@ -186,8 +186,8 @@ Map<String, dynamic> _$CommercioDoSignToJson(CommercioDoSign instance) =>
       'signer_instance': instance.signerIstance,
       'sdn_data':
           instance.sdnData?.map((e) => _$CommercioSdnDataEnumMap[e])?.toList(),
-      'vcrId': instance.vcrId,
-      'certificateProfile': instance.certificateProfile,
+      'vcr_id': instance.vcrId,
+      'certificate_profile': instance.certificateProfile,
     };
 
 const _$CommercioSdnDataEnumMap = {
