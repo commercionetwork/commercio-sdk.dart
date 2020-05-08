@@ -46,14 +46,14 @@ class DidDocument extends Equatable {
   /// this Did Document.
   RSAPublicKey get encryptionKey {
     final pubKey = publicKeys.firstWhere(
-      (key) => key.type == DidDocumentPubKeyType.RSA,
+      (key) => key.type == "RsaVerificationKey2018",
       orElse: () => null,
     );
     if (pubKey == null) return null;
-
-    final modulus = BigInt.parse(pubKey.publicKeyPem, radix: 16);
-    final exponent = BigInt.from(65537);
-    return RSAPublicKey(pointy_castle.RSAPublicKey(modulus, exponent));
+    
+    return RSAPublicKey(
+      RSAKeyParser.parsePublicKeyFromPem(pubKey.publicKeyPem),
+    );
   }
 
   factory DidDocument.fromJson(Map<String, dynamic> json) =>
