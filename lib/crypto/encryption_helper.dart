@@ -8,13 +8,23 @@ import 'package:commerciosdk/export.dart';
 class EncryptionHelper {
   /// Returns the RSA public key associated to the government that should be used when
   /// encrypting the data that only it should see.
-  static Future<RSAPublicKey> getGovernmentRsaPubKey() async {
-    final response =
-        await Network.query("http://localhost:8080/government/publicKey");
-    if (response == null) {
+  static Future<RSAPublicKey> getGovernmentRsaPubKey(String lcdUrl) async {
+    final tumblerResponse =
+        await Network.query("$lcdUrl/government/tumbler");
+    if (tumblerResponse == null) {
+      throw FormatException("Cannot get tumbler address");
+    }
+    final tumbler = jsonDecode(tumblerResponse);
+    final tumblerAddress = tumbler['result']['tumbler_address'];
+    final identitiesResponse = await Network.query(
+        "$lcdUrl/identities/$tumblerAddress");
+    if (identitiesResponse == null) {
       throw FormatException("Cannot get government RSA public key");
     }
-    final rsaPublicKey = RSAKeyParser.parsePublicKeyFromPem(response);
+    final identities = jsonDecode(identitiesResponse);
+    final pem = identities['result'];
+    print(pem);
+    final rsaPublicKey = RSAKeyParser.parsePublicKeyFromPem(pem);
     return RSAPublicKey(rsaPublicKey);
   }
 

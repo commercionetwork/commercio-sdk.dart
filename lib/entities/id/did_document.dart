@@ -19,31 +19,26 @@ class DidDocument extends Equatable {
   @JsonKey(name: "publicKey")
   final List<DidDocumentPublicKey> publicKeys;
 
-  @JsonKey(name: "authentication")
-  final List<String> authentication;
-
   @JsonKey(name: "proof")
   final DidDocumentProof proof;
 
-  @JsonKey(name: "service")
-  final List<DidDocumentService> services;
+  @JsonKey(name: "service", includeIfNull: false)
+  final List<DidDocumentService> service;
 
   DidDocument({
     @required this.context,
     @required this.id,
     @required this.publicKeys,
-    @required this.authentication,
     @required this.proof,
-    @required this.services,
+    this.service,
   })  : assert(context != null),
         assert(id != null),
         assert(publicKeys != null),
-        assert(authentication != null),
         assert(proof != null);
 
   @override
   List<Object> get props {
-    return [context, id, publicKeys, authentication, proof, services];
+    return [context, id, publicKeys, proof, service];
   }
 
   /// Returns the [PublicKey] that should be used as the public encryption
@@ -56,7 +51,7 @@ class DidDocument extends Equatable {
     );
     if (pubKey == null) return null;
 
-    final modulus = BigInt.parse(pubKey.publicKeyHex, radix: 16);
+    final modulus = BigInt.parse(pubKey.publicKeyPem, radix: 16);
     final exponent = BigInt.from(65537);
     return RSAPublicKey(pointy_castle.RSAPublicKey(modulus, exponent));
   }

@@ -11,27 +11,27 @@ class DidDocumentPublicKey extends Equatable {
   final String id;
 
   @JsonKey(name: "type")
-  final DidDocumentPubKeyType type;
+  final String type;
 
   @JsonKey(name: "controller")
   final String controller;
 
-  @JsonKey(name: "publicKeyHex")
-  final String publicKeyHex;
+  @JsonKey(name: "publicKeyPem")
+  final String publicKeyPem;
 
   DidDocumentPublicKey({
     @required this.id,
     @required this.type,
     @required this.controller,
-    @required this.publicKeyHex,
+    @required this.publicKeyPem,
   })  : assert(id != null),
         assert(type != null),
         assert(controller != null),
-        assert(publicKeyHex != null);
+        assert(publicKeyPem != null);
 
   @override
   List<Object> get props {
-    return [id, type, controller, publicKeyHex];
+    return [id, type, controller, publicKeyPem];
   }
 
   factory DidDocumentPublicKey.fromJson(Map<String, dynamic> json) =>

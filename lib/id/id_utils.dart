@@ -7,24 +7,25 @@ import 'package:meta/meta.dart';
 
 /// Contains the data that is returned from the [generateProof] method.
 class ProofGenerationResult extends Equatable {
-  final Uint8List encryptedProof;
-  final Uint8List encryptedAesKey;
+  final String encodedProof;
+  final String encodedAesKey;
 
   ProofGenerationResult({
-    @required this.encryptedProof,
-    @required this.encryptedAesKey,
-  })  : assert(encryptedProof != null),
-        assert(encryptedAesKey != null);
+    @required this.encodedProof,
+    @required this.encodedAesKey,
+  })  : assert(encodedProof != null),
+        assert(encodedAesKey != null);
 
   @override
   List<Object> get props {
-    return [encryptedProof, encryptedAesKey];
+    return [encodedProof, encodedAesKey];
   }
 }
 
 /// Given a [payload], creates a new AES-256 key and uses that to encrypt
 /// the payload itself.
-Future<ProofGenerationResult> generateProof(dynamic payload) async {
+Future<ProofGenerationResult> generateProof(
+    dynamic payload, String lcdUrl) async {
   // Generate the AES key
   final aesKey = await KeysHelper.generateAesKey();
 
@@ -35,15 +36,20 @@ Future<ProofGenerationResult> generateProof(dynamic payload) async {
     aesKey,
   );
 
+  // Generate nonce, concatenate with payload and encode
+  final nonce = KeysHelper.generateRandomNonce(12);
+  final encodedProof = base64.encode(encryptedPayload + nonce);
+
   // Encrypt the AES key
-  final rsaKey = await EncryptionHelper.getGovernmentRsaPubKey();
+  final rsaKey = await EncryptionHelper.getGovernmentRsaPubKey(lcdUrl);
   final encryptedAesKey = EncryptionHelper.encryptBytesWithRsa(
     aesKey.bytes,
     rsaKey,
   );
+  final encodedAesKey = base64.encode(encryptedAesKey);
 
   return ProofGenerationResult(
-    encryptedProof: encryptedPayload,
-    encryptedAesKey: encryptedAesKey,
+    encodedProof: encodedProof,
+    encodedAesKey: encodedAesKey,
   );
 }

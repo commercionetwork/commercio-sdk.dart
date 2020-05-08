@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:commerciosdk/crypto/sign_helper.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:commerciosdk/id/did_power_up_request_signature_json.dart';
 import 'package:commerciosdk/id/id_utils.dart';
-import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
+import 'package:uuid/uuid.dart';
 
 /// Allows to perform common operations related to CommercioID.
 class IdHelper {
@@ -28,43 +30,6 @@ class IdHelper {
     return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 
-  /// Creates a new Did deposit request for the given [recipient] and of the given [amount].
-  /// Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the
-  /// private key contained inside the given [wallet].
-  static Future<TransactionResult> requestDidDeposit(
-      String recipient, List<StdCoin> amount, Wallet wallet,
-      {StdFee fee}) async {
-    // Get the timestamp
-    var timestamp = getTimeStamp();
-
-    // Build the signature
-    var signatureJson = DidDepositRequestSignatureJson(
-      recipient: recipient,
-      timeStamp: timestamp,
-    );
-    var signedJson = SignHelper.signSorted(signatureJson.toJson(), wallet);
-
-    // Build the payload
-    var payload = DidDepositRequestPayload(
-      recipient: recipient,
-      timeStamp: timestamp,
-      signature: HEX.encode(signedJson),
-    );
-
-    // Build the proof
-    var result = await generateProof(payload);
-
-    // Build the message and send the tx
-    var msg = MsgRequestDidDeposit(
-      recipientDid: recipient,
-      amount: amount,
-      depositProof: HEX.encode(result.encryptedProof),
-      encryptionKey: HEX.encode(result.encryptedAesKey),
-      senderDid: wallet.bech32Address,
-    );
-    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
-  }
-
   /// Creates a new Did power up request for the given [pairwiseDid] and of the given [amount].
   /// Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the
   /// private key contained inside the given [wallet].
@@ -76,6 +41,7 @@ class IdHelper {
 
     // Build the signature
     final signatureJson = DidPowerUpRequestSignatureJson(
+      senderDid: wallet.bech32Address,
       pairwiseDid: pairwiseDid,
       timestamp: timestamp,
     );
@@ -83,20 +49,22 @@ class IdHelper {
 
     // Build the payload
     final payload = DidPowerUpRequestPayload(
+      senderDid: wallet.bech32Address,
       pairwiseDid: pairwiseDid,
       timestamp: timestamp,
-      signature: HEX.encode(signedJson),
+      signature: base64.encode(signedJson),
     );
 
     // Build the proof
-    final result = await generateProof(payload);
+    final result = await generateProof(payload, wallet.networkInfo.lcdUrl);
 
     // Build the message and send the tx
     final msg = MsgRequestDidPowerUp(
       claimantDid: wallet.bech32Address,
       amount: amount,
-      powerUpProof: HEX.encode(result.encryptedProof),
-      encryptionKey: HEX.encode(result.encryptedAesKey),
+      powerUpProof: result.encodedProof,
+      uuid: Uuid().v4(),
+      encryptionKey: result.encodedAesKey,
     );
     return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }

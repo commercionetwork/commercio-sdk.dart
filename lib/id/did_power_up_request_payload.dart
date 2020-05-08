@@ -8,6 +8,8 @@ part 'did_power_up_request_payload.g.dart';
 /// [MsgRequestDidPowerUp] message.
 @JsonSerializable()
 class DidPowerUpRequestPayload extends Equatable {
+  @JsonKey(name: "sender_did")
+  final String senderDid;
   @JsonKey(name: "pairwise_did")
   final String pairwiseDid;
   @JsonKey(name: "timestamp")
@@ -16,16 +18,18 @@ class DidPowerUpRequestPayload extends Equatable {
   final String signature;
 
   DidPowerUpRequestPayload({
+    @required this.senderDid,
     @required this.pairwiseDid,
     @required this.timestamp,
     @required this.signature,
-  })  : assert(pairwiseDid != null),
+  })  : assert(senderDid != null),
+        assert(pairwiseDid != null),
         assert(timestamp != null),
         assert(signature != null);
 
   @override
   List<Object> get props {
-    return [pairwiseDid, timestamp, signature];
+    return [senderDid, pairwiseDid, timestamp, signature];
   }
 
   factory DidPowerUpRequestPayload.fromJson(Map<String, dynamic> json) =>
