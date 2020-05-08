@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:commerciosdk/export.dart';
+import 'package:steel_crypt/steel_crypt.dart';
 
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
@@ -21,6 +22,13 @@ class EncryptionHelper {
   /// Encrypts the given [data] with AES using the specified [key].
   static Uint8List encryptStringWithAes(String data, Key key) {
     return AES(key, mode: AESMode.ecb).encrypt(utf8.encode(data)).bytes;
+  }
+
+  static Uint8List encryptStringWithAesGCM(String data, String plainKey) {
+    final nonce = CryptKey().genDart(12);
+    final aesGcmCrypter = AesCrypt(plainKey, 'gcm');
+
+    return utf8.encode(aesGcmCrypter.encrypt(data, nonce));
   }
 
   /// Encrypts the given [data] with AES using the specified [key].
