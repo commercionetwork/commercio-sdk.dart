@@ -34,7 +34,7 @@ class RSAKeyParser {
       "-----BEGIN RSA PUBLIC KEY-----"
     ];
     var endsWith = ["-----END PUBLIC KEY-----", "-----END RSA PUBLIC KEY-----"];
-    bool isOpenPgp = pem.contains('BEGIN PGP') != -1;
+    bool isOpenPgp = pem.contains('BEGIN PGP');
 
     for (var s in startsWith) {
       if (pem.startsWith(s)) {
