@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:commerciosdk/crypto/sign_helper.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:commerciosdk/id/did_power_up_request_signature_json.dart';
 import 'package:commerciosdk/id/id_utils.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
+import 'package:steel_crypt/steel_crypt.dart';
+import 'package:uuid/uuid.dart';
 
 /// Allows to perform common operations related to CommercioID.
 class IdHelper {
@@ -76,28 +80,48 @@ class IdHelper {
 
     // Build the signature
     final signatureJson = DidPowerUpRequestSignatureJson(
+      senderDid: wallet.bech32Address,
       pairwiseDid: pairwiseDid,
       timestamp: timestamp,
     );
-    final signedJson = SignHelper.signSorted(signatureJson.toJson(), wallet);
+    final signedSignatureHash = SignHelper.signPowerUpSignature(
+        signatureJson: signatureJson, wallet: wallet);
 
     // Build the payload
     final payload = DidPowerUpRequestPayload(
+      senderDid: wallet.bech32Address,
       pairwiseDid: pairwiseDid,
       timestamp: timestamp,
-      signature: HEX.encode(signedJson),
+      signature: base64.encode(signedSignatureHash),
     );
 
-    // Build the proof
-    final result = await generateProof(payload);
+    // Build proof and proof key
+
+    // Generate the AES key
+    final aesKey = CryptKey().genFortuna();
+
+    // Encrypt the payload
+    final encryptedProof = EncryptionHelper.encryptStringWithAesGCM(
+      jsonEncode(payload),
+      aesKey,
+    );
+
+    // Encrypt the AES key
+    final rsaKey = await EncryptionHelper.getGovernmentRsaPubKey();
+    final encryptedProofKey = EncryptionHelper.encryptBytesWithRsa(
+      utf8.encode(aesKey),
+      rsaKey,
+    );
 
     // Build the message and send the tx
     final msg = MsgRequestDidPowerUp(
       claimantDid: wallet.bech32Address,
       amount: amount,
-      powerUpProof: HEX.encode(result.encryptedProof),
-      encryptionKey: HEX.encode(result.encryptedAesKey),
+      powerUpProof: base64.encode(encryptedProof),
+      id: Uuid().v4(),
+      proofKey: base64.encode(encryptedProofKey),
     );
+
     return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 }
