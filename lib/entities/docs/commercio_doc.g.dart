@@ -12,11 +12,11 @@ CommercioDoc _$CommercioDocFromJson(Map<String, dynamic> json) {
     recipientDids:
         (json['recipients'] as List)?.map((e) => e as String)?.toList(),
     uuid: json['uuid'] as String,
-    contentUri: json['content_uri'] as String,
     metadata: json['metadata'] == null
         ? null
         : CommercioDocMetadata.fromJson(
             json['metadata'] as Map<String, dynamic>),
+    contentUri: json['content_uri'] as String,
     checksum: json['checksum'] == null
         ? null
         : CommercioDocChecksum.fromJson(

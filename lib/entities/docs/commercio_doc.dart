@@ -36,16 +36,14 @@ class CommercioDoc extends Equatable {
     @required this.senderDid,
     @required this.recipientDids,
     @required this.uuid,
-    this.contentUri,
     @required this.metadata,
+    this.contentUri,
     this.checksum,
     this.encryptionData,
     this.doSign,
   })  : assert(senderDid != null),
-        assert(recipientDids != null),
-        assert(recipientDids.isNotEmpty),
+        assert(recipientDids != null && recipientDids.isNotEmpty),
         assert(uuid != null),
-        assert(contentUri != null),
         assert(metadata != null);
 
   @override
@@ -84,8 +82,7 @@ class CommercioDocMetadata extends Equatable {
     this.schemaType = "",
     this.schema,
   })  : assert(contentUri != null),
-        assert(schemaType != null),
-        assert(schema != null || schemaType.isNotEmpty);
+        assert(schemaType.isNotEmpty || schema != null);
 
   @override
   List<Object> get props {
