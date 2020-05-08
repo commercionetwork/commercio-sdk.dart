@@ -115,7 +115,23 @@ Future<CommercioDoc> encryptField(
     ),
     encryptionData: CommercioDocEncryptionData(
       keys: encryptionKeys,
-      encryptedData: encryptedData.map((e) => e.toString()).toList(),
+      encryptedData: encryptedData.map((e) {
+        String type;
+        switch (e) {
+          case EncryptedData.CONTENT_URI:
+            type = "content_uri";
+            break;
+          case EncryptedData.METADATA_CONTENT_URI:
+            type = "metadata.content_uri";
+            break;
+          case EncryptedData.METADATA_SCHEMA_URI:
+            type = "metadata.schema.uri";
+            break;
+          default:
+            type = "";
+        }
+        return type;
+      }).toList(),
     ),
     doSign: doc.doSign,
   );
