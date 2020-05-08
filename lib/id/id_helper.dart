@@ -16,7 +16,7 @@ class IdHelper {
       return null;
     }
 
-    return DidDocument.fromJson(response);
+    return DidDocument.fromJson(response["did_document"]);
   }
 
   /// Performs a transaction setting the specified [didDocument] as being
