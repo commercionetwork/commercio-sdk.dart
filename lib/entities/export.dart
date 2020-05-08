@@ -8,7 +8,9 @@ export 'package:pointycastle/export.dart'
         RSAPublicKey,
         RSAPrivateKey,
         ECPublicKey,
-        ECPrivateKey;
+        ECPrivateKey,
+        RSASigner,
+        Signer;
 
 export 'docs/export.dart';
 export 'id/export.dart';
