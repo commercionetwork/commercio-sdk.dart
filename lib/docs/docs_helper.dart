@@ -13,15 +13,15 @@ class DocsHelper {
   /// to the blockchain.
   static Future<TransactionResult> shareDocument({
     @required String id,
-    @required String contentUri,
     @required CommercioDocMetadata metadata,
     @required List<String> recipients,
     @required Wallet wallet,
+    CommercioDoSign doSign,
     CommercioDocChecksum checksum,
     Key aesKey,
     List<EncryptedData> encryptedData = const [],
-    CommercioDoSign doSign,
     StdFee fee,
+    String contentUri,
   }) async {
     // Get a default aes key for encryption if needed
     if (aesKey == null) {
@@ -51,7 +51,7 @@ class DocsHelper {
         wallet,
       );
     }
-    
+
     // Build the tx message
     final msg = MsgShareDocument(document: finalDoc);
     return TxHelper.createSignAndSendTx(

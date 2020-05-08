@@ -8,10 +8,10 @@ part of 'commercio_doc.dart';
 
 CommercioDoc _$CommercioDocFromJson(Map<String, dynamic> json) {
   return CommercioDoc(
-    uuid: json['uuid'] as String,
     senderDid: json['sender'] as String,
     recipientDids:
         (json['recipients'] as List)?.map((e) => e as String)?.toList(),
+    uuid: json['uuid'] as String,
     contentUri: json['content_uri'] as String,
     metadata: json['metadata'] == null
         ? null
@@ -46,11 +46,11 @@ Map<String, dynamic> _$CommercioDocToJson(CommercioDoc instance) =>
 CommercioDocMetadata _$CommercioDocMetadataFromJson(Map<String, dynamic> json) {
   return CommercioDocMetadata(
     contentUri: json['content_uri'] as String,
+    schemaType: json['schema_type'] as String,
     schema: json['schema'] == null
         ? null
         : CommercioDocMetadataSchema.fromJson(
             json['schema'] as Map<String, dynamic>),
-    schemaType: json['schema_type'] as String,
   );
 }
 
@@ -58,8 +58,8 @@ Map<String, dynamic> _$CommercioDocMetadataToJson(
         CommercioDocMetadata instance) =>
     <String, dynamic>{
       'content_uri': instance.contentUri,
-      'schema': instance.schema?.toJson(),
       'schema_type': instance.schemaType,
+      'schema': instance.schema?.toJson(),
     };
 
 CommercioDocMetadataSchema _$CommercioDocMetadataSchemaFromJson(
@@ -172,11 +172,11 @@ CommercioDoSign _$CommercioDoSignFromJson(Map<String, dynamic> json) {
   return CommercioDoSign(
     storageUri: json['storage_uri'] as String,
     signerIstance: json['signer_instance'] as String,
+    vcrId: json['vcr_id'] as String,
+    certificateProfile: json['certificate_profile'] as String,
     sdnData: (json['sdn_data'] as List)
         ?.map((e) => _$enumDecodeNullable(_$CommercioSdnDataEnumMap, e))
         ?.toList(),
-    vcrId: json['vcr_id'] as String,
-    certificateProfile: json['certificate_profile'] as String,
   );
 }
 

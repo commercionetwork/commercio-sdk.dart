@@ -32,16 +32,15 @@ class CommercioDoc extends Equatable {
   @JsonKey(name: "do_sign")
   final CommercioDoSign doSign;
 
-
   CommercioDoc({
-    @required this.uuid,
     @required this.senderDid,
     @required this.recipientDids,
-    @required this.contentUri,
+    @required this.uuid,
+    this.contentUri,
     @required this.metadata,
-    @required this.checksum,
-    @required this.encryptionData,
-    @required this.doSign,
+    this.checksum,
+    this.encryptionData,
+    this.doSign,
   })  : assert(senderDid != null),
         assert(recipientDids != null),
         assert(recipientDids.isNotEmpty),
@@ -74,16 +73,16 @@ class CommercioDocMetadata extends Equatable {
   @JsonKey(name: "content_uri")
   final String contentUri;
 
-  @JsonKey(name: "schema")
-  final CommercioDocMetadataSchema schema;
-
   @JsonKey(name: "schema_type")
   final String schemaType;
 
+  @JsonKey(name: "schema")
+  final CommercioDocMetadataSchema schema;
+
   CommercioDocMetadata({
     @required this.contentUri,
-    this.schema,
     this.schemaType = "",
+    this.schema,
   })  : assert(contentUri != null),
         assert(schemaType != null),
         assert(schema != null || schemaType.isNotEmpty);
@@ -161,7 +160,7 @@ enum CommercioDocChecksumAlgorithm {
 
   @JsonValue("sha-256")
   SHA256,
-  
+
   @JsonValue("sha-384")
   SHA384,
 
@@ -217,7 +216,6 @@ class CommercioDocEncryptionDataKey extends Equatable {
   Map<String, dynamic> toJson() => _$CommercioDocEncryptionDataKeyToJson(this);
 }
 
-
 @JsonSerializable(explicitToJson: true)
 class CommercioDoSign extends Equatable {
   @JsonKey(name: "storage_uri")
@@ -238,16 +236,17 @@ class CommercioDoSign extends Equatable {
   CommercioDoSign({
     @required this.storageUri,
     @required this.signerIstance,
+    @required this.vcrId,
+    @required this.certificateProfile,
     this.sdnData,
-    this.vcrId,
-    this.certificateProfile,
   })  : assert(storageUri != null),
         assert(signerIstance != null),
-        assert(vcrId != null);
+        assert(vcrId != null),
+        assert(certificateProfile != null);
 
   @override
   List<Object> get props {
-    return [storageUri, signerIstance, sdnData,vcrId, certificateProfile];
+    return [storageUri, signerIstance, sdnData, vcrId, certificateProfile];
   }
 
   factory CommercioDoSign.fromJson(Map<String, dynamic> json) =>
@@ -255,8 +254,6 @@ class CommercioDoSign extends Equatable {
 
   Map<String, dynamic> toJson() => _$CommercioDoSignToJson(this);
 }
-
-
 
 enum CommercioSdnData {
   @JsonValue("common_name")
@@ -270,11 +267,10 @@ enum CommercioSdnData {
 
   @JsonValue("given_name")
   GIVEN_NAME,
-  
+
   @JsonValue("organization")
   ORGANIZATION,
 
   @JsonValue("country")
   COUNTRY,
-  
 }
