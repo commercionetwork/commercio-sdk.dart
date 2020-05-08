@@ -3,12 +3,7 @@ import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
 
-enum EncryptedData {
-  CONTENT,
-  CONTENT_URI,
-  METADATA_CONTENT_URI,
-  METADATA_SCHEMA_URI
-}
+enum EncryptedData { CONTENT_URI, METADATA_CONTENT_URI, METADATA_SCHEMA_URI }
 
 /// Represents a pair that associates a Did document to its encryption key.
 class _Pair {
@@ -91,7 +86,7 @@ Future<CommercioDoc> encryptField(
       aesKey.bytes,
       pair.second,
     );
-    CommercioDocEncryptionDataKey(
+    return CommercioDocEncryptionDataKey(
       recipientDid: pair.first.id,
       value: HEX.encode(encryptedAesKey),
     );
