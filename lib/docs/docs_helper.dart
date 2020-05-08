@@ -23,13 +23,8 @@ class DocsHelper {
     StdFee fee,
     String contentUri,
   }) async {
-    // Get a default aes key for encryption if needed
-    if (aesKey == null) {
-      aesKey = await KeysHelper.generateAesKey();
-    }
-
     // Build a generic document
-    final document = CommercioDoc(
+    CommercioDoc commercioDocument = CommercioDoc(
       senderDid: wallet.bech32Address,
       recipientDids: recipients,
       uuid: id,
@@ -41,11 +36,13 @@ class DocsHelper {
     );
 
     // Encrypt its contents, if necessary
-    var finalDoc = document;
     if (encryptedData.isNotEmpty) {
-      finalDoc = await encryptField(
-        document,
-        aesKey,
+      // Get a default aes key for encryption if needed
+      final key = aesKey != null ? aesKey : await KeysHelper.generateAesKey();
+
+      commercioDocument = await encryptField(
+        commercioDocument,
+        key,
         encryptedData,
         recipients,
         wallet,
@@ -53,7 +50,7 @@ class DocsHelper {
     }
 
     // Build the tx message
-    final msg = MsgShareDocument(document: finalDoc);
+    final msg = MsgShareDocument(document: commercioDocument);
     return TxHelper.createSignAndSendTx(
       [msg],
       wallet,
