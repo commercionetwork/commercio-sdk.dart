@@ -99,7 +99,6 @@ Future<Pair<String, String>> _shareDoc(
       ),
     ),
     recipients: recipients,
-    fees: [StdCoin(denom: "ucommercio", amount: "10000")],
     wallet: wallet,
   );
   checkResponse(response);

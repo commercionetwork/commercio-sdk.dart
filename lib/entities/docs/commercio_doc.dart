@@ -238,9 +238,9 @@ class CommercioDoSign extends Equatable {
   CommercioDoSign({
     @required this.storageUri,
     @required this.signerIstance,
-    @required this.sdnData,
-    @required this.vcrId,
-    @required this.certificateProfile,
+    this.sdnData,
+    this.vcrId,
+    this.certificateProfile,
   })  : assert(storageUri != null),
         assert(signerIstance != null),
         assert(vcrId != null);

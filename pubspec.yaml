@@ -18,7 +18,9 @@ dependencies:
   asn1lib: ^0.5.13
 
   # Crypto utils
-  sacco: ^0.1.2
+  # sacco: ^0.1.2
+  sacco:
+    path: ..\sacco.dart
   encrypt: ^3.3.1
   ed25519_hd_key: ^1.0.1
   pointycastle: ^1.0.1

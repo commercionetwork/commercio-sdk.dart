@@ -16,12 +16,12 @@ class DocsHelper {
     @required String contentUri,
     @required CommercioDocMetadata metadata,
     @required List<String> recipients,
-    @required List<StdCoin> fees,
     @required Wallet wallet,
     CommercioDocChecksum checksum,
     Key aesKey,
     List<EncryptedData> encryptedData = const [],
     CommercioDoSign doSign,
+    StdFee fee,
   }) async {
     // Get a default aes key for encryption if needed
     if (aesKey == null) {
@@ -51,13 +51,13 @@ class DocsHelper {
         wallet,
       );
     }
-print(finalDoc.toJson());
+    
     // Build the tx message
     final msg = MsgShareDocument(document: finalDoc);
     return TxHelper.createSignAndSendTx(
       [msg],
       wallet,
-      fee: StdFee(gas: "200000", amount: fees),
+      fee: fee,
     );
   }
 
