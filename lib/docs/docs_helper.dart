@@ -19,7 +19,7 @@ class DocsHelper {
     CommercioDoSign doSign,
     CommercioDocChecksum checksum,
     Key aesKey,
-    List<EncryptedData> encryptedData = const [],
+    List<EncryptedData> encryptedData,
     StdFee fee,
     String contentUri,
   }) async {
@@ -36,7 +36,7 @@ class DocsHelper {
     );
 
     // Encrypt its contents, if necessary
-    if (encryptedData.isNotEmpty) {
+    if (encryptedData != null && encryptedData.isNotEmpty) {
       // Get a default aes key for encryption if needed
       final key = aesKey != null ? aesKey : await KeysHelper.generateAesKey();
 
