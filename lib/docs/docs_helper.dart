@@ -7,7 +7,7 @@ class DocsHelper {
   final client = http.Client();
 
   /// Creates a new transaction that allows to share the document associated
-  /// with the given [contentUri] and having the given [metadata]
+  /// with the given [metadata] and having the optional [contentUri], [doSign]
   /// and [checksum]. If [encryptedData] is specified, encrypts the proper
   /// data for the specified [recipients] and then sends the transaction
   /// to the blockchain.
