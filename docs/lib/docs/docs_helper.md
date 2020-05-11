@@ -75,8 +75,6 @@ The `proof` is an optional field that indicates proof of reading.
 
 ## Usage examples
 
-You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
-
 ```dart
 import 'package:commerciosdk/export.dart';
 import 'package:uuid/uuid.dart';
