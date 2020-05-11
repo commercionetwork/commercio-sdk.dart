@@ -46,6 +46,7 @@ class IdHelper {
       pairwiseDid: pairwiseDid,
       timestamp: timestamp,
     );
+
     final signedSignatureHash = SignHelper.signPowerUpSignature(
         signatureJson: signatureJson, wallet: wallet);
 
@@ -69,7 +70,8 @@ class IdHelper {
     );
 
     // Encrypt the AES key
-    final rsaKey = await EncryptionHelper.getGovernmentRsaPubKey();
+    final rsaKey = await EncryptionHelper.getGovernmentRsaPubKey(
+        wallet.networkInfo.lcdUrl);
     final encryptedProofKey = EncryptionHelper.encryptBytesWithRsa(
       utf8.encode(aesKey),
       rsaKey,
@@ -80,8 +82,8 @@ class IdHelper {
       claimantDid: wallet.bech32Address,
       amount: amount,
       powerUpProof: base64.encode(encryptedProof),
-      id: Uuid().v4(),
-      proofKey: base64.encode(encryptedProofKey),
+      uuid: Uuid().v4(),
+      encryptionKey: base64.encode(encryptedProofKey),
     );
 
     return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
