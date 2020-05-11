@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -15,6 +16,13 @@ class KeysHelper {
     return secureRandom;
   }
 
+  /// Generate a random nonce
+  static Uint8List generateRandomNonce(int length) {
+    final random = Random.secure();
+    final nonce = List<int>.generate(length, (_) => random.nextInt(256));
+    return Uint8List.fromList(nonce);
+  }
+
   /// Generates a new AES key having the desired [length].
   static Future<Key> generateAesKey({int length = 256}) async {
     return Key.fromSecureRandom(length ~/ 16);
@@ -24,6 +32,7 @@ class KeysHelper {
   /// If no length is specified, the default is going to be 2048.
   static Future<KeyPair<RSAPublicKey, RSAPrivateKey>> generateRsaKeyPair({
     int bytes = 2048,
+    String type,
   }) async {
     final rsa = RSAKeyGeneratorParameters(BigInt.from(65537), bytes, 5);
     final params = ParametersWithRandom(rsa, _getSecureRandom());
@@ -31,19 +40,20 @@ class KeysHelper {
     keyGenerator.init(params);
     final keyPair = keyGenerator.generateKeyPair();
     return KeyPair(
-      RSAPublicKey(keyPair.publicKey),
+      RSAPublicKey(keyPair.publicKey, keyType: type),
       RSAPrivateKey(keyPair.privateKey),
     );
   }
 
   /// Generates a new random EC key pair.
-  static Future<KeyPair<ECPublicKey, ECPrivateKey>> generateEcKeyPair() async {
+  static Future<KeyPair<ECPublicKey, ECPrivateKey>> generateEcKeyPair(
+      {String type}) async {
     final keyParams = ECKeyGeneratorParameters(ECCurve_secp256k1());
     final generator = ECKeyGenerator();
     generator.init(ParametersWithRandom(keyParams, _getSecureRandom()));
     final keyPair = generator.generateKeyPair();
     return KeyPair(
-      ECPublicKey(keyPair.publicKey),
+      ECPublicKey(keyPair.publicKey, keyType: type),
       ECPrivateKey(keyPair.privateKey),
     );
   }

@@ -1,39 +1,43 @@
+import 'dart:convert';
+
 import 'package:commerciosdk/export.dart';
-import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
-  /// Creates a Did Document from the given [wallet] and optional [pubKeys].
-  static DidDocument fromWallet(Wallet wallet, List<PublicKey> pubKeys) {
-    final authKeyId = '${wallet.bech32Address}#keys-1';
-    final authKey = DidDocumentPublicKey(
-      id: authKeyId,
-      type: DidDocumentPubKeyType.SECP256K1,
-      controller: wallet.bech32Address,
-      publicKeyHex: HEX.encode(wallet.publicKey),
-    );
+  /// Creates a Did Document from the given [wallet], [pubKeys] and optional [service].
+  static DidDocument fromWallet(
+    Wallet wallet,
+    List<PublicKey> pubKeys, {
+    List<DidDocumentService> service,
+  }) {
+    if (pubKeys.length < 2) {
+      throw "At least two keys are required";
+    }
 
-    final otherKeys = mapIndexed(
-            pubKeys, (index, item) => _convertKey(item, index + 2, wallet))
+    service = service ?? null;
+
+    final keys = mapIndexed(
+            pubKeys, (index, item) => _convertKey(item, index + 1, wallet))
         .toList();
 
     final proofContent = DidDocumentProofSignatureContent(
       context: "https://www.w3.org/ns/did/v1",
-      did: wallet.bech32Address,
-      publicKeys: [authKey] + otherKeys,
-      authentication: [authKeyId],
+      id: wallet.bech32Address,
+      publicKeys: keys,
     );
 
-    final proof = _computeProof(authKeyId, proofContent, wallet);
+    final verificationMethod = wallet.bech32PublicKey;
+
+    final proof = _computeProof(
+        proofContent.id, verificationMethod, proofContent, wallet);
 
     return DidDocument(
       context: proofContent.context,
-      id: proofContent.did,
+      id: proofContent.id,
       publicKeys: proofContent.publicKeys,
-      authentication: proofContent.authentication,
       proof: proof,
-      services: null,
+      service: service,
     );
   }
 
@@ -41,34 +45,31 @@ class DidDocumentHelper {
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
   static DidDocumentPublicKey _convertKey(
       PublicKey pubKey, int index, Wallet wallet) {
-    var keyType;
-    if (pubKey is RSAPublicKey) {
-      keyType = DidDocumentPubKeyType.RSA;
-    } else if (pubKey is ECPublicKey) {
-      keyType = DidDocumentPubKeyType.SECP256K1;
-    } else if (pubKey is Ed25519PublicKey) {
-      keyType = DidDocumentPubKeyType.ED25519;
-    }
-
     return DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-$index',
-      type: keyType,
+      type: pubKey.getType(),
       controller: wallet.bech32Address,
-      publicKeyHex: HEX.encode(pubKey.getEncoded()),
+      publicKeyPem: pubKey.getEncoded(),
     );
   }
 
-  /// Computes the [DidDocumentProof] based on the given [authKeyId] and [proofSignatureContent]
+  /// Computes the [DidDocumentProof] based on the given [controller], [verificationMethod] and [proofSignatureContent]
   static DidDocumentProof _computeProof(
-    String authKeyId,
+    String controller,
+    String verificationMethod,
     DidDocumentProofSignatureContent proofSignatureContent,
-    Wallet wallet,
-  ) {
+    Wallet wallet, {
+    String proofPurpose,
+  }) {
+    proofPurpose = proofPurpose ?? "authentication";
+
     return DidDocumentProof(
-      type: "LinkedDataSignature2015",
+      type: "EcdsaSecp256k1VerificationKey2019",
       iso8601creationTimestamp: getTimeStamp(),
-      creatorKeyId: authKeyId,
-      signatureValue: HEX.encode(
+      proofPurpose: proofPurpose,
+      controller: controller,
+      verificationMethod: verificationMethod,
+      signatureValue: base64.encode(
         SignHelper.signSorted(proofSignatureContent.toJson(), wallet),
       ),
     );

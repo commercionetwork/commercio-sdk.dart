@@ -7,21 +7,21 @@ class MsgRequestDidPowerUp extends StdMsg {
   final String claimantDid;
   final List<StdCoin> amount;
   final String powerUpProof;
-  final String id;
-  final String proofKey;
+  final String uuid;
+  final String encryptionKey;
 
   MsgRequestDidPowerUp({
     @required this.claimantDid,
     @required this.amount,
     @required this.powerUpProof,
-    @required this.id,
-    @required this.proofKey,
+    @required this.uuid,
+    @required this.encryptionKey,
   })  : assert(claimantDid != null),
         assert(amount != null),
         assert(amount.isNotEmpty),
         assert(powerUpProof != null),
-        assert(id != null),
-        assert(proofKey != null),
+        assert(uuid != null),
+        assert(encryptionKey != null),
         super(type: "commercio/MsgRequestDidPowerUp", value: Map());
 
   @override
@@ -29,7 +29,7 @@ class MsgRequestDidPowerUp extends StdMsg {
         'claimant': claimantDid,
         'amount': amount.map((coin) => coin.toJson()).toList(),
         'proof': powerUpProof,
-        'id': id,
-        'proof_key': proofKey,
+        'id': uuid,
+        'proof_key': encryptionKey,
       };
 }

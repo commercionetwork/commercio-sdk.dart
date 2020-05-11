@@ -15,12 +15,10 @@ DidDocument _$DidDocumentFromJson(Map<String, dynamic> json) {
             ? null
             : DidDocumentPublicKey.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    authentication:
-        (json['authentication'] as List)?.map((e) => e as String)?.toList(),
     proof: json['proof'] == null
         ? null
         : DidDocumentProof.fromJson(json['proof'] as Map<String, dynamic>),
-    services: (json['service'] as List)
+    service: (json['service'] as List)
         ?.map((e) => e == null
             ? null
             : DidDocumentService.fromJson(e as Map<String, dynamic>))
@@ -28,12 +26,20 @@ DidDocument _$DidDocumentFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DidDocumentToJson(DidDocument instance) =>
-    <String, dynamic>{
-      '@context': instance.context,
-      'id': instance.id,
-      'publicKey': instance.publicKeys?.map((e) => e?.toJson())?.toList(),
-      'authentication': instance.authentication,
-      'proof': instance.proof?.toJson(),
-      'service': instance.services?.map((e) => e?.toJson())?.toList(),
-    };
+Map<String, dynamic> _$DidDocumentToJson(DidDocument instance) {
+  final val = <String, dynamic>{
+    '@context': instance.context,
+    'id': instance.id,
+    'publicKey': instance.publicKeys?.map((e) => e?.toJson())?.toList(),
+    'proof': instance.proof?.toJson(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('service', instance.service?.map((e) => e?.toJson())?.toList());
+  return val;
+}

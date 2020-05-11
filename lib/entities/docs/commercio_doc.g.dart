@@ -8,15 +8,15 @@ part of 'commercio_doc.dart';
 
 CommercioDoc _$CommercioDocFromJson(Map<String, dynamic> json) {
   return CommercioDoc(
-    uuid: json['uuid'] as String,
     senderDid: json['sender'] as String,
     recipientDids:
         (json['recipients'] as List)?.map((e) => e as String)?.toList(),
-    contentUri: json['content_uri'] as String,
+    uuid: json['uuid'] as String,
     metadata: json['metadata'] == null
         ? null
         : CommercioDocMetadata.fromJson(
             json['metadata'] as Map<String, dynamic>),
+    contentUri: json['content_uri'] as String,
     checksum: json['checksum'] == null
         ? null
         : CommercioDocChecksum.fromJson(
@@ -25,6 +25,9 @@ CommercioDoc _$CommercioDocFromJson(Map<String, dynamic> json) {
         ? null
         : CommercioDocEncryptionData.fromJson(
             json['encryption_data'] as Map<String, dynamic>),
+    doSign: json['do_sign'] == null
+        ? null
+        : CommercioDoSign.fromJson(json['do_sign'] as Map<String, dynamic>),
   );
 }
 
@@ -34,19 +37,20 @@ Map<String, dynamic> _$CommercioDocToJson(CommercioDoc instance) =>
       'recipients': instance.recipientDids,
       'uuid': instance.uuid,
       'content_uri': instance.contentUri,
-      'metadata': instance.metadata,
-      'checksum': instance.checksum,
-      'encryption_data': instance.encryptionData,
+      'metadata': instance.metadata?.toJson(),
+      'checksum': instance.checksum?.toJson(),
+      'encryption_data': instance.encryptionData?.toJson(),
+      'do_sign': instance.doSign?.toJson(),
     };
 
 CommercioDocMetadata _$CommercioDocMetadataFromJson(Map<String, dynamic> json) {
   return CommercioDocMetadata(
     contentUri: json['content_uri'] as String,
+    schemaType: json['schema_type'] as String,
     schema: json['schema'] == null
         ? null
         : CommercioDocMetadataSchema.fromJson(
             json['schema'] as Map<String, dynamic>),
-    schemaType: json['schema_type'] as String,
   );
 }
 
@@ -54,8 +58,8 @@ Map<String, dynamic> _$CommercioDocMetadataToJson(
         CommercioDocMetadata instance) =>
     <String, dynamic>{
       'content_uri': instance.contentUri,
-      'schema': instance.schema,
       'schema_type': instance.schemaType,
+      'schema': instance.schema?.toJson(),
     };
 
 CommercioDocMetadataSchema _$CommercioDocMetadataSchemaFromJson(
@@ -124,6 +128,7 @@ const _$CommercioDocChecksumAlgorithmEnumMap = {
   CommercioDocChecksumAlgorithm.MD5: 'md5',
   CommercioDocChecksumAlgorithm.SHA1: 'sha-1',
   CommercioDocChecksumAlgorithm.SHA224: 'sha-224',
+  CommercioDocChecksumAlgorithm.SHA256: 'sha-256',
   CommercioDocChecksumAlgorithm.SHA384: 'sha-384',
   CommercioDocChecksumAlgorithm.SHA512: 'sha-512',
 };
@@ -144,7 +149,7 @@ CommercioDocEncryptionData _$CommercioDocEncryptionDataFromJson(
 Map<String, dynamic> _$CommercioDocEncryptionDataToJson(
         CommercioDocEncryptionData instance) =>
     <String, dynamic>{
-      'keys': instance.keys,
+      'keys': instance.keys?.map((e) => e?.toJson())?.toList(),
       'encrypted_data': instance.encryptedData,
     };
 
@@ -162,3 +167,34 @@ Map<String, dynamic> _$CommercioDocEncryptionDataKeyToJson(
       'recipient': instance.recipientDid,
       'value': instance.value,
     };
+
+CommercioDoSign _$CommercioDoSignFromJson(Map<String, dynamic> json) {
+  return CommercioDoSign(
+    storageUri: json['storage_uri'] as String,
+    signerIstance: json['signer_instance'] as String,
+    vcrId: json['vcr_id'] as String,
+    certificateProfile: json['certificate_profile'] as String,
+    sdnData: (json['sdn_data'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$CommercioSdnDataEnumMap, e))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$CommercioDoSignToJson(CommercioDoSign instance) =>
+    <String, dynamic>{
+      'storage_uri': instance.storageUri,
+      'signer_instance': instance.signerIstance,
+      'sdn_data':
+          instance.sdnData?.map((e) => _$CommercioSdnDataEnumMap[e])?.toList(),
+      'vcr_id': instance.vcrId,
+      'certificate_profile': instance.certificateProfile,
+    };
+
+const _$CommercioSdnDataEnumMap = {
+  CommercioSdnData.COMMON_NAME: 'common_name',
+  CommercioSdnData.SURNAME: 'surname',
+  CommercioSdnData.SERIAL_NUMBER: 'serial_number',
+  CommercioSdnData.GIVEN_NAME: 'given_name',
+  CommercioSdnData.ORGANIZATION: 'organization',
+  CommercioSdnData.COUNTRY: 'country',
+};

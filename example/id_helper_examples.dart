@@ -42,10 +42,6 @@ void main() async {
   final ecKeyPair = await KeysHelper.generateEcKeyPair();
   // await _createDidDocument(userWallet, [rsaKeyPair.publicKey, ecKeyPair.publicKey]);
 
-  // --- Request the Did deposit
-  final depositAmount = [StdCoin(denom: "ucommercio", amount: "10")];
-  // await _postDepositRequest(depositAmount, userWallet);
-
   // --- Request the Did power up
   final pairwiseMnemonic = [
     "push",
@@ -74,6 +70,7 @@ void main() async {
     "second"
   ];
   final pairwiseWallet = Wallet.derive(pairwiseMnemonic, info);
+  final depositAmount = [StdCoin(denom: "ucommercio", amount: "10")];
   await _postPowerUpRequest(
     pairwiseWallet.bech32Address,
     depositAmount,
@@ -87,18 +84,6 @@ void main() async {
 Future<void> _createDidDocument(Wallet wallet, List<PublicKey> keys) async {
   final didDocument = DidDocumentHelper.fromWallet(wallet, keys);
   final response = await IdHelper.setDidDocument(didDocument, wallet);
-  checkResponse(response);
-}
-
-/// Shows how to post a request for a deposit that will be later read from the
-/// centralized APIs.
-/// Documentation: https://docs.commercio.network/x/id/tx/request-did-deposit.html
-Future<void> _postDepositRequest(List<StdCoin> amount, Wallet wallet) async {
-  final response = await IdHelper.requestDidDeposit(
-    wallet.bech32Address,
-    amount,
-    wallet,
-  );
   checkResponse(response);
 }
 
