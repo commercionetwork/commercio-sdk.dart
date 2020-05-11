@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:commerciosdk/entities/crypto/identity_response.dart';
+import 'package:commerciosdk/entities/crypto/tumbler_response.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:steel_crypt/steel_crypt.dart';
 
@@ -10,22 +12,28 @@ class EncryptionHelper {
   /// Returns the RSA public key associated to the government that should be used when
   /// encrypting the data that only it should see.
   static Future<RSAPublicKey> getGovernmentRsaPubKey(String lcdUrl) async {
-    final tumblerResponse =
-        await Network.query("$lcdUrl/government/tumbler");
+    final tumblerResponse = await Network.query("$lcdUrl/government/tumbler");
+
     if (tumblerResponse == null) {
       throw FormatException("Cannot get tumbler address");
     }
-    final tumbler = jsonDecode(tumblerResponse);
-    final tumblerAddress = tumbler['result']['tumbler_address'];
-    final identitiesResponse = await Network.query(
-        "$lcdUrl/identities/$tumblerAddress");
-    if (identitiesResponse == null) {
+
+    final tumbler = TumblerResponse.fromJson(jsonDecode(tumblerResponse));
+    final tumblerAddress = tumbler.result.tumblerAddress;
+    final identityResponseRaw =
+        await Network.query("$lcdUrl/identities/$tumblerAddress");
+
+    if (identityResponseRaw == null) {
       throw FormatException("Cannot get government RSA public key");
     }
-    final identities = jsonDecode(identitiesResponse);
-    final pem = identities['result'];
-    print(pem);
-    final rsaPublicKey = RSAKeyParser.parsePublicKeyFromPem(pem);
+
+    final identityResponse =
+        IdentityResponse.fromJson(jsonDecode(identityResponseRaw));
+    final publicSignatureKeyPem =
+        identityResponse.result.didDocument.publicKeys[1].publicKeyPem;
+    final rsaPublicKey =
+        RSAKeyParser.parsePublicKeyFromPem(publicSignatureKeyPem);
+
     return RSAPublicKey(rsaPublicKey);
   }
 
