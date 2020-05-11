@@ -32,8 +32,6 @@ Signs everything that needs to be signed (i.e. the signature JSON inside the pay
 
 ## Usage examples
 
-You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
-
 ```dart
 import 'package:commerciosdk/export.dart';
 import 'commons.dart';
@@ -44,45 +42,24 @@ void main() async {
     lcdUrl: "http://localhost:1317",
   );
 
-  final userMnemonic = [
-    "will",
-    "hard",
-    "topic",
-    "spray",
-    "beyond",
-    "ostrich",
-    "moral",
-    "morning",
-    "gas",
-    "loyal",
-    "couch",
-    "horn",
-    "boss",
-    "across",
-    "age",
-    "post",
-    "october",
-    "blur",
-    "piece",
-    "wheel",
-    "film",
-    "notable",
-    "word",
-    "man"
-  ];
+  final userMnemonic = ["will", "hard", ..., "man"];
 
   final userWallet = Wallet.derive(userMnemonic, info);
 
   // --- Create Did Document
-  final rsaKeyPair = await KeysHelper.generateRsaKeyPair();
-  final ecKeyPair = await KeysHelper.generateEcKeyPair();
+  final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
+  final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
+  final rsaSignatureKeyPair =
+      await KeysHelper.generateRsaKeyPair(type: "RsaSignatureKey2018");
+  final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
+
   final didDocument =  DidDocumentHelper.fromWallet(
-    userWallet,
-    [rsaKeyPair.publicKey, ecKeyPair.publicKey]
+      wallet,
+      [rsaVerificationPubKey, rsaSignaturePubKey]
   );
   
   // --- Set the Did Document
-  await IdHelper.setDidDocument(didocument, userWallet);  
+  await IdHelper.setDidDocument(didocument, wallet);
 
   // --- Request the Did power up
   final pairwiseMnemonic = [
