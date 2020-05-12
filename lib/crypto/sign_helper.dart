@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:commerciosdk/entities/export.dart';
+import 'package:commerciosdk/entities/keys/rsa_keys.dart' as comm;
 import 'package:commerciosdk/id/export.dart';
 import 'package:crypto/crypto.dart';
 import 'package:meta/meta.dart';
+import 'package:pointycastle/api.dart';
+import 'package:pointycastle/asymmetric/api.dart';
+import 'package:pointycastle/digests/sha256.dart';
+import 'package:pointycastle/signers/rsa_signer.dart';
 import 'package:sacco/sacco.dart';
 import 'package:sacco/utils/export.dart';
 
@@ -24,15 +28,22 @@ class SignHelper {
   /// Takes the [signatureJson] and:
   /// 1. Concatenate senderDid, pairwiseDid and timestamp as payload
   /// 2. Calcolate the SHA256 hash of the payload
-  /// 3. Returns the RSA PKCS1v15 encription of the hash using wallet's 
-  ///    private key 
+  /// 3. Returns the RSA PKCS1v15 sign using the [rsaPrivateKey]
   static Uint8List signPowerUpSignature(
       {@required DidPowerUpRequestSignatureJson signatureJson,
-      @required Wallet wallet}) {
+      @required Wallet wallet,
+      @required comm.RSAPrivateKey rsaPrivateKey}) {
     final concat = signatureJson.senderDid +
         signatureJson.pairwiseDid +
         signatureJson.timestamp;
     final hash = sha256.convert(utf8.encode(concat));
-    return wallet.sign(hash.bytes);
+
+    final rsaSigner = RSASigner(SHA256Digest(), '0609608648016503040201');
+    final privateKey = rsaPrivateKey.secretKey;
+    rsaSigner.init(true, PrivateKeyParameter<RSAPrivateKey>(privateKey));
+
+    final sig = rsaSigner.generateSignature(hash.bytes);
+
+    return sig.bytes;
   }
 }
