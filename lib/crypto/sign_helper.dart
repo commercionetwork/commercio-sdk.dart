@@ -4,11 +4,8 @@ import 'dart:typed_data';
 import 'package:commerciosdk/entities/keys/rsa_keys.dart' as comm;
 import 'package:commerciosdk/id/export.dart';
 import 'package:crypto/crypto.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:meta/meta.dart';
-import 'package:pointycastle/api.dart';
-import 'package:pointycastle/asymmetric/api.dart';
-import 'package:pointycastle/digests/sha256.dart';
-import 'package:pointycastle/signers/rsa_signer.dart';
 import 'package:sacco/sacco.dart';
 import 'package:sacco/utils/export.dart';
 
@@ -32,18 +29,16 @@ class SignHelper {
   static Uint8List signPowerUpSignature(
       {@required DidPowerUpRequestSignatureJson signatureJson,
       @required Wallet wallet,
+      @required comm.RSAPublicKey rsaPublicKey,
       @required comm.RSAPrivateKey rsaPrivateKey}) {
     final concat = signatureJson.senderDid +
         signatureJson.pairwiseDid +
-        signatureJson.timestamp;
+        signatureJson.timestamp.toString();
     final hash = sha256.convert(utf8.encode(concat));
 
-    final rsaSigner = RSASigner(SHA256Digest(), '0609608648016503040201');
-    final privateKey = rsaPrivateKey.secretKey;
-    rsaSigner.init(true, PrivateKeyParameter<RSAPrivateKey>(privateKey));
+    final signer = Signer(RSASigner(RSASignDigest.SHA256,
+        publicKey: rsaPublicKey.pubKey, privateKey: rsaPrivateKey.secretKey));
 
-    final sig = rsaSigner.generateSignature(hash.bytes);
-
-    return sig.bytes;
+    return signer.signBytes(hash.bytes).bytes;
   }
 }
