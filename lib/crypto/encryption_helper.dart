@@ -42,11 +42,22 @@ class EncryptionHelper {
     return AES(key, mode: AESMode.ecb).encrypt(utf8.encode(data)).bytes;
   }
 
-  static Uint8List encryptStringWithAesGCM(String data, String plainKey) {
-    final nonce = CryptKey().genDart(12);
-    final aesGcmCrypter = AesCrypt(plainKey, 'gcm');
+  static Uint8List encryptStringWithAesGCM(String data, Key key) {
+    // Generate a random 96-bit nonce N
+    final nonce = KeysHelper.generateRandomNonceUtf8(12);
 
-    return utf8.encode(aesGcmCrypter.encrypt(data, nonce));
+    // Create an AES-GCM crypter
+    final aesGcmCrypter =
+        AesCrypt(String.fromCharCodes(key.bytes), 'gcm', 'none');
+
+    // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT
+    final base64Enc = aesGcmCrypter.encrypt(data, utf8.decode(nonce));
+    final chiperText = base64.decode(base64Enc);
+
+    // Concatenate bytes of CIPHERTEXT and N
+    final chiperTextWithNonce = nonce + chiperText;
+
+    return Uint8List.fromList(chiperTextWithNonce);
   }
 
   /// Encrypts the given [data] with AES using the specified [key].
