@@ -11,7 +11,6 @@ import 'package:commerciosdk/id/did_power_up_request_payload.dart';
 import 'package:commerciosdk/id/did_power_up_request_signature_json.dart';
 import 'package:commerciosdk/networking/network.dart';
 import 'package:commerciosdk/tx/tx_helper.dart';
-import 'package:commerciosdk/utils/utils.dart';
 import 'package:sacco/sacco.dart';
 import 'package:uuid/uuid.dart';
 
@@ -45,7 +44,7 @@ class IdHelper {
       String pairwiseDid, List<StdCoin> amount, Wallet wallet, KeyPair rsaKeys,
       {StdFee fee}) async {
     // Get the timestamp
-    final timestamp = getTimeStamp();
+    final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch;
 
     // Build the signature
     final signatureJson = DidPowerUpRequestSignatureJson(
@@ -58,6 +57,7 @@ class IdHelper {
     final signedSignatureHash = SignHelper.signPowerUpSignature(
         signatureJson: signatureJson,
         wallet: wallet,
+        rsaPublicKey: rsaKeys.publicKey,
         rsaPrivateKey: rsaKeys.privateKey);
 
     // Build the payload

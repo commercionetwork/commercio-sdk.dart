@@ -13,7 +13,7 @@ class DidPowerUpRequestPayload extends Equatable {
   @JsonKey(name: "pairwise_did")
   final String pairwiseDid;
   @JsonKey(name: "timestamp")
-  final String timestamp;
+  final int timestamp;
   @JsonKey(name: "signature")
   final String signature;
 

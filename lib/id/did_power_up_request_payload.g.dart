@@ -11,7 +11,7 @@ DidPowerUpRequestPayload _$DidPowerUpRequestPayloadFromJson(
   return DidPowerUpRequestPayload(
     senderDid: json['sender_did'] as String,
     pairwiseDid: json['pairwise_did'] as String,
-    timestamp: json['timestamp'] as String,
+    timestamp: json['timestamp'] as int,
     signature: json['signature'] as String,
   );
 }
