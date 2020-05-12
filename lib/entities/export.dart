@@ -1,6 +1,8 @@
 export 'dart:typed_data';
 
-export 'package:encrypt/encrypt.dart' hide Algorithm, SecureRandom;
+export 'package:encrypt/encrypt.dart' hide Algorithm, SecureRandom,
+        RSASigner,
+        Signer;
 export 'package:pointycastle/export.dart'
     hide
         PrivateKey,
@@ -8,9 +10,7 @@ export 'package:pointycastle/export.dart'
         RSAPublicKey,
         RSAPrivateKey,
         ECPublicKey,
-        ECPrivateKey,
-        RSASigner,
-        Signer;
+        ECPrivateKey;
 
 export 'docs/export.dart';
 export 'id/export.dart';
