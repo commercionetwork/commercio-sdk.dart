@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:commerciosdk/crypto/export.dart';
 import 'package:equatable/equatable.dart';
