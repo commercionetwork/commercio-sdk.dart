@@ -1,11 +1,18 @@
 import 'dart:convert';
 
+import 'package:commerciosdk/crypto/encryption_helper.dart';
+import 'package:commerciosdk/crypto/keys_helper.dart';
 import 'package:commerciosdk/crypto/sign_helper.dart';
-import 'package:commerciosdk/export.dart';
+import 'package:commerciosdk/entities/id/did_document.dart';
+import 'package:commerciosdk/entities/id/msg_request_did_power_up.dart';
+import 'package:commerciosdk/entities/id/msg_set_did_document.dart';
+import 'package:commerciosdk/entities/keys/key_pair.dart';
+import 'package:commerciosdk/id/did_power_up_request_payload.dart';
 import 'package:commerciosdk/id/did_power_up_request_signature_json.dart';
-import 'package:commerciosdk/id/id_utils.dart';
+import 'package:commerciosdk/networking/network.dart';
+import 'package:commerciosdk/tx/tx_helper.dart';
+import 'package:commerciosdk/utils/utils.dart';
 import 'package:sacco/sacco.dart';
-import 'package:steel_crypt/steel_crypt.dart';
 import 'package:uuid/uuid.dart';
 
 /// Allows to perform common operations related to CommercioID.
@@ -35,7 +42,7 @@ class IdHelper {
   /// Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the
   /// private key contained inside the given [wallet].
   static Future<TransactionResult> requestDidPowerUp(
-      String pairwiseDid, List<StdCoin> amount, Wallet wallet,
+      String pairwiseDid, List<StdCoin> amount, Wallet wallet, KeyPair rsaKeys,
       {StdFee fee}) async {
     // Get the timestamp
     final timestamp = getTimeStamp();
@@ -47,8 +54,11 @@ class IdHelper {
       timestamp: timestamp,
     );
 
+    // Sign the signature
     final signedSignatureHash = SignHelper.signPowerUpSignature(
-        signatureJson: signatureJson, wallet: wallet);
+        signatureJson: signatureJson,
+        wallet: wallet,
+        rsaPrivateKey: rsaKeys.privateKey);
 
     // Build the payload
     final payload = DidPowerUpRequestPayload(
@@ -58,10 +68,12 @@ class IdHelper {
       signature: base64.encode(signedSignatureHash),
     );
 
-    // Build proof and proof key
+    // =============
+    // Encrypt proof
+    // =============
 
-    // Generate the AES key
-    final aesKey = CryptKey().genFortuna();
+    // Generate an AES-256 key called F
+    final aesKey = await KeysHelper.generateAesKey();
 
     // Encrypt the payload
     final encryptedProof = EncryptionHelper.encryptStringWithAesGCM(
@@ -69,13 +81,14 @@ class IdHelper {
       aesKey,
     );
 
-    // Encrypt the AES key
-    final rsaKey = await EncryptionHelper.getGovernmentRsaPubKey(
+    // =================
+    // Encrypt proof key
+    // =================
+
+    final rsaPubTkKey = await EncryptionHelper.getGovernmentRsaPubKey(
         wallet.networkInfo.lcdUrl);
-    final encryptedProofKey = EncryptionHelper.encryptBytesWithRsa(
-      utf8.encode(aesKey),
-      rsaKey,
-    );
+    final encryptedProofKey =
+        EncryptionHelper.encryptBytesWithRsa(aesKey.bytes, rsaPubTkKey);
 
     // Build the message and send the tx
     final msg = MsgRequestDidPowerUp(
