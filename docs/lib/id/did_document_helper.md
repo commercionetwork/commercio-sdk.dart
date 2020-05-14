@@ -1,15 +1,16 @@
 # Did Document Helper
+
 Did Helper allows to easily create a Did Document.
 
-
 ## Provided Operations
+
 1. Creates a [DidDocument](../glossary.md) from the given `wallet` and optional [Public keys](../glossary.md)
-```dart
-  static DidDocument fromWallet(Wallet wallet, List<PubKey> pubKeys)
-```  
+
+    ```dart
+      static DidDocument fromWallet(Wallet wallet, List<PubKey> pubKeys)
+    ```  
 
 ## Usage examples
-You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
 
 ```dart
 import 'package:commerciosdk/export.dart';
@@ -21,41 +22,19 @@ void main() async {
     lcdUrl: "http://localhost:1317",
   );
 
-  final userMnemonic = [
-    "will",
-    "hard",
-    "topic",
-    "spray",
-    "beyond",
-    "ostrich",
-    "moral",
-    "morning",
-    "gas",
-    "loyal",
-    "couch",
-    "horn",
-    "boss",
-    "across",
-    "age",
-    "post",
-    "october",
-    "blur",
-    "piece",
-    "wheel",
-    "film",
-    "notable",
-    "word",
-    "man"
-  ];
-
-  final userWallet = Wallet.derive(userMnemonic, info);
+  final userMnemonic = ["will", "hard", ..., "man"];
+  final wallet = Wallet.derive(userMnemonic, info);
 
   // --- Create keys and Did Document
-  final rsaKeyPair = await KeysHelper.generateRsaKeyPair();
-  final ecKeyPair = await KeysHelper.generateEcKeyPair();
+  final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
+  final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
+  final rsaSignatureKeyPair =
+      await KeysHelper.generateRsaKeyPair(type: "RsaSignatureKey2018");
+  final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
+
   final didDocument =  DidDocumentHelper.fromWallet(
-                          userWallet, 
-                          [rsaKeyPair.publicKey, ecKeyPair.publicKey]
+      wallet,
+      [rsaVerificationPubKey, rsaSignaturePubKey]
   );
 }
 ```

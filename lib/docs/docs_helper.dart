@@ -7,7 +7,7 @@ class DocsHelper {
   final client = http.Client();
 
   /// Creates a new transaction that allows to share the document associated
-  /// with the given [contentUri] and having the given [metadata]
+  /// with the given [metadata] and having the optional [contentUri], [doSign]
   /// and [checksum]. If [encryptedData] is specified, encrypts the proper
   /// data for the specified [recipients] and then sends the transaction
   /// to the blockchain.
@@ -19,7 +19,7 @@ class DocsHelper {
     CommercioDoSign doSign,
     CommercioDocChecksum checksum,
     Key aesKey,
-    List<EncryptedData> encryptedData = const [],
+    List<EncryptedData> encryptedData,
     StdFee fee,
     String contentUri,
   }) async {
@@ -36,7 +36,7 @@ class DocsHelper {
     );
 
     // Encrypt its contents, if necessary
-    if (encryptedData.isNotEmpty) {
+    if (encryptedData != null && encryptedData.isNotEmpty) {
       // Get a default aes key for encryption if needed
       final key = aesKey != null ? aesKey : await KeysHelper.generateAesKey();
 
