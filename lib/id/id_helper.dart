@@ -6,7 +6,7 @@ import 'package:commerciosdk/crypto/sign_helper.dart';
 import 'package:commerciosdk/entities/id/did_document.dart';
 import 'package:commerciosdk/entities/id/msg_request_did_power_up.dart';
 import 'package:commerciosdk/entities/id/msg_set_did_document.dart';
-import 'package:commerciosdk/entities/keys/key_pair.dart';
+import 'package:commerciosdk/entities/keys/export.dart';
 import 'package:commerciosdk/id/did_power_up_request_payload.dart';
 import 'package:commerciosdk/id/did_power_up_request_signature_json.dart';
 import 'package:commerciosdk/networking/network.dart';
@@ -40,8 +40,8 @@ class IdHelper {
   /// Creates a new Did power up request for the given [pairwiseDid] and of the given [amount].
   /// Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the
   /// private key contained inside the given [wallet].
-  static Future<TransactionResult> requestDidPowerUp(
-      String pairwiseDid, List<StdCoin> amount, Wallet wallet, KeyPair rsaKeys,
+  static Future<TransactionResult> requestDidPowerUp(String pairwiseDid,
+      List<StdCoin> amount, Wallet wallet, RSAPrivateKey privateKey,
       {StdFee fee}) async {
     // Get the timestamp
     final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch;
@@ -57,8 +57,7 @@ class IdHelper {
     final signedSignatureHash = SignHelper.signPowerUpSignature(
         signatureJson: signatureJson,
         wallet: wallet,
-        rsaPublicKey: rsaKeys.publicKey,
-        rsaPrivateKey: rsaKeys.privateKey);
+        rsaPrivateKey: privateKey);
 
     // Build the payload
     final payload = DidPowerUpRequestPayload(
