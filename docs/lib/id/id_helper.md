@@ -16,6 +16,7 @@ Id helper allows to easily perform all the operations related to the commercio.n
    static Future<TransactionResult> setDidDocument(
      DidDocument didDocument,
      Wallet wallet,
+     {StdFee fee}
    )
    ```
 
@@ -26,95 +27,73 @@ Signs everything that needs to be signed (i.e. the signature JSON inside the pay
    Future<TransactionResult> requestDidPowerUp(
      String pairwiseDid,
      List<StdCoin> amount,
-     Wallet wallet
+     Wallet wallet,
+     {StdFee fee}
    ) async
    ```
 
 ## Usage examples
 
-You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
-
 ```dart
-import 'package:commerciosdk/export.dart';
-import 'commons.dart';
-
 void main() async {
   final info = NetworkInfo(
     bech32Hrp: "did:com:",
     lcdUrl: "http://localhost:1317",
   );
 
-  final userMnemonic = [
-    "will",
-    "hard",
-    "topic",
-    "spray",
-    "beyond",
-    "ostrich",
-    "moral",
-    "morning",
-    "gas",
-    "loyal",
-    "couch",
-    "horn",
-    "boss",
-    "across",
-    "age",
-    "post",
-    "october",
-    "blur",
-    "piece",
-    "wheel",
-    "film",
-    "notable",
-    "word",
-    "man"
-  ];
-
+  // --- Create user wallet
+  final userMnemonic = ["will", "hard", ..., "man"];
   final userWallet = Wallet.derive(userMnemonic, info);
 
+  // --- Create verification RSA public key
+  const String PUB_KEY_PEM_VERIFICATION = """
+  -----BEGIN PUBLIC KEY-----
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArC0ApIgc5MmQ2s...
+  -----END PUBLIC KEY-----
+  """;
+  final pubKeyVerification = RSAKeyParser.parsePublicKeyFromPem(PUB_KEY_PEM_VERIFICATION);
+  final rsaPubKeyVerification = RSAPublicKey(pubKeyVerification, keyType: "RsaVerificationKey2018");
+
+  // --- Create signature RSA public key
+  const String PUB_KEY_PEM_SIGNATURE = """
+  -----BEGIN PUBLIC KEY-----
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA+Juw6xqYchTNFY...
+  -----END PUBLIC KEY-----
+  """;
+  final pubKeySignature = RSAKeyParser.parsePublicKeyFromPem(PUB_KEY_PEM_SIGNATURE);
+  final rsaPubKeySignature = RSAPublicKey(pubKeySignature, keyType: "RsaSignatureKey2018");
+
   // --- Create Did Document
-  final rsaKeyPair = await KeysHelper.generateRsaKeyPair();
-  final ecKeyPair = await KeysHelper.generateEcKeyPair();
   final didDocument =  DidDocumentHelper.fromWallet(
     userWallet,
-    [rsaKeyPair.publicKey, ecKeyPair.publicKey]
+    [rsaPubKeyVerification, rsaPubKeySignature],
   );
   
   // --- Set the Did Document
-  await IdHelper.setDidDocument(didocument, userWallet);  
+  await IdHelper.setDidDocument(didocument, userWallet);
 
-  // --- Request the Did power up
-  final pairwiseMnemonic = [
-    "push",
-    "grace",
-    "power",
-    "desk",
-    "arrive",
-    "horror",
-    "gallery",
-    "physical",
-    "kingdom",
-    "ecology",
-    "fat",
-    "firm",
-    "future",
-    "service",
-    "table",
-    "little",
-    "live",
-    "reason",
-    "maximum",
-    "short",
-    "motion",
-    "planet",
-    "stage",
-    "second"
+  // --- Send power up to the Tumbler
+  const tumblerAddress = "did:com:1z...";
+  final depositAmount = [StdCoin(denom: "ucommercio", amount: "10")];
+  final msgs = [
+    MsgSend(
+      amount: depositAmount,
+      fromAddress: userWallet.bech32Address,
+      toAddress: tumblerAddress,
+    ),
   ];
 
-  final pairwiseWallet = Wallet.derive(pairwiseMnemonic, info);
+  final res = await TxHelper.createSignAndSendTx(
+    msgs,
+    userWallet,
+  );
 
-  final depositAmount = [StdCoin(denom: "ucommercio", amount: "100")];
+  // --- Request the Did power up
+  final pairwiseWallet = Wallet.derive(
+    userMnemonic,
+    info,
+    lastDerivationPathSegment: '10',
+  );
 
   await IdHelper.requestDidPowerUp(
     pairwiseWallet.bech32Address,
