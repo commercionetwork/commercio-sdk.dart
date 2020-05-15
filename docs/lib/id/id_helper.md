@@ -20,13 +20,16 @@ Id helper allows to easily perform all the operations related to the commercio.n
    ```
 
 3. Create a new [Did power up request](../glossary.md) for the given `pairwiseDid` and of the given `amount`.  
-Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the private key contained inside the given `wallet`
+Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the private key contained inside the given `wallet` and the client generated `private RSA key`.
+Optionally a custom `fee` can be specified.
 
    ```dart
    Future<TransactionResult> requestDidPowerUp(
      String pairwiseDid,
      List<StdCoin> amount,
-     Wallet wallet
+     Wallet wallet,
+     RSAPrivateKey privateKey,
+     {StdFee fee}
    ) async
    ```
 
@@ -97,6 +100,7 @@ void main() async {
     pairwiseWallet.bech32Address,
     depositAmount,
     userWallet,
+    rsaSignatureKeyPair.privateKey
   );
 }
 ```
