@@ -52,9 +52,9 @@ class EncryptionHelper {
 
     // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT
     final base64Enc = aesGcmCrypter.encrypt(data, utf8.decode(nonce));
-    final chiperText = base64.decode(base64Enc);
 
     // Concatenate bytes of CIPHERTEXT and N
+    final chiperText = base64.decode(base64Enc);
     final chiperTextWithNonce = nonce + chiperText;
 
     return Uint8List.fromList(chiperTextWithNonce);
