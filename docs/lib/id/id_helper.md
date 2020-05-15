@@ -25,9 +25,9 @@ Optionally a custom `fee` can be specified.
 
    ```dart
    Future<TransactionResult> requestDidPowerUp(
+     Wallet wallet,
      String pairwiseDid,
      List<StdCoin> amount,
-     Wallet wallet,
      RSAPrivateKey privateKey,
      {StdFee fee}
    ) async
@@ -62,7 +62,7 @@ void main() async {
   );
   
   // --- Set the Did Document
-  await IdHelper.setDidDocument(didocument, wallet);
+  await IdHelper.setDidDocument(diDocument, wallet);
 
   // --- Request the Did power up
   final pairwiseMnemonic = [
@@ -97,9 +97,9 @@ void main() async {
   final depositAmount = [StdCoin(denom: "ucommercio", amount: "100")];
 
   await IdHelper.requestDidPowerUp(
+    userWallet,
     pairwiseWallet.bech32Address,
     depositAmount,
-    userWallet,
     rsaSignatureKeyPair.privateKey
   );
 }

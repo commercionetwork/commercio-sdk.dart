@@ -27,27 +27,28 @@ class IdHelper {
     return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 
-  /// Creates a new Did power up request for the given [pairwiseDid] and of the
-  /// given [amount].
+  /// Creates a new Did power up request from [senderWallet] address for the
+  /// given [pairwiseDid] and of the given [amount].
   /// Signs everything that needs to be signed (i.e. the signature JSON inside
-  /// the payload) with the private key contained inside the given [wallet] and
-  /// the [privateKey].
-  static Future<TransactionResult> requestDidPowerUp(String pairwiseDid,
-      List<StdCoin> amount, Wallet wallet, RSAPrivateKey privateKey,
+  /// the payload) with the private key contained inside the given
+  /// [senderWallet] and the [privateKey].
+  static Future<TransactionResult> requestDidPowerUp(Wallet senderWallet,
+      String pairwiseDid, List<StdCoin> amount, RSAPrivateKey privateKey,
       {StdFee fee}) async {
     // Get the timestamp
     final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
+    final senderDid = senderWallet.bech32Address;
 
     // Build and sign the signature
     final signedSignatureHash = SignHelper.signPowerUpSignature(
-        senderDid: wallet.bech32Address,
+        senderDid: senderDid,
         pairwiseDid: pairwiseDid,
         timestamp: timestamp,
         rsaPrivateKey: privateKey);
 
     // Build the payload
     final payload = DidPowerUpRequestPayload(
-      senderDid: wallet.bech32Address,
+      senderDid: senderDid,
       pairwiseDid: pairwiseDid,
       timestamp: timestamp,
       signature: base64.encode(signedSignatureHash),
@@ -72,19 +73,19 @@ class IdHelper {
 
     // Encrypt the key using the Tumbler public RSA key
     final rsaPubTkKey = await EncryptionHelper.getGovernmentRsaPubKey(
-        wallet.networkInfo.lcdUrl);
+        senderWallet.networkInfo.lcdUrl);
     final encryptedProofKey =
         EncryptionHelper.encryptBytesWithRsa(aesKey.bytes, rsaPubTkKey);
 
     // Build the message and send the tx
     final msg = MsgRequestDidPowerUp(
-      claimantDid: wallet.bech32Address,
+      claimantDid: senderDid,
       amount: amount,
       powerUpProof: base64.encode(encryptedProof),
       uuid: Uuid().v4(),
       encryptionKey: base64.encode(encryptedProofKey),
     );
 
-    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
+    return TxHelper.createSignAndSendTx([msg], senderWallet, fee: fee);
   }
 }
