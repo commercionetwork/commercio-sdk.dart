@@ -19,7 +19,7 @@ dependencies:
   basic_utils: ^2.5.3
 
   # Crypto utils
-  sacco: ^0.1.0
+  sacco: ^0.1.4
   encrypt: ^4.0.1
   ed25519_hd_key: ^1.0.1
   pointycastle: ^1.0.1
