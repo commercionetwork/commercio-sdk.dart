@@ -71,11 +71,8 @@ void main() async {
   ];
   final pairwiseWallet = Wallet.derive(pairwiseMnemonic, info);
   final depositAmount = [StdCoin(denom: "ucommercio", amount: "10")];
-  await _postPowerUpRequest(
-    pairwiseWallet.bech32Address,
-    depositAmount,
-    userWallet,
-  );
+  await _postPowerUpRequest(pairwiseWallet.bech32Address, depositAmount,
+      userWallet, rsaKeyPair.privateKey);
 }
 
 /// Shows how to create a Did Document and associate it to an existing
@@ -91,15 +88,9 @@ Future<void> _createDidDocument(Wallet wallet, List<PublicKey> keys) async {
 /// read and handled by the centralized APIs that will send the funds
 /// to such account.
 /// Documentation: https://docs.commercio.network/x/id/tx/request-did-power-up.html
-Future<void> _postPowerUpRequest(
-  String pairwiseDid,
-  List<StdCoin> amount,
-  Wallet wallet,
-) async {
-  final response = await IdHelper.requestDidPowerUp(
-    pairwiseDid,
-    amount,
-    wallet,
-  );
+Future<void> _postPowerUpRequest(String pairwiseDid, List<StdCoin> amount,
+    Wallet wallet, RSAPrivateKey privateKey) async {
+  final response =
+      await IdHelper.requestDidPowerUp(pairwiseDid, amount, wallet, privateKey);
   checkResponse(response);
 }
