@@ -27,26 +27,22 @@ class IdHelper {
     return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
   }
 
-  /// Creates a new Did power up request for the given [pairwiseDid] and of the given [amount].
-  /// Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the
-  /// private key contained inside the given [wallet].
+  /// Creates a new Did power up request for the given [pairwiseDid] and of the
+  /// given [amount].
+  /// Signs everything that needs to be signed (i.e. the signature JSON inside
+  /// the payload) with the private key contained inside the given [wallet] and
+  /// the [privateKey].
   static Future<TransactionResult> requestDidPowerUp(String pairwiseDid,
       List<StdCoin> amount, Wallet wallet, RSAPrivateKey privateKey,
       {StdFee fee}) async {
     // Get the timestamp
     final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
 
-    // Build the signature
-    final signatureJson = DidPowerUpRequestSignatureJson(
-      senderDid: wallet.bech32Address,
-      pairwiseDid: pairwiseDid,
-      timestamp: timestamp,
-    );
-
-    // Sign the signature
+    // Build and sign the signature
     final signedSignatureHash = SignHelper.signPowerUpSignature(
-        signatureJson: signatureJson,
-        wallet: wallet,
+        senderDid: wallet.bech32Address,
+        pairwiseDid: pairwiseDid,
+        timestamp: timestamp,
         rsaPrivateKey: privateKey);
 
     // Build the payload
@@ -61,7 +57,7 @@ class IdHelper {
     // Encrypt proof
     // =============
 
-    // Generate an AES-256 key called F
+    // Generate an AES-256 key
     final aesKey = await KeysHelper.generateAesKey();
 
     // Encrypt the payload
@@ -74,6 +70,7 @@ class IdHelper {
     // Encrypt proof key
     // =================
 
+    // Encrypt the key using the Tumbler public RSA key
     final rsaPubTkKey = await EncryptionHelper.getGovernmentRsaPubKey(
         wallet.networkInfo.lcdUrl);
     final encryptedProofKey =
