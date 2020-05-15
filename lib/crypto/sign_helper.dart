@@ -31,7 +31,7 @@ class SignHelper {
       @required RSAPrivateKey rsaPrivateKey}) {
     final concat = signatureJson.senderDid +
         signatureJson.pairwiseDid +
-        signatureJson.timestamp.toString();
+        signatureJson.timestamp;
 
     final signer = Signer(
         RSASigner(RSASignDigest.SHA256, privateKey: rsaPrivateKey.secretKey));

@@ -44,7 +44,7 @@ class IdHelper {
       List<StdCoin> amount, Wallet wallet, RSAPrivateKey privateKey,
       {StdFee fee}) async {
     // Get the timestamp
-    final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch;
+    final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
 
     // Build the signature
     final signatureJson = DidPowerUpRequestSignatureJson(

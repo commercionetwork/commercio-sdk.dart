@@ -11,7 +11,7 @@ DidPowerUpRequestSignatureJson _$DidPowerUpRequestSignatureJsonFromJson(
   return DidPowerUpRequestSignatureJson(
     senderDid: json['sender_did'] as String,
     pairwiseDid: json['pairwise_did'] as String,
-    timestamp: json['timestamp'] as int,
+    timestamp: json['timestamp'] as String,
   );
 }
 

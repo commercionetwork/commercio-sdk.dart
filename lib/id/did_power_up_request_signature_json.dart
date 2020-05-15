@@ -13,7 +13,7 @@ class DidPowerUpRequestSignatureJson extends Equatable {
   @JsonKey(name: "pairwise_did")
   final String pairwiseDid;
   @JsonKey(name: "timestamp")
-  final int timestamp;
+  final String timestamp;
 
   DidPowerUpRequestSignatureJson({
     @required this.senderDid,
