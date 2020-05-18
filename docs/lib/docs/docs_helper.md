@@ -4,9 +4,9 @@ Docs helper allows to easily perform all the operations related to the commercio
 
 ## Provided operations
 
-1. Creates a new transaction that allows to share the document associated with the given `metadata` and having the optional `contentUri`, `doSign` and `checksum`.
+1. Creates a new transaction that allows to share the document associated with the given `metadata` and having the optional fields `contentUri`, `doSign`, `checksum` and `fee`.
 
-   If `encryptedData` is specified, encrypts the proper data for the specified `recipients` and then sends the transaction to the blockchain.
+   If `encryptedData` is specified, encrypts the proper data and optional `aesKey` for the specified `recipients` and then sends the transaction to the blockchain.
 
     ```dart
     static Future<TransactionResult> shareDocument({
@@ -41,9 +41,7 @@ Docs helper allows to easily perform all the operations related to the commercio
     ) async
     ```
 
-4. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present
-inside the transaction with hash `txHash` has been properly seen.  
-The `proof` is an optional field that indicates proof of reading.
+4. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with hash `txHash` has been properly seen. The `proof` is an optional field that indicates proof of reading. Optionally a custom `fee` can be specified.
 
     ```dart
     static Future<TransactionResult> sendDocumentReceipt(
@@ -52,6 +50,7 @@ The `proof` is an optional field that indicates proof of reading.
       String documentId,
       Wallet wallet, {
       String proof = null,
+      StdFee fee,
     }) async
     ```
 
@@ -87,21 +86,21 @@ void main() async {
   );
 
   final senderMnemonic = ["will", "hard", ..., "man"];
-  final senderWallet = Wallet.derive(userMnemonic, info);
+  final senderWallet = Wallet.derive(senderMnemonic, info);
 
   final recipientMnemonic = ["crisp", "become", ..., "cereal"];
   final recipientWallet = Wallet.derive(recipientMnemonic, info);
+  final recipientDid = recipientWallet.bech32Address;
 
   // --- Share a document
-  final docRecipientDid = recipientWallet.bech32Address;
-  final pair = await _shareDoc([docRecipientDid], senderWallet);
+  final pair = await _shareDocument([recipientDid], senderWallet);
 
-  // --- Share receipt
-  final receiptRecipientDid = userWallet.bech32Address;
+  // --- Send receipt
+  final senderDid = senderWallet.bech32Address;
   await _sendReceipt(
     pair.first,
     pair.second,
-    receiptRecipientDid,
+    senderDid,
     recipientWallet,
   );
 }
@@ -115,7 +114,7 @@ class Pair<F, S> {
 
 /// Shows how to share a document to the given recipients.
 /// Documentation: https://docs.commercio.network/x/docs/tx/send-document.html
-Future<Pair<String, String>> _shareDoc(
+Future<Pair<String, String>> _shareDocument(
   List<String> recipients,
   Wallet wallet,
 ) async {
@@ -159,24 +158,22 @@ Future<Pair<String, String>> _shareDoc(
       ],
     ),
   );
-  checkResponse(response);
   return Pair(docId, response.hash);
 }
 
 /// Shows how to send a document receipt to the specified [recipient] for
 /// the given [docId] present inside the transaction having the given [txHash].
-Future<void> _sendReceipt(
-  String docId,
+Future<TransactionResult> _sendReceipt(
+  String documentId,
   String txHash,
   String recipient,
   Wallet wallet,
 ) async {
-  final response = await DocsHelper.sendDocumentReceipt(
+  return await DocsHelper.sendDocumentReceipt(
     recipient: recipient,
     txHash: txHash,
-    documentId: docId,
+    documentId: documentId,
     wallet: wallet,
   );
-  checkResponse(response);
 }
 ```
