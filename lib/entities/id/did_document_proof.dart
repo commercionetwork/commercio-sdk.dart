@@ -43,7 +43,14 @@ class DidDocumentProof extends Equatable {
 
   @override
   List<Object> get props {
-    return [type, iso8601creationTimestamp, proofPurpose, controller, verificationMethod, signatureValue];
+    return [
+      type,
+      iso8601creationTimestamp,
+      proofPurpose,
+      controller,
+      verificationMethod,
+      signatureValue
+    ];
   }
 
   factory DidDocumentProof.fromJson(Map<String, dynamic> json) =>
