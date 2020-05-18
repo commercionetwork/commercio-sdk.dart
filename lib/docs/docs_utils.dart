@@ -3,12 +3,7 @@ import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
 import 'package:sacco/sacco.dart';
 
-enum EncryptedData {
-  CONTENT,
-  CONTENT_URI,
-  METADATA_CONTENT_URI,
-  METADATA_SCHEMA_URI
-}
+enum EncryptedData { CONTENT_URI, METADATA_CONTENT_URI, METADATA_SCHEMA_URI }
 
 /// Represents a pair that associates a Did document to its encryption key.
 class _Pair {
@@ -26,6 +21,27 @@ _Pair _didDocumentToPair(DidDocument didDocument) {
   }
 
   return _Pair(first: didDocument, second: key);
+}
+
+/// Converts the list [encryptedData] to the corresponding list of values to be sent
+List<String> _linkEncryptedDataToValues(List<EncryptedData> encryptedData) {
+  return encryptedData.map((e) {
+    String type;
+    switch (e) {
+      case EncryptedData.CONTENT_URI:
+        type = "content_uri";
+        break;
+      case EncryptedData.METADATA_CONTENT_URI:
+        type = "metadata.content_uri";
+        break;
+      case EncryptedData.METADATA_SCHEMA_URI:
+        type = "metadata.schema.uri";
+        break;
+      default:
+        type = "";
+    }
+    return type;
+  }).toList();
 }
 
 /// Transforms [this] document into one having the proper fields encrypted as
@@ -91,7 +107,7 @@ Future<CommercioDoc> encryptField(
       aesKey.bytes,
       pair.second,
     );
-    CommercioDocEncryptionDataKey(
+    return CommercioDocEncryptionDataKey(
       recipientDid: pair.first.id,
       value: HEX.encode(encryptedAesKey),
     );
@@ -120,7 +136,8 @@ Future<CommercioDoc> encryptField(
     ),
     encryptionData: CommercioDocEncryptionData(
       keys: encryptionKeys,
-      encryptedData: encryptedData.map((e) => e.toString()).toList(),
+      encryptedData: _linkEncryptedDataToValues(encryptedData),
     ),
+    doSign: doc.doSign,
   );
 }

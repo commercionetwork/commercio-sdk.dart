@@ -1,41 +1,39 @@
 # Id helper
+
 Id helper allows to easily perform all the operations related to the commercio.network `id` module.
 
 ## Provided operations
+
 1. Returns the [DidDocument](../glossary.md) associated with the given [did](../glossary.md), or null if no `DidDocument` was found
-```dart
-static Future<DidDocument> getDidDocument(String did, Wallet wallet) async
-```
-2. Performs a transaction setting the specified `DidDocument` as being associated with the address present inside the specified
-`wallet`
-```dart
-static Future<TransactionResult> setDidDocument(
-  DidDocument didDocument,
-  Wallet wallet,
-) 
-```
-3. Creates a new [Did deposit request](../glossary.md) for the given `recipient` and of the given `amount`.  
-Signs everything that need to be signed (i.e. the signature JSON inside the payload) with the private key contained inside the
-given `wallet`
-```dart
-static Future<TransactionResult> requestDidDeposit(
-  String recipient, 
-  List<StdCoin> amount, 
-  Wallet wallet
-) async
-```
-4. Create a new [Did power up request](../glossary.md) for the given `pairwiseDid` and of the given `amount`.  
-Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the private key contained
-inside the given `wallet`
-```dart
-Future<TransactionResult> requestDidPowerUp(
-  String pairwiseDid, 
-  List<StdCoin> amount, 
-  Wallet wallet
-) async
-```
+
+   ```dart
+   static Future<DidDocument> getDidDocument(String did, Wallet wallet) async
+   ```
+
+2. Performs a transaction setting the specified `DidDocument` as being associated with the address present inside the specified `wallet`
+
+   ```dart
+   static Future<TransactionResult> setDidDocument(
+     DidDocument didDocument,
+     Wallet wallet,
+   )
+   ```
+
+3. Create a new [Did power up request](../glossary.md) for the given `pairwiseDid` and of the given `amount`.  
+Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the private key contained inside the given `wallet` and the client generated `private RSA key`.
+Optionally a custom `fee` can be specified.
+
+   ```dart
+   Future<TransactionResult> requestDidPowerUp(
+     Wallet wallet,
+     String pairwiseDid,
+     List<StdCoin> amount,
+     RSAPrivateKey privateKey,
+     {StdFee fee}
+   ) async
+   ```
+
 ## Usage examples
-You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
 
 ```dart
 import 'package:commerciosdk/export.dart';
@@ -47,53 +45,24 @@ void main() async {
     lcdUrl: "http://localhost:1317",
   );
 
-  final userMnemonic = [
-    "will",
-    "hard",
-    "topic",
-    "spray",
-    "beyond",
-    "ostrich",
-    "moral",
-    "morning",
-    "gas",
-    "loyal",
-    "couch",
-    "horn",
-    "boss",
-    "across",
-    "age",
-    "post",
-    "october",
-    "blur",
-    "piece",
-    "wheel",
-    "film",
-    "notable",
-    "word",
-    "man"
-  ];
+  final userMnemonic = ["will", "hard", ..., "man"];
 
   final userWallet = Wallet.derive(userMnemonic, info);
 
   // --- Create Did Document
-  final rsaKeyPair = await KeysHelper.generateRsaKeyPair();
-  final ecKeyPair = await KeysHelper.generateEcKeyPair();
+  final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
+  final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
+  final rsaSignatureKeyPair =
+      await KeysHelper.generateRsaKeyPair(type: "RsaSignatureKey2018");
+  final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
+
   final didDocument =  DidDocumentHelper.fromWallet(
-    userWallet, 
-    [rsaKeyPair.publicKey, ecKeyPair.publicKey]
+      wallet,
+      [rsaVerificationPubKey, rsaSignaturePubKey]
   );
   
   // --- Set the Did Document
-  await IdHelper.setDidDocument(didocument, userWallet);
-  
-  // --- Request the Did deposit
-  final depositAmount = [StdCoin(denom: "ucommercio", amount: "100")];
-  await IdHelper.requestDidDeposit(
-    userWallet.bech32address, 
-    depositAmount, 
-    userWallet
-  );
+  await IdHelper.setDidDocument(diDocument, wallet);
 
   // --- Request the Did power up
   final pairwiseMnemonic = [
@@ -125,10 +94,13 @@ void main() async {
 
   final pairwiseWallet = Wallet.derive(pairwiseMnemonic, info);
 
+  final depositAmount = [StdCoin(denom: "ucommercio", amount: "100")];
+
   await IdHelper.requestDidPowerUp(
+    userWallet,
     pairwiseWallet.bech32Address,
     depositAmount,
-    userWallet,
+    rsaSignatureKeyPair.privateKey
   );
 }
 ```

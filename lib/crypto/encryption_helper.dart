@@ -1,26 +1,63 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:commerciosdk/entities/crypto/identity_response.dart';
+import 'package:commerciosdk/entities/crypto/tumbler_response.dart';
 import 'package:commerciosdk/export.dart';
+import 'package:steel_crypt/steel_crypt.dart';
 
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
 class EncryptionHelper {
   /// Returns the RSA public key associated to the government that should be used when
   /// encrypting the data that only it should see.
-  static Future<RSAPublicKey> getGovernmentRsaPubKey() async {
-    final response =
-        await Network.query("http://localhost:8080/government/publicKey");
-    if (response == null) {
+  static Future<RSAPublicKey> getGovernmentRsaPubKey(String lcdUrl) async {
+    final tumblerResponse = await Network.query("$lcdUrl/government/tumbler");
+
+    if (tumblerResponse == null) {
+      throw FormatException("Cannot get tumbler address");
+    }
+
+    final tumbler = TumblerResponse.fromJson(jsonDecode(tumblerResponse));
+    final tumblerAddress = tumbler.result.tumblerAddress;
+    final identityResponseRaw =
+        await Network.query("$lcdUrl/identities/$tumblerAddress");
+
+    if (identityResponseRaw == null) {
       throw FormatException("Cannot get government RSA public key");
     }
-    final rsaPublicKey = RSAKeyParser.parsePublicKeyFromPem(response);
+
+    final identityResponse =
+        IdentityResponse.fromJson(jsonDecode(identityResponseRaw));
+    final publicSignatureKeyPem =
+        identityResponse.result.didDocument.publicKeys[1].publicKeyPem;
+    final rsaPublicKey =
+        RSAKeyParser.parsePublicKeyFromPem(publicSignatureKeyPem);
+
     return RSAPublicKey(rsaPublicKey);
   }
 
   /// Encrypts the given [data] with AES using the specified [key].
   static Uint8List encryptStringWithAes(String data, Key key) {
     return AES(key, mode: AESMode.ecb).encrypt(utf8.encode(data)).bytes;
+  }
+
+  static Uint8List encryptStringWithAesGCM(String data, Key key) {
+    // Generate a random 96-bit nonce N
+    final nonce = KeysHelper.generateRandomNonceUtf8(12);
+
+    // Create an AES-GCM crypter
+    final aesGcmCrypter =
+        AesCrypt(String.fromCharCodes(key.bytes), 'gcm', 'none');
+
+    // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT
+    final base64Enc = aesGcmCrypter.encrypt(data, utf8.decode(nonce));
+
+    // Concatenate bytes of CIPHERTEXT and N
+    final chiperText = base64.decode(base64Enc);
+    final chiperTextWithNonce = nonce + chiperText;
+
+    return Uint8List.fromList(chiperTextWithNonce);
   }
 
   /// Encrypts the given [data] with AES using the specified [key].

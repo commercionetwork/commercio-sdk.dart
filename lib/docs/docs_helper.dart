@@ -7,28 +7,24 @@ class DocsHelper {
   final client = http.Client();
 
   /// Creates a new transaction that allows to share the document associated
-  /// with the given [contentUri] and having the given [metadata]
+  /// with the given [metadata] and having the optional [contentUri], [doSign]
   /// and [checksum]. If [encryptedData] is specified, encrypts the proper
   /// data for the specified [recipients] and then sends the transaction
   /// to the blockchain.
   static Future<TransactionResult> shareDocument({
     @required String id,
-    @required String contentUri,
     @required CommercioDocMetadata metadata,
     @required List<String> recipients,
-    @required List<StdCoin> fees,
     @required Wallet wallet,
+    CommercioDoSign doSign,
     CommercioDocChecksum checksum,
     Key aesKey,
-    List<EncryptedData> encryptedData = const [],
+    List<EncryptedData> encryptedData,
+    StdFee fee,
+    String contentUri,
   }) async {
-    // Get a default aes key for encryption if needed
-    if (aesKey == null) {
-      aesKey = await KeysHelper.generateAesKey();
-    }
-
     // Build a generic document
-    final document = CommercioDoc(
+    CommercioDoc commercioDocument = CommercioDoc(
       senderDid: wallet.bech32Address,
       recipientDids: recipients,
       uuid: id,
@@ -36,14 +32,17 @@ class DocsHelper {
       metadata: metadata,
       checksum: checksum,
       encryptionData: null,
+      doSign: doSign,
     );
 
     // Encrypt its contents, if necessary
-    var finalDoc = document;
-    if (encryptedData.isNotEmpty) {
-      finalDoc = await encryptField(
-        document,
-        aesKey,
+    if (encryptedData != null && encryptedData.isNotEmpty) {
+      // Get a default aes key for encryption if needed
+      final key = aesKey != null ? aesKey : await KeysHelper.generateAesKey();
+
+      commercioDocument = await encryptField(
+        commercioDocument,
+        key,
         encryptedData,
         recipients,
         wallet,
@@ -51,11 +50,11 @@ class DocsHelper {
     }
 
     // Build the tx message
-    final msg = MsgShareDocument(document: finalDoc);
+    final msg = MsgShareDocument(document: commercioDocument);
     return TxHelper.createSignAndSendTx(
       [msg],
       wallet,
-      fee: StdFee(gas: "200000", amount: fees),
+      fee: fee,
     );
   }
 

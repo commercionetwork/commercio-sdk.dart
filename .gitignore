@@ -27,4 +27,5 @@ dist/
 .pub-cache/
 .pub/
 /build/
-
+/coverage/
+.test_coverage.dart

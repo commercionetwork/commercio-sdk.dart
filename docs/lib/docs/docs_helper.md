@@ -1,66 +1,79 @@
 # Docs helper
+
 Docs helper allows to easily perform all the operations related to the commercio.network `docs` module.
 
 ## Provided operations
 
-1. Creates a new transaction that allows to share the document associated with the given `contentUri` and having the given
-`metadata` and `checksum`.  
-If `encryptedData` is specified, encrypts the proper data for the specified `recipients` and then 
-sends the transaction to the blockchain
-```dart
-static Future<TransactionResult> shareDocument(
-  String contentUri,
-  CommercioDocMetadata metadata,
-  CommercioDocChecksum checksum,
-  List<String> recipientsDids,
-  Wallet wallet, {
-  Key aesKey = null,
-  List<EncryptedData> encryptedData = const [],
-}) async
-```
+1. Creates a new transaction that allows to share the document associated with the given `metadata` and having the optional `contentUri`, `doSign` and `checksum`.
+
+   If `encryptedData` is specified, encrypts the proper data for the specified `recipients` and then sends the transaction to the blockchain.
+
+    ```dart
+    static Future<TransactionResult> shareDocument({
+      @required String id,
+      @required CommercioDocMetadata metadata,
+      @required List<String> recipients,
+      @required Wallet wallet,
+      CommercioDoSign doSign,
+      CommercioDocChecksum checksum,
+      Key aesKey,
+      List<EncryptedData> encryptedData,
+      StdFee fee,
+      String contentUri,
+    }) async
+    ```
 
 2. Returns the list of all the `CommercioDoc` that the specified `address` has sent
-```dart
-static Future<List<CommercioDoc>> getSendDocuments(
-  String address,
-  Wallet wallet,
-) async
-```
+
+    ```dart
+    static Future<List<CommercioDoc>> getSendDocuments(
+      String address,
+      Wallet wallet,
+    ) async
+    ```
+
 3. Returns the list of all the `CommercioDoc` that the specified `address` has received
-```dart
-static Future<List<CommercioDoc>> getReceivedDocuments(
-  String address,
-  Wallet wallet,
-) async
-```
+
+    ```dart
+    static Future<List<CommercioDoc>> getReceivedDocuments(
+      String address,
+      Wallet wallet,
+    ) async
+    ```
+
 4. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present
 inside the transaction with hash `txHash` has been properly seen.  
 The `proof` is an optional field that indicates proof of reading.
-```dart
-static Future<TransactionResult> sendDocumentReceipt(
-  String recipient,
-  String txHash,
-  String documentId,
-  Wallet wallet, {
-  String proof = null,
-}) 
-```
+
+    ```dart
+    static Future<TransactionResult> sendDocumentReceipt(
+      String recipient,
+      String txHash,
+      String documentId,
+      Wallet wallet, {
+      String proof = null,
+    }) async
+    ```
+
 5. Returns the list of all the `CommercioDocReceipt` that have been sent from the given `address`
-```dart
-Future<List<CommercioDocReceipt>> getSentReceipts(
-  String address,
-  Wallet wallet,
-) async 
-```
+
+    ```dart
+    Future<List<CommercioDocReceipt>> getSentReceipts(
+      String address,
+      Wallet wallet,
+    ) async
+    ```
+
 6. Returns the list of all the `CommercioDocRecepit` that have been received from the given `address`
-```dart
-Future<List<CommercioDocReceipt>> getReceivedReceipts(
-  String address,
-  Wallet wallet,
-) async 
-```
+
+    ```dart
+    Future<List<CommercioDocReceipt>> getReceivedReceipts(
+      String address,
+      Wallet wallet,
+    ) async
+    ```
+
 ## Usage examples
-You can reach the examples code [here](https://github.com/commercionetwork/sdk.dart/tree/docs/example)
 
 ```dart
 import 'package:commerciosdk/export.dart';
@@ -73,75 +86,23 @@ void main() async {
     lcdUrl: "http://localhost:1317",
   );
 
-  final userMnemonic = [
-    "will",
-    "hard",
-    "topic",
-    "spray",
-    "beyond",
-    "ostrich",
-    "moral",
-    "morning",
-    "gas",
-    "loyal",
-    "couch",
-    "horn",
-    "boss",
-    "across",
-    "age",
-    "post",
-    "october",
-    "blur",
-    "piece",
-    "wheel",
-    "film",
-    "notable",
-    "word",
-    "man"
-  ];
+  final senderMnemonic = ["will", "hard", ..., "man"];
+  final senderWallet = Wallet.derive(userMnemonic, info);
 
-  final userWallet = Wallet.derive(userMnemonic, info);
-
-  final recipientMnemonic = [
-    "crisp",
-    "become",
-    "thumb",
-    "fetch",
-    "forest",
-    "senior",
-    "polar",
-    "slush",
-    "wise",
-    "wash",
-    "doctor",
-    "sunset",
-    "skate",
-    "disease",
-    "power",
-    "tool",
-    "sock",
-    "upper",
-    "diary",
-    "what",
-    "trap",
-    "artist",
-    "wood",
-    "cereal"
-  ];
-
+  final recipientMnemonic = ["crisp", "become", ..., "cereal"];
   final recipientWallet = Wallet.derive(recipientMnemonic, info);
 
   // --- Share a document
   final docRecipientDid = recipientWallet.bech32Address;
-  final pair = await _shareDoc([docRecipientDid], userWallet);
+  final pair = await _shareDoc([docRecipientDid], senderWallet);
 
   // --- Share receipt
   final receiptRecipientDid = userWallet.bech32Address;
   await _sendReceipt(
-          pair.first, 
-          pair.second, 
-          receiptRecipientDid, 
-          recipientWallet
+    pair.first,
+    pair.second,
+    receiptRecipientDid,
+    recipientWallet,
   );
 }
 
@@ -159,6 +120,23 @@ Future<Pair<String, String>> _shareDoc(
   Wallet wallet,
 ) async {
   final docId = new Uuid().v4();
+
+  final checksum = CommercioDocChecksum(
+    value: "a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c",
+    algorithm: CommercioDocChecksumAlgorithm.SHA256,
+  );
+
+  final doSign = CommercioDoSign(
+    storageUri: "http://www.commercio.network",
+    signerIstance: "did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj",
+    sdnData: [
+      CommercioSdnData.COMMON_NAME,
+      CommercioSdnData.SURNAME,
+    ],
+    vcrId: "xxxxx",
+    certificateProfile: "xxxxx",
+  );
+
   final response = await DocsHelper.shareDocument(
     id: docId,
     contentUri: "https://example.com/document",
@@ -170,8 +148,16 @@ Future<Pair<String, String>> _shareDoc(
       ),
     ),
     recipients: recipients,
-    fees: [StdCoin(denom: "ucommercio", amount: "10000")],
     wallet: wallet,
+    checksum: checksum,
+    encryptedData: [EncryptedData.CONTENT_URI],
+    doSign: doSign,
+    fee: StdFee(
+      gas: "200000",
+      amount: [
+        StdCoin(denom: "ucommercio", amount: "10000"),
+      ],
+    ),
   );
   checkResponse(response);
   return Pair(docId, response.hash);
