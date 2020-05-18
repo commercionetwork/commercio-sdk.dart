@@ -15,13 +15,13 @@ Membership helper allows to easily perform all the operations related to the com
 
 2. Buys the membership with the given `membershipType`. Optionally a custom `fee` can be specified.
 
-  ```dart
-  static Future<TransactionResult> buyMembership(
-    MembershipType membershipType,
-    Wallet wallet,
-    {StdFee fee}
-  ) async
-  ```
+    ```dart
+    static Future<TransactionResult> buyMembership(
+      MembershipType membershipType,
+      Wallet wallet,
+      {StdFee fee}
+    ) async
+    ```
 
 ## Usage examples
 
