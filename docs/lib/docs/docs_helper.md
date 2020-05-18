@@ -44,12 +44,12 @@ Docs helper allows to easily perform all the operations related to the commercio
 4. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with hash `txHash` has been properly seen. The `proof` is an optional field that indicates proof of reading. Optionally a custom `fee` can be specified.
 
     ```dart
-    static Future<TransactionResult> sendDocumentReceipt(
+    static Future<TransactionResult> sendDocumentReceipt({
       String recipient,
       String txHash,
       String documentId,
-      Wallet wallet, {
-      String proof = null,
+      Wallet wallet,
+      String proof = "",
       StdFee fee,
     }) async
     ```
