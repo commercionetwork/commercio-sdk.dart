@@ -59,7 +59,7 @@ Directly from [Did Specifications](https://w3c.github.io/did-core/):
 
 :::
 
-### Did Document in SDK
+### DidDocument in SDK
 
 Inside the SDK it is an object of type `DidDocument`:  
 
@@ -74,22 +74,63 @@ Inside the SDK it is an object of type `DidDocument`:
     @JsonKey(name: "publicKey")
     final List<DidDocumentPublicKey> publicKeys;
 
-    @JsonKey(name: "authentication")
-    final List<String> authentication;
-
     @JsonKey(name: "proof")
     final DidDocumentProof proof;
 
-    @JsonKey(name: "service")
-    final List<DidDocumentService> services;
+    @JsonKey(name: "service", includeIfNull: false)
+    final List<DidDocumentService> service;
 
     DidDocument({
       @required this.context,
       @required this.id,
       @required this.publicKeys,
-      @required this.authentication,
       @required this.proof,
-      @required this.services,
+      this.service,
     });
   }
+  ```
+
+## Did Power Up Request
+
+Directly from [Commercio.network Documentation](https://docs.commercio.network/x/id/#requesting-a-did-power-up):
+> A Did Power Up is the expression we use when referring to the willingness of a user to move a specified amount of tokens from external centralized entity to one of his private pairwise Did, making them able to send documents (which indeed require the user to spend some tokens as fees).
+
+:::tip Did Power Up Request example
+
+  ```json
+  {
+    "claimant":"address that sent funds to the centralized entity before",
+    "amount":[
+        {
+          "denom":"ucommercio",
+          "amount":"amount to transfer to the pairwise did, integer"
+        }
+    ],
+    "proof":"proof string",
+    "id":"randomly-generated UUID v4",
+    "proof_key":"proof encryption key"
+  }
+  ```
+
+:::
+
+### MsgRequestDidPowerUp in SDK
+
+Inside the SDK it is an object of type `MsgRequestDidPowerUp`
+
+  ```dart
+  class MsgRequestDidPowerUp extends StdMsg {
+    final String claimantDid;
+    final List<StdCoin> amount;
+    final String powerUpProof;
+    final String uuid;
+    final String encryptionKey;
+
+    MsgRequestDidPowerUp({
+      @required this.claimantDid,
+      @required this.amount,
+      @required this.powerUpProof,
+      @required this.uuid,
+      @required this.encryptionKey,
+    })
   ```
