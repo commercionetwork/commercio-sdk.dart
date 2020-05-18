@@ -12,7 +12,7 @@ class ECPublicKey implements PublicKey {
     this.pubKey, {
     this.keyType,
   });
-  
+
   @override
   String getType() => keyType ?? "Secp256k1VerificationKey2018";
 
