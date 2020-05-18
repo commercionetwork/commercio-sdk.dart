@@ -12,6 +12,9 @@ static Future<TransactionResult> createSignAndSendTx(
   Wallet wallet, {
   StdFee fee = const StdFee(
     gas: "200000",
-    amount: [const StdCoin(denom: "ucommercio", amount: "100")]),
+    amount: [const StdCoin(
+      denom: "ucommercio", amount: "10000"
+    )]
+  ),
 }) async
 ```
