@@ -10,7 +10,7 @@ class MintHelper {
       depositAmount: [
         StdCoin(
           denom: "ucommercio",
-          amount: (amount * 1000000).toString(),
+          amount: amount.toString(),
         )
       ],
       signerDid: wallet.bech32Address,
