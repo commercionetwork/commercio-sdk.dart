@@ -1,3 +1,12 @@
+## Version 2.1.0 - 2020-05-18
+* Aligned DDO creation
+* Aligned powerUP creation
+* Aligned shareDoc creation
+* Deleted Did Deposit
+* Fixed Cdp creation
+* Add do_sign shareDoc
+
+
 ## Version 0.1.3 - 2019-12-16
 * updated `context` link in `DidDocumentHelper` with https://www.w3.org/ns/did/v1.
 
