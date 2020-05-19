@@ -51,5 +51,5 @@ Below you can find the encryption helper's provided operations with some example
 8. Returns the RSA Public key associated to the government that should be used when encrypting the data that only it should see
 
     ```dart
-    static Future<RSAPubKey> getGovernmentRsaPubKey(String lcdUrl) async
+    static Future<RSAPublicKey> getGovernmentRsaPubKey(String lcdUrl) async
     ```

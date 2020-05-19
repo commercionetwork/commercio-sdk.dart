@@ -9,7 +9,7 @@ Below you can find the sign helper's provided operations with some examples
 1. Converts the given `data` into an alphabetically sorted JSON object and signs its content using the given `wallet`  
 
     ```dart
-    static Uint8List signSorted(Map<String, dynamic> data, Wallet wallet) 
+    static Uint8List signSorted(dynamic data, Wallet wallet)
     ```
 
 2. Concatenates `senderDid`, `pairwiseDid` and `timestamp` and make a SHA-256 digest of it. Then uses the `rsaPrivateKey` to sign the hash and returning the resulting bytes.
