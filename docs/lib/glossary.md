@@ -65,19 +65,19 @@ Inside the SDK it is an object of type `DidDocument`:
 
   ```dart
   class DidDocument extends Equatable {
-    @JsonKey(name: "@context")
+    @JsonKey(name: '@context')
     final String context;
 
-    @JsonKey(name: "id")
+    @JsonKey(name: 'id')
     final String id;
 
-    @JsonKey(name: "publicKey")
+    @JsonKey(name: 'publicKey')
     final List<DidDocumentPublicKey> publicKeys;
 
-    @JsonKey(name: "proof")
+    @JsonKey(name: 'proof')
     final DidDocumentProof proof;
 
-    @JsonKey(name: "service", includeIfNull: false)
+    @JsonKey(name: 'service', includeIfNull: false)
     final List<DidDocumentService> service;
 
     DidDocument({

@@ -23,18 +23,18 @@ import 'commons.dart';
 
 void main() async {
   final info = NetworkInfo(
-    bech32Hrp: "did:com:",
-    lcdUrl: "http://localhost:1317",
+    bech32Hrp: 'did:com:',
+    lcdUrl: 'http://localhost:1317',
   );
 
-  final userMnemonic = ["will", "hard", ..., "man"];
+  final userMnemonic = ['will', 'hard', ..., 'man'];
   final wallet = Wallet.derive(userMnemonic, info);
 
   // --- Generate keys
   final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
   final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
   final rsaSignatureKeyPair =
-      await KeysHelper.generateRsaKeyPair(type: "RsaSignatureKey2018");
+      await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
   final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
 
   // --- Create Did Document
