@@ -4,8 +4,8 @@ From wikipedia:
 > A cryptocurrency wallet is a device, physical medium, program or a service which
 >stores the public and private keys and can be used to track ownership, receive or spend cryptocurrencies.
 
-In our case the wallet will be used to sign 
-(with the keys contained in it) the transactions that will 
+In our case the wallet will be used to sign
+(with the keys contained in it) the transactions that will
 then be sended to the Commercio.network blockchain.
   
 ## Create a Wallet
