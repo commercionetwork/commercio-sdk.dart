@@ -49,7 +49,7 @@ Docs helper allows to easily perform all the operations related to the commercio
       String txHash,
       String documentId,
       Wallet wallet,
-      String proof = "",
+      String proof = '',
       StdFee fee,
     }) async
     ```
@@ -81,14 +81,14 @@ import 'commons.dart';
 
 void main() async {
   final info = NetworkInfo(
-    bech32Hrp: "did:com:",
-    lcdUrl: "http://localhost:1317",
+    bech32Hrp: 'did:com:',
+    lcdUrl: 'http://localhost:1317',
   );
 
-  final senderMnemonic = ["will", "hard", ..., "man"];
+  final senderMnemonic = ['will', 'hard', ..., 'man'];
   final senderWallet = Wallet.derive(senderMnemonic, info);
 
-  final recipientMnemonic = ["crisp", "become", ..., "cereal"];
+  final recipientMnemonic = ['crisp', 'become', ..., 'cereal'];
   final recipientWallet = Wallet.derive(recipientMnemonic, info);
   final recipientDid = recipientWallet.bech32Address;
 
@@ -121,29 +121,29 @@ Future<Pair<String, String>> _shareDocument(
   final docId = new Uuid().v4();
 
   final checksum = CommercioDocChecksum(
-    value: "a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c",
+    value: 'a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c',
     algorithm: CommercioDocChecksumAlgorithm.SHA256,
   );
 
   final doSign = CommercioDoSign(
-    storageUri: "http://www.commercio.network",
-    signerIstance: "did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj",
+    storageUri: 'http://www.commercio.network',
+    signerIstance: 'did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj',
     sdnData: [
       CommercioSdnData.COMMON_NAME,
       CommercioSdnData.SURNAME,
     ],
-    vcrId: "xxxxx",
-    certificateProfile: "xxxxx",
+    vcrId: 'xxxxx',
+    certificateProfile: 'xxxxx',
   );
 
   final response = await DocsHelper.shareDocument(
     id: docId,
-    contentUri: "https://example.com/document",
+    contentUri: 'https://example.com/document',
     metadata: CommercioDocMetadata(
-      contentUri: "https://example.com/document/metadata",
+      contentUri: 'https://example.com/document/metadata',
       schema: CommercioDocMetadataSchema(
-        uri: "https://example.com/custom/metadata/schema",
-        version: "1.0.0",
+        uri: 'https://example.com/custom/metadata/schema',
+        version: '1.0.0',
       ),
     ),
     recipients: recipients,
@@ -152,9 +152,9 @@ Future<Pair<String, String>> _shareDocument(
     encryptedData: [EncryptedData.CONTENT_URI],
     doSign: doSign,
     fee: StdFee(
-      gas: "200000",
+      gas: '200000',
       amount: [
-        StdCoin(denom: "ucommercio", amount: "10000"),
+        StdCoin(denom: 'ucommercio', amount: '10000'),
       ],
     ),
   );
