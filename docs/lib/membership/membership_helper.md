@@ -10,6 +10,7 @@ Membership helper allows to easily perform all the operations related to the com
     static Future<TransactionResult> inviteUser(
       String userDid,
       Wallet wallet,
+      {StdFee fee},
     ) async
     ```
 
@@ -31,14 +32,14 @@ import 'commons.dart';
 
 void main() async {
   final info = NetworkInfo(
-    bech32Hrp: "did:com:",
-    lcdUrl: "http://localhost:1317",
+    bech32Hrp: 'did:com:',
+    lcdUrl: 'http://localhost:1317',
   );
 
-  final userMnemonic = ["will", "hard", ..., "man"];
+  final userMnemonic = ['will', 'hard', ..., 'man'];
   final userWallet = Wallet.derive(userMnemonic, info);
 
-  final newUserMnemonic = ["often", "emerge", ..., "arrest"];
+  final newUserMnemonic = ['often', 'emerge', ..., 'arrest'];
   final newUserWallet = Wallet.derive(newUserMnemonic, info);
 
   // --- Invite user
