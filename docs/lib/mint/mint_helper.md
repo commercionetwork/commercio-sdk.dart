@@ -8,7 +8,7 @@ Mint helper allows to easily perform all the operations related to the commercio
 
     ```dart
     static Future<TransactionResult> openCdp(
-      int commercioTokenAmount,
+      int amount,
       Wallet wallet,
       {StdFee fee},
     )
@@ -32,11 +32,11 @@ import 'commons.dart';
 
 void main() async {
   final info = NetworkInfo(
-    bech32Hrp: "did:com:",
-    lcdUrl: "http://localhost:1317",
+    bech32Hrp: 'did:com:',
+    lcdUrl: 'http://localhost:1317',
   );
 
-  final mnemonic = ["will", "hard", ..., "man"];
+  final mnemonic = ['will', 'hard', ..., 'man'];
   final wallet = Wallet.derive(mnemonic, info);
 
   // --- Open CDP
