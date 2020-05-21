@@ -4,7 +4,7 @@ Mint helper allows to easily perform all the operations related to the commercio
 
 ## Provided operations
 
-1. Opens a new CDP depositing the given `commercioTokenAmount`. Optionally custom `fee` and `mode` fields can be specified.
+1. Opens a new CDP depositing the given `commercioTokenAmount`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> openCdp(
@@ -15,7 +15,7 @@ Mint helper allows to easily perform all the operations related to the commercio
     })
     ```
 
-2. Closes the CDP having the given `timestamp`. Optionally custom `fee` and `mode` fields can be specified.
+2. Closes the CDP having the given `timestamp`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> closeCdp(

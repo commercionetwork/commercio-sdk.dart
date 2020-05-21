@@ -4,6 +4,7 @@ import 'package:sacco/sacco.dart';
 /// Allows to easily perform CommercioMINT related transactions.
 class MintHelper {
   /// Opens a new CDP depositing the given Commercio Token [amount].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> openCdp(
     int amount,
     Wallet wallet, {
@@ -28,6 +29,7 @@ class MintHelper {
   }
 
   /// Closes the CDP having the given [timestamp].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> closeCdp(
     int timestamp,
     Wallet wallet, {

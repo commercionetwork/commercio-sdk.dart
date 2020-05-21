@@ -4,6 +4,7 @@ import 'package:sacco/sacco.dart';
 /// Allows to easily perform CommercioMEMBERSHIP related operations.
 class MembershipHelper {
   /// Sends a new transaction in order to invite the given [userDid].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> inviteUser(
     String userDid,
     Wallet wallet, {
@@ -23,6 +24,7 @@ class MembershipHelper {
   }
 
   /// Buys the membership with the given [membershipType].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> buyMembership(
     MembershipType membershipType,
     Wallet wallet, {

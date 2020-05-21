@@ -7,10 +7,10 @@ class DocsHelper {
   final client = http.Client();
 
   /// Creates a new transaction that allows to share the document associated
-  /// with the given [metadata] and having the optional [contentUri], [doSign]
-  /// and [checksum]. If [encryptedData] is specified, encrypts the proper
-  /// data for the specified [recipients] and then sends the transaction
-  /// to the blockchain.
+  /// with the given [metadata] and having the optional [contentUri], [doSign],
+  /// [checksum], [fee] and broadcasting [mode]. If [encryptedData] is specified,
+  /// encrypts the proper data for the specified [recipients]
+  /// and then sends the transaction to the blockchain.
   static Future<TransactionResult> shareDocument({
     @required String id,
     @required CommercioDocMetadata metadata,
@@ -83,9 +83,9 @@ class DocsHelper {
   }
 
   /// Creates a new transaction which tells the [recipient] that the document
-  /// having the specified [documentId] and present inside the transaction with
-  /// hash [txHash] has been properly seen.
-  /// [proof] optional proof of reading.
+  /// having the specified [documentId] and present inside the transaction
+  /// with [txHash] has been properly seen; optionally [proof] of reading,
+  /// [fee] and broadcasting [mode].
   static Future<TransactionResult> sendDocumentReceipt({
     @required String recipient,
     @required String txHash,

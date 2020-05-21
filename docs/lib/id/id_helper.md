@@ -10,7 +10,7 @@ Id helper allows to easily perform all the operations related to the commercio.n
    static Future<DidDocument> getDidDocument(String did, Wallet wallet) async
    ```
 
-2. Performs a transaction setting the specified `didDocument` as being associated with the address present inside the specified `wallet`. Optionally custom `fee` and `mode` fileds can be specified.
+2. Performs a transaction setting the specified `didDocument` as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
    ```dart
    static Future<TransactionResult> setDidDocument(
@@ -21,8 +21,8 @@ Id helper allows to easily perform all the operations related to the commercio.n
     })
    ```
 
-3. Create a new [Did power up request](../glossary.md) for the given `pairwiseDid` and of the given `amount`.  
-Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the private key contained inside the given `wallet` and the client generated `signature private RSA key`. Optionally custom `fee` and `mode` fields can be specified.
+3. Create a new [Did power up request](../glossary.md) from `senderWallet` address for the given `pairwiseDid` and of the given `amount`.  
+Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the private key contained inside the given `senderWallet` and the `private key`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
    ```dart
    static Future<TransactionResult> requestDidPowerUp(

@@ -4,7 +4,7 @@ Membership helper allows to easily perform all the operations related to the com
 
 ## Provided operations
 
-1. Sends a new transaction in order to invite the given `userDid`. Optionally custom `fee` and `mode` fields can be specified.
+1. Sends a new transaction in order to invite the given `userDid`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> inviteUser(
@@ -15,7 +15,7 @@ Membership helper allows to easily perform all the operations related to the com
     }) async
     ```
 
-2. Buys the membership with the given `membershipType`. Optionally custom `fee` and `mode` fields can be specified.
+2. Buys the membership with the given `membershipType`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> buyMembership(

@@ -4,7 +4,7 @@ Docs helper allows to easily perform all the operations related to the commercio
 
 ## Provided operations
 
-1. Creates a new transaction that allows to share the document associated with the given `metadata` and having the optional fields `contentUri`, `doSign`, `checksum`, `fee` and `mode`.
+1. Creates a new transaction that allows to share the document associated with the given `metadata` and having the optional fields `contentUri`, `doSign`, `checksum`, `fee` and broadcasting `mode`.
 
    If `encryptedData` is specified, encrypts the proper data and optional `aesKey` for the specified `recipients` and then sends the transaction to the blockchain.
 
@@ -42,7 +42,7 @@ Docs helper allows to easily perform all the operations related to the commercio
     ) async
     ```
 
-4. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with hash `txHash` has been properly seen. The `proof` is an optional field that indicates proof of reading. Optionally custom `fee` and `mode` fields can be specified.
+4. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with `txHash` has been properly seen; optionally `proof` of reading, `fee` and broadcasting `mode`.
 
     ```dart
     static Future<TransactionResult> sendDocumentReceipt({

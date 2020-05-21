@@ -20,6 +20,7 @@ class IdHelper {
 
   /// Performs a transaction setting the specified [didDocument] as being
   /// associated with the address present inside the specified [wallet].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> setDidDocument(
     DidDocument didDocument,
     Wallet wallet, {
@@ -40,6 +41,7 @@ class IdHelper {
   /// Signs everything that needs to be signed (i.e. the signature JSON inside
   /// the payload) with the private key contained inside the given
   /// [senderWallet] and the [privateKey].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> requestDidPowerUp(
     Wallet senderWallet,
     String pairwiseDid,

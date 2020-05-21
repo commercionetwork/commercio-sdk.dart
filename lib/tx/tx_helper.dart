@@ -6,7 +6,8 @@ class TxHelper {
   static const defaultDenom = "ucommercio";
   static const defaultAmount = "10000";
 
-  /// Creates a transaction having the given [msgs] and [fee] inside,
+  /// Creates a transaction having the given [msgs],
+  /// optionally [fee] and broadcasting [mode],
   /// signs it with the given [Wallet] and sends it to the blockchain.
   static Future<TransactionResult> createSignAndSendTx(
     List<StdMsg> msgs,
