@@ -21,10 +21,18 @@ class IdHelper {
   /// Performs a transaction setting the specified [didDocument] as being
   /// associated with the address present inside the specified [wallet].
   static Future<TransactionResult> setDidDocument(
-      DidDocument didDocument, Wallet wallet,
-      {StdFee fee}) {
+    DidDocument didDocument,
+    Wallet wallet, {
+    StdFee fee,
+    String mode,
+  }) {
     final msg = MsgSetDidDocument(didDocument: didDocument);
-    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
+    return TxHelper.createSignAndSendTx(
+      [msg],
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
   }
 
   /// Creates a new Did power up request from [senderWallet] address for the
@@ -32,9 +40,14 @@ class IdHelper {
   /// Signs everything that needs to be signed (i.e. the signature JSON inside
   /// the payload) with the private key contained inside the given
   /// [senderWallet] and the [privateKey].
-  static Future<TransactionResult> requestDidPowerUp(Wallet senderWallet,
-      String pairwiseDid, List<StdCoin> amount, RSAPrivateKey privateKey,
-      {StdFee fee}) async {
+  static Future<TransactionResult> requestDidPowerUp(
+    Wallet senderWallet,
+    String pairwiseDid,
+    List<StdCoin> amount,
+    RSAPrivateKey privateKey, {
+    StdFee fee,
+    String mode,
+  }) async {
     // Get the timestamp
     final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
     final senderDid = senderWallet.bech32Address;
@@ -86,6 +99,11 @@ class IdHelper {
       encryptionKey: base64.encode(encryptedProofKey),
     );
 
-    return TxHelper.createSignAndSendTx([msg], senderWallet, fee: fee);
+    return TxHelper.createSignAndSendTx(
+      [msg],
+      senderWallet,
+      fee: fee,
+      mode: mode,
+    );
   }
 }

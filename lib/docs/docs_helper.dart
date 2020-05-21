@@ -22,6 +22,7 @@ class DocsHelper {
     List<EncryptedData> encryptedData,
     StdFee fee,
     String contentUri,
+    String mode,
   }) async {
     // Build a generic document
     CommercioDoc commercioDocument = CommercioDoc(
@@ -55,6 +56,7 @@ class DocsHelper {
       [msg],
       wallet,
       fee: fee,
+      mode: mode,
     );
   }
 
@@ -91,6 +93,7 @@ class DocsHelper {
     @required Wallet wallet,
     String proof = "",
     StdFee fee,
+    String mode,
   }) {
     final msg = MsgSendDocumentReceipt(
       CommercioDocReceipt(
@@ -102,7 +105,12 @@ class DocsHelper {
         senderDid: wallet.bech32Address,
       ),
     );
-    return TxHelper.createSignAndSendTx([msg], wallet, fee: fee);
+    return TxHelper.createSignAndSendTx(
+      [msg],
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
   }
 
   /// Returns the list of all the [CommercioDocReceipt] that
