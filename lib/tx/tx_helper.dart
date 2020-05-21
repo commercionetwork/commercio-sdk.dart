@@ -7,8 +7,9 @@ class TxHelper {
   static const defaultAmount = "10000";
 
   /// Creates a transaction having the given [msgs],
-  /// optionally [fee] and broadcasting [mode],
   /// signs it with the given [Wallet] and sends it to the blockchain.
+  /// Optional parameters can be [fee] and broadcasting [mode],
+  /// that can be of type "sync", "async" or "block".
   static Future<TransactionResult> createSignAndSendTx(
     List<StdMsg> msgs,
     Wallet wallet, {
