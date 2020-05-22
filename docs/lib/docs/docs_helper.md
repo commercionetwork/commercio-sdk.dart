@@ -59,7 +59,7 @@ Docs helper allows to easily perform all the operations related to the commercio
 5. Returns the list of all the `CommercioDocReceipt` that have been sent from the given `address`
 
     ```dart
-    Future<List<CommercioDocReceipt>> getSentReceipts(
+    static Future<List<CommercioDocReceipt>> getSentReceipts(
       String address,
       Wallet wallet,
     ) async
@@ -68,7 +68,7 @@ Docs helper allows to easily perform all the operations related to the commercio
 6. Returns the list of all the `CommercioDocRecepit` that have been received from the given `address`
 
     ```dart
-    Future<List<CommercioDocReceipt>> getReceivedReceipts(
+    static Future<List<CommercioDocReceipt>> getReceivedReceipts(
       String address,
       Wallet wallet,
     ) async
