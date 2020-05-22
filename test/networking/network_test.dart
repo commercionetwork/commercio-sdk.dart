@@ -41,4 +41,6 @@ class TestData {
 
   factory TestData.fromJson(Map<String, dynamic> json) =>
       _$TestDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TestDataToJson(this);
 }
