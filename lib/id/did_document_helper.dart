@@ -65,7 +65,7 @@ class DidDocumentHelper {
 
     return DidDocumentProof(
       type: "EcdsaSecp256k1VerificationKey2019",
-      iso8601creationTimestamp: getTimeStamp(),
+      timestamp: getTimeStamp(),
       proofPurpose: proofPurpose,
       controller: controller,
       verificationMethod: verificationMethod,

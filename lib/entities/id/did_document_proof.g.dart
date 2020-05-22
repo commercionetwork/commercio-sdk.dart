@@ -9,7 +9,7 @@ part of 'did_document_proof.dart';
 DidDocumentProof _$DidDocumentProofFromJson(Map<String, dynamic> json) {
   return DidDocumentProof(
     type: json['type'] as String,
-    iso8601creationTimestamp: json['created'] as String,
+    timestamp: json['created'] as String,
     proofPurpose: json['proofPurpose'] as String,
     controller: json['controller'] as String,
     verificationMethod: json['verificationMethod'] as String,
@@ -20,7 +20,7 @@ DidDocumentProof _$DidDocumentProofFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$DidDocumentProofToJson(DidDocumentProof instance) =>
     <String, dynamic>{
       'type': instance.type,
-      'created': instance.iso8601creationTimestamp,
+      'created': instance.timestamp,
       'proofPurpose': instance.proofPurpose,
       'controller': instance.controller,
       'verificationMethod': instance.verificationMethod,

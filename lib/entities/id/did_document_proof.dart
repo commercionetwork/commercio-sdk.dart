@@ -13,7 +13,7 @@ class DidDocumentProof extends Equatable {
   final String type;
 
   @JsonKey(name: "created")
-  final String iso8601creationTimestamp;
+  final String timestamp;
 
   @JsonKey(name: "proofPurpose")
   final String proofPurpose;
@@ -29,13 +29,13 @@ class DidDocumentProof extends Equatable {
 
   DidDocumentProof({
     @required this.type,
-    @required this.iso8601creationTimestamp,
+    @required this.timestamp,
     @required this.proofPurpose,
     @required this.controller,
     @required this.verificationMethod,
     @required this.signatureValue,
   })  : assert(type != null),
-        assert(iso8601creationTimestamp != null),
+        assert(timestamp != null),
         assert(proofPurpose != null),
         assert(controller != null),
         assert(verificationMethod != null),
@@ -45,7 +45,7 @@ class DidDocumentProof extends Equatable {
   List<Object> get props {
     return [
       type,
-      iso8601creationTimestamp,
+      timestamp,
       proofPurpose,
       controller,
       verificationMethod,
