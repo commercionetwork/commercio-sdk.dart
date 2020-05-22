@@ -20,6 +20,7 @@ class TxHelper {
         const StdFee(gas: defaultGas, amount: [
           const StdCoin(denom: defaultDenom, amount: defaultAmount)
         ]);
+    mode = mode ?? "sync";
 
     final stdTx = TxBuilder.buildStdTx(stdMsgs: msgs, fee: fee);
     final signedTx = await TxSigner.signStdTx(wallet: wallet, stdTx: stdTx);
