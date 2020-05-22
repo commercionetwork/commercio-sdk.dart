@@ -115,7 +115,7 @@ class DocsHelper {
 
   /// Returns the list of all the [CommercioDocReceipt] that
   /// have been sent from the given [address].
-  Future<List<CommercioDocReceipt>> getSentReceipts(
+  static Future<List<CommercioDocReceipt>> getSentReceipts(
     String address,
     Wallet wallet,
   ) async {
@@ -126,7 +126,7 @@ class DocsHelper {
 
   /// Returns the list of all the [CommercioDocReceipt] that
   /// have been received from the given [address].
-  Future<List<CommercioDocReceipt>> getReceivedReceipts(
+  static Future<List<CommercioDocReceipt>> getReceivedReceipts(
     String address,
     Wallet wallet,
   ) async {
