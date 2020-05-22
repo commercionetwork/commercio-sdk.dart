@@ -10,11 +10,6 @@ Allows to easily perform common transaction operations.
 static Future<TransactionResult> createSignAndSendTx(
   List<StdMsg> msgs,
   Wallet wallet, {
-  StdFee fee = const StdFee(
-    gas: "200000",
-    amount: [const StdCoin(
-      denom: "ucommercio", amount: "10000"
-    )]
-  ),
+  StdFee fee,
 }) async
 ```

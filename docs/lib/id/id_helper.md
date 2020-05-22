@@ -41,17 +41,17 @@ import 'commons.dart';
 
 void main() async {
   final info = NetworkInfo(
-    bech32Hrp: "did:com:",
-    lcdUrl: "http://localhost:1317",
+    bech32Hrp: 'did:com:',
+    lcdUrl: 'http://localhost:1317',
   );
 
-  final userMnemonic = ["will", "hard", ..., "man"];
+  final userMnemonic = ['will', 'hard', ..., 'man'];
   final userWallet = Wallet.derive(userMnemonic, info);
 
   final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
   final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
   final rsaSignatureKeyPair =
-      await KeysHelper.generateRsaKeyPair(type: "RsaSignatureKey2018");
+      await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
   final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
   
   // --- Create Did Document
@@ -61,11 +61,11 @@ void main() async {
   );
 
   // --- Set the Did Document
-  await IdHelper.setDidDocument(diDocument, wallet);
+  await IdHelper.setDidDocument(didDocument, wallet);
 
   // --- Request the Did power up
-  final pairwiseWallet = Wallet.derive(userMnemonic, info, "10");
-  final depositAmount = [StdCoin(denom: "ucommercio", amount: "100")];
+  final pairwiseWallet = Wallet.derive(userMnemonic, info, '10');
+  final depositAmount = [StdCoin(denom: 'ucommercio', amount: '100')];
   await IdHelper.requestDidPowerUp(
     userWallet,
     pairwiseWallet.bech32Address,
