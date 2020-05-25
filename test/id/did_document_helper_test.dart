@@ -85,10 +85,11 @@ void main() {
     expect(didDocument.proof.controller, expectedDidDocument.proof.controller);
     expect(didDocument.proof.verificationMethod,
         expectedDidDocument.proof.verificationMethod);
-    expect(didDocument.proof.timestamp,
-        isNot(expectedComputedProof.timestamp));
+    expect(didDocument.proof.timestamp, isNot(expectedComputedProof.timestamp));
     // The difference depends on the "secureRandom" method used at the time of the signature.
-    expect(didDocument.proof.signatureValue, isNot(expectedDidDocument.proof.signatureValue));
-    expect(didDocument.proof.signatureValue.length, expectedDidDocument.proof.signatureValue.length);
+    expect(didDocument.proof.signatureValue,
+        isNot(expectedDidDocument.proof.signatureValue));
+    expect(didDocument.proof.signatureValue.length,
+        expectedDidDocument.proof.signatureValue.length);
   });
 }
