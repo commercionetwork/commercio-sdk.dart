@@ -32,8 +32,23 @@ class TxHelper {
   }
 }
 
-enum BoradcastingMode {
+enum BroadcastingMode {
   ASYNC,
   BLOCK,
   SYNC,
+}
+
+extension BroadcastingModeExt on BroadcastingMode {
+  String get value {
+    switch (this) {
+      case BroadcastingMode.ASYNC:
+        return 'async';
+      case BroadcastingMode.BLOCK:
+        return 'block';
+      case BroadcastingMode.SYNC:
+        return 'sync';
+      default:
+        return null;
+    }
+  }
 }
