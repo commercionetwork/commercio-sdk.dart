@@ -31,3 +31,9 @@ class TxHelper {
     );
   }
 }
+
+enum BoradcastingMode {
+  ASYNC,
+  BLOCK,
+  SYNC,
+}
