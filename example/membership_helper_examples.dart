@@ -66,18 +66,34 @@ void main() async {
   final newUserWallet = Wallet.derive(newUserMnemonic, networkInfo);
 
   // --- Invite user
-  await _inviteUser(user: newUserWallet.bech32Address, wallet: userWallet);
+  await _inviteUser(
+    user: newUserWallet.bech32Address,
+    wallet: userWallet,
+    mode: BroadcastingMode.SYNC,
+  );
 
   // --- Buy a membership
-  await _buyMembership(type: MembershipType.GOLD, wallet: newUserWallet);
+  await _buyMembership(
+    type: MembershipType.GOLD,
+    wallet: newUserWallet,
+    mode: BroadcastingMode.SYNC,
+  );
 }
 
 /// Shows how to perform a transaction to invite a user.
 /// Note that in order to invite a user, you must already have a membership.
 ///
 /// Docs: https://docs.commercio.network/x/memberships/#inviting-a-user
-Future<void> _inviteUser({String user, Wallet wallet}) async {
-  final response = await MembershipHelper.inviteUser(user, wallet);
+Future<void> _inviteUser({
+  String user,
+  Wallet wallet,
+  BroadcastingMode mode,
+}) async {
+  final response = await MembershipHelper.inviteUser(
+    user,
+    wallet,
+    mode: mode,
+  );
 
   checkResponse(response);
 }
@@ -92,8 +108,16 @@ Future<void> _inviteUser({String user, Wallet wallet}) async {
 /// - https://docs.commercio.network/x/commerciomint/
 ///
 /// Docs: https://docs.commercio.network/x/memberships/#buying-a-membership-2
-Future<void> _buyMembership({MembershipType type, Wallet wallet}) async {
-  final response = await MembershipHelper.buyMembership(type, wallet);
+Future<void> _buyMembership({
+  MembershipType type,
+  Wallet wallet,
+  BroadcastingMode mode,
+}) async {
+  final response = await MembershipHelper.buyMembership(
+    type,
+    wallet,
+    mode: mode,
+  );
 
   checkResponse(response);
 }

@@ -68,12 +68,21 @@ void main() async {
 
   // --- Share a document
   final docRecipientDid = recipientWallet.bech32Address;
-  final shareDocResult = await _shareDoc([docRecipientDid], userWallet);
+  final shareDocResult = await _shareDoc(
+    [docRecipientDid],
+    userWallet,
+    BroadcastingMode.SYNC,
+  );
 
   // --- Share receipt
   final receiptRecipientDid = userWallet.bech32Address;
-  await _sendReceipt(shareDocResult.docId, shareDocResult.hash,
-      receiptRecipientDid, recipientWallet);
+  await _sendReceipt(
+    shareDocResult.docId,
+    shareDocResult.hash,
+    receiptRecipientDid,
+    recipientWallet,
+    BroadcastingMode.SYNC,
+  );
 }
 
 /// Helper class used store the DidDocument identifier and transaction hash.
@@ -89,6 +98,7 @@ class ShareDocResult {
 Future<ShareDocResult> _shareDoc(
   List<String> recipients,
   Wallet wallet,
+  BroadcastingMode mode,
 ) async {
   final docId = new Uuid().v4();
 
@@ -104,6 +114,7 @@ Future<ShareDocResult> _shareDoc(
     ),
     recipients: recipients,
     wallet: wallet,
+    mode: mode,
   );
 
   checkResponse(response);
@@ -118,12 +129,14 @@ Future<void> _sendReceipt(
   String txHash,
   String recipient,
   Wallet wallet,
+  BroadcastingMode mode,
 ) async {
   final response = await DocsHelper.sendDocumentReceipt(
     recipient: recipient,
     txHash: txHash,
     documentId: docId,
     wallet: wallet,
+    mode: mode,
   );
 
   checkResponse(response);

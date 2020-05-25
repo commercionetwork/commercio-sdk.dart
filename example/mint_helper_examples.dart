@@ -38,10 +38,18 @@ void main() async {
   final userWallet = Wallet.derive(userMnemonic, networkInfo);
 
   // --- Open CDP
-  await _openCdp(amount: 100000, wallet: userWallet);
+  await _openCdp(
+    amount: 100000,
+    wallet: userWallet,
+    mode: BroadcastingMode.SYNC,
+  );
 
   // --- Close CDP
-  await _closeCdp(timestamp: 757, wallet: userWallet);
+  await _closeCdp(
+    timestamp: 757,
+    wallet: userWallet,
+    mode: BroadcastingMode.SYNC,
+  );
 }
 
 /// Shows how to open a new Collateralized Debt Position in order to get half
@@ -50,8 +58,16 @@ void main() async {
 /// send one document you wil need 10.000 `uccc`.
 ///
 /// Docs: https://docs.commercio.network/x/commerciomint/#open-a-cdp
-Future<void> _openCdp({int amount, Wallet wallet}) async {
-  final response = await MintHelper.openCdp(amount, wallet);
+Future<void> _openCdp({
+  int amount,
+  Wallet wallet,
+  BroadcastingMode mode,
+}) async {
+  final response = await MintHelper.openCdp(
+    amount,
+    wallet,
+    mode: mode,
+  );
 
   checkResponse(response);
 }
@@ -64,8 +80,16 @@ Future<void> _openCdp({int amount, Wallet wallet}) async {
 ///  the chain.
 ///
 /// Docs: https://docs.commercio.network/x/commerciomint/#close-a-cdp
-Future<void> _closeCdp({int timestamp, Wallet wallet}) async {
-  final response = await MintHelper.closeCdp(timestamp, wallet);
+Future<void> _closeCdp({
+  int timestamp,
+  Wallet wallet,
+  BroadcastingMode mode,
+}) async {
+  final response = await MintHelper.closeCdp(
+    timestamp,
+    wallet,
+    mode: mode,
+  );
 
   checkResponse(response);
 }

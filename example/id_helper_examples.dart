@@ -69,24 +69,37 @@ void main() async {
   final rsaSignatureKeyPair =
       await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
 
-  await _createDidDocument(userWallet,
-      [rsaVerificationKeyPair.publicKey, rsaSignatureKeyPair.publicKey]);
+  await _createDidDocument(
+    userWallet,
+    [rsaVerificationKeyPair.publicKey, rsaSignatureKeyPair.publicKey],
+    BroadcastingMode.SYNC,
+  );
 
   final pairwiseWallet = Wallet.derive(pairwiseMnemonic, networkInfo);
 
   // --- Request the Did power up
   final depositAmount = const [StdCoin(denom: 'ucommercio', amount: '10')];
-  await _postPowerUpRequest(userWallet, pairwiseWallet.bech32Address,
-      depositAmount, rsaSignatureKeyPair.privateKey);
+  await _postPowerUpRequest(
+    userWallet,
+    pairwiseWallet.bech32Address,
+    depositAmount,
+    rsaSignatureKeyPair.privateKey,
+    BroadcastingMode.SYNC,
+  );
 }
 
 /// Shows how to create a [DidDocument] and associate it to an existing
 /// account Did.
 ///
 /// Docs: https://docs.commercio.network/x/id/tx/associate-a-did-document.html
-Future<void> _createDidDocument(Wallet wallet, List<PublicKey> keys) async {
+Future<void> _createDidDocument(
+  Wallet wallet,
+  List<PublicKey> keys,
+  BroadcastingMode mode,
+) async {
   final didDocument = DidDocumentHelper.fromWallet(wallet, keys);
-  final response = await IdHelper.setDidDocument(didDocument, wallet);
+  final response =
+      await IdHelper.setDidDocument(didDocument, wallet, mode: mode);
 
   checkResponse(response);
 }
@@ -96,10 +109,20 @@ Future<void> _createDidDocument(Wallet wallet, List<PublicKey> keys) async {
 /// to such account.
 ///
 /// Docs: https://docs.commercio.network/x/id/tx/request-did-power-up.html
-Future<void> _postPowerUpRequest(Wallet wallet, String pairwiseDid,
-    List<StdCoin> amount, RSAPrivateKey privateKey) async {
-  final response =
-      await IdHelper.requestDidPowerUp(wallet, pairwiseDid, amount, privateKey);
+Future<void> _postPowerUpRequest(
+  Wallet wallet,
+  String pairwiseDid,
+  List<StdCoin> amount,
+  RSAPrivateKey privateKey,
+  BroadcastingMode mode,
+) async {
+  final response = await IdHelper.requestDidPowerUp(
+    wallet,
+    pairwiseDid,
+    amount,
+    privateKey,
+    mode: mode,
+  );
 
   checkResponse(response);
 }
