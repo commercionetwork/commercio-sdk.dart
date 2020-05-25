@@ -11,7 +11,7 @@ Membership helper allows to easily perform all the operations related to the com
       String userDid,
       Wallet wallet, {
       StdFee fee,
-      String mode,
+      BroadcastingMode mode,
     }) async
     ```
 
@@ -22,7 +22,7 @@ Membership helper allows to easily perform all the operations related to the com
       MembershipType membershipType,
       Wallet wallet, {
       StdFee fee,
-      String mode,
+      BroadcastingMode mode,
     }) async
     ```
 

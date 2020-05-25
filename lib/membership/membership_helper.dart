@@ -9,7 +9,7 @@ class MembershipHelper {
     String userDid,
     Wallet wallet, {
     StdFee fee,
-    String mode,
+    BroadcastingMode mode,
   }) async {
     final msg = MsgInviteUser(
       recipientDid: userDid,
@@ -29,7 +29,7 @@ class MembershipHelper {
     MembershipType membershipType,
     Wallet wallet, {
     StdFee fee,
-    String mode,
+    BroadcastingMode mode,
   }) async {
     final msg = MsgBuyMembership(
       membershipType: membershipType,

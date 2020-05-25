@@ -14,20 +14,20 @@ class TxHelper {
     List<StdMsg> msgs,
     Wallet wallet, {
     StdFee fee,
-    String mode,
+    BroadcastingMode mode,
   }) async {
     fee = fee ??
         const StdFee(gas: defaultGas, amount: [
           const StdCoin(denom: defaultDenom, amount: defaultAmount)
         ]);
-    mode = mode ?? "sync";
+    mode = mode ?? BroadcastingMode.SYNC;
 
     final stdTx = TxBuilder.buildStdTx(stdMsgs: msgs, fee: fee);
     final signedTx = await TxSigner.signStdTx(wallet: wallet, stdTx: stdTx);
     return TxSender.broadcastStdTx(
       wallet: wallet,
       stdTx: signedTx,
-      mode: mode,
+      mode: mode.value,
     );
   }
 }

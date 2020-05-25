@@ -11,7 +11,7 @@ Mint helper allows to easily perform all the operations related to the commercio
       int amount,
       Wallet wallet, {
       StdFee fee,
-      String mode,
+      BroadcastingMode mode,
     })
     ```
 
@@ -22,7 +22,7 @@ Mint helper allows to easily perform all the operations related to the commercio
       int timestamp,
       Wallet wallet, {
       StdFee fee,
-      String mode,
+      BroadcastingMode mode,
     })
     ```
 

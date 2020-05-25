@@ -20,7 +20,7 @@ Docs helper allows to easily perform all the operations related to the commercio
       List<EncryptedData> encryptedData,
       StdFee fee,
       String contentUri,
-      String mode,
+      BroadcastingMode mode,
     }) async
     ```
 
@@ -52,7 +52,7 @@ Docs helper allows to easily perform all the operations related to the commercio
       Wallet wallet,
       String proof = '',
       StdFee fee,
-      String mode,
+      BroadcastingMode mode,
     }) async
     ```
 

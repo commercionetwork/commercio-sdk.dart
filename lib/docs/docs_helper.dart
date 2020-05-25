@@ -22,7 +22,7 @@ class DocsHelper {
     List<EncryptedData> encryptedData,
     StdFee fee,
     String contentUri,
-    String mode,
+    BroadcastingMode mode,
   }) async {
     // Build a generic document
     CommercioDoc commercioDocument = CommercioDoc(
@@ -93,7 +93,7 @@ class DocsHelper {
     @required Wallet wallet,
     String proof = "",
     StdFee fee,
-    String mode,
+    BroadcastingMode mode,
   }) {
     final msg = MsgSendDocumentReceipt(
       CommercioDocReceipt(

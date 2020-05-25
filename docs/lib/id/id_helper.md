@@ -17,7 +17,7 @@ Id helper allows to easily perform all the operations related to the commercio.n
       DidDocument didDocument,
       Wallet wallet, {
       StdFee fee,
-      String mode,
+      BroadcastingMode mode,
     })
    ```
 
@@ -31,7 +31,7 @@ Signs everything that needs to be signed (i.e. the signature JSON inside the pay
       List<StdCoin> amount,
       RSAPrivateKey privateKey, {
       StdFee fee,
-      String mode,
+      BroadcastingMode mode,
     }) async
    ```
 

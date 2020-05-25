@@ -11,6 +11,6 @@ static Future<TransactionResult> createSignAndSendTx(
   List<StdMsg> msgs,
   Wallet wallet, {
   StdFee fee,
-  String mode,
+  BroadcastingMode mode,
 }) async
 ```

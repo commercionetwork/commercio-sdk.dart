@@ -9,7 +9,7 @@ class MintHelper {
     int amount,
     Wallet wallet, {
     StdFee fee,
-    String mode,
+    BroadcastingMode mode,
   }) {
     final msg = MsgOpenCdp(
       depositAmount: [
@@ -34,7 +34,7 @@ class MintHelper {
     int timestamp,
     Wallet wallet, {
     StdFee fee,
-    String mode,
+    BroadcastingMode mode,
   }) {
     final msg = MsgCloseCdp(
       timeStamp: timestamp,

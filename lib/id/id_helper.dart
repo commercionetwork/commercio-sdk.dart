@@ -25,7 +25,7 @@ class IdHelper {
     DidDocument didDocument,
     Wallet wallet, {
     StdFee fee,
-    String mode,
+    BroadcastingMode mode,
   }) {
     final msg = MsgSetDidDocument(didDocument: didDocument);
     return TxHelper.createSignAndSendTx(
@@ -48,7 +48,7 @@ class IdHelper {
     List<StdCoin> amount,
     RSAPrivateKey privateKey, {
     StdFee fee,
-    String mode,
+    BroadcastingMode mode,
   }) async {
     // Get the timestamp
     final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
