@@ -31,8 +31,7 @@ class EncryptionHelper {
         IdentityResponse.fromJson(jsonDecode(identityResponseRaw));
     final publicSignatureKeyPem =
         identityResponse.result.didDocument.publicKeys[1].publicKeyPem;
-    final rsaPublicKey =
-        RSAKeyParser.parseKeyFromPem(publicSignatureKeyPem);
+    final rsaPublicKey = RSAKeyParser.parseKeyFromPem(publicSignatureKeyPem);
 
     return RSAPublicKey(rsaPublicKey);
   }
