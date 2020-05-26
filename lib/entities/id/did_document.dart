@@ -51,7 +51,7 @@ class DidDocument extends Equatable {
     if (pubKey == null) return null;
 
     return RSAPublicKey(
-      RSAKeyParser.parsePublicKeyFromPem(pubKey.publicKeyPem),
+      RSAKeyParser.parseKeyFromPem(pubKey.publicKeyPem),
     );
   }
 

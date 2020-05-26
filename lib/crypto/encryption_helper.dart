@@ -32,7 +32,7 @@ class EncryptionHelper {
     final publicSignatureKeyPem =
         identityResponse.result.didDocument.publicKeys[1].publicKeyPem;
     final rsaPublicKey =
-        RSAKeyParser.parsePublicKeyFromPem(publicSignatureKeyPem);
+        RSAKeyParser.parseKeyFromPem(publicSignatureKeyPem);
 
     return RSAPublicKey(rsaPublicKey);
   }
