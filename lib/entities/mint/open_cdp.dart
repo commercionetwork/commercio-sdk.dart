@@ -6,7 +6,7 @@ import 'package:commerciosdk/export.dart';
 
 part 'open_cdp.g.dart';
 
-/// Contains the data related to a Collateralized Debt Position 
+/// Contains the data related to a Collateralized Debt Position
 /// that is opened by a user.
 @JsonSerializable(explicitToJson: true)
 class OpenCdp extends Equatable {
