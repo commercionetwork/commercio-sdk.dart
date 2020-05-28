@@ -21,12 +21,7 @@ class CloseCdp extends Equatable {
         assert(timeStamp != null);
 
   @override
-  List<Object> get props {
-    return [
-      signerDid,
-      timeStamp,
-    ];
-  }
+  List<Object> get props => [signerDid, timeStamp];
 
   factory CloseCdp.fromJson(Map<String, dynamic> json) =>
       _$CloseCdpFromJson(json);

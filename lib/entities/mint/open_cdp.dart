@@ -23,12 +23,7 @@ class OpenCdp extends Equatable {
         assert(signerDid != null);
 
   @override
-  List<Object> get props {
-    return [
-      depositAmount,
-      signerDid,
-    ];
-  }
+  List<Object> get props => [depositAmount, signerDid];
 
   factory OpenCdp.fromJson(Map<String, dynamic> json) =>
       _$OpenCdpFromJson(json);
