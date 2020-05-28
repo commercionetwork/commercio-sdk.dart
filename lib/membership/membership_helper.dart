@@ -12,11 +12,34 @@ class MembershipHelper {
     BroadcastingMode mode,
   }) async {
     final msg = MsgInviteUser(
-      recipientDid: userDid,
-      senderDid: wallet.bech32Address,
+      inviteUser: InviteUser(
+        recipientDid: userDid,
+        senderDid: wallet.bech32Address,
+      ),
     );
     return TxHelper.createSignAndSendTx(
       [msg],
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
+  /// Sends a new transaction in order to invite the given [inviteUsers] users list.
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
+  static Future<TransactionResult> inviteUsersList(
+    List<InviteUser> inviteUsers,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) async {
+    final msgs = inviteUsers
+        .map(
+          (inviteUser) => MsgInviteUser(inviteUser: inviteUser),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
       wallet,
       fee: fee,
       mode: mode,
@@ -32,11 +55,34 @@ class MembershipHelper {
     BroadcastingMode mode,
   }) async {
     final msg = MsgBuyMembership(
-      membershipType: membershipType,
-      buyerDid: wallet.bech32Address,
+      buyMembership: BuyMembership(
+        membershipType: membershipType.value,
+        buyerDid: wallet.bech32Address,
+      ),
     );
     return TxHelper.createSignAndSendTx(
       [msg],
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
+  /// Buys the membership with the given [buyMemberships] memberships list.
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
+  static Future<TransactionResult> buyMembershipsList(
+    List<BuyMembership> buyMemberships,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) async {
+    final msgs = buyMemberships
+        .map(
+          (buyMembership) => MsgBuyMembership(buyMembership: buyMembership),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
       wallet,
       fee: fee,
       mode: mode,

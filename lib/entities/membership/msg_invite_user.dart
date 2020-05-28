@@ -1,3 +1,4 @@
+import 'package:commerciosdk/entities/membership/invite_user.dart';
 import 'package:meta/meta.dart';
 import 'package:sacco/sacco.dart';
 
@@ -7,19 +8,13 @@ import 'package:sacco/sacco.dart';
 /// able to get a reward based on your current membership and the type
 /// he has bought.
 class MsgInviteUser extends StdMsg {
-  final String recipientDid;
-  final String senderDid;
+  final InviteUser inviteUser;
 
   MsgInviteUser({
-    @required this.recipientDid,
-    @required this.senderDid,
-  })  : assert(recipientDid != null),
-        assert(senderDid != null),
+    @required this.inviteUser,
+  })  : assert(inviteUser != null),
         super(type: "commercio/MsgInviteUser", value: Map());
 
   @override
-  Map<String, dynamic> get value => {
-        'recipient': recipientDid,
-        'sender': senderDid,
-      };
+  Map<String, dynamic> get value => inviteUser.toJson();
 }
