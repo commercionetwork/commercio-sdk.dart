@@ -2,9 +2,9 @@ import 'package:sacco/sacco.dart';
 
 /// Allows to easily perform common transaction operations.
 class TxHelper {
-  static const defaultGas = "200000";
+  static const defaultAmount = 10000;
   static const defaultDenom = "ucommercio";
-  static const defaultAmount = "10000";
+  static const defaultGas = 200000;
 
   /// Creates a transaction having the given [msgs],
   /// signs it with the given [Wallet] and sends it to the blockchain.
@@ -16,10 +16,7 @@ class TxHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
-    fee = fee ??
-        const StdFee(gas: defaultGas, amount: [
-          const StdCoin(denom: defaultDenom, amount: defaultAmount)
-        ]);
+    fee = fee ?? _calculateFee(msgs.length);
     mode = mode ?? BroadcastingMode.SYNC;
 
     final stdTx = TxBuilder.buildStdTx(stdMsgs: msgs, fee: fee);
@@ -29,6 +26,30 @@ class TxHelper {
       stdTx: signedTx,
       mode: mode.value,
     );
+  }
+
+  static StdFee _calculateFee(int msgsAmount) {
+    final fee = msgsAmount > 1
+        ? StdFee(
+            gas: (defaultGas * msgsAmount).toString(),
+            amount: [
+              StdCoin(
+                denom: defaultDenom,
+                amount: (defaultAmount * msgsAmount).toString(),
+              ),
+            ],
+          )
+        : StdFee(
+            gas: defaultGas.toString(),
+            amount: [
+              StdCoin(
+                denom: defaultDenom,
+                amount: defaultAmount.toString(),
+              ),
+            ],
+          );
+
+    return fee;
   }
 }
 
