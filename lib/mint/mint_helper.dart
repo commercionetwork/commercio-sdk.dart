@@ -3,23 +3,16 @@ import 'package:sacco/sacco.dart';
 
 /// Allows to easily perform CommercioMINT related transactions.
 class MintHelper {
-  /// Opens a new CDP depositing the given Commercio Token [amount].
+  /// Performs a transaction opening a new CDP [openCdp] as being
+  /// associated with the address present inside the specified [wallet].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> openCdp(
-    int amount,
+    OpenCdp openCdp,
     Wallet wallet, {
     StdFee fee,
     BroadcastingMode mode,
   }) {
-    final msg = MsgOpenCdp(
-      depositAmount: [
-        StdCoin(
-          denom: "ucommercio",
-          amount: amount.toString(),
-        )
-      ],
-      signerDid: wallet.bech32Address,
-    );
+    final msg = MsgOpenCdp(openCdp: openCdp);
     return TxHelper.createSignAndSendTx(
       [msg],
       wallet,
