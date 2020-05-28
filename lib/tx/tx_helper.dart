@@ -1,3 +1,4 @@
+import 'package:commerciosdk/utils/utils.dart';
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily perform common transaction operations.
@@ -16,7 +17,13 @@ class TxHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
-    fee = fee ?? _calculateFee(msgs.length);
+    fee = fee ??
+        calculateDefaultFee(
+          msgs.length,
+          defaultAmount,
+          defaultDenom,
+          defaultGas,
+        );
     mode = mode ?? BroadcastingMode.SYNC;
 
     final stdTx = TxBuilder.buildStdTx(stdMsgs: msgs, fee: fee);
@@ -26,30 +33,6 @@ class TxHelper {
       stdTx: signedTx,
       mode: mode.value,
     );
-  }
-
-  static StdFee _calculateFee(int msgsAmount) {
-    final fee = msgsAmount > 1
-        ? StdFee(
-            gas: (defaultGas * msgsAmount).toString(),
-            amount: [
-              StdCoin(
-                denom: defaultDenom,
-                amount: (defaultAmount * msgsAmount).toString(),
-              ),
-            ],
-          )
-        : StdFee(
-            gas: defaultGas.toString(),
-            amount: [
-              StdCoin(
-                denom: defaultDenom,
-                amount: defaultAmount.toString(),
-              ),
-            ],
-          );
-
-    return fee;
   }
 }
 
