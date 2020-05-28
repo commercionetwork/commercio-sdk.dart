@@ -36,6 +36,28 @@ class IdHelper {
     );
   }
 
+  /// Performs a transaction setting the [didDocuments] list as being
+  /// associated with the address present inside the specified [wallet].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
+  static Future<TransactionResult> setDidDocumentsList(
+    List<DidDocument> didDocuments,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs = didDocuments
+        .map(
+          (didDocument) => MsgSetDidDocument(didDocument: didDocument),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
   /// Creates a new Did power up request from [senderWallet] address for the
   /// given [pairwiseDid] and of the given [amount].
   /// Signs everything that needs to be signed (i.e. the signature JSON inside
