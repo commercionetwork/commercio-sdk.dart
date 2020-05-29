@@ -1,7 +1,7 @@
+import 'package:commerciosdk/docs/commercio_doc_receipt_helper.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-import 'package:uuid/uuid.dart';
 
 class DocsHelper {
   final client = http.Client();
@@ -104,18 +104,40 @@ class DocsHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) {
+    final CommercioDocReceipt commercioDocReceipt =
+        CommercioDocReceiptHelper.fromWallet(
+      wallet: wallet,
+      recipient: recipient,
+      txHash: txHash,
+      documentId: documentId,
+      proof: proof,
+    );
     final msg = MsgSendDocumentReceipt(
-      CommercioDocReceipt(
-        uuid: Uuid().v4(),
-        recipientDid: recipient,
-        txHash: txHash,
-        documentUuid: documentId,
-        proof: proof,
-        senderDid: wallet.bech32Address,
-      ),
+      commercioDocReceipt,
     );
     return TxHelper.createSignAndSendTx(
       [msg],
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
+  /// Creates a new transaction which sends from [wallet]
+  /// a document receipts list[commercioDocReceiptsList]
+  static Future<TransactionResult> sendDocumentReceiptsList(
+    List<CommercioDocReceipt> commercioDocReceiptsList,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs = commercioDocReceiptsList
+        .map(
+          (commercioDocReceipt) => MsgSendDocumentReceipt(commercioDocReceipt),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
       wallet,
       fee: fee,
       mode: mode,

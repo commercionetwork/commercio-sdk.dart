@@ -3,7 +3,10 @@ import 'package:meta/meta.dart';
 
 /// Allows to easily create a CommercioDoc and perform common related operations
 class CommercioDocHelper {
-  /// Creates a CommercioDoc from the given [wallet] and [].
+  /// Creates a CommercioDoc from the given [wallet],
+  /// [recipients], [id], [metadata]
+  /// and optionally [contentUri], [checksum],
+  /// [doSign], [encryptedData], [aesKey].
   static Future<CommercioDoc> fromWallet({
     @required Wallet wallet,
     @required List<String> recipients,
@@ -15,7 +18,7 @@ class CommercioDocHelper {
     List<EncryptedData> encryptedData,
     Key aesKey,
   }) async {
-    // Build a generic document
+    // Build a commercio document
     CommercioDoc commercioDocument = CommercioDoc(
       senderDid: wallet.bech32Address,
       recipientDids: recipients,
