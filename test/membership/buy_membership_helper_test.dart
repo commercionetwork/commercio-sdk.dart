@@ -8,9 +8,9 @@ void main() {
         "dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology";
     final mnemonic = mnemonicString.split(" ");
     final wallet = Wallet.derive(mnemonic, networkInfo);
-    final membershipType = MembershipType.BLACK.value;
 
     test('"fromWallet()" returns a well-formed "BuyMembership" object.', () {
+      final membershipType = MembershipType.BLACK.value;
       final expectedBuyMembership = BuyMembership(
           membershipType: membershipType, buyerDid: wallet.bech32Address);
 
