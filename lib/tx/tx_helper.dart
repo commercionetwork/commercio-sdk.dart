@@ -17,12 +17,14 @@ class TxHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
+    // Set values for optional parameters
+    final msgsNumber = msgs.length > 0 ? msgs.length : 1;
     fee = fee ??
         calculateDefaultFee(
-          msgs.length,
-          defaultAmount,
-          defaultDenom,
-          defaultGas,
+          msgsNumber: msgsNumber,
+          fee: defaultAmount,
+          denom: defaultDenom,
+          gas: defaultGas,
         );
     mode = mode ?? BroadcastingMode.SYNC;
 
