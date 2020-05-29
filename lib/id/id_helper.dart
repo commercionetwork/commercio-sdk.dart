@@ -116,16 +116,41 @@ class IdHelper {
 
     // Build the message and send the tx
     final msg = MsgRequestDidPowerUp(
-      claimantDid: senderDid,
-      amount: amount,
-      powerUpProof: base64.encode(encryptedProof),
-      uuid: Uuid().v4(),
-      encryptionKey: base64.encode(encryptedProofKey),
+      requestDidPowerUp: RequestDidPowerUp(
+        claimantDid: senderDid,
+        amount: amount,
+        powerUpProof: base64.encode(encryptedProof),
+        uuid: Uuid().v4(),
+        encryptionKey: base64.encode(encryptedProofKey),
+      ),
     );
 
     return TxHelper.createSignAndSendTx(
       [msg],
       senderWallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
+  /// Sends a new transaction from the sender [wallet]
+  /// to request a list of Did PowerUp [requestDidPowerUpsList].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
+  static Future<TransactionResult> requestDidPowerUpsList(
+    List<RequestDidPowerUp> requestDidPowerUpsList,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs = requestDidPowerUpsList
+        .map(
+          (requestDidPowerUp) =>
+              MsgRequestDidPowerUp(requestDidPowerUp: requestDidPowerUp),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
+      wallet,
       fee: fee,
       mode: mode,
     );
