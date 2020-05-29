@@ -33,18 +33,13 @@ class MintHelper {
   /// Performs a transaction opening a new CDP [openCdp] as being
   /// associated with the address present inside the specified [wallet].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
-  static Future<TransactionResult> openCdpsList(
-    List<OpenCdp> openCdps,
+  static Future<TransactionResult> openCdpSingle(
+    OpenCdp openCdp,
     Wallet wallet, {
     StdFee fee,
     BroadcastingMode mode,
   }) {
-    if (openCdps.length > 1) {
-      throw Exception(
-        'Transactions only support one "OpenCdp" message at once.',
-      );
-    }
-    final msg = MsgOpenCdp(openCdp: openCdps.first);
+    final msg = MsgOpenCdp(openCdp: openCdp);
     return TxHelper.createSignAndSendTx(
       [msg],
       wallet,
