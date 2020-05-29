@@ -24,7 +24,18 @@ Docs helper allows to easily perform all the operations related to the commercio
     }) async
     ```
 
-2. Returns the list of all the `CommercioDoc` that the specified `address` has sent
+2. Create a new transaction that allows to share a list of previously generated documents `commercioDocsList`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+    ```dart
+    static Future<TransactionResult> shareDocumentsList(
+      List<CommercioDoc> commercioDocsList,
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    })
+    ```
+
+3. Returns the list of all the `CommercioDoc` that the specified `address` has sent
 
     ```dart
     static Future<List<CommercioDoc>> getSendDocuments(
@@ -33,7 +44,7 @@ Docs helper allows to easily perform all the operations related to the commercio
     ) async
     ```
 
-3. Returns the list of all the `CommercioDoc` that the specified `address` has received
+4. Returns the list of all the `CommercioDoc` that the specified `address` has received
 
     ```dart
     static Future<List<CommercioDoc>> getReceivedDocuments(
@@ -42,7 +53,7 @@ Docs helper allows to easily perform all the operations related to the commercio
     ) async
     ```
 
-4. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with `txHash` has been properly seen; optionally `proof` of reading, `fee` and broadcasting `mode`.
+5. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with `txHash` has been properly seen; optionally `proof` of reading, `fee` and broadcasting `mode`.
 
     ```dart
     static Future<TransactionResult> sendDocumentReceipt({
@@ -53,10 +64,21 @@ Docs helper allows to easily perform all the operations related to the commercio
       String proof = '',
       StdFee fee,
       BroadcastingMode mode,
-    }) async
+    })
     ```
 
-5. Returns the list of all the `CommercioDocReceipt` that have been sent from the given `address`
+6. Creates a new transaction which sends a list of previously generated receipts  `commercioDocReceiptsList`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+   ```dart
+   static Future<TransactionResult> sendDocumentReceiptsList(
+      List<CommercioDocReceipt> commercioDocReceiptsList,
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    })
+   ```
+
+7. Returns the list of all the `CommercioDocReceipt` that have been sent from the given `address`
 
     ```dart
     static Future<List<CommercioDocReceipt>> getSentReceipts(
@@ -65,7 +87,7 @@ Docs helper allows to easily perform all the operations related to the commercio
     ) async
     ```
 
-6. Returns the list of all the `CommercioDocRecepit` that have been received from the given `address`
+8. Returns the list of all the `CommercioDocRecepit` that have been received from the given `address`
 
     ```dart
     static Future<List<CommercioDocReceipt>> getReceivedReceipts(

@@ -47,8 +47,8 @@ class DocsHelper {
     );
   }
 
-  /// Creates a new transaction that allows to share from [wallet]
-  /// a document lists [commercioDocsList].
+  /// Create a new transaction that allows to share
+  /// a list of previously generated documents [commercioDocsList].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> shareDocumentsList(
     List<CommercioDoc> commercioDocsList,
@@ -123,8 +123,9 @@ class DocsHelper {
     );
   }
 
-  /// Creates a new transaction which sends from [wallet]
-  /// a document receipts list[commercioDocReceiptsList]
+  /// Creates a new transaction which sends
+  /// a list of previously generated receipts [commercioDocReceiptsList].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> sendDocumentReceiptsList(
     List<CommercioDocReceipt> commercioDocReceiptsList,
     Wallet wallet, {
