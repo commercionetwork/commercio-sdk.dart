@@ -25,35 +25,44 @@ class DocsHelper {
     BroadcastingMode mode,
   }) async {
     // Build a generic document
-    CommercioDoc commercioDocument = CommercioDoc(
-      senderDid: wallet.bech32Address,
-      recipientDids: recipients,
-      uuid: id,
-      contentUri: contentUri,
+    final CommercioDoc commercioDoc = await CommercioDocHelper.fromWallet(
+      wallet: wallet,
+      recipients: recipients,
+      id: id,
       metadata: metadata,
       checksum: checksum,
-      encryptionData: null,
+      contentUri: contentUri,
       doSign: doSign,
+      encryptedData: encryptedData,
+      aesKey: aesKey,
     );
 
-    // Encrypt its contents, if necessary
-    if (encryptedData != null && encryptedData.isNotEmpty) {
-      // Get a default aes key for encryption if needed
-      final key = aesKey != null ? aesKey : await KeysHelper.generateAesKey();
-
-      commercioDocument = await encryptField(
-        commercioDocument,
-        key,
-        encryptedData,
-        recipients,
-        wallet,
-      );
-    }
-
     // Build the tx message
-    final msg = MsgShareDocument(document: commercioDocument);
+    final msg = MsgShareDocument(document: commercioDoc);
     return TxHelper.createSignAndSendTx(
       [msg],
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
+  /// Creates a new transaction that allows to share from [wallet]
+  /// a document lists [commercioDocsList].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
+  static Future<TransactionResult> shareDocumentsList(
+    List<CommercioDoc> commercioDocsList,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs = commercioDocsList
+        .map(
+          (commercioDoc) => MsgShareDocument(document: commercioDoc),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
       wallet,
       fee: fee,
       mode: mode,
