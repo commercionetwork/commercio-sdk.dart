@@ -113,7 +113,7 @@ class DocsHelper {
       proof: proof,
     );
     final msg = MsgSendDocumentReceipt(
-      commercioDocReceipt,
+      receipt: commercioDocReceipt,
     );
     return TxHelper.createSignAndSendTx(
       [msg],
@@ -133,7 +133,8 @@ class DocsHelper {
   }) {
     final msgs = commercioDocReceiptsList
         .map(
-          (commercioDocReceipt) => MsgSendDocumentReceipt(commercioDocReceipt),
+          (commercioDocReceipt) =>
+              MsgSendDocumentReceipt(receipt: commercioDocReceipt),
         )
         .toList();
     return TxHelper.createSignAndSendTx(
