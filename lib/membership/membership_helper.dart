@@ -11,11 +11,12 @@ class MembershipHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
+    final InviteUser inviteUser = InviteUserHelper.fromWallet(
+      wallet,
+      userDid,
+    );
     final msg = MsgInviteUser(
-      inviteUser: InviteUser(
-        recipientDid: userDid,
-        senderDid: wallet.bech32Address,
-      ),
+      inviteUser: inviteUser,
     );
     return TxHelper.createSignAndSendTx(
       [msg],
@@ -54,11 +55,12 @@ class MembershipHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
+    final BuyMembership buyMembership = BuyMembershipHelper.fromWallet(
+      wallet,
+      membershipType,
+    );
     final msg = MsgBuyMembership(
-      buyMembership: BuyMembership(
-        membershipType: membershipType.value,
-        buyerDid: wallet.bech32Address,
-      ),
+      buyMembership: buyMembership,
     );
     return TxHelper.createSignAndSendTx(
       [msg],

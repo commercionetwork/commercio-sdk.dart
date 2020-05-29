@@ -1,4 +1,6 @@
 import 'package:commerciosdk/export.dart';
+import 'package:commerciosdk/mint/export.dart';
+import 'package:commerciosdk/mint/open_cdp_helper.dart';
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily perform CommercioMINT related transactions.
@@ -11,16 +13,15 @@ class MintHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) {
+    final depositAmount = [
+      StdCoin(
+        denom: "ucommercio",
+        amount: amount.toString(),
+      )
+    ];
+    final OpenCdp openCdp = OpenCdpHelper.fromWallet(wallet, depositAmount);
     final msg = MsgOpenCdp(
-      openCdp: OpenCdp(
-        depositAmount: [
-          StdCoin(
-            denom: "ucommercio",
-            amount: amount.toString(),
-          )
-        ],
-        signerDid: wallet.bech32Address,
-      ),
+      openCdp: openCdp,
     );
     return TxHelper.createSignAndSendTx(
       [msg],
@@ -56,11 +57,9 @@ class MintHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) {
+    final CloseCdp closeCdp = CloseCdpHelper.fromWallet(wallet, timestamp);
     final msg = MsgCloseCdp(
-      closeCdp: CloseCdp(
-        signerDid: wallet.bech32Address,
-        timeStamp: timestamp.toString(),
-      ),
+      closeCdp: closeCdp,
     );
     return TxHelper.createSignAndSendTx(
       [msg],
