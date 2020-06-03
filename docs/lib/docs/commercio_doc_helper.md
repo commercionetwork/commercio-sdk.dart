@@ -23,6 +23,11 @@ Commercio Doc Helper allows to easily create a Commercio Doc.
 ## Usage examples
 
 ```dart
+final networkInfo = NetworkInfo(
+  bech32Hrp: 'did:com:',
+  lcdUrl: 'http://localhost:1317',
+);
+
 final senderMnemonic = ['will', 'hard', ..., 'man'];
 final senderWallet = Wallet.derive(senderMnemonic, networkInfo);
 

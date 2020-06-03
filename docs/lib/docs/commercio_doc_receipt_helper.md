@@ -28,6 +28,11 @@ final response = await DocsHelper.shareDocumentsList(
 String txHash = response.hash;
 ...
 
+final networkInfo = NetworkInfo(
+  bech32Hrp: 'did:com:',
+  lcdUrl: 'http://localhost:1317',
+);
+
 final senderDid = senderWallet.bech32Address;
 final recipientMnemonic = ['mad', 'accuse', ..., 'eternal'];
 final recipientWallet = Wallet.derive(recipientMnemonic, networkInfo);
