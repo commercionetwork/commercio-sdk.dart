@@ -35,6 +35,7 @@ module.exports = {
                 children: [
                     ["lib/id/id_helper", "Id helper"],
                     ["lib/id/did_document_helper", "Did Document helper"],
+                    ["lib/id/request_did_power_up_helper", "Request Did PowerUp helper"],
                     ["lib/docs/docs_helper", "Docs helper"],
                     ["lib/docs/commercio_doc_helper", "Commercio Doc helper"],
                     ["lib/docs/commercio_doc_receipt_helper", "Commercio Doc Receipt helper"],
