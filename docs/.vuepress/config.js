@@ -24,32 +24,62 @@ module.exports = {
         sidebarDepth: 2,
         sidebar: [{
                 title: "Wallet",
-                collapsable: false,
+                collapsable: true,
                 children: [
                     ["wallet/create-wallet", "Create a wallet"],
                 ]
             },
             {
-                title: "Blockchain's Helpers",
-                collapsable: false,
+                title: "Id helpers",
+                collapsable: true,
                 children: [
-                    ["lib/id/id_helper", "Id helper"],
-                    ["lib/id/did_document_helper", "Did Document helper"],
-                    ["lib/id/request_did_power_up_helper", "Request Did PowerUp helper"],
-                    ["lib/docs/docs_helper", "Docs helper"],
-                    ["lib/docs/commercio_doc_helper", "Commercio Doc helper"],
-                    ["lib/docs/commercio_doc_receipt_helper", "Commercio Doc Receipt helper"],
-                    ["lib/membership/membership_helper", "Membership helper"],
-                    ["lib/membership/buy_membership_helper", "Buy Membership helper"],
-                    ["lib/membership/invite_user_helper", "Invite User helper"],
-                    ["lib/mint/mint_helper", "Mint helper"],
-                    ["lib/tx/tx_helper", "Tx helper"],
+                    ["lib/id/id_helper", "Id"],
+                    ["lib/id/did_document_helper", "Did Document"],
+                    ["lib/id/request_did_power_up_helper", "Request Did PowerUp"]
+                ]
+            },
+            {
+                title: "Docs helpers",
+                collapsable: true,
+                children: [
+                    ["lib/docs/docs_helper", "Docs"],
+                    ["lib/docs/commercio_doc_helper", "Commercio Doc"],
+                    ["lib/docs/commercio_doc_receipt_helper", "Commercio Doc Receipt"]
+                ]
+            },
+            {
+                title: "Membership helpers",
+                collapsable: true,
+                children: [
+                    ["lib/membership/membership_helper", "Membership"],
+                    ["lib/membership/buy_membership_helper", "Buy Membership"],
+                    ["lib/membership/invite_user_helper", "Invite User"]
+                ]
+            },
+            {
+                title: "Mint helpers",
+                collapsable: true,
+                children: [
+                    ["lib/mint/mint_helper", "Mint helper"]
+                ]
+            },
+            {
+                title: "Tx helpers",
+                collapsable: true,
+                children: [
+                    ["lib/tx/tx_helper", "Tx helper"]
+                ]
+            },
+            {
+                title: "Sign helpers",
+                collapsable: true,
+                children: [
                     ["lib/crypto/sign_helper", "Sign Helper"]
                 ]
             },
             {
-                title: "Utility Helpers",
-                collapsable: false,
+                title: "Utility helpers",
+                collapsable: true,
                 children: [
                     ["lib/crypto/keys_helper", "Keys Helper"],
                     ["lib/crypto/encryption_helper", "Encryption helper"]
@@ -57,7 +87,7 @@ module.exports = {
             },
             {
                 title: "Glossary",
-                collapsable: false,
+                collapsable: true,
                 children: [
                     ["lib/glossary", "Glossary"]
                 ]
