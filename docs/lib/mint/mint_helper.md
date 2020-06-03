@@ -4,24 +4,26 @@ Mint helper allows to easily perform all the operations related to the commercio
 
 ## Provided operations
 
-1. Opens a new CDP depositing the given `commercioTokenAmount`. Optionally a custom `fee` can be specified.
+1. Opens a new CDP depositing the given `commercioTokenAmount`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> openCdp(
       int amount,
-      Wallet wallet,
-      {StdFee fee},
-    )
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    })
     ```
 
-2. Closes the CDP having the given `timestamp`. Optionally a custom `fee` can be specified.
+2. Closes the CDP having the given `timestamp`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> closeCdp(
       int timestamp,
-      Wallet wallet,
-      {StdFee fee},
-    )
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    })
     ```
 
 ## Usage examples

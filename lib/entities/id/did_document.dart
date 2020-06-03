@@ -2,7 +2,6 @@ import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:pointycastle/export.dart' as pointy_castle;
 
 part 'did_document.g.dart';
 
@@ -52,7 +51,7 @@ class DidDocument extends Equatable {
     if (pubKey == null) return null;
 
     return RSAPublicKey(
-      RSAKeyParser.parsePublicKeyFromPem(pubKey.publicKeyPem),
+      RSAKeyParser.parseKeyFromPem(pubKey.publicKeyPem),
     );
   }
 
