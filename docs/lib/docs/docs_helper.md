@@ -117,47 +117,20 @@ void main() async {
   final recipientDid = recipientWallet.bech32Address;
 
   // --- Share a document
-  final pair = await _shareDocument([recipientDid], senderWallet);
-
-  // --- Send receipt
-  final senderDid = senderWallet.bech32Address;
-  await _sendReceipt(
-    pair.first,
-    pair.second,
-    senderDid,
-    recipientWallet,
-  );
-}
-
-class Pair<F, S> {
-  final F first;
-  final S second;
-
-  Pair(this.first, this.second);
-}
-
-/// Shows how to share a document to the given recipients.
-/// Documentation: https://docs.commercio.network/x/docs/tx/send-document.html
-Future<Pair<String, String>> _shareDocument(
-  List<String> recipients,
-  Wallet wallet,
-) async {
-  final docId = new Uuid().v4();
-
+  final docId = Uuid().v4();
   final checksum = CommercioDocChecksum(
-    value: 'a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c',
+    value: "a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c",
     algorithm: CommercioDocChecksumAlgorithm.SHA256,
   );
-
   final doSign = CommercioDoSign(
-    storageUri: 'http://www.commercio.network',
-    signerIstance: 'did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj',
+    storageUri: "http://www.commercio.network",
+    signerIstance: "did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj",
     sdnData: [
       CommercioSdnData.COMMON_NAME,
       CommercioSdnData.SURNAME,
     ],
-    vcrId: 'xxxxx',
-    certificateProfile: 'xxxxx',
+    vcrId: "xxxxx",
+    certificateProfile: "xxxxx",
   );
 
   final response = await DocsHelper.shareDocument(
@@ -170,8 +143,8 @@ Future<Pair<String, String>> _shareDocument(
         version: '1.0.0',
       ),
     ),
-    recipients: recipients,
-    wallet: wallet,
+    recipients: [recipientDid],
+    wallet: senderWallet,
     checksum: checksum,
     encryptedData: [EncryptedData.CONTENT_URI],
     doSign: doSign,
@@ -182,22 +155,15 @@ Future<Pair<String, String>> _shareDocument(
       ],
     ),
   );
-  return Pair(docId, response.hash);
-}
 
-/// Shows how to send a document receipt to the specified [recipient] for
-/// the given [docId] present inside the transaction having the given [txHash].
-Future<TransactionResult> _sendReceipt(
-  String documentId,
-  String txHash,
-  String recipient,
-  Wallet wallet,
-) async {
-  return await DocsHelper.sendDocumentReceipt(
-    recipient: recipient,
-    txHash: txHash,
-    documentId: documentId,
-    wallet: wallet,
+  // --- Send receipt
+  final senderDid = senderWallet.bech32Address;
+
+  await DocsHelper.sendDocumentReceipt(
+    recipient: senderDid,
+    txHash: response.hash,
+    documentId: docId,
+    wallet: recipientWallet,
   );
 }
 ```
