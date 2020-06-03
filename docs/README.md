@@ -32,12 +32,20 @@ specific classes used to allow a simple way to send Commercio.network blockchain
 Here's the list:
 
 * [`IdHelper`](lib/id/id_helper.md)
-* [`DidDocumentHelper`](lib/id/did_document_helper.md)
-* [`RequestDidPowerUptHelper`](lib/id/request_did_power_up_helper.md)
+
+  * [`DidDocumentHelper`](lib/id/did_document_helper.md)
+  * [`RequestDidPowerUptHelper`](lib/id/request_did_power_up_helper.md)
+
 * [`DocsHelper`](lib/docs/docs_helper.md)
-* [`CommercioDocHelper`](lib/docs/commercio_doc_helper.md)
-* [`CommercioDocReceiptHelper`](lib/docs/commercio_doc_receipt_helper.md)
+
+  * [`CommercioDocHelper`](lib/docs/commercio_doc_helper.md)
+  * [`CommercioDocReceiptHelper`](lib/docs/commercio_doc_receipt_helper.md)
+
 * [`MembershipHelper`](lib/membership/membership_helper.md)
+
+  * [`BuyMembershipHelper`](lib/membership/buy_membership_helper.md)
+  * [`InviteUserHelper`](lib/membership/invite_user_helper.md)
+
 * [`MintHelper`](lib/mint/mint_helper.md)
 * [`TxHelper`](lib/tx/tx_helper.md)
 * [`SignHelper`](lib/crypto/sign_helper.md)

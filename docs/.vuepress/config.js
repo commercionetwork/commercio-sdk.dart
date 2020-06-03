@@ -40,6 +40,8 @@ module.exports = {
                     ["lib/docs/commercio_doc_helper", "Commercio Doc helper"],
                     ["lib/docs/commercio_doc_receipt_helper", "Commercio Doc Receipt helper"],
                     ["lib/membership/membership_helper", "Membership helper"],
+                    ["lib/membership/buy_membership_helper", "Buy Membership helper"],
+                    ["lib/membership/invite_user_helper", "Invite User helper"],
                     ["lib/mint/mint_helper", "Mint helper"],
                     ["lib/tx/tx_helper", "Tx helper"],
                     ["lib/crypto/sign_helper", "Sign Helper"]
