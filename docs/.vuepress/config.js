@@ -60,31 +60,31 @@ module.exports = {
                 title: "Mint helpers",
                 collapsable: true,
                 children: [
-                    ["lib/mint/mint_helper", "Mint helper"],
-                    ["lib/mint/open_cdp_helper", "Open Cdp helper"],
-                    ["lib/mint/close_cdp_helper", "Close Cdp helper"]
+                    ["lib/mint/mint_helper", "Mint"],
+                    ["lib/mint/open_cdp_helper", "Open Cdp"],
+                    ["lib/mint/close_cdp_helper", "Close Cdp"]
                 ]
             },
             {
                 title: "Tx helpers",
                 collapsable: true,
                 children: [
-                    ["lib/tx/tx_helper", "Tx helper"]
+                    ["lib/tx/tx_helper", "Tx"]
                 ]
             },
             {
                 title: "Sign helpers",
                 collapsable: true,
                 children: [
-                    ["lib/crypto/sign_helper", "Sign Helper"]
+                    ["lib/crypto/sign_helper", "Sign"]
                 ]
             },
             {
                 title: "Utility helpers",
                 collapsable: true,
                 children: [
-                    ["lib/crypto/keys_helper", "Keys Helper"],
-                    ["lib/crypto/encryption_helper", "Encryption helper"]
+                    ["lib/crypto/keys_helper", "Keys"],
+                    ["lib/crypto/encryption_helper", "Encryption"]
                 ]
             },
             {
