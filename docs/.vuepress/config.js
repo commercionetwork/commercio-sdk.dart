@@ -2,7 +2,10 @@ module.exports = {
     title: "Commercio.network Dart SDK Documentation",
     description: "Documentation for the Commercio.network blockhain Dart SDK.",
     head: [
-        ['link', { rel: "commercio-icon", href: "/.vuepress/icon.png" }]
+        ['link', {
+            rel: "commercio-icon",
+            href: "/.vuepress/icon.png"
+        }]
     ],
     markdown: {
         lineNumbers: true,
@@ -14,12 +17,12 @@ module.exports = {
         docsBranch: "master",
         editLinkText: "Edit this page on Github",
         lastUpdated: true,
-        nav: [
-            {text: "Commercio.network", link: "https://commercio.network"},
-        ],
+        nav: [{
+            text: "Commercio.network",
+            link: "https://commercio.network"
+        }, ],
         sidebarDepth: 2,
-        sidebar: [
-            {
+        sidebar: [{
                 title: "Wallet",
                 collapsable: false,
                 children: [
@@ -33,6 +36,8 @@ module.exports = {
                     ["lib/id/id_helper", "Id helper"],
                     ["lib/id/did_document_helper", "Did Document helper"],
                     ["lib/docs/docs_helper", "Docs helper"],
+                    ["lib/docs/commercio_doc_helper", "Commercio Doc helper"],
+                    ["lib/docs/commercio_doc_receipt_helper", "Commercio Doc Receipt helper"],
                     ["lib/membership/membership_helper", "Membership helper"],
                     ["lib/mint/mint_helper", "Mint helper"],
                     ["lib/tx/tx_helper", "Tx helper"],
@@ -49,7 +54,7 @@ module.exports = {
             },
             {
                 title: "Glossary",
-                collapsable:false,
+                collapsable: false,
                 children: [
                     ["lib/glossary", "Glossary"]
                 ]
