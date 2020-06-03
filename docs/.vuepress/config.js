@@ -60,7 +60,9 @@ module.exports = {
                 title: "Mint helpers",
                 collapsable: true,
                 children: [
-                    ["lib/mint/mint_helper", "Mint helper"]
+                    ["lib/mint/mint_helper", "Mint helper"],
+                    ["lib/mint/open_cdp_helper", "Open Cdp helper"],
+                    ["lib/mint/close_cdp_helper", "Close Cdp helper"]
                 ]
             },
             {
