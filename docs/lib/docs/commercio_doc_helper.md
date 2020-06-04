@@ -53,20 +53,24 @@ final doSign = CommercioDoSign(
   certificateProfile: "xxxxx",
 );
 
-final commercioDoc = await CommercioDocHelper.fromWallet(
-  wallet: senderWallet,
-  recipients: [docRecipientDid],
-  id: docId,
-  metadata: CommercioDocMetadata(
-    contentUri: 'https://example.com/document/metadata',
-    schema: CommercioDocMetadataSchema(
-      uri: 'https://example.com/custom/metadata/schema',
-      version: '7.0.0',
+try {
+  final commercioDoc = await CommercioDocHelper.fromWallet(
+    wallet: senderWallet,
+    recipients: [docRecipientDid],
+    id: docId,
+    metadata: CommercioDocMetadata(
+      contentUri: 'https://example.com/document/metadata',
+      schema: CommercioDocMetadataSchema(
+        uri: 'https://example.com/custom/metadata/schema',
+        version: '7.0.0',
+      ),
     ),
-  ),
-  contentUri: 'https://example.com/document',
-  checksum: checksum,
-  doSign: doSign,
-  encryptedData: [EncryptedData.CONTENT_URI],
-);
+    contentUri: 'https://example.com/document',
+    checksum: checksum,
+    doSign: doSign,
+    encryptedData: [EncryptedData.CONTENT_URI],
+  );
+} catch (error) {
+  throw error;
+}
 ```
