@@ -21,6 +21,8 @@ Allows to easily create a CommercioDocReceipt and perform common related operati
 ```dart
 ...
 final docId = Uuid().v4();
+final commercioDoc = CommercioDocHelper.fromWallet(...
+
 final response = await DocsHelper.shareDocumentsList(
   [commercioDoc],
   senderWallet,

@@ -59,9 +59,13 @@ final info = NetworkInfo(
 final mnemonic = ['will', 'hard', ..., 'man'];
 final wallet = Wallet.derive(mnemonic, info);
 
-// --- Open CDP
-final openResponse = await MintHelper.openCdp(100000, wallet);
+try {
+  // --- Open CDP
+  final openResponse = await MintHelper.openCdp(100000, wallet);
 
-// --- Close CDP
-final closeResponse = await MintHelper.closeCdp(777, wallet);
+  // --- Close CDP
+  final closeResponse = await MintHelper.closeCdp(777, wallet);
+} catch (error) {
+  throw error;
+}
 ```

@@ -62,17 +62,21 @@ final userWallet = Wallet.derive(userMnemonic, info);
 final newUserMnemonic = ['often', 'emerge', ..., 'arrest'];
 final newUserWallet = Wallet.derive(newUserMnemonic, info);
 
-// --- Invite user
-final inviteResponse =
-  await MembershipHelper.inviteUser(
-      newUserWallet.bech32Address,
-      userWallet
-  );
+try {
+  // --- Invite user
+  final inviteResponse =
+    await MembershipHelper.inviteUser(
+        newUserWallet.bech32Address,
+        userWallet
+    );
 
-// --- Buy a membership
-final buyResponse =
-  await MembershipHelper.buyMembership(
-      type: MembershipType.GOLD,
-      wallet: newUserWallet
-  );
+  // --- Buy a membership
+  final buyResponse =
+    await MembershipHelper.buyMembership(
+        type: MembershipType.GOLD,
+        wallet: newUserWallet
+    );
+} catch (error) {
+  throw error;
+}
 ```

@@ -45,10 +45,15 @@ final rsaKey = RSAKeyParser.parseKeyFromPem(
 );
 final rsaPrivateKey = RSAPrivateKey(rsaKey);
 
-final requestDidPowerUp = await RequestDidPowerUpHelper.fromWallet(
-  wallet,
-  walletPariwaised.bech32Address,
-  amount,
-  rsaPrivateKey,
-);
+try {
+  // --- Create Did PowerUp request
+  final requestDidPowerUp = await RequestDidPowerUpHelper.fromWallet(
+    wallet,
+    walletPariwaised.bech32Address,
+    amount,
+    rsaPrivateKey,
+  );
+} catch (error) {
+  throw error;
+}
 ```

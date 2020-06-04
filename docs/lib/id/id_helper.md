@@ -65,8 +65,8 @@ final info = NetworkInfo(
   lcdUrl: 'http://localhost:1317',
 );
 
-final userMnemonic = ['will', 'hard', ..., 'man'];
-final userWallet = Wallet.derive(userMnemonic, info);
+final mnemonic = ['will', 'hard', ..., 'man'];
+final wallet = Wallet.derive(mnemonic, info);
 
 final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
 final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
@@ -80,16 +80,27 @@ final didDocument =  DidDocumentHelper.fromWallet(
     [rsaVerificationPubKey, rsaSignaturePubKey]
 );
 
-// --- Set the Did Document
-await IdHelper.setDidDocument(didDocument, wallet);
+try {
+  // --- Set the Did Document
+  await IdHelper.setDidDocument(didDocument, wallet);
 
-// --- Request the Did power up
-final pairwiseWallet = Wallet.derive(userMnemonic, info, '10');
-final depositAmount = [StdCoin(denom: 'ucommercio', amount: '100')];
-await IdHelper.requestDidPowerUp(
-  userWallet,
-  pairwiseWallet.bech32Address,
-  depositAmount,
-  rsaSignatureKeyPair.privateKey
-);
+  // Send Power Up to the Tumbler
+  final depositAmount = [StdCoin(denom: 'ucommercio', amount: '100')];
+  final msgDeposit = MsgSend(...
+
+  await TxHelper.createSignAndSendTx([msgDeposit], wallet);
+
+  // --- Request the Did power up
+  final pairwiseWallet = Wallet.derive(
+    userMnemonic, info, lastDerivationPathSegment: '1'
+  );
+  await IdHelper.requestDidPowerUp(
+    userWallet,
+    pairwiseWallet.bech32Address,
+    depositAmount,
+    rsaSignatureKeyPair.privateKey
+  );
+} catch (error) {
+  throw error;
+}
 ```

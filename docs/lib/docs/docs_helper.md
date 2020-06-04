@@ -99,40 +99,36 @@ Docs helper allows to easily perform all the operations related to the commercio
 ## Usage examples
 
 ```dart
-import 'package:commerciosdk/export.dart';
-import 'package:uuid/uuid.dart';
-import 'commons.dart';
+final info = NetworkInfo(
+  bech32Hrp: 'did:com:',
+  lcdUrl: 'http://localhost:1317',
+);
 
-void main() async {
-  final info = NetworkInfo(
-    bech32Hrp: 'did:com:',
-    lcdUrl: 'http://localhost:1317',
-  );
+final senderMnemonic = ['will', 'hard', ..., 'man'];
+final senderWallet = Wallet.derive(senderMnemonic, info);
 
-  final senderMnemonic = ['will', 'hard', ..., 'man'];
-  final senderWallet = Wallet.derive(senderMnemonic, info);
+final recipientMnemonic = ['crisp', 'become', ..., 'cereal'];
+final recipientWallet = Wallet.derive(recipientMnemonic, info);
+final recipientDid = recipientWallet.bech32Address;
 
-  final recipientMnemonic = ['crisp', 'become', ..., 'cereal'];
-  final recipientWallet = Wallet.derive(recipientMnemonic, info);
-  final recipientDid = recipientWallet.bech32Address;
+final docId = Uuid().v4();
+final checksum = CommercioDocChecksum(
+  value: "a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c",
+  algorithm: CommercioDocChecksumAlgorithm.SHA256,
+);
+final doSign = CommercioDoSign(
+  storageUri: "http://www.commercio.network",
+  signerIstance: "did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj",
+  sdnData: [
+    CommercioSdnData.COMMON_NAME,
+    CommercioSdnData.SURNAME,
+  ],
+  vcrId: "xxxxx",
+  certificateProfile: "xxxxx",
+);
 
+try {
   // --- Share a document
-  final docId = Uuid().v4();
-  final checksum = CommercioDocChecksum(
-    value: "a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c",
-    algorithm: CommercioDocChecksumAlgorithm.SHA256,
-  );
-  final doSign = CommercioDoSign(
-    storageUri: "http://www.commercio.network",
-    signerIstance: "did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj",
-    sdnData: [
-      CommercioSdnData.COMMON_NAME,
-      CommercioSdnData.SURNAME,
-    ],
-    vcrId: "xxxxx",
-    certificateProfile: "xxxxx",
-  );
-
   final response = await DocsHelper.shareDocument(
     id: docId,
     contentUri: 'https://example.com/document',
@@ -165,5 +161,7 @@ void main() async {
     documentId: docId,
     wallet: recipientWallet,
   );
+} catch (error) {
+  throw error;
 }
 ```

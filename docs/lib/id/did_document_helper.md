@@ -18,29 +18,24 @@ Did Document Helper allows to easily create a Did Document.
 ## Usage examples
 
 ```dart
-import 'package:commerciosdk/export.dart';
-import 'commons.dart';
+final info = NetworkInfo(
+  bech32Hrp: 'did:com:',
+  lcdUrl: 'http://localhost:1317',
+);
 
-void main() async {
-  final info = NetworkInfo(
-    bech32Hrp: 'did:com:',
-    lcdUrl: 'http://localhost:1317',
-  );
+final mnemonic = ['will', 'hard', ..., 'man'];
+final wallet = Wallet.derive(mnemonic, info);
 
-  final userMnemonic = ['will', 'hard', ..., 'man'];
-  final wallet = Wallet.derive(userMnemonic, info);
+// --- Generate keys
+final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
+final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
+final rsaSignatureKeyPair =
+    await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
+final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
 
-  // --- Generate keys
-  final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
-  final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
-  final rsaSignatureKeyPair =
-      await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
-  final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
-
-  // --- Create Did Document
-  final didDocument =  DidDocumentHelper.fromWallet(
-      wallet,
-      [rsaVerificationPubKey, rsaSignaturePubKey]
-  );
-}
+// --- Create Did Document
+final didDocument =  DidDocumentHelper.fromWallet(
+    wallet,
+    [rsaVerificationPubKey, rsaSignaturePubKey]
+);
 ```
