@@ -35,7 +35,7 @@ Here's the list:
 
   - [`IdHelper`](lib/id/id_helper.md)
   - [`DidDocumentHelper`](lib/id/did_document_helper.md)
-  - [`RequestDidPowerUptHelper`](lib/id/request_did_power_up_helper.md)
+  - [`RequestDidPowerUpHelper`](lib/id/request_did_power_up_helper.md)
 
 - **Docs helpers**
 
