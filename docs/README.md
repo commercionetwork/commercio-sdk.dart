@@ -4,7 +4,7 @@ Inside the following page you will learn how to perform all the Commercio.networ
 transactions  by using the Commercio.network SDK.
 
 :::tip Disclaimer
-This documentation is valid for the `v2.1.0` sdk version  
+This documentation is valid for the `v2.1.0` sdk version
 :::
 
 ## Installation
@@ -31,12 +31,37 @@ After creating the wallet, you can use it inside the blockchain's **Helpers**,
 specific classes used to allow a simple way to send Commercio.network blockchain's messages and perform transactions.  
 Here's the list:
 
-* [`IdHelper`](lib/id/id_helper.md)
-* [`DocsHelper`](lib/docs/docs_helper.md)
-* [`MembershipHelper`](lib/membership/membership_helper.md)
-* [`MintHelper`](lib/mint/mint_helper.md)
-* [`TxHelper`](lib/tx/tx_helper.md)
-* [`SignHelper`](lib/crypto/sign_helper.md)  
+- **Id helpers**
+
+  - [`IdHelper`](lib/id/id_helper.md)
+  - [`DidDocumentHelper`](lib/id/did_document_helper.md)
+  - [`RequestDidPowerUpHelper`](lib/id/request_did_power_up_helper.md)
+
+- **Docs helpers**
+
+  - [`DocsHelper`](lib/docs/docs_helper.md)
+  - [`CommercioDocHelper`](lib/docs/commercio_doc_helper.md)
+  - [`CommercioDocReceiptHelper`](lib/docs/commercio_doc_receipt_helper.md)
+
+- **Membership helpers**
+
+  - [`MembershipHelper`](lib/membership/membership_helper.md)
+  - [`BuyMembershipHelper`](lib/membership/buy_membership_helper.md)
+  - [`InviteUserHelper`](lib/membership/invite_user_helper.md)
+
+- **Mint helpers**
+
+  - [`MintHelper`](lib/mint/mint_helper.md)
+  - [`OpenCdpHelper`](lib/mint/open_cdp_helper.md)
+  - [`CloseCdpHelper`](lib/mint/close_cdp_helper.md)
+
+- **Tx helpers**
+  
+  - [`TxHelper`](lib/tx/tx_helper.md)
+
+- **Sign helpers**
+
+  - [`SignHelper`](lib/crypto/sign_helper.md)
 
 #### Utility helpers
 
@@ -44,5 +69,5 @@ Beside the above helpers, there is a few more that allows you to perform specifi
 RSA/AES keys generation, JSON signature.  
 Here's the list:
 
-* [`EncryptionHelper`](lib/crypto/encryption_helper.md)  
-* [`KeysHelper`](lib/crypto/keys_helper.md)
+- [`EncryptionHelper`](lib/crypto/encryption_helper.md)  
+- [`KeysHelper`](lib/crypto/keys_helper.md)

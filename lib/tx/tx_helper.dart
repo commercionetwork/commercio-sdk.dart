@@ -1,10 +1,11 @@
+import 'package:commerciosdk/utils/utils.dart';
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily perform common transaction operations.
 class TxHelper {
-  static const defaultGas = "200000";
+  static const defaultAmount = 10000;
   static const defaultDenom = "ucommercio";
-  static const defaultAmount = "10000";
+  static const defaultGas = 200000;
 
   /// Creates a transaction having the given [msgs],
   /// signs it with the given [Wallet] and sends it to the blockchain.
@@ -16,10 +17,15 @@ class TxHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
+    // Set values for optional parameters
+    final msgsNumber = msgs.length > 0 ? msgs.length : 1;
     fee = fee ??
-        const StdFee(gas: defaultGas, amount: [
-          const StdCoin(denom: defaultDenom, amount: defaultAmount)
-        ]);
+        calculateDefaultFee(
+          msgsNumber: msgsNumber,
+          fee: defaultAmount,
+          denom: defaultDenom,
+          gas: defaultGas,
+        );
     mode = mode ?? BroadcastingMode.SYNC;
 
     final stdTx = TxBuilder.buildStdTx(stdMsgs: msgs, fee: fee);

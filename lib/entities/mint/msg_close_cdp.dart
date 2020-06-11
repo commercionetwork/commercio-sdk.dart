@@ -1,3 +1,4 @@
+import 'package:commerciosdk/entities/mint/close_cdp.dart';
 import 'package:meta/meta.dart';
 import 'package:sacco/sacco.dart';
 
@@ -5,19 +6,13 @@ import 'package:sacco/sacco.dart';
 /// to close a previously opened Collateralized Debt position to get
 /// back the Commercio Tokens that have been locked with it.
 class MsgCloseCdp extends StdMsg {
-  final String signerDid;
-  final int timeStamp;
+  final CloseCdp closeCdp;
 
   MsgCloseCdp({
-    @required this.signerDid,
-    @required this.timeStamp,
-  })  : assert(signerDid != null),
-        assert(timeStamp != null),
+    @required this.closeCdp,
+  })  : assert(closeCdp != null),
         super(type: "commercio/MsgCloseCdp", value: Map());
 
   @override
-  Map<String, dynamic> get value => {
-        'signer': this.signerDid,
-        'cdp_timestamp': this.timeStamp.toString(),
-      };
+  Map<String, dynamic> get value => closeCdp.toJson();
 }

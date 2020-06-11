@@ -1,7 +1,7 @@
+import 'package:commerciosdk/docs/commercio_doc_receipt_helper.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-import 'package:uuid/uuid.dart';
 
 class DocsHelper {
   final client = http.Client();
@@ -25,35 +25,44 @@ class DocsHelper {
     BroadcastingMode mode,
   }) async {
     // Build a generic document
-    CommercioDoc commercioDocument = CommercioDoc(
-      senderDid: wallet.bech32Address,
-      recipientDids: recipients,
-      uuid: id,
-      contentUri: contentUri,
+    final CommercioDoc commercioDoc = await CommercioDocHelper.fromWallet(
+      wallet: wallet,
+      recipients: recipients,
+      id: id,
       metadata: metadata,
       checksum: checksum,
-      encryptionData: null,
+      contentUri: contentUri,
       doSign: doSign,
+      encryptedData: encryptedData,
+      aesKey: aesKey,
     );
 
-    // Encrypt its contents, if necessary
-    if (encryptedData != null && encryptedData.isNotEmpty) {
-      // Get a default aes key for encryption if needed
-      final key = aesKey != null ? aesKey : await KeysHelper.generateAesKey();
-
-      commercioDocument = await encryptField(
-        commercioDocument,
-        key,
-        encryptedData,
-        recipients,
-        wallet,
-      );
-    }
-
     // Build the tx message
-    final msg = MsgShareDocument(document: commercioDocument);
+    final msg = MsgShareDocument(document: commercioDoc);
     return TxHelper.createSignAndSendTx(
       [msg],
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
+  /// Create a new transaction that allows to share
+  /// a list of previously generated documents [commercioDocsList].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
+  static Future<TransactionResult> shareDocumentsList(
+    List<CommercioDoc> commercioDocsList,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs = commercioDocsList
+        .map(
+          (commercioDoc) => MsgShareDocument(document: commercioDoc),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
       wallet,
       fee: fee,
       mode: mode,
@@ -95,18 +104,42 @@ class DocsHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) {
+    final CommercioDocReceipt commercioDocReceipt =
+        CommercioDocReceiptHelper.fromWallet(
+      wallet: wallet,
+      recipient: recipient,
+      txHash: txHash,
+      documentId: documentId,
+      proof: proof,
+    );
     final msg = MsgSendDocumentReceipt(
-      CommercioDocReceipt(
-        uuid: Uuid().v4(),
-        recipientDid: recipient,
-        txHash: txHash,
-        documentUuid: documentId,
-        proof: proof,
-        senderDid: wallet.bech32Address,
-      ),
+      receipt: commercioDocReceipt,
     );
     return TxHelper.createSignAndSendTx(
       [msg],
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
+  /// Creates a new transaction which sends
+  /// a list of previously generated receipts [commercioDocReceiptsList].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
+  static Future<TransactionResult> sendDocumentReceiptsList(
+    List<CommercioDocReceipt> commercioDocReceiptsList,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs = commercioDocReceiptsList
+        .map(
+          (commercioDocReceipt) =>
+              MsgSendDocumentReceipt(receipt: commercioDocReceipt),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
       wallet,
       fee: fee,
       mode: mode,

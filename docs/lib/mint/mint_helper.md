@@ -15,7 +15,18 @@ Mint helper allows to easily perform all the operations related to the commercio
     })
     ```
 
-2. Closes the CDP having the given `timestamp`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+2. Performs a transaction opening a new CDP `openCdp` as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+    ```dart
+    static Future<TransactionResult> openCdpSingle(
+      OpenCdp openCdp,
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    })
+    ```
+
+3. Closes the CDP having the given `timestamp`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> closeCdp(
@@ -26,25 +37,35 @@ Mint helper allows to easily perform all the operations related to the commercio
     })
     ```
 
+4. Closes the open CDPs having the given `closeCdps` list as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+    ```dart
+    static Future<TransactionResult> closeCdpsList(
+        List<CloseCdp> closeCdps,
+        Wallet wallet, {
+        StdFee fee,
+        BroadcastingMode mode,
+      })
+    ```
+
 ## Usage examples
 
 ```dart
-import 'package:commerciosdk/export.dart';
-import 'commons.dart';
+final info = NetworkInfo(
+  bech32Hrp: 'did:com:',
+  lcdUrl: 'http://localhost:1317',
+);
 
-void main() async {
-  final info = NetworkInfo(
-    bech32Hrp: 'did:com:',
-    lcdUrl: 'http://localhost:1317',
-  );
+final mnemonic = ['will', 'hard', ..., 'man'];
+final wallet = Wallet.derive(mnemonic, info);
 
-  final mnemonic = ['will', 'hard', ..., 'man'];
-  final wallet = Wallet.derive(mnemonic, info);
-
+try {
   // --- Open CDP
   final openResponse = await MintHelper.openCdp(100000, wallet);
 
   // --- Close CDP
   final closeResponse = await MintHelper.closeCdp(777, wallet);
+} catch (error) {
+  throw error;
 }
 ```

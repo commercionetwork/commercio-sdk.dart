@@ -15,7 +15,18 @@ Membership helper allows to easily perform all the operations related to the com
     }) async
     ```
 
-2. Buys the membership with the given `membershipType`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+2. Sends a new transaction in order to invite the given `inviteUsers` users list. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+    ```dart
+    static Future<TransactionResult> inviteUsersList(
+      List<InviteUser> inviteUsers,
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    }) async
+    ```
+
+3. Buys the membership with the given `membershipType`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> buyMembership(
@@ -26,24 +37,32 @@ Membership helper allows to easily perform all the operations related to the com
     }) async
     ```
 
+4. Buys the membership with the given `buyMemberships` memberships list. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+    ```dart
+    static Future<TransactionResult> buyMembershipsList(
+      List<BuyMembership> buyMemberships,
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    }) async
+    ```
+
 ## Usage examples
 
 ```dart
-import 'package:commerciosdk/export.dart';
-import 'commons.dart';
+final info = NetworkInfo(
+  bech32Hrp: 'did:com:',
+  lcdUrl: 'http://localhost:1317',
+);
 
-void main() async {
-  final info = NetworkInfo(
-    bech32Hrp: 'did:com:',
-    lcdUrl: 'http://localhost:1317',
-  );
+final userMnemonic = ['will', 'hard', ..., 'man'];
+final userWallet = Wallet.derive(userMnemonic, info);
 
-  final userMnemonic = ['will', 'hard', ..., 'man'];
-  final userWallet = Wallet.derive(userMnemonic, info);
+final newUserMnemonic = ['often', 'emerge', ..., 'arrest'];
+final newUserWallet = Wallet.derive(newUserMnemonic, info);
 
-  final newUserMnemonic = ['often', 'emerge', ..., 'arrest'];
-  final newUserWallet = Wallet.derive(newUserMnemonic, info);
-
+try {
   // --- Invite user
   final inviteResponse =
     await MembershipHelper.inviteUser(
@@ -57,5 +76,7 @@ void main() async {
         type: MembershipType.GOLD,
         wallet: newUserWallet
     );
+} catch (error) {
+  throw error;
 }
 ```

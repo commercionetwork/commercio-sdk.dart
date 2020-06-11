@@ -1,4 +1,5 @@
 import 'package:commerciosdk/export.dart';
+import 'package:meta/meta.dart';
 import 'package:sacco/sacco.dart';
 
 /// Message that should be used when wanting to send a document
@@ -6,8 +7,9 @@ import 'package:sacco/sacco.dart';
 class MsgSendDocumentReceipt extends StdMsg {
   final CommercioDocReceipt receipt;
 
-  MsgSendDocumentReceipt(this.receipt)
-      : super(type: "commercio/MsgSendDocumentReceipt", value: Map());
+  MsgSendDocumentReceipt({
+    @required this.receipt,
+  }) : super(type: "commercio/MsgSendDocumentReceipt", value: Map());
 
   @override
   Map<String, dynamic> get value => receipt.toJson();

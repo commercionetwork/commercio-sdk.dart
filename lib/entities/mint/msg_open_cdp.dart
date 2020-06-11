@@ -1,3 +1,4 @@
+import 'package:commerciosdk/entities/mint/open_cdp.dart';
 import 'package:meta/meta.dart';
 import 'package:sacco/sacco.dart';
 
@@ -5,19 +6,13 @@ import 'package:sacco/sacco.dart';
 /// Collateralized Debt position that allows to transform the user's
 /// Commercio Token into Commercio Cash Credits.
 class MsgOpenCdp extends StdMsg {
-  final List<StdCoin> depositAmount;
-  final String signerDid;
+  final OpenCdp openCdp;
 
   MsgOpenCdp({
-    @required this.depositAmount,
-    @required this.signerDid,
-  })  : assert(depositAmount != null),
-        assert(signerDid != null),
+    @required this.openCdp,
+  })  : assert(openCdp != null),
         super(type: "commercio/MsgOpenCdp", value: Map());
 
   @override
-  Map<String, dynamic> get value => {
-        'deposit_amount': depositAmount.map((coin) => coin.toJson()).toList(),
-        'depositor': signerDid,
-      };
+  Map<String, dynamic> get value => openCdp.toJson();
 }

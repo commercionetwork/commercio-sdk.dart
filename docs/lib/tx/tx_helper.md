@@ -14,3 +14,28 @@ static Future<TransactionResult> createSignAndSendTx(
   BroadcastingMode mode,
 }) async
 ```
+
+## Usage examples
+
+```dart
+final info = NetworkInfo(
+  bech32Hrp: 'did:com:',
+  lcdUrl: 'http://localhost:1317',
+);
+
+final mnemonic = ['will', 'hard', ..., 'man'];
+final wallet = Wallet.derive(mnemonic, info);
+
+final deposit = StdCoin(denom: 'ucommercio', amount: '10');
+final msgDeposit = MsgSend(
+  fromAddress: wallet.bech32Address,
+  toAddress: "did:com:14ttg3eyu88jda8udvxpwjl2pwxemh72w0grsau",
+  amount: [deposit],
+);
+
+try {
+  await TxHelper.createSignAndSendTx([msgDeposit], wallet);
+} catch (error) {
+  throw error;
+}
+```

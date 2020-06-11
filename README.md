@@ -1,9 +1,6 @@
 # Commercio SDK - Dart
 
-<!--
-[![Release](https://jitpack.io/v/commercionetwork/sdk.svg)](https://jitpack.io/#commercionetwork/sdk)
--->
-[![Travis](https://img.shields.io/travis/com/commercionetwork/sdk.dart)](https://travis-ci.com/commercionetwork/sdk.dart)
+[![Release](https://img.shields.io/pub/v/commerciosdk)](https://pub.dev/packages/commerciosdk)
 [![Compatible](https://img.shields.io/badge/compatible-flutter-blue)](https://flutter.dev)
 
 This repository contains the code of the official [Commercio.network](https://commercio.network) Dart SDK,
@@ -43,7 +40,6 @@ We highly suggest you checking it out to have a complete reference of the SDK.
 ### CommercioID
 
 * Create Did Document
-* Request deposit
 * Request power up
 * Create connection invitation
 * Verify connection invitation

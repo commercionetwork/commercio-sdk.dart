@@ -36,6 +36,28 @@ class IdHelper {
     );
   }
 
+  /// Performs a transaction setting the [didDocuments] list as being
+  /// associated with the address present inside the specified [wallet].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
+  static Future<TransactionResult> setDidDocumentsList(
+    List<DidDocument> didDocuments,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs = didDocuments
+        .map(
+          (didDocument) => MsgSetDidDocument(didDocument: didDocument),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
   /// Creates a new Did power up request from [senderWallet] address for the
   /// given [pairwiseDid] and of the given [amount].
   /// Signs everything that needs to be signed (i.e. the signature JSON inside
@@ -50,60 +72,46 @@ class IdHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
-    // Get the timestamp
-    final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
-    final senderDid = senderWallet.bech32Address;
-
-    // Build and sign the signature
-    final signedSignatureHash = SignHelper.signPowerUpSignature(
-        senderDid: senderDid,
-        pairwiseDid: pairwiseDid,
-        timestamp: timestamp,
-        rsaPrivateKey: privateKey);
-
-    // Build the payload
-    final payload = DidPowerUpRequestPayload(
-      senderDid: senderDid,
-      pairwiseDid: pairwiseDid,
-      timestamp: timestamp,
-      signature: base64.encode(signedSignatureHash),
+    // Build the RequestDidPowerUp
+    final RequestDidPowerUp requestDidPowerUp =
+        await RequestDidPowerUpHelper.fromWallet(
+      senderWallet,
+      pairwiseDid,
+      amount,
+      privateKey,
     );
-
-    // =============
-    // Encrypt proof
-    // =============
-
-    // Generate an AES-256 key
-    final aesKey = await KeysHelper.generateAesKey();
-
-    // Encrypt the payload
-    final encryptedProof = EncryptionHelper.encryptStringWithAesGCM(
-      jsonEncode(payload),
-      aesKey,
-    );
-
-    // =================
-    // Encrypt proof key
-    // =================
-
-    // Encrypt the key using the Tumbler public RSA key
-    final rsaPubTkKey = await EncryptionHelper.getGovernmentRsaPubKey(
-        senderWallet.networkInfo.lcdUrl);
-    final encryptedProofKey =
-        EncryptionHelper.encryptBytesWithRsa(aesKey.bytes, rsaPubTkKey);
 
     // Build the message and send the tx
     final msg = MsgRequestDidPowerUp(
-      claimantDid: senderDid,
-      amount: amount,
-      powerUpProof: base64.encode(encryptedProof),
-      uuid: Uuid().v4(),
-      encryptionKey: base64.encode(encryptedProofKey),
+      requestDidPowerUp: requestDidPowerUp,
     );
 
     return TxHelper.createSignAndSendTx(
       [msg],
       senderWallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
+  /// Sends a new transaction from the sender [wallet]
+  /// to request a list of Did PowerUp [requestDidPowerUpsList].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
+  static Future<TransactionResult> requestDidPowerUpsList(
+    List<RequestDidPowerUp> requestDidPowerUpsList,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs = requestDidPowerUpsList
+        .map(
+          (requestDidPowerUp) =>
+              MsgRequestDidPowerUp(requestDidPowerUp: requestDidPowerUp),
+        )
+        .toList();
+    return TxHelper.createSignAndSendTx(
+      msgs,
+      wallet,
       fee: fee,
       mode: mode,
     );

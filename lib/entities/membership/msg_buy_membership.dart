@@ -1,23 +1,17 @@
+import 'package:commerciosdk/entities/membership/buy_membership.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:meta/meta.dart';
 import 'package:sacco/models/export.dart';
 
 /// Represents the transaction message that must be used when wanting to buy a membership.
 class MsgBuyMembership extends StdMsg {
-  final MembershipType membershipType;
-  final String buyerDid;
+  final BuyMembership buyMembership;
 
   MsgBuyMembership({
-    @required this.membershipType,
-    @required this.buyerDid,
-  })  : assert(membershipType != null),
-        assert(buyerDid != null),
+    @required this.buyMembership,
+  })  : assert(buyMembership != null),
         super(type: "commercio/MsgBuyMembership", value: Map());
 
   @override
-  Map<String, dynamic> get value => {
-        'membership_type':
-            membershipType.toString().split(".").last.toLowerCase(),
-        'buyer': buyerDid,
-      };
+  Map<String, dynamic> get value => buyMembership.toJson();
 }

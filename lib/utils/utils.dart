@@ -1,3 +1,7 @@
+import 'package:meta/meta.dart';
+
+import '../export.dart';
+
 /// Returns the ISO-8601 current time stamp
 String getTimeStamp() {
   return DateTime.now().toUtc().toIso8601String();
@@ -16,4 +20,24 @@ Iterable<E> mapIndexed<E, T>(
     yield transform(index, item);
     index = index + 1;
   }
+}
+
+/// Calculates the default fees from
+/// the messages number [msgsNumber] contained in the transaction
+/// and the default values [fee], [denom] and [gas].
+StdFee calculateDefaultFee({
+  @required int msgsNumber,
+  @required int fee,
+  @required String denom,
+  @required int gas,
+}) {
+  return StdFee(
+    gas: (gas * msgsNumber).toString(),
+    amount: [
+      StdCoin(
+        denom: denom,
+        amount: (fee * msgsNumber).toString(),
+      ),
+    ],
+  );
 }

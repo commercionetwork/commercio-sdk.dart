@@ -21,11 +21,22 @@ Id helper allows to easily perform all the operations related to the commercio.n
     })
    ```
 
-3. Create a new [Did power up request](../glossary.md) from `senderWallet` address for the given `pairwiseDid` and of the given `amount`.  
+3. Performs a transaction setting the `didDocuments` list as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+    ```dart
+    static Future<TransactionResult> setDidDocumentsList(
+        List<DidDocument> didDocuments,
+        Wallet wallet, {
+        StdFee fee,
+        BroadcastingMode mode,
+      })
+    ```
+
+4. Create a new [Did power up request](../glossary.md) from `senderWallet` address for the given `pairwiseDid` and of the given `amount`.  
 Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the private key contained inside the given `senderWallet` and the `private key`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
-   ```dart
-   static Future<TransactionResult> requestDidPowerUp(
+    ```dart
+    static Future<TransactionResult> requestDidPowerUp(
       Wallet senderWallet,
       String pairwiseDid,
       List<StdCoin> amount,
@@ -33,46 +44,63 @@ Signs everything that needs to be signed (i.e. the signature JSON inside the pay
       StdFee fee,
       BroadcastingMode mode,
     }) async
-   ```
+    ```
+
+5. Sends a new transaction from the sender `wallet` to request a list of Did PowerUp `requestDidPowerUpsList`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+    ```dart
+    static Future<TransactionResult> requestDidPowerUpsList(
+      List<RequestDidPowerUp> requestDidPowerUpsList,
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    })
+    ```
 
 ## Usage examples
 
 ```dart
-import 'package:commerciosdk/export.dart';
-import 'commons.dart';
+final info = NetworkInfo(
+  bech32Hrp: 'did:com:',
+  lcdUrl: 'http://localhost:1317',
+);
 
-void main() async {
-  final info = NetworkInfo(
-    bech32Hrp: 'did:com:',
-    lcdUrl: 'http://localhost:1317',
-  );
+final mnemonic = ['will', 'hard', ..., 'man'];
+final wallet = Wallet.derive(mnemonic, info);
 
-  final userMnemonic = ['will', 'hard', ..., 'man'];
-  final userWallet = Wallet.derive(userMnemonic, info);
+final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
+final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
+final rsaSignatureKeyPair =
+    await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
+final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
 
-  final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
-  final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
-  final rsaSignatureKeyPair =
-      await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
-  final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
-  
-  // --- Create Did Document
-  final didDocument =  DidDocumentHelper.fromWallet(
-      wallet,
-      [rsaVerificationPubKey, rsaSignaturePubKey]
-  );
+// --- Create Did Document
+final didDocument =  DidDocumentHelper.fromWallet(
+    wallet,
+    [rsaVerificationPubKey, rsaSignaturePubKey]
+);
 
+try {
   // --- Set the Did Document
   await IdHelper.setDidDocument(didDocument, wallet);
 
-  // --- Request the Did power up
-  final pairwiseWallet = Wallet.derive(userMnemonic, info, '10');
+  // Send Power Up to the Tumbler
   final depositAmount = [StdCoin(denom: 'ucommercio', amount: '100')];
+  final msgDeposit = MsgSend(...
+
+  await TxHelper.createSignAndSendTx([msgDeposit], wallet);
+
+  // --- Request the Did power up
+  final pairwiseWallet = Wallet.derive(
+    userMnemonic, info, lastDerivationPathSegment: '1'
+  );
   await IdHelper.requestDidPowerUp(
     userWallet,
     pairwiseWallet.bech32Address,
     depositAmount,
     rsaSignatureKeyPair.privateKey
   );
+} catch (error) {
+  throw error;
 }
 ```

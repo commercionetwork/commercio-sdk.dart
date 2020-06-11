@@ -24,7 +24,18 @@ Docs helper allows to easily perform all the operations related to the commercio
     }) async
     ```
 
-2. Returns the list of all the `CommercioDoc` that the specified `address` has sent
+2. Create a new transaction that allows to share a list of previously generated documents `commercioDocsList`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+    ```dart
+    static Future<TransactionResult> shareDocumentsList(
+      List<CommercioDoc> commercioDocsList,
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    })
+    ```
+
+3. Returns the list of all the `CommercioDoc` that the specified `address` has sent
 
     ```dart
     static Future<List<CommercioDoc>> getSendDocuments(
@@ -33,7 +44,7 @@ Docs helper allows to easily perform all the operations related to the commercio
     ) async
     ```
 
-3. Returns the list of all the `CommercioDoc` that the specified `address` has received
+4. Returns the list of all the `CommercioDoc` that the specified `address` has received
 
     ```dart
     static Future<List<CommercioDoc>> getReceivedDocuments(
@@ -42,7 +53,7 @@ Docs helper allows to easily perform all the operations related to the commercio
     ) async
     ```
 
-4. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with `txHash` has been properly seen; optionally `proof` of reading, `fee` and broadcasting `mode`.
+5. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with `txHash` has been properly seen; optionally `proof` of reading, `fee` and broadcasting `mode`.
 
     ```dart
     static Future<TransactionResult> sendDocumentReceipt({
@@ -53,10 +64,21 @@ Docs helper allows to easily perform all the operations related to the commercio
       String proof = '',
       StdFee fee,
       BroadcastingMode mode,
-    }) async
+    })
     ```
 
-5. Returns the list of all the `CommercioDocReceipt` that have been sent from the given `address`
+6. Creates a new transaction which sends a list of previously generated receipts  `commercioDocReceiptsList`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+
+   ```dart
+   static Future<TransactionResult> sendDocumentReceiptsList(
+      List<CommercioDocReceipt> commercioDocReceiptsList,
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    })
+   ```
+
+7. Returns the list of all the `CommercioDocReceipt` that have been sent from the given `address`
 
     ```dart
     static Future<List<CommercioDocReceipt>> getSentReceipts(
@@ -65,7 +87,7 @@ Docs helper allows to easily perform all the operations related to the commercio
     ) async
     ```
 
-6. Returns the list of all the `CommercioDocRecepit` that have been received from the given `address`
+8. Returns the list of all the `CommercioDocRecepit` that have been received from the given `address`
 
     ```dart
     static Future<List<CommercioDocReceipt>> getReceivedReceipts(
@@ -77,67 +99,36 @@ Docs helper allows to easily perform all the operations related to the commercio
 ## Usage examples
 
 ```dart
-import 'package:commerciosdk/export.dart';
-import 'package:uuid/uuid.dart';
-import 'commons.dart';
+final info = NetworkInfo(
+  bech32Hrp: 'did:com:',
+  lcdUrl: 'http://localhost:1317',
+);
 
-void main() async {
-  final info = NetworkInfo(
-    bech32Hrp: 'did:com:',
-    lcdUrl: 'http://localhost:1317',
-  );
+final senderMnemonic = ['will', 'hard', ..., 'man'];
+final senderWallet = Wallet.derive(senderMnemonic, info);
 
-  final senderMnemonic = ['will', 'hard', ..., 'man'];
-  final senderWallet = Wallet.derive(senderMnemonic, info);
+final recipientMnemonic = ['crisp', 'become', ..., 'cereal'];
+final recipientWallet = Wallet.derive(recipientMnemonic, info);
+final recipientDid = recipientWallet.bech32Address;
 
-  final recipientMnemonic = ['crisp', 'become', ..., 'cereal'];
-  final recipientWallet = Wallet.derive(recipientMnemonic, info);
-  final recipientDid = recipientWallet.bech32Address;
+final docId = Uuid().v4();
+final checksum = CommercioDocChecksum(
+  value: "a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c",
+  algorithm: CommercioDocChecksumAlgorithm.SHA256,
+);
+final doSign = CommercioDoSign(
+  storageUri: "http://www.commercio.network",
+  signerIstance: "did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj",
+  sdnData: [
+    CommercioSdnData.COMMON_NAME,
+    CommercioSdnData.SURNAME,
+  ],
+  vcrId: "xxxxx",
+  certificateProfile: "xxxxx",
+);
 
+try {
   // --- Share a document
-  final pair = await _shareDocument([recipientDid], senderWallet);
-
-  // --- Send receipt
-  final senderDid = senderWallet.bech32Address;
-  await _sendReceipt(
-    pair.first,
-    pair.second,
-    senderDid,
-    recipientWallet,
-  );
-}
-
-class Pair<F, S> {
-  final F first;
-  final S second;
-
-  Pair(this.first, this.second);
-}
-
-/// Shows how to share a document to the given recipients.
-/// Documentation: https://docs.commercio.network/x/docs/tx/send-document.html
-Future<Pair<String, String>> _shareDocument(
-  List<String> recipients,
-  Wallet wallet,
-) async {
-  final docId = new Uuid().v4();
-
-  final checksum = CommercioDocChecksum(
-    value: 'a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c',
-    algorithm: CommercioDocChecksumAlgorithm.SHA256,
-  );
-
-  final doSign = CommercioDoSign(
-    storageUri: 'http://www.commercio.network',
-    signerIstance: 'did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj',
-    sdnData: [
-      CommercioSdnData.COMMON_NAME,
-      CommercioSdnData.SURNAME,
-    ],
-    vcrId: 'xxxxx',
-    certificateProfile: 'xxxxx',
-  );
-
   final response = await DocsHelper.shareDocument(
     id: docId,
     contentUri: 'https://example.com/document',
@@ -148,8 +139,8 @@ Future<Pair<String, String>> _shareDocument(
         version: '1.0.0',
       ),
     ),
-    recipients: recipients,
-    wallet: wallet,
+    recipients: [recipientDid],
+    wallet: senderWallet,
     checksum: checksum,
     encryptedData: [EncryptedData.CONTENT_URI],
     doSign: doSign,
@@ -160,22 +151,17 @@ Future<Pair<String, String>> _shareDocument(
       ],
     ),
   );
-  return Pair(docId, response.hash);
-}
 
-/// Shows how to send a document receipt to the specified [recipient] for
-/// the given [docId] present inside the transaction having the given [txHash].
-Future<TransactionResult> _sendReceipt(
-  String documentId,
-  String txHash,
-  String recipient,
-  Wallet wallet,
-) async {
-  return await DocsHelper.sendDocumentReceipt(
-    recipient: recipient,
-    txHash: txHash,
-    documentId: documentId,
-    wallet: wallet,
+  // --- Send receipt
+  final senderDid = senderWallet.bech32Address;
+
+  await DocsHelper.sendDocumentReceipt(
+    recipient: senderDid,
+    txHash: response.hash,
+    documentId: docId,
+    wallet: recipientWallet,
   );
+} catch (error) {
+  throw error;
 }
 ```
