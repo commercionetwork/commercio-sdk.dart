@@ -1,3 +1,15 @@
+## Version 2.1.2 - 2020-06-22
+* Added the static shareDocumentsList() method to the DocsHelper class to send multiple shareDocument messages
+* Added the static sendDocumentReceiptsList() method to the DocsHelper class to send multiple sendDocumentReceipt messages
+* Added the static setDidDocumentsList() method to the IdHelper class to send multiple setDidDocument messages
+* Added class RequestDidPowerUpHelper
+* Added the static requestDidPowerUpsList() method to the RequestDidPowerUpHelper class to send multiple RequestDidPowerUp messages
+* Added the static setDidDocumentsList() method to the IdHelper class to send multiple setDidDocument messages
+* Added the static inviteUsersList() method to the MembershipHelper class to send multiple InviteUser messages
+* Added the static buyMembershipsList() method to the MembershipHelper class to send multiple BuyMembership messages 
+* Added automatic fees calculation for multiple messages
+* Added the ability to configure the transactions sync mode
+
 ## Version 2.1.0 - 2020-05-18
 * Aligned DDO creation
 * Aligned powerUP creation

@@ -21,7 +21,7 @@ Inside the SDK you will find the following helper methods that will help you wit
 that you might want to perform on the Commercio.network blockchain.
 
 Please note that you can find usage examples of the following methods inside the
-[example folder](example) file.
+[sdk documentation](https://dart.sdk.docs.commercio.network).
 We highly suggest you checking it out to have a complete reference of the SDK.  
 
 ### Crypto

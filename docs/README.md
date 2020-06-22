@@ -4,7 +4,7 @@ Inside the following page you will learn how to perform all the Commercio.networ
 transactions  by using the Commercio.network SDK.
 
 :::tip Disclaimer
-This documentation is valid for the `v2.1.0` sdk version
+This documentation is valid for the `v2.1.2` sdk version
 :::
 
 ## Installation
