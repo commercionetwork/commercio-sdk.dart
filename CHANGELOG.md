@@ -4,7 +4,6 @@
 * Added the static setDidDocumentsList() method to the IdHelper class to send multiple setDidDocument messages
 * Added class RequestDidPowerUpHelper
 * Added the static requestDidPowerUpsList() method to the RequestDidPowerUpHelper class to send multiple RequestDidPowerUp messages
-* Added the static setDidDocumentsList() method to the IdHelper class to send multiple setDidDocument messages
 * Added the static inviteUsersList() method to the MembershipHelper class to send multiple InviteUser messages
 * Added the static buyMembershipsList() method to the MembershipHelper class to send multiple BuyMembership messages 
 * Added automatic fees calculation for multiple messages
