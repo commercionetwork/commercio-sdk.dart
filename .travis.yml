@@ -10,11 +10,11 @@ jobs:
       if: branch != gh-pages
       install:
         - pub get
+        - pub upgrade
         - pub run build_runner build test --delete-conflicting-outputs
 
       script:
-        - dartanalyzer --fatal-warnings .
-        - dartfmt -n --set-exit-if-changed .
+        - dart analyze
         - pub run test
 
     ## ----------------------------------------------------
