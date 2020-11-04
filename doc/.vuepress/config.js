@@ -13,7 +13,7 @@ module.exports = {
     themeConfig: {
         repo: "commercionetwork/commercio-sdk.dart",
         editLinks: true,
-        docsDir: "docs",
+        docsDir: "doc",
         docsBranch: "master",
         editLinkText: "Edit this page on Github",
         lastUpdated: true,

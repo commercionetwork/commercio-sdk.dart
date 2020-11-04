@@ -31,12 +31,12 @@ jobs:
 
       script:
         - npm run docs:build
-        - echo 'dart.sdk.docs.commercio.network' > docs/.vuepress/dist/CNAME
+        - echo 'dart.sdk.docs.commercio.network' > doc/.vuepress/dist/CNAME
 
       deploy:
         provider: pages
         skip-cleanup: true
-        local_dir: docs/.vuepress/dist
+        local_dir: doc/.vuepress/dist
         github_token: $GITHUB_TOKEN
         keep_history: true
         on:

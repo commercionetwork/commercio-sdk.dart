@@ -1,8 +1,6 @@
-import 'dart:convert';
 
 import 'package:commerciosdk/export.dart';
 import 'package:sacco/sacco.dart';
-import 'package:uuid/uuid.dart';
 
 /// Allows to perform common operations related to CommercioID.
 class IdHelper {

@@ -15,8 +15,6 @@ class DidDocumentHelper {
       throw "At least two keys are required";
     }
 
-    service = service ?? null;
-
     final keys = mapIndexed(
             pubKeys, (index, item) => _convertKey(item, index + 1, wallet))
         .toList();
