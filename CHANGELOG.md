@@ -1,3 +1,9 @@
+## Version 2.1.3-pre.1 - 2020-11-05
+* Update sacco dependency
+* Update external packages dependency
+* Update doc
+* Add examples
+
 ## Version 2.1.2 - 2020-06-22
 * Added the static shareDocumentsList() method to the DocsHelper class to send multiple shareDocument messages
 * Added the static sendDocumentReceiptsList() method to the DocsHelper class to send multiple sendDocumentReceipt messages
