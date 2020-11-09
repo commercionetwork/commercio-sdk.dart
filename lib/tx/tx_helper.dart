@@ -4,7 +4,7 @@ import 'package:sacco/sacco.dart';
 /// Allows to easily perform common transaction operations.
 class TxHelper {
   static const defaultAmount = 10000;
-  static const defaultDenom = "ucommercio";
+  static const defaultDenom = 'ucommercio';
   static const defaultGas = 200000;
 
   /// Creates a transaction having the given [msgs],
@@ -18,7 +18,8 @@ class TxHelper {
     BroadcastingMode mode,
   }) async {
     // Set values for optional parameters
-    final msgsNumber = msgs.length > 0 ? msgs.length : 1;
+
+    final msgsNumber = msgs.isNotEmpty ? msgs.length : 1;
     fee = fee ??
         calculateDefaultFee(
           msgsNumber: msgsNumber,

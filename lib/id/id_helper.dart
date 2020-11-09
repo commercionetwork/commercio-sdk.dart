@@ -1,21 +1,18 @@
-import 'dart:convert';
-
 import 'package:commerciosdk/export.dart';
 import 'package:sacco/sacco.dart';
-import 'package:uuid/uuid.dart';
 
 /// Allows to perform common operations related to CommercioID.
 class IdHelper {
   /// Returns the Did Document associated with the given [did],
   /// or `null` if no Did Document was found.
   static Future<DidDocument> getDidDocument(String did, Wallet wallet) async {
-    final url = "${wallet.networkInfo.lcdUrl}/identities/${did}";
+    final url = '${wallet.networkInfo.lcdUrl}/identities/${did}';
     final response = await Network.queryChain(url);
     if (response == null) {
       return null;
     }
 
-    return DidDocument.fromJson(response["did_document"]);
+    return DidDocument.fromJson(response['did_document']);
   }
 
   /// Performs a transaction setting the specified [didDocument] as being
@@ -73,8 +70,7 @@ class IdHelper {
     BroadcastingMode mode,
   }) async {
     // Build the RequestDidPowerUp
-    final RequestDidPowerUp requestDidPowerUp =
-        await RequestDidPowerUpHelper.fromWallet(
+    final requestDidPowerUp = await RequestDidPowerUpHelper.fromWallet(
       senderWallet,
       pairwiseDid,
       amount,

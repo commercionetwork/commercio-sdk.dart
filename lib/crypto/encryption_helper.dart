@@ -12,19 +12,19 @@ class EncryptionHelper {
   /// Returns the RSA public key associated to the government that should be used when
   /// encrypting the data that only it should see.
   static Future<RSAPublicKey> getGovernmentRsaPubKey(String lcdUrl) async {
-    final tumblerResponse = await Network.query("$lcdUrl/government/tumbler");
+    final tumblerResponse = await Network.query('$lcdUrl/government/tumbler');
 
     if (tumblerResponse == null) {
-      throw FormatException("Cannot get tumbler address");
+      throw FormatException('Cannot get tumbler address');
     }
 
     final tumbler = TumblerResponse.fromJson(jsonDecode(tumblerResponse));
     final tumblerAddress = tumbler.result.tumblerAddress;
     final identityResponseRaw =
-        await Network.query("$lcdUrl/identities/$tumblerAddress");
+        await Network.query('$lcdUrl/identities/$tumblerAddress');
 
     if (identityResponseRaw == null) {
-      throw FormatException("Cannot get government RSA public key");
+      throw FormatException('Cannot get government RSA public key');
     }
 
     final identityResponse =

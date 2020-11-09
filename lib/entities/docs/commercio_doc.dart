@@ -8,28 +8,28 @@ part 'commercio_doc.g.dart';
 /// a user wants to share a document with another user.
 @JsonSerializable(explicitToJson: true)
 class CommercioDoc extends Equatable {
-  @JsonKey(name: "sender")
+  @JsonKey(name: 'sender')
   final String senderDid;
 
-  @JsonKey(name: "recipients")
+  @JsonKey(name: 'recipients')
   final List<String> recipientDids;
 
-  @JsonKey(name: "uuid")
+  @JsonKey(name: 'uuid')
   final String uuid;
 
-  @JsonKey(name: "content_uri")
+  @JsonKey(name: 'content_uri')
   final String contentUri;
 
-  @JsonKey(name: "metadata")
+  @JsonKey(name: 'metadata')
   final CommercioDocMetadata metadata;
 
-  @JsonKey(name: "checksum")
+  @JsonKey(name: 'checksum')
   final CommercioDocChecksum checksum;
 
-  @JsonKey(name: "encryption_data")
+  @JsonKey(name: 'encryption_data')
   final CommercioDocEncryptionData encryptionData;
 
-  @JsonKey(name: "do_sign")
+  @JsonKey(name: 'do_sign')
   final CommercioDoSign doSign;
 
   CommercioDoc({
@@ -68,18 +68,18 @@ class CommercioDoc extends Equatable {
 
 @JsonSerializable(explicitToJson: true)
 class CommercioDocMetadata extends Equatable {
-  @JsonKey(name: "content_uri")
+  @JsonKey(name: 'content_uri')
   final String contentUri;
 
-  @JsonKey(name: "schema_type")
+  @JsonKey(name: 'schema_type')
   final String schemaType;
 
-  @JsonKey(name: "schema")
+  @JsonKey(name: 'schema')
   final CommercioDocMetadataSchema schema;
 
   CommercioDocMetadata({
     @required this.contentUri,
-    this.schemaType = "",
+    this.schemaType = '',
     this.schema,
   })  : assert(contentUri != null),
         assert(schemaType.isNotEmpty || schema != null);
@@ -97,10 +97,10 @@ class CommercioDocMetadata extends Equatable {
 
 @JsonSerializable(explicitToJson: true)
 class CommercioDocMetadataSchema extends Equatable {
-  @JsonKey(name: "uri")
+  @JsonKey(name: 'uri')
   final String uri;
 
-  @JsonKey(name: "version")
+  @JsonKey(name: 'version')
   final String version;
 
   CommercioDocMetadataSchema({
@@ -122,10 +122,10 @@ class CommercioDocMetadataSchema extends Equatable {
 
 @JsonSerializable(explicitToJson: true)
 class CommercioDocChecksum extends Equatable {
-  @JsonKey(name: "value")
+  @JsonKey(name: 'value')
   final String value;
 
-  @JsonKey(name: "algorithm")
+  @JsonKey(name: 'algorithm')
   final CommercioDocChecksumAlgorithm algorithm;
 
   CommercioDocChecksum({
@@ -146,31 +146,31 @@ class CommercioDocChecksum extends Equatable {
 }
 
 enum CommercioDocChecksumAlgorithm {
-  @JsonValue("md5")
+  @JsonValue('md5')
   MD5,
 
-  @JsonValue("sha-1")
+  @JsonValue('sha-1')
   SHA1,
 
-  @JsonValue("sha-224")
+  @JsonValue('sha-224')
   SHA224,
 
-  @JsonValue("sha-256")
+  @JsonValue('sha-256')
   SHA256,
 
-  @JsonValue("sha-384")
+  @JsonValue('sha-384')
   SHA384,
 
-  @JsonValue("sha-512")
+  @JsonValue('sha-512')
   SHA512,
 }
 
 @JsonSerializable(explicitToJson: true)
 class CommercioDocEncryptionData extends Equatable {
-  @JsonKey(name: "keys")
+  @JsonKey(name: 'keys')
   final List<CommercioDocEncryptionDataKey> keys;
 
-  @JsonKey(name: "encrypted_data")
+  @JsonKey(name: 'encrypted_data')
   final List<String> encryptedData;
 
   CommercioDocEncryptionData({
@@ -179,6 +179,7 @@ class CommercioDocEncryptionData extends Equatable {
   })  : assert(keys != null),
         assert(encryptedData != null);
 
+  @override
   List<Object> get props {
     return [keys, encryptedData];
   }
@@ -191,10 +192,10 @@ class CommercioDocEncryptionData extends Equatable {
 
 @JsonSerializable(explicitToJson: true)
 class CommercioDocEncryptionDataKey extends Equatable {
-  @JsonKey(name: "recipient")
+  @JsonKey(name: 'recipient')
   final String recipientDid;
 
-  @JsonKey(name: "value")
+  @JsonKey(name: 'value')
   final String value;
 
   CommercioDocEncryptionDataKey({
@@ -203,6 +204,7 @@ class CommercioDocEncryptionDataKey extends Equatable {
   })  : assert(recipientDid != null),
         assert(value != null);
 
+  @override
   List<Object> get props {
     return [recipientDid, value];
   }
@@ -215,19 +217,19 @@ class CommercioDocEncryptionDataKey extends Equatable {
 
 @JsonSerializable(explicitToJson: true)
 class CommercioDoSign extends Equatable {
-  @JsonKey(name: "storage_uri")
+  @JsonKey(name: 'storage_uri')
   final String storageUri;
 
-  @JsonKey(name: "signer_instance")
+  @JsonKey(name: 'signer_instance')
   final String signerIstance;
 
-  @JsonKey(name: "sdn_data")
+  @JsonKey(name: 'sdn_data')
   final List<CommercioSdnData> sdnData;
 
-  @JsonKey(name: "vcr_id")
+  @JsonKey(name: 'vcr_id')
   final String vcrId;
 
-  @JsonKey(name: "certificate_profile")
+  @JsonKey(name: 'certificate_profile')
   final String certificateProfile;
 
   CommercioDoSign({
@@ -253,21 +255,21 @@ class CommercioDoSign extends Equatable {
 }
 
 enum CommercioSdnData {
-  @JsonValue("common_name")
+  @JsonValue('common_name')
   COMMON_NAME,
 
-  @JsonValue("surname")
+  @JsonValue('surname')
   SURNAME,
 
-  @JsonValue("serial_number")
+  @JsonValue('serial_number')
   SERIAL_NUMBER,
 
-  @JsonValue("given_name")
+  @JsonValue('given_name')
   GIVEN_NAME,
 
-  @JsonValue("organization")
+  @JsonValue('organization')
   ORGANIZATION,
 
-  @JsonValue("country")
+  @JsonValue('country')
   COUNTRY,
 }

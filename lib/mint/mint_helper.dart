@@ -15,11 +15,11 @@ class MintHelper {
   }) {
     final depositAmount = [
       StdCoin(
-        denom: "ucommercio",
+        denom: 'ucommercio',
         amount: amount.toString(),
       )
     ];
-    final OpenCdp openCdp = OpenCdpHelper.fromWallet(wallet, depositAmount);
+    final openCdp = OpenCdpHelper.fromWallet(wallet, depositAmount);
     final msg = MsgOpenCdp(
       openCdp: openCdp,
     );
@@ -57,7 +57,7 @@ class MintHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) {
-    final CloseCdp closeCdp = CloseCdpHelper.fromWallet(wallet, timestamp);
+    final closeCdp = CloseCdpHelper.fromWallet(wallet, timestamp);
     final msg = MsgCloseCdp(
       closeCdp: closeCdp,
     );

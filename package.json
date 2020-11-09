@@ -4,8 +4,8 @@
   "description": "Commercio.network SDK documentation",
   "main": "index.js",
   "scripts": {
-    "docs:serve": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "doc:serve": "vuepress dev doc",
+    "doc:build": "vuepress build doc"
   },
   "author": "",
   "license": "MIT",

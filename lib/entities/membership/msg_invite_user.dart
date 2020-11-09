@@ -13,7 +13,7 @@ class MsgInviteUser extends StdMsg {
   MsgInviteUser({
     @required this.inviteUser,
   })  : assert(inviteUser != null),
-        super(type: "commercio/MsgInviteUser", value: Map());
+        super(type: 'commercio/MsgInviteUser', value: <String, String>{});
 
   @override
   Map<String, dynamic> get value => inviteUser.toJson();

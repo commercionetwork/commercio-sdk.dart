@@ -8,13 +8,13 @@ part 'did_power_up_request_payload.g.dart';
 /// [MsgRequestDidPowerUp] message.
 @JsonSerializable()
 class DidPowerUpRequestPayload extends Equatable {
-  @JsonKey(name: "sender_did")
+  @JsonKey(name: 'sender_did')
   final String senderDid;
-  @JsonKey(name: "pairwise_did")
+  @JsonKey(name: 'pairwise_did')
   final String pairwiseDid;
-  @JsonKey(name: "timestamp")
+  @JsonKey(name: 'timestamp')
   final String timestamp;
-  @JsonKey(name: "signature")
+  @JsonKey(name: 'signature')
   final String signature;
 
   DidPowerUpRequestPayload({

@@ -12,17 +12,15 @@ class DidDocumentHelper {
     List<DidDocumentService> service,
   }) {
     if (pubKeys.length < 2) {
-      throw "At least two keys are required";
+      throw 'At least two keys are required';
     }
-
-    service = service ?? null;
 
     final keys = mapIndexed(
             pubKeys, (index, item) => _convertKey(item, index + 1, wallet))
         .toList();
 
     final proofContent = DidDocumentProofSignatureContent(
-      context: "https://www.w3.org/ns/did/v1",
+      context: 'https://www.w3.org/ns/did/v1',
       id: wallet.bech32Address,
       publicKeys: keys,
     );
@@ -61,10 +59,10 @@ class DidDocumentHelper {
     Wallet wallet, {
     String proofPurpose,
   }) {
-    proofPurpose = proofPurpose ?? "authentication";
+    proofPurpose = proofPurpose ?? 'authentication';
 
     return DidDocumentProof(
-      type: "EcdsaSecp256k1VerificationKey2019",
+      type: 'EcdsaSecp256k1VerificationKey2019',
       timestamp: getTimeStamp(),
       proofPurpose: proofPurpose,
       controller: controller,

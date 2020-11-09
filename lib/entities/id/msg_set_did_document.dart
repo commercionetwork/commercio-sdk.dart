@@ -9,7 +9,7 @@ class MsgSetDidDocument extends StdMsg {
   MsgSetDidDocument({
     @required this.didDocument,
   })  : assert(didDocument != null),
-        super(type: "commercio/MsgSetIdentity", value: Map());
+        super(type: 'commercio/MsgSetIdentity', value: <String, String>{});
 
   @override
   Map<String, dynamic> get value => didDocument.toJson();

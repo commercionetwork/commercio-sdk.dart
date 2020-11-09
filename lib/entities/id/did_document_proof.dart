@@ -9,22 +9,22 @@ part 'did_document_proof.g.dart';
 /// he can guarantee that he is the real controller of the Did Document itself.
 @JsonSerializable(explicitToJson: true)
 class DidDocumentProof extends Equatable {
-  @JsonKey(name: "type")
+  @JsonKey(name: 'type')
   final String type;
 
-  @JsonKey(name: "created")
+  @JsonKey(name: 'created')
   final String timestamp;
 
-  @JsonKey(name: "proofPurpose")
+  @JsonKey(name: 'proofPurpose')
   final String proofPurpose;
 
-  @JsonKey(name: "controller")
+  @JsonKey(name: 'controller')
   final String controller;
 
-  @JsonKey(name: "verificationMethod")
+  @JsonKey(name: 'verificationMethod')
   final String verificationMethod;
 
-  @JsonKey(name: "signatureValue")
+  @JsonKey(name: 'signatureValue')
   final String signatureValue;
 
   DidDocumentProof({

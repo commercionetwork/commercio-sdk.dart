@@ -22,13 +22,13 @@ class IdentityResponse {
 
   factory IdentityResponse.fromJson(Map<String, dynamic> json) =>
       IdentityResponse(
-        height: json["height"],
-        result: Result.fromJson(json["result"]),
+        height: json['height'],
+        result: Result.fromJson(json['result']),
       );
 
   Map<String, dynamic> toJson() => {
-        "height": height,
-        "result": result.toJson(),
+        'height': height,
+        'result': result.toJson(),
       };
 }
 
@@ -46,12 +46,12 @@ class Result {
   String toRawJson() => json.encode(toJson());
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        owner: json["owner"],
-        didDocument: DidDocument.fromJson(json["did_document"]),
+        owner: json['owner'],
+        didDocument: DidDocument.fromJson(json['did_document']),
       );
 
   Map<String, dynamic> toJson() => {
-        "owner": owner,
-        "did_document": didDocument.toJson(),
+        'owner': owner,
+        'did_document': didDocument.toJson(),
       };
 }

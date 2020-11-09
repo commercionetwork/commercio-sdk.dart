@@ -7,13 +7,13 @@ part 'did_document_proof_signature_content.g.dart';
 
 @JsonSerializable()
 class DidDocumentProofSignatureContent extends Equatable {
-  @JsonKey(name: "@context")
+  @JsonKey(name: '@context')
   final String context;
 
-  @JsonKey(name: "id")
+  @JsonKey(name: 'id')
   final String id;
 
-  @JsonKey(name: "publicKey")
+  @JsonKey(name: 'publicKey')
   final List<DidDocumentPublicKey> publicKeys;
 
   DidDocumentProofSignatureContent({
