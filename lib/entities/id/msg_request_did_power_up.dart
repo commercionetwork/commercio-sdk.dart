@@ -10,7 +10,8 @@ class MsgRequestDidPowerUp extends StdMsg {
   MsgRequestDidPowerUp({
     @required this.requestDidPowerUp,
   })  : assert(requestDidPowerUp != null),
-        super(type: "commercio/MsgRequestDidPowerUp", value: Map());
+        super(
+            type: 'commercio/MsgRequestDidPowerUp', value: <String, String>{});
 
   @override
   Map<String, dynamic> get value => requestDidPowerUp.toJson();

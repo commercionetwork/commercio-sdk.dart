@@ -11,7 +11,7 @@ class MsgOpenCdp extends StdMsg {
   MsgOpenCdp({
     @required this.openCdp,
   })  : assert(openCdp != null),
-        super(type: "commercio/MsgOpenCdp", value: Map());
+        super(type: 'commercio/MsgOpenCdp', value: <String, String>{});
 
   @override
   Map<String, dynamic> get value => openCdp.toJson();

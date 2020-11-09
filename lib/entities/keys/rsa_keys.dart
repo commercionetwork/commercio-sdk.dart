@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import "package:asn1lib/asn1lib.dart";
+import 'package:asn1lib/asn1lib.dart';
 import 'package:commerciosdk/entities/export.dart';
 import 'package:pointycastle/export.dart' as pointy_castle;
 
@@ -15,7 +15,7 @@ class RSAPublicKey implements PublicKey {
   });
 
   @override
-  String getType() => keyType ?? "RsaVerificationKey2018";
+  String getType() => keyType ?? 'RsaVerificationKey2018';
 
   @override
   String getEncoded() {
@@ -23,7 +23,7 @@ class RSAPublicKey implements PublicKey {
     pubKeySequence.add(ASN1Integer(pubKey.modulus));
     pubKeySequence.add(ASN1Integer(pubKey.exponent));
     var dataBase64 = base64.encode(pubKeySequence.encodedBytes);
-    return """-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A$dataBase64\n-----END PUBLIC KEY-----""";
+    return '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A$dataBase64\n-----END PUBLIC KEY-----';
   }
 }
 
@@ -61,6 +61,6 @@ class RSAPrivateKey implements PrivateKey {
 
     var dataBase64 = base64.encode(topLevel.encodedBytes);
 
-    return """-----BEGIN PRIVATE KEY-----\r\n$dataBase64\r\n-----END PRIVATE KEY-----""";
+    return '-----BEGIN PRIVATE KEY-----\r\n$dataBase64\r\n-----END PRIVATE KEY-----';
   }
 }

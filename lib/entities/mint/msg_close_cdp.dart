@@ -11,7 +11,7 @@ class MsgCloseCdp extends StdMsg {
   MsgCloseCdp({
     @required this.closeCdp,
   })  : assert(closeCdp != null),
-        super(type: "commercio/MsgCloseCdp", value: Map());
+        super(type: 'commercio/MsgCloseCdp', value: <String, String>{});
 
   @override
   Map<String, dynamic> get value => closeCdp.toJson();

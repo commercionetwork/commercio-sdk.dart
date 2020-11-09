@@ -25,7 +25,7 @@ class DocsHelper {
     BroadcastingMode mode,
   }) async {
     // Build a generic document
-    final CommercioDoc commercioDoc = await CommercioDocHelper.fromWallet(
+    final commercioDoc = await CommercioDocHelper.fromWallet(
       wallet: wallet,
       recipients: recipients,
       id: id,
@@ -75,7 +75,7 @@ class DocsHelper {
     String address,
     Wallet wallet,
   ) async {
-    final url = "${wallet.networkInfo.lcdUrl}/docs/${address}/sent";
+    final url = '${wallet.networkInfo.lcdUrl}/docs/${address}/sent';
     final response = await Network.queryChain(url) as List;
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
   }
@@ -86,7 +86,7 @@ class DocsHelper {
     String address,
     Wallet wallet,
   ) async {
-    final url = "${wallet.networkInfo.lcdUrl}/docs/${address}/received";
+    final url = '${wallet.networkInfo.lcdUrl}/docs/${address}/received';
     final response = await Network.queryChain(url) as List;
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
   }
@@ -100,12 +100,11 @@ class DocsHelper {
     @required String txHash,
     @required String documentId,
     @required Wallet wallet,
-    String proof = "",
+    String proof = '',
     StdFee fee,
     BroadcastingMode mode,
   }) {
-    final CommercioDocReceipt commercioDocReceipt =
-        CommercioDocReceiptHelper.fromWallet(
+    final commercioDocReceipt = CommercioDocReceiptHelper.fromWallet(
       wallet: wallet,
       recipient: recipient,
       txHash: txHash,
@@ -152,7 +151,7 @@ class DocsHelper {
     String address,
     Wallet wallet,
   ) async {
-    final url = "${wallet.networkInfo.lcdUrl}/receipts/${address}/sent";
+    final url = '${wallet.networkInfo.lcdUrl}/receipts/${address}/sent';
     final response = await Network.queryChain(url) as List;
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();
   }
@@ -163,7 +162,7 @@ class DocsHelper {
     String address,
     Wallet wallet,
   ) async {
-    final url = "${wallet.networkInfo.lcdUrl}/receipts/${address}/received";
+    final url = '${wallet.networkInfo.lcdUrl}/receipts/${address}/received';
     final response = await Network.queryChain(url) as List;
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();
   }

@@ -9,7 +9,9 @@ class MsgSendDocumentReceipt extends StdMsg {
 
   MsgSendDocumentReceipt({
     @required this.receipt,
-  }) : super(type: "commercio/MsgSendDocumentReceipt", value: Map());
+  }) : super(
+            type: 'commercio/MsgSendDocumentReceipt',
+            value: <String, String>{});
 
   @override
   Map<String, dynamic> get value => receipt.toJson();

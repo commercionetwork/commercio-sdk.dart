@@ -10,7 +10,7 @@ class MsgShareDocument extends StdMsg {
   MsgShareDocument({
     @required this.document,
   })  : assert(document != null),
-        super(type: "commercio/MsgShareDocument", value: Map());
+        super(type: 'commercio/MsgShareDocument', value: <String, String>{});
 
   @override
   Map<String, dynamic> get value => document.toJson();

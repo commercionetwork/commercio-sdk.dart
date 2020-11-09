@@ -10,10 +10,10 @@ part 'open_cdp.g.dart';
 /// that is opened by a user.
 @JsonSerializable(explicitToJson: true)
 class OpenCdp extends Equatable {
-  @JsonKey(name: "deposit_amount")
+  @JsonKey(name: 'deposit_amount')
   final List<StdCoin> depositAmount;
 
-  @JsonKey(name: "depositor")
+  @JsonKey(name: 'depositor')
   final String signerDid;
 
   OpenCdp({

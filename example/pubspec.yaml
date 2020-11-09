@@ -1,0 +1,9 @@
+name: example
+description: Commercio SDK example
+
+dependencies:
+  bip39: '>=1.0.0 <1.1.0'
+  commerciosdk:
+    path: ../
+  sacco: 0.1.5
+  uuid: '>=2.2.0 <2.3.0'

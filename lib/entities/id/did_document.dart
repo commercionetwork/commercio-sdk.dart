@@ -9,19 +9,19 @@ part 'did_document.g.dart';
 /// https://scw-gitlab.zotsell.com/Commercio.network/Cosmos-application/blob/master/Commercio%20Decentralized%20ID%20framework.md
 @JsonSerializable(explicitToJson: true)
 class DidDocument extends Equatable {
-  @JsonKey(name: "@context")
+  @JsonKey(name: '@context')
   final String context;
 
-  @JsonKey(name: "id")
+  @JsonKey(name: 'id')
   final String id;
 
-  @JsonKey(name: "publicKey")
+  @JsonKey(name: 'publicKey')
   final List<DidDocumentPublicKey> publicKeys;
 
-  @JsonKey(name: "proof")
+  @JsonKey(name: 'proof')
   final DidDocumentProof proof;
 
-  @JsonKey(name: "service", includeIfNull: false)
+  @JsonKey(name: 'service', includeIfNull: false)
   final List<DidDocumentService> service;
 
   DidDocument({
@@ -45,7 +45,7 @@ class DidDocument extends Equatable {
   /// this Did Document.
   RSAPublicKey get encryptionKey {
     final pubKey = publicKeys.firstWhere(
-      (key) => key.type == "RsaVerificationKey2018",
+      (key) => key.type == 'RsaVerificationKey2018',
       orElse: () => null,
     );
     if (pubKey == null) return null;

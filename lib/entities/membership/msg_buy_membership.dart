@@ -10,7 +10,7 @@ class MsgBuyMembership extends StdMsg {
   MsgBuyMembership({
     @required this.buyMembership,
   })  : assert(buyMembership != null),
-        super(type: "commercio/MsgBuyMembership", value: Map());
+        super(type: 'commercio/MsgBuyMembership', value: <String, String>{});
 
   @override
   Map<String, dynamic> get value => buyMembership.toJson();

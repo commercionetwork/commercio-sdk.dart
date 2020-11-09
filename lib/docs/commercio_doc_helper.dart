@@ -19,7 +19,7 @@ class CommercioDocHelper {
     Key aesKey,
   }) async {
     // Build a commercio document
-    CommercioDoc commercioDocument = CommercioDoc(
+    var commercioDocument = CommercioDoc(
       senderDid: wallet.bech32Address,
       recipientDids: recipients,
       uuid: id,
@@ -33,7 +33,7 @@ class CommercioDocHelper {
     // Encrypt its contents, if necessary
     if (encryptedData != null && encryptedData.isNotEmpty) {
       // Get a default aes key for encryption if needed
-      final key = aesKey != null ? aesKey : await KeysHelper.generateAesKey();
+      final key = aesKey ?? await KeysHelper.generateAesKey();
 
       commercioDocument = await encryptField(
         commercioDocument,

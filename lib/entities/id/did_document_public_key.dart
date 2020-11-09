@@ -7,16 +7,16 @@ part 'did_document_public_key.g.dart';
 /// Contains the data of public key contained inside a Did document.'
 @JsonSerializable(explicitToJson: true)
 class DidDocumentPublicKey extends Equatable {
-  @JsonKey(name: "id")
+  @JsonKey(name: 'id')
   final String id;
 
-  @JsonKey(name: "type")
+  @JsonKey(name: 'type')
   final String type;
 
-  @JsonKey(name: "controller")
+  @JsonKey(name: 'controller')
   final String controller;
 
-  @JsonKey(name: "publicKeyPem")
+  @JsonKey(name: 'publicKeyPem')
   final String publicKeyPem;
 
   DidDocumentPublicKey({
@@ -41,10 +41,10 @@ class DidDocumentPublicKey extends Equatable {
 }
 
 enum DidDocumentPubKeyType {
-  @JsonValue("RsaVerificationKey2018")
+  @JsonValue('RsaVerificationKey2018')
   RSA,
-  @JsonValue("Ed25519VerificationKey2018")
+  @JsonValue('Ed25519VerificationKey2018')
   ED25519,
-  @JsonValue("Secp256k1VerificationKey2018")
+  @JsonValue('Secp256k1VerificationKey2018')
   SECP256K1,
 }

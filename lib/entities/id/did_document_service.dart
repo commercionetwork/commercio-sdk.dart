@@ -8,13 +8,13 @@ part 'did_document_service.g.dart';
 /// authentication method or something else.
 @JsonSerializable(explicitToJson: true)
 class DidDocumentService extends Equatable {
-  @JsonKey(name: "id")
+  @JsonKey(name: 'id')
   final String id;
 
-  @JsonKey(name: "type")
+  @JsonKey(name: 'type')
   final String type;
 
-  @JsonKey(name: "serviceEndpoint")
+  @JsonKey(name: 'serviceEndpoint')
   final String endpoint;
 
   DidDocumentService({

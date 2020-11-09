@@ -14,13 +14,13 @@ class Network {
       final response = await client.get(url);
       if (response.statusCode != 200) {
         throw Exception(
-          "Expected status code 200 but got ${response.statusCode} - ${response.body}",
+          'Expected status code 200 but got ${response.statusCode} - ${response.body}',
         );
       }
 
       // Return the result part of the response
       final json = jsonDecode(response.body) as Map<String, dynamic>;
-      return json["result"];
+      return json['result'];
     } catch (exception) {
       print(exception);
       return null;
@@ -32,7 +32,7 @@ class Network {
       final response = await client.get(url);
       if (response.statusCode != 200) {
         throw Exception(
-          "Expected status code 200 but got ${response.statusCode} - ${response.body}",
+          'Expected status code 200 but got ${response.statusCode} - ${response.body}',
         );
       }
 

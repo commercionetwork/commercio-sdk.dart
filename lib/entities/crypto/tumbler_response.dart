@@ -17,13 +17,13 @@ class TumblerResponse {
 
   factory TumblerResponse.fromJson(Map<String, dynamic> json) =>
       TumblerResponse(
-        height: json["height"],
-        result: Result.fromJson(json["result"]),
+        height: json['height'],
+        result: Result.fromJson(json['result']),
       );
 
   Map<String, dynamic> toJson() => {
-        "height": height,
-        "result": result.toJson(),
+        'height': height,
+        'result': result.toJson(),
       };
 }
 
@@ -39,10 +39,10 @@ class Result {
   String toRawJson() => json.encode(toJson());
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        tumblerAddress: json["tumbler_address"],
+        tumblerAddress: json['tumbler_address'],
       );
 
   Map<String, dynamic> toJson() => {
-        "tumbler_address": tumblerAddress,
+        'tumbler_address': tumblerAddress,
       };
 }

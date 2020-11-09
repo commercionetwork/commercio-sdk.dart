@@ -9,23 +9,23 @@ part 'commercio_doc_receipt.g.dart';
 /// and sent by [recipientDid] has been received from the [senderDid].
 @JsonSerializable()
 class CommercioDocReceipt extends Equatable {
-  @JsonKey(name: "uuid")
+  @JsonKey(name: 'uuid')
   final String uuid;
 
-  @JsonKey(name: "sender")
+  @JsonKey(name: 'sender')
   final String senderDid;
 
-  @JsonKey(name: "recipient")
+  @JsonKey(name: 'recipient')
   final String recipientDid;
 
-  @JsonKey(name: "tx_hash")
+  @JsonKey(name: 'tx_hash')
   final String txHash;
 
-  @JsonKey(name: "document_uuid")
+  @JsonKey(name: 'document_uuid')
   final String documentUuid;
 
   /// Optional reading proof
-  @JsonKey(name: "proof")
+  @JsonKey(name: 'proof')
   final String proof;
 
   CommercioDocReceipt({
@@ -34,7 +34,7 @@ class CommercioDocReceipt extends Equatable {
     @required this.recipientDid,
     @required this.txHash,
     @required this.documentUuid,
-    this.proof = "",
+    this.proof = '',
   })  : assert(uuid != null),
         assert(senderDid != null),
         assert(recipientDid != null),
@@ -42,6 +42,7 @@ class CommercioDocReceipt extends Equatable {
         assert(documentUuid != null),
         assert(proof != null);
 
+  @override
   List<Object> get props {
     return [senderDid, recipientDid, txHash, documentUuid, proof];
   }

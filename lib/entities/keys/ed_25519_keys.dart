@@ -16,11 +16,11 @@ class Ed25519PublicKey implements PublicKey {
   String get seed => Seed;
 
   @override
-  String getType() => keyType ?? "Ed25519VerificationKey2018";
+  String getType() => keyType ?? 'Ed25519VerificationKey2018';
 
   @override
   String getEncoded() {
-    final masterKey = ed25519.ED25519_HD_KEY.getMasterKeyFromSeed(this.Seed);
+    final masterKey = ed25519.ED25519_HD_KEY.getMasterKeyFromSeed(Seed);
     return base64.encode(ed25519.ED25519_HD_KEY.getBublickKey(masterKey.key));
   }
 }

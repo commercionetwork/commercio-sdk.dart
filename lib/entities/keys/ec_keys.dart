@@ -14,11 +14,11 @@ class ECPublicKey implements PublicKey {
   });
 
   @override
-  String getType() => keyType ?? "Secp256k1VerificationKey2018";
+  String getType() => keyType ?? 'Secp256k1VerificationKey2018';
 
   @override
   String getEncoded() {
-    return base64.encode(this.pubKey.Q.getEncoded(false));
+    return base64.encode(pubKey.Q.getEncoded(false));
   }
 }
 

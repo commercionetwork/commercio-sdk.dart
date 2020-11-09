@@ -11,7 +11,7 @@ class MembershipHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
-    final InviteUser inviteUser = InviteUserHelper.fromWallet(
+    final inviteUser = InviteUserHelper.fromWallet(
       wallet,
       userDid,
     );
@@ -55,7 +55,7 @@ class MembershipHelper {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
-    final BuyMembership buyMembership = BuyMembershipHelper.fromWallet(
+    final buyMembership = BuyMembershipHelper.fromWallet(
       wallet,
       membershipType,
     );

@@ -3,9 +3,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:uuid/uuid.dart';
 import 'package:commerciosdk/export.dart';
 
-
 void main() async {
-
   // --------------------------------------------
   // --- Setup network info
   // --------------------------------------------
@@ -30,7 +28,8 @@ void main() async {
   final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
   final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
 
-  final rsaSignatureKeyPair = await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
+  final rsaSignatureKeyPair =
+      await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
   final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
 
   try {
@@ -40,7 +39,7 @@ void main() async {
     print('');
 
     final response = await IdHelper.setDidDocumentsList([didDocument], wallet);
-    
+
     if (response.success) {
       print("TX successfully sent:\n$lcdUrl/txs/${response.hash}");
       print('----- You can retrive your did from below url -----');
@@ -48,8 +47,6 @@ void main() async {
     } else {
       print("TX error:\n${response.error.errorMessage}");
     }
-
-
   } catch (error) {
     print("Error while testing set DDO:\n$error");
   }
@@ -87,7 +84,6 @@ void main() async {
     certificateProfile: "xxxxx",
   );
 
-
   try {
     final commercioDoc = await CommercioDocHelper.fromWallet(
       wallet: senderWallet,
@@ -117,10 +113,7 @@ void main() async {
     } else {
       print("TX error:\n${response.error.errorMessage}");
     }
-
-
   } catch (error) {
     print("Error while sharing a document:\n$error");
   }
-
 }
