@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:meta/meta.dart';
 
 import '../export.dart';
@@ -40,4 +42,20 @@ StdFee calculateDefaultFee({
       ),
     ],
   );
+}
+
+/// Returns the bytes of a string
+int getStringBytes(String str) {
+  List<int> bytes = utf8.encode(str);
+  return bytes.length;
+}
+
+/// Checks if a string has a Uuid-v4 format
+bool matchUuidv4(String uuid) {
+  RegExp regExp = new RegExp(
+    r"^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$",
+    caseSensitive: false,
+    multiLine: false,
+  );
+  return regExp.hasMatch(uuid);
 }
