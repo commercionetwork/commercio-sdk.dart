@@ -114,8 +114,10 @@ class CommercioDocMetadataSchema extends Equatable {
   CommercioDocMetadataSchema({
     @required this.uri,
     @required this.version,
-  })  : assert(uri != null && getStringBytes(uri) <= 512),
-        assert(version != null && getStringBytes(version) <= 512);
+  })  : assert(uri != null && uri.isNotEmpty && getStringBytes(uri) <= 512),
+        assert(version != null &&
+            uri.isNotEmpty &&
+            getStringBytes(version) <= 512);
 
   @override
   List<Object> get props {
