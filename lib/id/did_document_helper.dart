@@ -29,7 +29,11 @@ class DidDocumentHelper {
     final verificationMethod = wallet.bech32PublicKey;
 
     final proof = _computeProof(
-        proofContent.id, verificationMethod, proofContent, wallet);
+      controller: proofContent.id,
+      verificationMethod: verificationMethod,
+      proofSignatureContent: proofContent,
+      wallet: wallet,
+    );
 
     return DidDocument(
       context: proofContent.context,
@@ -53,11 +57,11 @@ class DidDocumentHelper {
   }
 
   /// Computes the [DidDocumentProof] based on the given [controller], [verificationMethod] and [proofSignatureContent]
-  static DidDocumentProof _computeProof(
+  static DidDocumentProof _computeProof({
     String controller,
     String verificationMethod,
     DidDocumentProofSignatureContent proofSignatureContent,
-    Wallet wallet, {
+    Wallet wallet,
     String proofPurpose,
   }) {
     proofPurpose = proofPurpose ?? 'authentication';
