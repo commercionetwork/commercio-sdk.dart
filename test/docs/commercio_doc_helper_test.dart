@@ -13,7 +13,7 @@ void main() {
     test('"fromWallet()" returns a well-formed "CommercioDoc" object.',
         () async {
       final senderDid = wallet.bech32Address;
-      final recipientDids = ['recipient1', 'recipient2'];
+      final recipientDids = ['did:com:1acdefg', 'did:com:1acdefg'];
       final uuid = Uuid().v4();
       final metadata = CommercioDocMetadata(
         contentUri: 'https://example.com/document/metadata',

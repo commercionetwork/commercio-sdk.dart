@@ -31,17 +31,25 @@ CommercioDoc _$CommercioDocFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CommercioDocToJson(CommercioDoc instance) =>
-    <String, dynamic>{
-      'sender': instance.senderDid,
-      'recipients': instance.recipientDids,
-      'uuid': instance.uuid,
-      'content_uri': instance.contentUri,
-      'metadata': instance.metadata?.toJson(),
-      'checksum': instance.checksum?.toJson(),
-      'encryption_data': instance.encryptionData?.toJson(),
-      'do_sign': instance.doSign?.toJson(),
-    };
+Map<String, dynamic> _$CommercioDocToJson(CommercioDoc instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sender', instance.senderDid);
+  writeNotNull('recipients', instance.recipientDids);
+  writeNotNull('uuid', instance.uuid);
+  writeNotNull('content_uri', instance.contentUri);
+  writeNotNull('metadata', instance.metadata?.toJson());
+  writeNotNull('checksum', instance.checksum?.toJson());
+  writeNotNull('encryption_data', instance.encryptionData?.toJson());
+  writeNotNull('do_sign', instance.doSign?.toJson());
+  return val;
+}
 
 CommercioDocMetadata _$CommercioDocMetadataFromJson(Map<String, dynamic> json) {
   return CommercioDocMetadata(
@@ -55,12 +63,20 @@ CommercioDocMetadata _$CommercioDocMetadataFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CommercioDocMetadataToJson(
-        CommercioDocMetadata instance) =>
-    <String, dynamic>{
-      'content_uri': instance.contentUri,
-      'schema_type': instance.schemaType,
-      'schema': instance.schema?.toJson(),
-    };
+    CommercioDocMetadata instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('content_uri', instance.contentUri);
+  writeNotNull('schema_type', instance.schemaType);
+  writeNotNull('schema', instance.schema?.toJson());
+  return val;
+}
 
 CommercioDocMetadataSchema _$CommercioDocMetadataSchemaFromJson(
     Map<String, dynamic> json) {
@@ -71,11 +87,19 @@ CommercioDocMetadataSchema _$CommercioDocMetadataSchemaFromJson(
 }
 
 Map<String, dynamic> _$CommercioDocMetadataSchemaToJson(
-        CommercioDocMetadataSchema instance) =>
-    <String, dynamic>{
-      'uri': instance.uri,
-      'version': instance.version,
-    };
+    CommercioDocMetadataSchema instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('uri', instance.uri);
+  writeNotNull('version', instance.version);
+  return val;
+}
 
 CommercioDocChecksum _$CommercioDocChecksumFromJson(Map<String, dynamic> json) {
   return CommercioDocChecksum(
@@ -86,11 +110,20 @@ CommercioDocChecksum _$CommercioDocChecksumFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CommercioDocChecksumToJson(
-        CommercioDocChecksum instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'algorithm': _$CommercioDocChecksumAlgorithmEnumMap[instance.algorithm],
-    };
+    CommercioDocChecksum instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('value', instance.value);
+  writeNotNull(
+      'algorithm', _$CommercioDocChecksumAlgorithmEnumMap[instance.algorithm]);
+  return val;
+}
 
 T _$enumDecode<T>(
   Map<T, dynamic> enumValues,
@@ -147,11 +180,19 @@ CommercioDocEncryptionData _$CommercioDocEncryptionDataFromJson(
 }
 
 Map<String, dynamic> _$CommercioDocEncryptionDataToJson(
-        CommercioDocEncryptionData instance) =>
-    <String, dynamic>{
-      'keys': instance.keys?.map((e) => e?.toJson())?.toList(),
-      'encrypted_data': instance.encryptedData,
-    };
+    CommercioDocEncryptionData instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('keys', instance.keys?.map((e) => e?.toJson())?.toList());
+  writeNotNull('encrypted_data', instance.encryptedData);
+  return val;
+}
 
 CommercioDocEncryptionDataKey _$CommercioDocEncryptionDataKeyFromJson(
     Map<String, dynamic> json) {
@@ -162,11 +203,19 @@ CommercioDocEncryptionDataKey _$CommercioDocEncryptionDataKeyFromJson(
 }
 
 Map<String, dynamic> _$CommercioDocEncryptionDataKeyToJson(
-        CommercioDocEncryptionDataKey instance) =>
-    <String, dynamic>{
-      'recipient': instance.recipientDid,
-      'value': instance.value,
-    };
+    CommercioDocEncryptionDataKey instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('recipient', instance.recipientDid);
+  writeNotNull('value', instance.value);
+  return val;
+}
 
 CommercioDoSign _$CommercioDoSignFromJson(Map<String, dynamic> json) {
   return CommercioDoSign(
@@ -180,15 +229,23 @@ CommercioDoSign _$CommercioDoSignFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CommercioDoSignToJson(CommercioDoSign instance) =>
-    <String, dynamic>{
-      'storage_uri': instance.storageUri,
-      'signer_instance': instance.signerIstance,
-      'sdn_data':
-          instance.sdnData?.map((e) => _$CommercioSdnDataEnumMap[e])?.toList(),
-      'vcr_id': instance.vcrId,
-      'certificate_profile': instance.certificateProfile,
-    };
+Map<String, dynamic> _$CommercioDoSignToJson(CommercioDoSign instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('storage_uri', instance.storageUri);
+  writeNotNull('signer_instance', instance.signerIstance);
+  writeNotNull('sdn_data',
+      instance.sdnData?.map((e) => _$CommercioSdnDataEnumMap[e])?.toList());
+  writeNotNull('vcr_id', instance.vcrId);
+  writeNotNull('certificate_profile', instance.certificateProfile);
+  return val;
+}
 
 const _$CommercioSdnDataEnumMap = {
   CommercioSdnData.COMMON_NAME: 'common_name',
