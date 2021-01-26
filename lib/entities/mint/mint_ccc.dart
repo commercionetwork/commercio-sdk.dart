@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 
 part 'mint_ccc.g.dart';
 
+// Contains the data to mint CCC
 @JsonSerializable(explicitToJson: true)
 class MintCcc extends Equatable {
   @JsonKey(name: 'deposit_amount')

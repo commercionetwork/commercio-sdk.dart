@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 
 part 'burn_ccc.g.dart';
 
+/// Contains the data to burn previously minteted CCC.
 @JsonSerializable(explicitToJson: true)
 class BurnCcc extends Equatable {
   @JsonKey(name: 'signer')
