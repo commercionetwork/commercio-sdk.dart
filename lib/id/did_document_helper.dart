@@ -23,6 +23,7 @@ class DidDocumentHelper {
       context: 'https://www.w3.org/ns/did/v1',
       id: wallet.bech32Address,
       publicKeys: keys,
+      service: service,
     );
 
     final verificationMethod = wallet.bech32PublicKey;
