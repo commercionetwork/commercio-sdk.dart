@@ -1,3 +1,4 @@
+import 'package:commerciosdk/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
@@ -22,8 +23,11 @@ class DidDocumentService extends Equatable {
     @required this.type,
     @required this.endpoint,
   })  : assert(id != null),
+        assert(checkStringBytesLen(id, 64)),
         assert(type != null),
-        assert(endpoint != null);
+        assert(checkStringBytesLen(type, 64)),
+        assert(endpoint != null),
+        assert(checkStringBytesLen(endpoint, 512));
 
   @override
   List<Object> get props {
