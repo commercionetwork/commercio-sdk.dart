@@ -60,3 +60,24 @@ bool matchUuidv4(String uuid) {
   );
   return regExp.hasMatch(uuid);
 }
+
+/// Returns [true] if the provided [str] is a valid bech32 string.
+/// See: https://en.bitcoin.it/wiki/Bech32
+bool matchBech32Format(String str) {
+  if (str == null) {
+    throw ArgumentError('(str) must not be null');
+  }
+
+  if (str.length < 8 || str.length > 90) {
+    return false;
+  }
+
+  final regExp = RegExp(
+    r'^(\S{1,83})(1)([^1bio]{6,88})$',
+    caseSensitive: false,
+  );
+
+  final match = regExp.hasMatch(str);
+
+  return match;
+}
