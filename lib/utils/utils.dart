@@ -44,15 +44,11 @@ StdFee calculateDefaultFee({
   );
 }
 
-/// Returns the number of bytes of a UTF-8 encoded [str]. If [str] is null then
-/// 0 is returned.
-int getStringBytes(String str) {
-  if (str == null) {
-    return null;
-  }
-
-  final bytes = utf8.encode(str);
-  return bytes.length;
+/// Checks if the bytes length of a string [str]
+/// is less than a certain value [len]
+bool checkStringBytesLen(String str, int len) {
+  List<int> bytes = utf8.encode(str);
+  return bytes.length <= len;
 }
 
 /// Return [true] if the string [uuid] has a Uuid-v4 format.

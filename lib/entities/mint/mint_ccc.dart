@@ -1,22 +1,20 @@
+import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
-import 'package:commerciosdk/export.dart';
+part 'mint_ccc.g.dart';
 
-part 'open_cdp.g.dart';
-
-/// Contains the data related to a Collateralized Debt Position
-/// that is opened by a user.
+// Contains the data to mint CCC
 @JsonSerializable(explicitToJson: true)
-class OpenCdp extends Equatable {
+class MintCcc extends Equatable {
   @JsonKey(name: 'deposit_amount')
   final List<StdCoin> depositAmount;
 
   @JsonKey(name: 'depositor')
   final String signerDid;
 
-  OpenCdp({
+  MintCcc({
     @required this.depositAmount,
     @required this.signerDid,
   })  : assert(depositAmount != null),
@@ -25,8 +23,8 @@ class OpenCdp extends Equatable {
   @override
   List<Object> get props => [depositAmount, signerDid];
 
-  factory OpenCdp.fromJson(Map<String, dynamic> json) =>
-      _$OpenCdpFromJson(json);
+  factory MintCcc.fromJson(Map<String, dynamic> json) =>
+      _$MintCccFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OpenCdpToJson(this);
+  Map<String, dynamic> toJson() => _$MintCccToJson(this);
 }

@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'open_cdp.dart';
+part of 'mint_ccc.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-OpenCdp _$OpenCdpFromJson(Map<String, dynamic> json) {
-  return OpenCdp(
+MintCcc _$MintCccFromJson(Map<String, dynamic> json) {
+  return MintCcc(
     depositAmount: (json['deposit_amount'] as List)
         ?.map((e) =>
             e == null ? null : StdCoin.fromJson(e as Map<String, dynamic>))
@@ -16,7 +16,7 @@ OpenCdp _$OpenCdpFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$OpenCdpToJson(OpenCdp instance) => <String, dynamic>{
+Map<String, dynamic> _$MintCccToJson(MintCcc instance) => <String, dynamic>{
       'deposit_amount':
           instance.depositAmount?.map((e) => e?.toJson())?.toList(),
       'depositor': instance.signerDid,
