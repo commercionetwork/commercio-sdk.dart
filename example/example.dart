@@ -99,7 +99,7 @@ void main() async {
       contentUri: 'https://example.com/document',
       checksum: checksum,
       doSign: doSign,
-      encryptedData: [EncryptedData.CONTENT_URI],
+      encryptedData: [CommercioEncryptedData.CONTENT_URI],
     );
     final response = await DocsHelper.shareDocumentsList(
       [commercioDoc],

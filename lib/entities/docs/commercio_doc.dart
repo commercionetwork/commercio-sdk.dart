@@ -117,7 +117,7 @@ class CommercioDocMetadataSchema extends Equatable {
   })  : assert(uri != null && uri.isNotEmpty && checkStringBytesLen(uri, 512)),
         assert(version != null &&
             uri.isNotEmpty &&
-            checkStringBytesLen(version, 512));
+            checkStringBytesLen(version, 32));
 
   @override
   List<Object> get props {
@@ -141,7 +141,7 @@ class CommercioDocChecksum extends Equatable {
   CommercioDocChecksum({
     @required this.value,
     @required this.algorithm,
-  })  : assert(value != null),
+  })  : assert(value != null && value.isNotEmpty),
         assert(algorithm != null);
 
   @override
@@ -181,7 +181,7 @@ class CommercioDocEncryptionData extends Equatable {
   final List<CommercioDocEncryptionDataKey> keys;
 
   @JsonKey(name: 'encrypted_data')
-  final List<String> encryptedData;
+  final List<CommercioEncryptedData> encryptedData;
 
   CommercioDocEncryptionData({
     @required this.keys,
@@ -202,6 +202,8 @@ class CommercioDocEncryptionData extends Equatable {
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class CommercioDocEncryptionDataKey extends Equatable {
+  // TODO(pasqenr): Not listed in required fields but not even in the ref table
+  // in the current: https://docs.commercio.network/x/docs/#sending-a-document
   @JsonKey(name: 'recipient')
   final String recipientDid;
 
@@ -212,7 +214,7 @@ class CommercioDocEncryptionDataKey extends Equatable {
     @required this.recipientDid,
     @required this.value,
   })  : assert(recipientDid != null),
-        assert(value != null);
+        assert(value != null && checkStringBytesLen(value, 512));
 
   @override
   List<Object> get props {
@@ -250,8 +252,9 @@ class CommercioDoSign extends Equatable {
     this.sdnData,
   })  : assert(storageUri != null),
         assert(signerIstance != null),
-        assert(vcrId != null),
-        assert(certificateProfile != null);
+        assert(vcrId != null && checkStringBytesLen(vcrId, 64)),
+        assert(certificateProfile != null &&
+            checkStringBytesLen(certificateProfile, 32));
 
   @override
   List<Object> get props {
@@ -282,4 +285,63 @@ enum CommercioSdnData {
 
   @JsonValue('country')
   COUNTRY,
+}
+
+// For more information see:
+/// https://docs.commercio.network/x/docs/#supported-encrypted-data
+enum CommercioEncryptedData {
+  /// Special identifier, references the document's file contents. Means that
+  /// the `aes_key` has been used to encrypt a file exchanged by other means of
+  /// communication.
+  @JsonValue('content')
+  CONTENT,
+
+  /// The value of the field `content_uri` must be encrypted.
+  @JsonValue('content_uri')
+  CONTENT_URI,
+
+  /// The value of the field `content_uri` inside the `metadata` must be
+  /// encrypted.
+  @JsonValue('metadata.content_uri')
+  METADATA_CONTENT_URI,
+
+  /// The value of the field `uri` inside the `schema` inside `metadata` must be
+  /// encrypted.
+  @JsonValue('metadata.schema.uri')
+  METADATA_SCHEMA_URI,
+}
+
+extension CommercioEncryptedDataExt on CommercioEncryptedData {
+  /// Returns the string representation of the [EncryptedData] enum.
+  String get value {
+    switch (this) {
+      case CommercioEncryptedData.CONTENT:
+        return 'content';
+      case CommercioEncryptedData.CONTENT_URI:
+        return 'content_uri';
+      case CommercioEncryptedData.METADATA_CONTENT_URI:
+        return 'metadata.content_uri';
+      case CommercioEncryptedData.METADATA_SCHEMA_URI:
+        return 'metadata.schema.uri';
+      default:
+        return null;
+    }
+  }
+
+  /// Returns the [EncryptedData] that corresponds to the [value] or [null] if
+  /// the [value] is not valid.
+  static CommercioEncryptedData fromValue(String value) {
+    switch (value) {
+      case 'content':
+        return CommercioEncryptedData.CONTENT;
+      case 'content_uri':
+        return CommercioEncryptedData.CONTENT_URI;
+      case 'metadata.content_uri':
+        return CommercioEncryptedData.METADATA_CONTENT_URI;
+      case 'metadata.schema.uri':
+        return CommercioEncryptedData.METADATA_SCHEMA_URI;
+      default:
+        return null;
+    }
+  }
 }

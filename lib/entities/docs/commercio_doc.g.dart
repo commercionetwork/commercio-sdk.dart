@@ -174,8 +174,9 @@ CommercioDocEncryptionData _$CommercioDocEncryptionDataFromJson(
             ? null
             : CommercioDocEncryptionDataKey.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    encryptedData:
-        (json['encrypted_data'] as List)?.map((e) => e as String)?.toList(),
+    encryptedData: (json['encrypted_data'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$CommercioEncryptedDataEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -190,9 +191,20 @@ Map<String, dynamic> _$CommercioDocEncryptionDataToJson(
   }
 
   writeNotNull('keys', instance.keys?.map((e) => e?.toJson())?.toList());
-  writeNotNull('encrypted_data', instance.encryptedData);
+  writeNotNull(
+      'encrypted_data',
+      instance.encryptedData
+          ?.map((e) => _$CommercioEncryptedDataEnumMap[e])
+          ?.toList());
   return val;
 }
+
+const _$CommercioEncryptedDataEnumMap = {
+  CommercioEncryptedData.CONTENT: 'content',
+  CommercioEncryptedData.CONTENT_URI: 'content_uri',
+  CommercioEncryptedData.METADATA_CONTENT_URI: 'metadata.content_uri',
+  CommercioEncryptedData.METADATA_SCHEMA_URI: 'metadata.schema.uri',
+};
 
 CommercioDocEncryptionDataKey _$CommercioDocEncryptionDataKeyFromJson(
     Map<String, dynamic> json) {

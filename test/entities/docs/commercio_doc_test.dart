@@ -6,10 +6,13 @@ void main() {
     contentUri: 'content-uri',
     schemaType: 'schemaType',
   );
-  const correctDid = 'did:com:1abcdefg';
+  const correctDid = 'did:com:1acdefg';
   const correctUuid = 'c510755c-c27d-4348-bf4c-f6050fc6935c';
   const invalid520CharactersString =
       'qYxEIgza4dfuLGka6ULnNLv8PArpjjuLoipUyoi2xon3sHAcufys3o89jRYUuGlDs68qd1NsJKAxC11InzFJBXYMaOYHFniELo2OfRN52SQReR1sShgwX5oQboUc38yITigc6pw4oBOMlz895pChLfXDAHDQSon9D11hc7AX4QkGqWxH5gdvZgrkRxTDckMJCC0mhxWi9brwwgLeTqH3sjwmVPDB5KDGMw1inp8oRSn563TEKPqd1Pp1pb06N81pI2ACkPKnLpDvYVE75vCITq8FhBBlV3neuSg5ktfAjaZ3byev0MsnPv2gwakpSgNWbVAumEA0OJuzsYDytBhUIyAM9zTpKVoVOYzks4W7jRHdiiqXs7OiyXCrgQwVyKDW1eAM9NYexYf9dUfnYja4RxVP0GSIhefun39LgrgpNDjvq2Cbrx296WGt6GLUKDxhqScPmVkvmSzT7ULklJztrA3oE3ooNVSWbq5ir772lKiuhhtFZEaPWSGeeHdmWodQoOWFFWfC';
+  const invalid33CharsString = 'bKWAUWc2oBRIxFjIJrGFrT9RohFC4hXLe';
+  const invalid65CharsString =
+      '9S9BRIhrhaGcUvoothkdkvcil1a1Kn9AROHh4hLRCxSmZbDbfYy2NP5NjpaAQH1iX';
   final correctCommercioDocEncryptionDataKey = CommercioDocEncryptionDataKey(
     recipientDid: correctDid,
     value: 'value',
@@ -338,7 +341,7 @@ void main() {
       );
     });
 
-    test('parameters should be < 512 bytes len', () {
+    test('uri should be <= 512 bytes len', () {
       expect(
         () => CommercioDocMetadataSchema(
           uri: invalid520CharactersString,
@@ -346,11 +349,13 @@ void main() {
         ),
         throwsA(isA<AssertionError>()),
       );
+    });
 
+    test('version should be <= 32 bytes len', () {
       expect(
         () => CommercioDocMetadataSchema(
           uri: 'http://example.com/',
-          version: invalid520CharactersString,
+          version: invalid33CharsString,
         ),
         throwsA(isA<AssertionError>()),
       );
@@ -361,6 +366,12 @@ void main() {
     test('Null arguments should throw assertion erorr', () {
       expect(
         () => CommercioDocChecksum(algorithm: null, value: 'value'),
+        throwsA(isA<AssertionError>()),
+      );
+
+      // Empty value also should throw
+      expect(
+        () => CommercioDocChecksum(algorithm: null, value: ''),
         throwsA(isA<AssertionError>()),
       );
 
@@ -386,7 +397,7 @@ void main() {
 
       expect(
         () => CommercioDocEncryptionData(
-          encryptedData: ['encData'],
+          encryptedData: [CommercioEncryptedData.CONTENT_URI],
           keys: null,
         ),
         throwsA(isA<AssertionError>()),
@@ -405,6 +416,16 @@ void main() {
         () => CommercioDocEncryptionDataKey(
           recipientDid: correctDid,
           value: null,
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
+    test('value lenght should be <= 512 bytes', () {
+      expect(
+        () => CommercioDocEncryptionDataKey(
+          recipientDid: correctDid,
+          value: invalid520CharactersString,
         ),
         throwsA(isA<AssertionError>()),
       );
@@ -451,6 +472,66 @@ void main() {
           vcrId: null,
         ),
         throwsA(isA<AssertionError>()),
+      );
+    });
+
+    test('vcrId length should be <= 64 bytes', () {
+      expect(
+        () => CommercioDoSign(
+          certificateProfile: '',
+          signerIstance: '',
+          storageUri: '',
+          vcrId: invalid65CharsString,
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
+    test('certificateProfile length should be <= 32 bytes', () {
+      expect(
+        () => CommercioDoSign(
+          certificateProfile: invalid33CharsString,
+          signerIstance: '',
+          storageUri: '',
+          vcrId: '',
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+  });
+
+  group('CommercioEncryptedData should have correct extension', () {
+    test('Value should return the correct string representation', () {
+      expect(
+        CommercioEncryptedData.values.map((v) => v.value).toList()..sort(),
+        [
+          'content',
+          'content_uri',
+          'metadata.content_uri',
+          'metadata.schema.uri',
+        ]..sort(),
+      );
+    });
+
+    test('fromValue() should return the correct enum', () {
+      expect(
+        CommercioEncryptedDataExt.fromValue('content'),
+        CommercioEncryptedData.CONTENT,
+      );
+
+      expect(
+        CommercioEncryptedDataExt.fromValue('content_uri'),
+        CommercioEncryptedData.CONTENT_URI,
+      );
+
+      expect(
+        CommercioEncryptedDataExt.fromValue('metadata.content_uri'),
+        CommercioEncryptedData.METADATA_CONTENT_URI,
+      );
+
+      expect(
+        CommercioEncryptedDataExt.fromValue('metadata.schema.uri'),
+        CommercioEncryptedData.METADATA_SCHEMA_URI,
       );
     });
   });

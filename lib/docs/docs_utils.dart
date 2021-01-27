@@ -1,7 +1,5 @@
-import 'package:commerciosdk/entities/export.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
-import 'package:sacco/sacco.dart';
 
 /// Represents a pair that associates a Did document to its encryption key.
 class _Pair {
@@ -21,7 +19,7 @@ _Pair _didDocumentToPair(DidDocument didDocument) {
   return _Pair(first: didDocument, second: key);
 }
 
-/// Transforms [this] document into one having the proper fields encrypted as
+/// Transforms [doc] into one having the proper fields encrypted as
 /// specified inside the [encryptedData] list.
 /// All the fields will be encrypted using the specified [aesKey].
 /// This key will later be encrypted for each and every Did specified into
@@ -30,7 +28,7 @@ _Pair _didDocumentToPair(DidDocument didDocument) {
 Future<CommercioDoc> encryptField(
   CommercioDoc doc,
   Key aesKey,
-  List<EncryptedData> encryptedData,
+  List<CommercioEncryptedData> encryptedData,
   List<String> recipients,
   Wallet wallet,
 ) async {
@@ -40,21 +38,21 @@ Future<CommercioDoc> encryptField(
 
   // Encrypt the contents
   var encryptedContentUri;
-  if (encryptedData.contains(EncryptedData.CONTENT_URI)) {
+  if (encryptedData.contains(CommercioEncryptedData.CONTENT_URI)) {
     encryptedContentUri = HEX.encode(
       EncryptionHelper.encryptStringWithAes(doc.contentUri, aesKey),
     );
   }
 
   var encryptedMetadataContentUri;
-  if (encryptedData.contains(EncryptedData.METADATA_CONTENT_URI)) {
+  if (encryptedData.contains(CommercioEncryptedData.METADATA_CONTENT_URI)) {
     encryptedMetadataContentUri = HEX.encode(
       EncryptionHelper.encryptStringWithAes(doc.metadata.contentUri, aesKey),
     );
   }
 
   var encryptedMetadataSchemaUri;
-  if (encryptedData.contains(EncryptedData.METADATA_SCHEMA_URI)) {
+  if (encryptedData.contains(CommercioEncryptedData.METADATA_SCHEMA_URI)) {
     var schemaUri = doc.metadata.schema?.uri;
     if (schemaUri != null) {
       encryptedMetadataSchemaUri = HEX.encode(
@@ -113,25 +111,8 @@ Future<CommercioDoc> encryptField(
     ),
     encryptionData: CommercioDocEncryptionData(
       keys: encryptionKeys,
-      encryptedData: encryptedData.map((e) => e.value).toList(),
+      encryptedData: encryptedData,
     ),
     doSign: doc.doSign,
   );
-}
-
-enum EncryptedData { CONTENT_URI, METADATA_CONTENT_URI, METADATA_SCHEMA_URI }
-
-extension EncryptedDataExt on EncryptedData {
-  String get value {
-    switch (this) {
-      case EncryptedData.CONTENT_URI:
-        return 'content_uri';
-      case EncryptedData.METADATA_CONTENT_URI:
-        return 'metadata.content_uri';
-      case EncryptedData.METADATA_SCHEMA_URI:
-        return 'metadata.schema.uri';
-      default:
-        return null;
-    }
-  }
 }

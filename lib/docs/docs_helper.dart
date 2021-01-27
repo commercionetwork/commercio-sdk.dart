@@ -19,7 +19,7 @@ class DocsHelper {
     CommercioDoSign doSign,
     CommercioDocChecksum checksum,
     Key aesKey,
-    List<EncryptedData> encryptedData,
+    List<CommercioEncryptedData> encryptedData,
     StdFee fee,
     String contentUri,
     BroadcastingMode mode,
