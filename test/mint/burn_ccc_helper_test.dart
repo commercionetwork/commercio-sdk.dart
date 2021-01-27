@@ -1,30 +1,35 @@
 import 'package:commerciosdk/export.dart';
 import 'package:commerciosdk/mint/export.dart';
 import 'package:test/test.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
-  group('Functions of "MintCccHelper" class', () {
+  group('Functions of "BurnCccHelper" class', () {
     final networkInfo = NetworkInfo(bech32Hrp: "did:com:", lcdUrl: "");
     final mnemonicString =
         "dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology";
     final mnemonic = mnemonicString.split(" ");
     final wallet = Wallet.derive(mnemonic, networkInfo);
 
-    test('if "fromWallet()" returns a well-formed "MintCcc" object', () {
-      final depositAmount = [StdCoin(denom: 'uccc', amount: '10')];
-      final expectedMintCcc = MintCcc(
-        depositAmount: depositAmount,
+    test('if "fromwallet()" returns a well-formed "BurnCcc" object', () {
+      final amount = StdCoin(denom: 'uccc', amount: '10');
+      final id = Uuid().v4();
+
+      final expectedBurnCcc = BurnCcc(
         signerDid: wallet.bech32Address,
+        amount: amount,
+        id: id,
       );
 
-      final mintCcc = MintCccHelper.fromWallet(
+      final burnCcc = BurnCccHelper.fromWallet(
+        amount: amount,
+        id: id,
         wallet: wallet,
-        amount: depositAmount,
       );
 
       expect(
-        mintCcc.toJson(),
-        expectedMintCcc.toJson(),
+        burnCcc.toJson(),
+        expectedBurnCcc.toJson(),
       );
     });
   });
