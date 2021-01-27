@@ -53,10 +53,9 @@ bool checkStringBytesLen(String str, int len) {
 
 /// Checks if a string [uuid] has a Uuid-v4 format
 bool matchUuidv4(String uuid) {
-  RegExp regExp = new RegExp(
+  final regExp = RegExp(
     r"^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$",
     caseSensitive: false,
-    multiLine: false,
   );
   return regExp.hasMatch(uuid);
 }
