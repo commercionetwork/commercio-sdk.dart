@@ -22,12 +22,9 @@ class DidDocumentService extends Equatable {
     @required this.id,
     @required this.type,
     @required this.endpoint,
-  })  : assert(id != null),
-        assert(checkStringBytesLen(id, 64)),
-        assert(type != null),
-        assert(checkStringBytesLen(type, 64)),
-        assert(endpoint != null),
-        assert(checkStringBytesLen(endpoint, 512));
+  })  : assert(id != null && checkStringBytesLen(id, 64)),
+        assert(type != null && checkStringBytesLen(type, 64)),
+        assert(endpoint != null && checkStringBytesLen(endpoint, 512));
 
   @override
   List<Object> get props {
