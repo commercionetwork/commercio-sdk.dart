@@ -44,14 +44,14 @@ StdFee calculateDefaultFee({
   );
 }
 
-/// Checks if the bytes length of a string [str]
-/// is less than a certain value [len]
+/// Returns [true] if the bytes length of a string [str] is less than a certain
+/// value [len].
 bool checkStringBytesLen(String str, int len) {
   List<int> bytes = utf8.encode(str);
   return bytes.length <= len;
 }
 
-/// Return [true] if the string [uuid] has a Uuid-v4 format.
+/// Return [true] if the string [uuid] has a Uuid v4 format.
 bool matchUuidv4(String uuid) {
   final regExp = RegExp(
     r'^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$',

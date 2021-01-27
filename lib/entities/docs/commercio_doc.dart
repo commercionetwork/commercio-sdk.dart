@@ -49,7 +49,7 @@ class CommercioDoc extends Equatable {
         assert(uuid != null && matchUuidv4(uuid)),
         assert(metadata != null),
         assert(contentUri == null ||
-            (contentUri != null && getStringBytes(contentUri) <= 512));
+            (contentUri != null && checkStringBytesLen(contentUri, 512)));
 
   @override
   List<Object> get props {
@@ -86,10 +86,10 @@ class CommercioDocMetadata extends Equatable {
     @required this.contentUri,
     this.schemaType,
     this.schema,
-  })  : assert(contentUri != null && getStringBytes(contentUri) <= 512),
+  })  : assert(contentUri != null && checkStringBytesLen(contentUri, 512)),
         assert((schemaType != null &&
                 schemaType.isNotEmpty &&
-                getStringBytes(schemaType) <= 512) ||
+                checkStringBytesLen(schemaType, 512)) ||
             schema != null);
 
   @override
@@ -114,10 +114,10 @@ class CommercioDocMetadataSchema extends Equatable {
   CommercioDocMetadataSchema({
     @required this.uri,
     @required this.version,
-  })  : assert(uri != null && uri.isNotEmpty && getStringBytes(uri) <= 512),
+  })  : assert(uri != null && uri.isNotEmpty && checkStringBytesLen(uri, 512)),
         assert(version != null &&
             uri.isNotEmpty &&
-            getStringBytes(version) <= 512);
+            checkStringBytesLen(version, 512));
 
   @override
   List<Object> get props {
