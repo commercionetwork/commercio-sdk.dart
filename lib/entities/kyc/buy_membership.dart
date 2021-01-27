@@ -13,14 +13,19 @@ class BuyMembership extends Equatable {
   @JsonKey(name: 'buyer')
   final String buyerDid;
 
+  @JsonKey(name: 'tsp')
+  final String tsp;
+
   BuyMembership({
     @required this.membershipType,
     @required this.buyerDid,
+    @required this.tsp,
   })  : assert(membershipType != null),
-        assert(buyerDid != null);
+        assert(buyerDid != null),
+        assert(tsp != null);
 
   @override
-  List<Object> get props => [membershipType, buyerDid];
+  List<Object> get props => [membershipType, buyerDid, tsp];
 
   factory BuyMembership.fromJson(Map<String, dynamic> json) =>
       _$BuyMembershipFromJson(json);
