@@ -5,6 +5,40 @@ import 'package:sacco/sacco.dart';
 
 /// Allows to easily perform CommercioMINT related transactions.
 class MintHelper {
+  static Future<TransactionResult> mintCccsList(
+    List<MintCcc> mintCccs,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs =
+        mintCccs.map((mintCcc) => MsgMintCcc(mintCcc: mintCcc)).toList();
+
+    return TxHelper.createSignAndSendTx(
+      msgs,
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
+  static Future<TransactionResult> burnCccsList(
+    List<BurnCcc> burnCccs,
+    Wallet wallet, {
+    StdFee fee,
+    BroadcastingMode mode,
+  }) {
+    final msgs =
+        burnCccs.map((burnCcc) => MsgBurnCcc(burnCcc: burnCcc)).toList();
+
+    return TxHelper.createSignAndSendTx(
+      msgs,
+      wallet,
+      fee: fee,
+      mode: mode,
+    );
+  }
+
   /// Opens a new CDP depositing the given Commercio Token [amount].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> openCdp(
