@@ -6,7 +6,7 @@ class BurnCccHelper {
   /// [amount] to be burned and mint [id].
   static BurnCcc fromWallet({
     Wallet wallet,
-    List<StdCoin> amount,
+    StdCoin amount,
     String id,
   }) {
     return BurnCcc(

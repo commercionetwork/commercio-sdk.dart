@@ -12,7 +12,7 @@ class BurnCcc extends Equatable {
   final String signerDid;
 
   @JsonKey(name: 'amount')
-  final List<StdCoin> amount;
+  final StdCoin amount;
 
   @JsonKey(name: 'id')
   final String id;
