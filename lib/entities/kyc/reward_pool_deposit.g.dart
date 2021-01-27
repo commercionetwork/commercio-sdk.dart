@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'deposit_reward_pool.dart';
+part of 'reward_pool_deposit.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-DepositRewardPool _$DepositRewardPoolFromJson(Map<String, dynamic> json) {
-  return DepositRewardPool(
+RewardPoolDeposit _$RewardPoolDepositFromJson(Map<String, dynamic> json) {
+  return RewardPoolDeposit(
     depositAmount: (json['amount'] as List)
         ?.map((e) =>
             e == null ? null : StdCoin.fromJson(e as Map<String, dynamic>))
@@ -16,7 +16,7 @@ DepositRewardPool _$DepositRewardPoolFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DepositRewardPoolToJson(DepositRewardPool instance) =>
+Map<String, dynamic> _$RewardPoolDepositToJson(RewardPoolDeposit instance) =>
     <String, dynamic>{
       'amount': instance.depositAmount?.map((e) => e?.toJson())?.toList(),
       'depositor': instance.depositorDid,

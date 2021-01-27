@@ -48,16 +48,14 @@ class KycHelper {
   /// into reward pool a list of [rewardPoolDeposits].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> rewardPoolDepositsList(
-    List<DepositRewardPool> rewardPoolDeposits,
+    List<RewardPoolDeposit> rewardPoolDeposits,
     Wallet wallet, {
     StdFee fee,
     BroadcastingMode mode,
   }) async {
     final msgs = rewardPoolDeposits
-        .map(
-          (rewardPoolDeposit) =>
-              MsgDepositRewardPool(depositRewardPool: rewardPoolDeposit),
-        )
+        .map((rewardPoolDeposit) =>
+            MsgRewardPoolDeposit(rewardPoolDeposit: rewardPoolDeposit))
         .toList();
     return TxHelper.createSignAndSendTx(
       msgs,
