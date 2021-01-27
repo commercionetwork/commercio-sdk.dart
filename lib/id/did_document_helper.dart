@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:commerciosdk/export.dart';
+import 'package:meta/meta.dart';
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
@@ -58,10 +59,10 @@ class DidDocumentHelper {
 
   /// Computes the [DidDocumentProof] based on the given [controller], [verificationMethod] and [proofSignatureContent]
   static DidDocumentProof _computeProof({
-    String controller,
-    String verificationMethod,
-    DidDocumentProofSignatureContent proofSignatureContent,
-    Wallet wallet,
+    @required String controller,
+    @required String verificationMethod,
+    @required DidDocumentProofSignatureContent proofSignatureContent,
+    @required Wallet wallet,
     String proofPurpose,
   }) {
     proofPurpose = proofPurpose ?? 'authentication';
