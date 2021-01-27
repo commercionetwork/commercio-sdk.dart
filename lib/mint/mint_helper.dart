@@ -5,6 +5,9 @@ import 'package:sacco/sacco.dart';
 
 /// Allows to easily perform CommercioMINT related transactions.
 class MintHelper {
+  /// Mints the CCCs having the given [mintCccs] list as being
+  /// associated with the address present inside the specified [wallet].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> mintCccsList(
     List<MintCcc> mintCccs,
     Wallet wallet, {
@@ -22,6 +25,9 @@ class MintHelper {
     );
   }
 
+  /// Burns the CCCs having the given [burnCccs] list as being
+  /// associated with the address present inside the specified [wallet].
+  /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> burnCccsList(
     List<BurnCcc> burnCccs,
     Wallet wallet, {
