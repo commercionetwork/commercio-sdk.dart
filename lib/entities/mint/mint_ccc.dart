@@ -14,7 +14,7 @@ class MintCcc extends Equatable {
   @JsonKey(name: 'depositor')
   final String signerDid;
 
-  MintCcc({
+  const MintCcc({
     @required this.depositAmount,
     @required this.signerDid,
   })  : assert(depositAmount != null),

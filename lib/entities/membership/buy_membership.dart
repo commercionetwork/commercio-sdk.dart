@@ -13,7 +13,7 @@ class BuyMembership extends Equatable {
   @JsonKey(name: 'buyer')
   final String buyerDid;
 
-  BuyMembership({
+  const BuyMembership({
     @required this.membershipType,
     @required this.buyerDid,
   })  : assert(membershipType != null),

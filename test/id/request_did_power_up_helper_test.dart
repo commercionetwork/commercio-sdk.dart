@@ -64,6 +64,7 @@ void main() {
         pairwiseDid: pairwaisedWallet.bech32Address,
         amount: amount,
         privateKey: keyPair.privateKey,
+        client: clientMock,
       );
 
       expect(

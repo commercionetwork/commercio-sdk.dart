@@ -19,7 +19,7 @@ class DidDocumentProofSignatureContent extends Equatable {
   @JsonKey(name: 'service', includeIfNull: false)
   final List<DidDocumentService> service;
 
-  DidDocumentProofSignatureContent({
+  const DidDocumentProofSignatureContent({
     @required this.context,
     @required this.id,
     @required this.publicKeys,

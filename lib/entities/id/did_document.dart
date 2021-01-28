@@ -24,7 +24,7 @@ class DidDocument extends Equatable {
   @JsonKey(name: 'service', includeIfNull: false)
   final List<DidDocumentService> service;
 
-  DidDocument({
+  const DidDocument({
     @required this.context,
     @required this.id,
     @required this.publicKeys,

@@ -25,7 +25,7 @@ class ExchangeTradePosition extends Equatable {
   @JsonKey(name: 'credits')
   final StdCoin credits;
 
-  ExchangeTradePosition(
+  const ExchangeTradePosition(
       {@required this.createdAt,
       @required this.id,
       @required this.owner,
@@ -41,7 +41,7 @@ class ExchangeTradePosition extends Equatable {
 
   @override
   List<Object> get props =>
-      throw [createdAt, id, owner, exchangeRate, collateral, credits];
+      [createdAt, id, owner, exchangeRate, collateral, credits];
 
   factory ExchangeTradePosition.fromJson(Map<String, dynamic> json) =>
       _$ExchangeTradePositionFromJson(json);

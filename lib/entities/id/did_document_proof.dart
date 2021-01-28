@@ -27,7 +27,7 @@ class DidDocumentProof extends Equatable {
   @JsonKey(name: 'signatureValue')
   final String signatureValue;
 
-  DidDocumentProof({
+  const DidDocumentProof({
     @required this.type,
     @required this.timestamp,
     @required this.proofPurpose,

@@ -19,7 +19,7 @@ class DidDocumentPublicKey extends Equatable {
   @JsonKey(name: 'publicKeyPem')
   final String publicKeyPem;
 
-  DidDocumentPublicKey({
+  const DidDocumentPublicKey({
     @required this.id,
     @required this.type,
     @required this.controller,
