@@ -71,7 +71,7 @@ void main() {
   test(
       "fromWallet return a well-formed, ready to be send to blockchain, did document",
       () {
-    final didDocument = DidDocumentHelper.fromWallet(wallet, [
+    final didDocument = DidDocumentHelper.fromWallet(wallet: wallet, pubKeys: [
       rsaPubKeyVerification,
       rsaPubKeySignature,
     ]);
