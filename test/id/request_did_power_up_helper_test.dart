@@ -60,10 +60,10 @@ void main() {
       );
 
       final requestDidPowerUp = await RequestDidPowerUpHelper.fromWallet(
-        wallet,
-        pairwaisedWallet.bech32Address,
-        amount,
-        keyPair.privateKey,
+        wallet: wallet,
+        pairwiseDid: pairwaisedWallet.bech32Address,
+        amount: amount,
+        privateKey: keyPair.privateKey,
       );
 
       expect(
