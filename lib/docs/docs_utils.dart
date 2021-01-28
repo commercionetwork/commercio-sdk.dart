@@ -25,6 +25,12 @@ _Pair _didDocumentToPair(DidDocument didDocument) {
 /// This key will later be encrypted for each and every Did specified into
 /// the [recipients] list.
 /// The overall encrypted data will be put inside the proper document field.
+///
+/// Throws [ArgumentError] if:
+/// * Is provided [CommercioEncryptedData.CONTENT_URI] without a valid
+///   [contentUri].
+/// *Is provided [CommercioEncryptedData.METADATA_SCHEMA_URI] without a
+/// [schema].
 Future<CommercioDoc> encryptField(
   CommercioDoc doc,
   Key aesKey,
@@ -39,26 +45,43 @@ Future<CommercioDoc> encryptField(
   // Encrypt the contents
   String encryptedContentUri;
   if (encryptedData.contains(CommercioEncryptedData.CONTENT_URI)) {
+    if (doc.contentUri == null) {
+      throw ArgumentError(
+        'Document contentUri field can not be null if the encryptedData arguments contains CommercioEncryptedData.CONTENT_URI',
+      );
+    }
+
     encryptedContentUri = HEX.encode(
-      EncryptionHelper.encryptStringWithAes(doc.contentUri, aesKey),
+      EncryptionHelper.encryptStringWithAes(
+        doc.contentUri,
+        aesKey,
+      ),
     );
   }
 
   String encryptedMetadataContentUri;
   if (encryptedData.contains(CommercioEncryptedData.METADATA_CONTENT_URI)) {
     encryptedMetadataContentUri = HEX.encode(
-      EncryptionHelper.encryptStringWithAes(doc.metadata.contentUri, aesKey),
+      EncryptionHelper.encryptStringWithAes(
+        doc.metadata.contentUri,
+        aesKey,
+      ),
     );
   }
 
   String encryptedMetadataSchemaUri;
   if (encryptedData.contains(CommercioEncryptedData.METADATA_SCHEMA_URI)) {
-    final schemaUri = doc.metadata.schema?.uri;
-    if (schemaUri != null) {
-      encryptedMetadataSchemaUri = HEX.encode(
-        EncryptionHelper.encryptStringWithAes(schemaUri, aesKey),
+    if (doc.metadata.schema == null) {
+      throw ArgumentError(
+        'Document metadata.schema field can not be null if the encryptedData arguments contains CommercioEncryptedData.METADATA_SCHEMA_URI',
       );
     }
+    encryptedMetadataSchemaUri = HEX.encode(
+      EncryptionHelper.encryptStringWithAes(
+        doc.metadata.schema.uri,
+        aesKey,
+      ),
+    );
   }
 
   // ---------------------
