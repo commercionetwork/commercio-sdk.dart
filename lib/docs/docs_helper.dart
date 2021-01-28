@@ -4,8 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 
 class DocsHelper {
-  final client = http.Client();
-
   /// Creates a new transaction that allows to share the document associated
   /// with the given [metadata] and having the optional [contentUri], [doSign],
   /// [checksum], [fee] and broadcasting [mode]. If [encryptedData] is specified,
@@ -71,23 +69,27 @@ class DocsHelper {
 
   /// Returns the list of all the [CommercioDoc] that the
   /// specified [address] has sent.
-  static Future<List<CommercioDoc>> getSendDocuments(
-    String address,
-    Wallet wallet,
-  ) async {
-    final url = '${wallet.networkInfo.lcdUrl}/docs/${address}/sent';
-    final response = await Network.queryChain(url) as List;
+  static Future<List<CommercioDoc>> getSendDocuments({
+    @required String address,
+    @required NetworkInfo networkInfo,
+    http.Client client,
+  }) async {
+    final url = '${networkInfo.lcdUrl}/docs/${address}/sent';
+    final response = await Network.queryChain(url, client: client) as List;
+
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
   }
 
   /// Returns the list of all the [CommercioDoc] that the
   /// specified [address] has received.
-  static Future<List<CommercioDoc>> getReceivedDocuments(
-    String address,
-    Wallet wallet,
-  ) async {
-    final url = '${wallet.networkInfo.lcdUrl}/docs/${address}/received';
-    final response = await Network.queryChain(url) as List;
+  static Future<List<CommercioDoc>> getReceivedDocuments({
+    @required String address,
+    @required NetworkInfo networkInfo,
+    http.Client client,
+  }) async {
+    final url = '${networkInfo.lcdUrl}/docs/${address}/received';
+    final response = await Network.queryChain(url, client: client) as List;
+
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
   }
 
@@ -147,23 +149,27 @@ class DocsHelper {
 
   /// Returns the list of all the [CommercioDocReceipt] that
   /// have been sent from the given [address].
-  static Future<List<CommercioDocReceipt>> getSentReceipts(
-    String address,
-    Wallet wallet,
-  ) async {
-    final url = '${wallet.networkInfo.lcdUrl}/receipts/${address}/sent';
-    final response = await Network.queryChain(url) as List;
+  static Future<List<CommercioDocReceipt>> getSentReceipts({
+    @required String address,
+    @required NetworkInfo networkInfo,
+    http.Client client,
+  }) async {
+    final url = '${networkInfo.lcdUrl}/receipts/${address}/sent';
+    final response = await Network.queryChain(url, client: client) as List;
+
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();
   }
 
   /// Returns the list of all the [CommercioDocReceipt] that
   /// have been received from the given [address].
-  static Future<List<CommercioDocReceipt>> getReceivedReceipts(
-    String address,
-    Wallet wallet,
-  ) async {
-    final url = '${wallet.networkInfo.lcdUrl}/receipts/${address}/received';
-    final response = await Network.queryChain(url) as List;
+  static Future<List<CommercioDocReceipt>> getReceivedReceipts({
+    @required String address,
+    @required NetworkInfo networkInfo,
+    http.Client client,
+  }) async {
+    final url = '${networkInfo.lcdUrl}/receipts/${address}/received';
+    final response = await Network.queryChain(url, client: client) as List;
+
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();
   }
 }

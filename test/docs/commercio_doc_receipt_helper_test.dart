@@ -4,18 +4,18 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   group('Functions of "CommercioDoReceiptHelper" class;', () {
-    final networkInfo = NetworkInfo(bech32Hrp: "did:com:", lcdUrl: "");
-    final mnemonicString =
-        "dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology";
-    final mnemonic = mnemonicString.split(" ");
+    final networkInfo = NetworkInfo(bech32Hrp: 'did:com:', lcdUrl: '');
+    const mnemonicString =
+        'dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology';
+    final mnemonic = mnemonicString.split(' ');
     final wallet = Wallet.derive(mnemonic, networkInfo);
 
     test('"fromWallet()" returns a well-formed "CommercioDocReceipt" object.',
         () {
       final uuid = Uuid().v4();
-      final recipientDid = 'did:com:id';
-      final txHash = 'txHash';
-      final documentId = 'documentId';
+      const recipientDid = 'did:com:id';
+      const txHash = 'txHash';
+      const documentId = 'documentId';
 
       final expectedDocReceipt = CommercioDocReceipt(
         uuid: uuid,

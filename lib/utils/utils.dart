@@ -47,7 +47,7 @@ StdFee calculateDefaultFee({
 /// Returns [true] if the bytes length of a string [str] is less than a certain
 /// value [len].
 bool checkStringBytesLen(String str, int len) {
-  List<int> bytes = utf8.encode(str);
+  final bytes = utf8.encode(str);
   return bytes.length <= len;
 }
 

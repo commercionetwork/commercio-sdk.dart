@@ -8,9 +8,9 @@ void main() async {
   // --- Setup network info
   // --------------------------------------------
 
-  final lcdUrl = "http://localhost:1317";
+  const lcdUrl = 'http://localhost:1317';
   final networkInfo = NetworkInfo(
-    bech32Hrp: "did:com:",
+    bech32Hrp: 'did:com:',
     lcdUrl: lcdUrl,
   );
 
@@ -41,14 +41,14 @@ void main() async {
     final response = await IdHelper.setDidDocumentsList([didDocument], wallet);
 
     if (response.success) {
-      print("TX successfully sent:\n$lcdUrl/txs/${response.hash}");
+      print('TX successfully sent:\n$lcdUrl/txs/${response.hash}');
       print('----- You can retrive your did from below url -----');
       print('Endpoint:\n$lcdUrl/identities/${wallet.bech32Address}');
     } else {
-      print("TX error:\n${response.error.errorMessage}");
+      print('TX error:\n${response.error.errorMessage}');
     }
   } catch (error) {
-    print("Error while testing set DDO:\n$error");
+    print('Error while testing set DDO:\n$error');
   }
 
   // --------------------------------------------
@@ -69,19 +69,19 @@ void main() async {
   final docId = Uuid().v4();
 
   final checksum = CommercioDocChecksum(
-    value: "a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c",
+    value: 'a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c',
     algorithm: CommercioDocChecksumAlgorithm.SHA256,
   );
 
   final doSign = CommercioDoSign(
-    storageUri: "http://www.commercio.network",
-    signerIstance: "did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj",
-    sdnData: [
+    storageUri: 'http://www.commercio.network',
+    signerIstance: 'did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj',
+    sdnData: const [
       CommercioSdnData.COMMON_NAME,
       CommercioSdnData.SURNAME,
     ],
-    vcrId: "xxxxx",
-    certificateProfile: "xxxxx",
+    vcrId: 'xxxxx',
+    certificateProfile: 'xxxxx',
   );
 
   try {
@@ -107,13 +107,13 @@ void main() async {
     );
 
     if (response.success) {
-      print("TX successfully sent:\n$lcdUrl/txs/${response.hash}");
+      print('TX successfully sent:\n$lcdUrl/txs/${response.hash}');
       print('----- You can retrive your sent documents from url below -----');
       print('Endpoint:\n$lcdUrl/docs/${senderWallet.bech32Address}/sent');
     } else {
-      print("TX error:\n${response.error.errorMessage}");
+      print('TX error:\n${response.error.errorMessage}');
     }
   } catch (error) {
-    print("Error while sharing a document:\n$error");
+    print('Error while sharing a document:\n$error');
   }
 }

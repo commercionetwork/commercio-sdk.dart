@@ -37,23 +37,23 @@ Future<CommercioDoc> encryptField(
   // -----------------
 
   // Encrypt the contents
-  var encryptedContentUri;
+  String encryptedContentUri;
   if (encryptedData.contains(CommercioEncryptedData.CONTENT_URI)) {
     encryptedContentUri = HEX.encode(
       EncryptionHelper.encryptStringWithAes(doc.contentUri, aesKey),
     );
   }
 
-  var encryptedMetadataContentUri;
+  String encryptedMetadataContentUri;
   if (encryptedData.contains(CommercioEncryptedData.METADATA_CONTENT_URI)) {
     encryptedMetadataContentUri = HEX.encode(
       EncryptionHelper.encryptStringWithAes(doc.metadata.contentUri, aesKey),
     );
   }
 
-  var encryptedMetadataSchemaUri;
+  String encryptedMetadataSchemaUri;
   if (encryptedData.contains(CommercioEncryptedData.METADATA_SCHEMA_URI)) {
-    var schemaUri = doc.metadata.schema?.uri;
+    final schemaUri = doc.metadata.schema?.uri;
     if (schemaUri != null) {
       encryptedMetadataSchemaUri = HEX.encode(
         EncryptionHelper.encryptStringWithAes(schemaUri, aesKey),

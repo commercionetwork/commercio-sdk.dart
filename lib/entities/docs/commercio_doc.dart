@@ -183,7 +183,7 @@ class CommercioDocEncryptionData extends Equatable {
   @JsonKey(name: 'encrypted_data')
   final List<CommercioEncryptedData> encryptedData;
 
-  CommercioDocEncryptionData({
+  const CommercioDocEncryptionData({
     @required this.keys,
     @required this.encryptedData,
   })  : assert(keys != null),

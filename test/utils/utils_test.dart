@@ -7,12 +7,12 @@ void main() {
 
   group('Function "calculateDefaultFee" returns expected values;', () {
     const defaultAmount = 100;
-    const defaultDenom = "commercio";
+    const defaultDenom = 'commercio';
     const defaultGas = 200;
 
     test('if the messages number is greater than 1, the fees are multiplied.',
         () {
-      final msgsNumber = 2;
+      const msgsNumber = 2;
 
       final expectedFee = StdFee(
         amount: [

@@ -3,7 +3,7 @@ import 'package:commerciosdk/entities/docs/msg_send_document_receipt.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final correctCommercioDocReceipt = CommercioDocReceipt(
+  const correctCommercioDocReceipt = CommercioDocReceipt(
     uuid: 'deeb0998-15fb-4a2f-ba47-e402b9ef0ac5',
     senderDid: 'did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v',
     recipientDid: 'did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v',

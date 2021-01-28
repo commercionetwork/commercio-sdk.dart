@@ -28,7 +28,7 @@ class CommercioDocReceipt extends Equatable {
   @JsonKey(name: 'proof')
   final String proof;
 
-  CommercioDocReceipt({
+  const CommercioDocReceipt({
     @required this.uuid,
     @required this.senderDid,
     @required this.recipientDid,

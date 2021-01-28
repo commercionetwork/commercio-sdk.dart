@@ -4,27 +4,36 @@ import 'dart:typed_data';
 import 'package:commerciosdk/entities/crypto/identity_response.dart';
 import 'package:commerciosdk/entities/crypto/tumbler_response.dart';
 import 'package:commerciosdk/export.dart';
+import 'package:http/http.dart' as http;
 import 'package:steel_crypt/steel_crypt.dart';
 
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
 class EncryptionHelper {
-  /// Returns the RSA public key associated to the government that should be used when
   /// encrypting the data that only it should see.
-  static Future<RSAPublicKey> getGovernmentRsaPubKey(String lcdUrl) async {
-    final tumblerResponse = await Network.query('$lcdUrl/government/tumbler');
+  /// Returns the RSA public key associated to the government that should be used when
+  static Future<RSAPublicKey> getGovernmentRsaPubKey(
+    String lcdUrl, {
+    http.Client client,
+  }) async {
+    final tumblerResponse = await Network.query(
+      '$lcdUrl/government/tumbler',
+      client: client,
+    );
 
     if (tumblerResponse == null) {
-      throw FormatException('Cannot get tumbler address');
+      throw const FormatException('Cannot get tumbler address');
     }
 
     final tumbler = TumblerResponse.fromJson(jsonDecode(tumblerResponse));
     final tumblerAddress = tumbler.result.tumblerAddress;
-    final identityResponseRaw =
-        await Network.query('$lcdUrl/identities/$tumblerAddress');
+    final identityResponseRaw = await Network.query(
+      '$lcdUrl/identities/$tumblerAddress',
+      client: client,
+    );
 
     if (identityResponseRaw == null) {
-      throw FormatException('Cannot get government RSA public key');
+      throw const FormatException('Cannot get government RSA public key');
     }
 
     final identityResponse =

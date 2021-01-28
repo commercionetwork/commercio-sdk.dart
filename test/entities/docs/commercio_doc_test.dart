@@ -31,15 +31,15 @@ void main() {
     signerIstance: 'signer',
     vcrId: 'vcrId',
     certificateProfile: 'profile',
-    sdnData: [CommercioSdnData.COMMON_NAME],
+    sdnData: const [CommercioSdnData.COMMON_NAME],
   );
   final correctCommercioEncryptionData = CommercioDocEncryptionData(
     keys: [correctCommercioDocEncryptionDataKey],
-    encryptedData: [CommercioEncryptedData.CONTENT_URI],
+    encryptedData: const [CommercioEncryptedData.CONTENT_URI],
   );
   final correctCommercioDoc = CommercioDoc(
     senderDid: correctDid,
-    recipientDids: [correctDid],
+    recipientDids: const [correctDid],
     uuid: correctUuid,
     metadata: correctMetadata,
     contentUri: 'content-uri',
@@ -53,7 +53,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: null,
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -73,7 +73,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: [],
+          recipientDids: const [],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -83,7 +83,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: null,
           metadata: correctMetadata,
         ),
@@ -93,7 +93,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: null,
         ),
@@ -107,7 +107,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: '',
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -117,7 +117,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: [''],
+          recipientDids: const [''],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -129,7 +129,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: 'did:com',
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -139,7 +139,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: ['did:com'],
+          recipientDids: const ['did:com'],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -151,7 +151,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: 'did:com:abcdefg',
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -161,7 +161,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: ['did:com:abcdefg'],
+          recipientDids: const ['did:com:abcdefg'],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -173,7 +173,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: 'a1c',
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -183,7 +183,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: ['a1c'],
+          recipientDids: const ['a1c'],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -196,7 +196,7 @@ void main() {
         () => CommercioDoc(
           senderDid:
               'Y3UexQW1ZC6uXcM0ux58mnR3x4zvYaHAEA05DaC03CTcw0mmE0CaK89YD6CHmEUa05k57Dh0506CMUdNzn7QVvgYS80a5Q75lzQK',
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -206,7 +206,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: [
+          recipientDids: const [
             'Y3UexQW1ZC6uXcM0ux58mnR3x4zvYaHAEA05DaC03CTcw0mmE0CaK89YD6CHmEUa05k57Dh0506CMUdNzn7QVvgYS80a5Q75lzQK'
           ],
           uuid: correctUuid,
@@ -220,7 +220,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: 'did:com:1abcdef',
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -230,7 +230,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: ['did:com:1abcdef'],
+          recipientDids: const ['did:com:1abcdef'],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -242,7 +242,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: 'did:com:1aicdefg',
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -252,7 +252,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: ['did:com:1aicdefg'],
+          recipientDids: const ['did:com:1aicdefg'],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -264,7 +264,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: 'did:com:1aocdefg',
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -274,7 +274,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: ['did:com:1aocdefg'],
+          recipientDids: const ['did:com:1aocdefg'],
           uuid: correctUuid,
           metadata: correctMetadata,
         ),
@@ -286,7 +286,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: 'a1b2c3d4',
           metadata: correctMetadata,
         ),
@@ -298,7 +298,7 @@ void main() {
       expect(
         () => CommercioDoc(
           senderDid: correctDid,
-          recipientDids: [correctDid],
+          recipientDids: const [correctDid],
           uuid: correctUuid,
           metadata: correctMetadata,
           contentUri: invalid520CharactersString,
@@ -717,7 +717,7 @@ void main() {
 
       expect(
         () => CommercioDocEncryptionData(
-          encryptedData: [CommercioEncryptedData.CONTENT_URI],
+          encryptedData: const [CommercioEncryptedData.CONTENT_URI],
           keys: null,
         ),
         throwsA(isA<AssertionError>()),

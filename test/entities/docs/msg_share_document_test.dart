@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   final correctCommercioDoc = CommercioDoc(
     senderDid: 'did:com:1acdefg',
-    recipientDids: ['did:com:1acdefg'],
+    recipientDids: const ['did:com:1acdefg'],
     uuid: 'c510755c-c27d-4348-bf4c-f6050fc6935c',
     metadata: CommercioDocMetadata(
       contentUri: 'content-uri',
@@ -24,7 +24,7 @@ void main() {
       signerIstance: 'signer',
       vcrId: 'vcrId',
       certificateProfile: 'profile',
-      sdnData: [CommercioSdnData.COMMON_NAME],
+      sdnData: const [CommercioSdnData.COMMON_NAME],
     ),
     encryptionData: CommercioDocEncryptionData(
       keys: [
@@ -33,7 +33,7 @@ void main() {
           value: 'value',
         ),
       ],
-      encryptedData: [CommercioEncryptedData.CONTENT_URI],
+      encryptedData: const [CommercioEncryptedData.CONTENT_URI],
     ),
   );
   final correctMsgShareDoc = MsgShareDocument(document: correctCommercioDoc);
