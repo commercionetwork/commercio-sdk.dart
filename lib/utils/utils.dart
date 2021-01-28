@@ -60,7 +60,8 @@ bool matchUuidv4(String uuid) {
   return regExp.hasMatch(uuid);
 }
 
-/// Returns [true] if the provided [str] is a valid bech32 string.
+/// Returns [true] if the provided [str] is a valid bech32 string
+/// (no checksum check is done).
 /// See: https://en.bitcoin.it/wiki/Bech32
 bool matchBech32Format(String str) {
   if (str == null) {
@@ -71,31 +72,7 @@ bool matchBech32Format(String str) {
     return false;
   }
 
-  final regExp = RegExp(
-    r'^(\S{1,83})(1)([^1bio]{6,88})$',
-    caseSensitive: false,
-  );
+  final regExp = RegExp(r'^(\S{1,83})(1)([^1bio]{6,88})$');
 
-  final match = regExp.hasMatch(str);
-
-  return match;
-}
-
-/// TODO(pasqenr): Maybe we should support Bech32 checksum validation.
-/// See: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#Bech32
-// ignore: unused_element
-int _bech32Polymod(String str) {
-  const GEN = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3];
-  var chk = 1;
-
-  for (final v in str.codeUnits) {
-    final b = (chk >> 25);
-    chk = (chk & 0x1ffffff) << 5 ^ v;
-
-    for (var i = 0; i < 5; i++) {
-      chk ^= ((b >> i) & 1) == 1 ? GEN[i] : 0;
-    }
-  }
-
-  return chk;
+  return regExp.hasMatch(str);
 }
