@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:commerciosdk/export.dart';
+import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
 /// Allows to easily create a RequestDidPowerUp
@@ -8,12 +9,12 @@ import 'package:uuid/uuid.dart';
 class RequestDidPowerUpHelper {
   /// Creates a RequestDidPowerUpHelper
   /// from the given [wallet], [pairwiseDid], [amount] and [privateKey]
-  static Future<RequestDidPowerUp> fromWallet(
-    Wallet wallet,
-    String pairwiseDid,
-    List<StdCoin> amount,
-    RSAPrivateKey privateKey,
-  ) async {
+  static Future<RequestDidPowerUp> fromWallet({
+    @required Wallet wallet,
+    @required String pairwiseDid,
+    @required List<StdCoin> amount,
+    @required RSAPrivateKey privateKey,
+  }) async {
     // Get the timestamp
     final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
     final senderDid = wallet.bech32Address;

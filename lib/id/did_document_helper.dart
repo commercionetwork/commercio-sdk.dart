@@ -7,9 +7,9 @@ import 'package:sacco/sacco.dart';
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
   /// Creates a Did Document from the given [wallet], [pubKeys] and optional [service].
-  static DidDocument fromWallet(
-    Wallet wallet,
-    List<PublicKey> pubKeys, {
+  static DidDocument fromWallet({
+    @required Wallet wallet,
+    @required List<PublicKey> pubKeys,
     List<DidDocumentService> service,
   }) {
     if (pubKeys.length < 2) {

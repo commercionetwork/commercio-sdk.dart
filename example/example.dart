@@ -34,7 +34,7 @@ void main() async {
 
   try {
     final didDocument = DidDocumentHelper.fromWallet(
-        wallet, [rsaVerificationPubKey, rsaSignaturePubKey]);
+        wallet: wallet, pubKeys: [rsaVerificationPubKey, rsaSignaturePubKey]);
     print('DDO:\n${didDocument.toJson()}');
     print('');
 
