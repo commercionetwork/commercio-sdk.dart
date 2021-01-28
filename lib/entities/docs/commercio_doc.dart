@@ -202,8 +202,6 @@ class CommercioDocEncryptionData extends Equatable {
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class CommercioDocEncryptionDataKey extends Equatable {
-  // TODO(pasqenr): Not listed in required fields but not even in the ref table
-  // in the current: https://docs.commercio.network/x/docs/#sending-a-document
   @JsonKey(name: 'recipient')
   final String recipientDid;
 
