@@ -2,7 +2,8 @@ import 'package:commerciosdk/export.dart';
 import 'package:sacco/sacco.dart';
 
 class KycHelper {
-  /// Buys the membership with the given [buyMemberships] memberships list.
+  /// Buys the membership with the given [buyMemberships] memberships list
+  /// and tsp [wallet].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> buyMembershipsList(
     List<BuyMembership> buyMemberships,
@@ -21,7 +22,8 @@ class KycHelper {
     );
   }
 
-  /// Sends a new transaction in order to invite the given [inviteUsers] users list.
+  /// Invite new users with the given [inviteUsers] users list
+  /// and [wallet].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> inviteUsersList(
     List<InviteUser> inviteUsers,
@@ -40,8 +42,8 @@ class KycHelper {
     );
   }
 
-  /// Sends a new transaction in order to deposit
-  /// into reward pool a list of [rewardPoolDeposits].
+  /// Deposit a list of [rewardPoolDeposits] deposits into reward pool
+  /// with the depositor [wallet].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> rewardPoolDepositsList(
     List<RewardPoolDeposit> rewardPoolDeposits,
