@@ -9,12 +9,10 @@ class Network {
   ///
   /// This method it's intended to query the chain that exposes JSON responses
   /// with a `result` field in where we are interested.
-  static Future<Map<String, dynamic>> queryChain(
+  static Future<dynamic> queryChain(
     String url, {
     http.Client client,
   }) async {
-    client = client ?? http.Client();
-
     try {
       final responseBody = await query(url, client: client);
 
@@ -35,6 +33,8 @@ class Network {
   /// Sends a GET request to [url] with optional [client] and returns the
   /// response body or `null` if any exception happens.
   static Future<String> query(String url, {http.Client client}) async {
+    client = client ?? http.Client();
+
     try {
       final response = await client.get(url);
       if (response.statusCode != 200) {
