@@ -43,9 +43,7 @@ class IdHelper {
     BroadcastingMode mode,
   }) {
     final msgs = didDocuments
-        .map(
-          (didDocument) => MsgSetDidDocument(didDocument: didDocument),
-        )
+        .map((didDocument) => MsgSetDidDocument(didDocument: didDocument))
         .toList();
     return TxHelper.createSignAndSendTx(
       msgs,
@@ -71,10 +69,10 @@ class IdHelper {
   }) async {
     // Build the RequestDidPowerUp
     final requestDidPowerUp = await RequestDidPowerUpHelper.fromWallet(
-      senderWallet,
-      pairwiseDid,
-      amount,
-      privateKey,
+      wallet: senderWallet,
+      pairwiseDid: pairwiseDid,
+      amount: amount,
+      privateKey: privateKey,
     );
 
     // Build the message and send the tx
@@ -100,10 +98,8 @@ class IdHelper {
     BroadcastingMode mode,
   }) {
     final msgs = requestDidPowerUpsList
-        .map(
-          (requestDidPowerUp) =>
-              MsgRequestDidPowerUp(requestDidPowerUp: requestDidPowerUp),
-        )
+        .map((requestDidPowerUp) =>
+            MsgRequestDidPowerUp(requestDidPowerUp: requestDidPowerUp))
         .toList();
     return TxHelper.createSignAndSendTx(
       msgs,
