@@ -44,7 +44,7 @@ class CommercioDocReceipt extends Equatable {
 
   @override
   List<Object> get props {
-    return [senderDid, recipientDid, txHash, documentUuid, proof];
+    return [uuid, senderDid, recipientDid, txHash, documentUuid, proof];
   }
 
   factory CommercioDocReceipt.fromJson(Map<String, dynamic> json) =>
