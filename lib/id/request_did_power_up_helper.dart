@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:commerciosdk/export.dart';
+import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
@@ -14,6 +15,7 @@ class RequestDidPowerUpHelper {
     @required String pairwiseDid,
     @required List<StdCoin> amount,
     @required RSAPrivateKey privateKey,
+    http.Client client,
   }) async {
     // Get the timestamp
     final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch.toString();
@@ -53,7 +55,9 @@ class RequestDidPowerUpHelper {
 
     // Encrypt the key using the Tumbler public RSA key
     final rsaPubTkKey = await EncryptionHelper.getGovernmentRsaPubKey(
-        wallet.networkInfo.lcdUrl);
+      wallet.networkInfo.lcdUrl,
+      client: client,
+    );
     final encryptedProofKey =
         EncryptionHelper.encryptBytesWithRsa(aesKey.bytes, rsaPubTkKey);
 
