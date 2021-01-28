@@ -11,9 +11,7 @@ class KycHelper {
     BroadcastingMode mode,
   }) async {
     final msgs = buyMemberships
-        .map(
-          (buyMembership) => MsgBuyMembership(buyMembership: buyMembership),
-        )
+        .map((buyMembership) => MsgBuyMembership(buyMembership: buyMembership))
         .toList();
     return TxHelper.createSignAndSendTx(
       msgs,
@@ -32,9 +30,7 @@ class KycHelper {
     BroadcastingMode mode,
   }) async {
     final msgs = inviteUsers
-        .map(
-          (inviteUser) => MsgInviteUser(inviteUser: inviteUser),
-        )
+        .map((inviteUser) => MsgInviteUser(inviteUser: inviteUser))
         .toList();
     return TxHelper.createSignAndSendTx(
       msgs,
