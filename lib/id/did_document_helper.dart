@@ -13,7 +13,7 @@ class DidDocumentHelper {
     List<DidDocumentService> service,
   }) {
     if (pubKeys.length < 2) {
-      throw 'At least two keys are required';
+      throw ArgumentError('At least two keys are required');
     }
 
     final keys = mapIndexed(
