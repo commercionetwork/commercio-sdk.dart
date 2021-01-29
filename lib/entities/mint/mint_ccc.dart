@@ -14,14 +14,19 @@ class MintCcc extends Equatable {
   @JsonKey(name: 'depositor')
   final String signerDid;
 
+  @JsonKey(name: 'id')
+  final String id;
+
   MintCcc({
     @required this.depositAmount,
     @required this.signerDid,
+    @required this.id,
   })  : assert(depositAmount != null),
-        assert(signerDid != null);
+        assert(signerDid != null),
+        assert(id != null);
 
   @override
-  List<Object> get props => [depositAmount, signerDid];
+  List<Object> get props => [depositAmount, signerDid, id];
 
   factory MintCcc.fromJson(Map<String, dynamic> json) =>
       _$MintCccFromJson(json);
