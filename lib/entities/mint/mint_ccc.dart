@@ -23,7 +23,7 @@ class MintCcc extends Equatable {
     @required this.id,
   })  : assert(depositAmount != null),
         assert(signerDid != null),
-        assert(id != null);
+        assert(id != null && matchUuidv4(id));
 
   @override
   List<Object> get props => [depositAmount, signerDid, id];
