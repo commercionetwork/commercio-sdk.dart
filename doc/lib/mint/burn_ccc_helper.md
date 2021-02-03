@@ -10,9 +10,9 @@
 
     ```dart
     static BurnCcc fromWallet({
-      Wallet wallet,
-      StdCoin amount,
-      String id,
+      @required Wallet wallet,
+      @required StdCoin amount,
+      @required String id,
     })
     ```
 
