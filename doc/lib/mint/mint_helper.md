@@ -4,67 +4,67 @@ Mint helper allows to easily perform all the operations related to the commercio
 
 ## Provided operations
 
-1. Opens a new CDP depositing the given `commercioTokenAmount`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+1. `mintCccsList`, mints the CCCs having the given `mintCccs` list as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
-    static Future<TransactionResult> openCdp(
-      int amount,
+    static Future<TransactionResult> mintCccsList(
+      List<MintCcc> mintCccs,
       Wallet wallet, {
       StdFee fee,
       BroadcastingMode mode,
     })
     ```
 
-2. Performs a transaction opening a new CDP `openCdp` as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+2. `burnCccsList`, burns the CCCs having the given `burnCccs` list as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
-    static Future<TransactionResult> openCdpSingle(
-      OpenCdp openCdp,
+    static Future<TransactionResult> burnCccsList(
+      List<BurnCcc> burnCccs,
       Wallet wallet, {
       StdFee fee,
       BroadcastingMode mode,
     })
     ```
 
-3. Closes the CDP having the given `timestamp`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+3. `getExchangeTradePositions`, returns the list of all the `ExchangeTradePosition` that the specified wallet has minted
 
     ```dart
-    static Future<TransactionResult> closeCdp(
-      int timestamp,
-      Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
-    })
-    ```
-
-4. Closes the open CDPs having the given `closeCdps` list as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
-
-    ```dart
-    static Future<TransactionResult> closeCdpsList(
-        List<CloseCdp> closeCdps,
-        Wallet wallet, {
-        StdFee fee,
-        BroadcastingMode mode,
-      })
+    static Future<List<ExchangeTradePosition>> getExchangeTradePositions(
+      Wallet wallet,
+    )
     ```
 
 ## Usage examples
 
 ```dart
-final info = NetworkInfo(
-  bech32Hrp: 'did:com:',
-  lcdUrl: 'http://localhost:1317',
-);
-
-final mnemonic = ['will', 'hard', ..., 'man'];
 final wallet = Wallet.derive(mnemonic, info);
 
 try {
-  // --- Open CDP
-  final openResponse = await MintHelper.openCdp(100000, wallet);
+   final wallet = Wallet.derive(mnemonic, networkInfo);
 
-  // --- Close CDP
-  final closeResponse = await MintHelper.closeCdp(777, wallet);
+  // --- MintCCC
+  final mintCcc = MintCccHelper.fromWallet(
+    wallet: wallet,
+    amount: [StdCoin(denom: 'uccc', amount: '10')],
+    id: Uuid().v4(),
+  );
+  final response = await MintHelper.mintCccsList([mintCcc], wallet);
+
+  // --- BurnCCC
+  final etps = await MintHelper.getExchangeTradePositions(wallet);
+  List<BurnCcc> burnCccs = new List();
+  etps.forEach((etp) {
+    final burnCcc = BurnCccHelper.fromWallet(
+      wallet: wallet,
+      amount: StdCoin(
+        denom: etp.credits.denom,
+        amount: etp.credits.amount,
+      ),
+      id: etp.id,
+    );
+    burnCccs.add(burnCcc);
+  });
+  final response = await MintHelper.burnCccsList(burnCccs, wallet);
 } catch (error) {
   throw error;
 }
