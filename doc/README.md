@@ -52,8 +52,8 @@ Here's the list:
 - **Mint helpers**
 
   - [`MintHelper`](lib/mint/mint_helper.md)
-  - [`OpenCdpHelper`](lib/mint/open_cdp_helper.md)
-  - [`CloseCdpHelper`](lib/mint/close_cdp_helper.md)
+  - [`MintCCCHelper`](lib/mint/mint_ccc_helper.md)
+  - [`BurnCCCHelper`](lib/mint/burn_ccc_helper.md)
 
 - **Tx helpers**
   
