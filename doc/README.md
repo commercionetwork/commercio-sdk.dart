@@ -43,17 +43,18 @@ Here's the list:
   - [`CommercioDocHelper`](lib/docs/commercio_doc_helper.md)
   - [`CommercioDocReceiptHelper`](lib/docs/commercio_doc_receipt_helper.md)
 
-- **Membership helpers**
-
-  - [`MembershipHelper`](lib/membership/membership_helper.md)
-  - [`BuyMembershipHelper`](lib/membership/buy_membership_helper.md)
-  - [`InviteUserHelper`](lib/membership/invite_user_helper.md)
-
 - **Mint helpers**
 
   - [`MintHelper`](lib/mint/mint_helper.md)
   - [`MintCccHelper`](lib/mint/mint_ccc_helper.md)
   - [`BurnCccHelper`](lib/mint/burn_ccc_helper.md)
+
+- **Kyc helpers**
+
+  - [`KycHelper`](lib/kyc/kyc_helper.md)
+  - [`BuyMembershipHelper`](lib/kyc/buy_membership_helper.md)
+  - [`InviteUserHelper`](lib/kyc/invite_user_helper.md)
+  - [`RewardPoolDepositHelper`](lib/kyc/reward_pool_deposit_helper.md)
 
 - **Tx helpers**
   

@@ -1,7 +1,7 @@
 import 'package:commerciosdk/export.dart';
 import 'package:sacco/sacco.dart';
 
-/// Allows to easily perform CommercioMINT related transactions.
+/// Allows to easily perform the Commercio Mint module related transactions.
 class MintHelper {
   /// Mints the CCCs having the given [mintCccs] list as being
   /// associated with the address present inside the specified [wallet].

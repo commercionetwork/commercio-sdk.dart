@@ -1,6 +1,6 @@
 # MintHelper
 
-MintHelper allows to easily perform all the operations related to the commercio.network `mint` module.
+`MintHelper` allows to easily perform all the operations related to the commercio.network `mint` module.
 
 ## Provided operations
 
