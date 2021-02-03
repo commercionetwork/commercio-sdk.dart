@@ -46,7 +46,8 @@ class MintHelper {
   /// Returns the list of all the [ExchangeTradePosition]
   /// that the specified wallet has minted
   static Future<List<ExchangeTradePosition>> getExchangeTradePositions(
-      Wallet wallet) async {
+    Wallet wallet,
+  ) async {
     final url =
         '${wallet.networkInfo.lcdUrl}/commerciomint/etps/${wallet.bech32Address}';
     final response = await Network.queryChain(url) as List;
