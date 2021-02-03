@@ -61,8 +61,8 @@ module.exports = {
                 collapsable: true,
                 children: [
                     ["lib/mint/mint_helper", "MintHelper"],
-                    ["lib/mint/mint_ccc_helper", "MintCCCHelper"],
-                    ["lib/mint/burn_ccc_helper", "BurnCCCHelper"]
+                    ["lib/mint/mint_ccc_helper", "MintCccHelper"],
+                    ["lib/mint/burn_ccc_helper", "BurnCccHelper"]
                 ]
             },
             {

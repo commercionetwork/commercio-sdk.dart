@@ -1,6 +1,6 @@
-# Mint helper
+# MintHelper
 
-Mint helper allows to easily perform all the operations related to the commercio.network `mint` module.
+MintHelper allows to easily perform all the operations related to the commercio.network `mint` module.
 
 ## Provided operations
 
@@ -37,20 +37,18 @@ Mint helper allows to easily perform all the operations related to the commercio
 ## Usage examples
 
 ```dart
-final wallet = Wallet.derive(mnemonic, info);
+final wallet = Wallet.derive(mnemonic, networkInfo);
 
 try {
-   final wallet = Wallet.derive(mnemonic, networkInfo);
-
-  // --- MintCCC
+  // --- Mint CCC
   final mintCcc = MintCccHelper.fromWallet(
     wallet: wallet,
     amount: [StdCoin(denom: 'uccc', amount: '10')],
     id: Uuid().v4(),
   );
-  final response = await MintHelper.mintCccsList([mintCcc], wallet);
+  await MintHelper.mintCccsList([mintCcc], wallet);
 
-  // --- BurnCCC
+  // --- Burn CCC
   final etps = await MintHelper.getExchangeTradePositions(wallet);
   List<BurnCcc> burnCccs = new List();
   etps.forEach((etp) {
@@ -64,7 +62,7 @@ try {
     );
     burnCccs.add(burnCcc);
   });
-  final response = await MintHelper.burnCccsList(burnCccs, wallet);
+  await MintHelper.burnCccsList(burnCccs, wallet);
 } catch (error) {
   throw error;
 }

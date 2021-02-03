@@ -1,10 +1,10 @@
-# BurnCCC Helper
+# BurnCccHelper
 
-BurnCCC Helper allows to easily create a new BurnCCC object.
+`BurnCccHelper` allows to easily create a new `BurnCcc` object.
 
 ## Provided Operations
 
-1. `fromWallet`, creates a BurnCCC from the given `wallet`, the `amount` to be burned and a MintCCC `id`.
+1. `fromWallet`, creates a `BurnCcc` from the given `wallet`, the `amount` to be burned and a MintCcc `id`.
 
    N.B.: `amount` is an object.
 

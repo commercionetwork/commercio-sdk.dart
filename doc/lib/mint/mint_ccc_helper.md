@@ -1,12 +1,12 @@
-# MintCCC Helper
+# MintCccHelper
 
-MintCCC Helper allows to easily create a new MintCCC object.
+`MintCccHelper` allows to easily create a new `MintCcc` object.
 
 ## Provided Operations
 
-1. `fromWallet`, creates a MintCCC from the given `wallet`, a deposit `amount` and the `id`.
+1. `fromWallet`, creates a `MintCcc` from the given `wallet`, a deposit `amount` and the `id`.
 
-   N.B.: `amount` ia a list, the `id` is a Version 4 UUID identifier.
+   N.B.: `amount` is a list, the `id` is a Version 4 UUID identifier.
 
     ```dart
     static MintCcc fromWallet({
@@ -14,7 +14,7 @@ MintCCC Helper allows to easily create a new MintCCC object.
       List<StdCoin> amount,
       String id,
     })
-  ```
+    ```
 
 ## Usage examples
 
