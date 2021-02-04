@@ -36,11 +36,11 @@ Here's the helpers' list:
   - [`DocsHelper`](lib/docs/docs_helper.md)
   - [`CommercioDocHelper`](lib/docs/commercio_doc_helper.md)
   - [`CommercioDocReceiptHelper`](lib/docs/commercio_doc_receipt_helper.md)
-- **Mint:**
+- **CommercioMint:**
   - [`MintHelper`](lib/mint/mint_helper.md)
   - [`MintCccHelper`](lib/mint/mint_ccc_helper.md)
   - [`BurnCccHelper`](lib/mint/burn_ccc_helper.md)
-- **Kyc:**
+- **CommercioKyc:**
   - [`KycHelper`](lib/kyc/kyc_helper.md)
   - [`BuyMembershipHelper`](lib/kyc/buy_membership_helper.md)
   - [`InviteUserHelper`](lib/kyc/invite_user_helper.md)
@@ -54,9 +54,10 @@ Beside the above helpers, there is a few more that allows you to perform specifi
 
 Here's the helpers' list:
 
-- [`EncryptionHelper`](lib/crypto/encryption_helper.md)  
-- [`KeysHelper`](lib/crypto/keys_helper.md)
-- [`SignHelper`](lib/crypto/sign_helper.md)
+- **Crypto**
+  - [`EncryptionHelper`](lib/crypto/encryption_helper.md)  
+  - [`KeysHelper`](lib/crypto/keys_helper.md)
+  - [`SignHelper`](lib/crypto/sign_helper.md)
 
 ## How to test using a local network
 
