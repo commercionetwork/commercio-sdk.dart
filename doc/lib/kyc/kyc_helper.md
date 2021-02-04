@@ -51,7 +51,21 @@ try {
     recipientDid: wallet.bech32Address,
   );
   await KycHelper.inviteUsersList([invite], wallet);
-
+  // Recharge the user
+  final amount = [
+    const StdCoin(denom: 'uccc', amount: '100'),
+  ];
+  final msgs = [
+    MsgSend(
+      amount: amount,
+      fromAddress: government.bech32Address,
+      toAddress: wallet.bech32Address,
+    ),
+  ];
+  await TxHelper.createSignAndSendTx(
+    msgs,
+    government,
+  );
   // Buy a membership
   final membership = BuyMembershipHelper.fromWallet(
     wallet: wallet,
@@ -59,11 +73,10 @@ try {
     tsp: government.bech32Address,
   );
   await KycHelper.buyMembershipsList([membership], government);
-
   // Deposit into the reward pool
   final depositAmount = [
     StdCoin(
-      denom: 'ucommercio',
+      denom: 'uccc',
       amount: '10',
     )
   ];
