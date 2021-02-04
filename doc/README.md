@@ -1,10 +1,9 @@
 # Commercio.network SDK (Dart) Documentation
 
-Inside the following page you will learn how to perform all the Commercio.network
-transactions  by using the Commercio.network SDK.
+Inside the following page you will learn how to perform all the Commercio.network transactions by using the `commercio-sdk.dart`.
 
 :::tip Disclaimer
-This documentation is valid for the `v2.1.2` sdk version
+This documentation is valid for the `v2.2.0` sdk version
 :::
 
 ## Installation
@@ -72,3 +71,7 @@ Here's the list:
 
 - [`EncryptionHelper`](lib/crypto/encryption_helper.md)  
 - [`KeysHelper`](lib/crypto/keys_helper.md)
+
+## How to test using a local network
+
+SDK' tests can be executed by running a localnet full stack, follow [this guide](https://github.com/commercionetwork/commercionetwork/tree/master/contrib/localnet) to find how.
