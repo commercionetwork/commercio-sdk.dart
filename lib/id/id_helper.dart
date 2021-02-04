@@ -5,7 +5,10 @@ import 'package:sacco/sacco.dart';
 class IdHelper {
   /// Returns the Did Document associated with the given [did],
   /// or `null` if no Did Document was found.
-  static Future<DidDocument> getDidDocument(String did, Wallet wallet) async {
+  static Future<DidDocument> getDidDocument(
+    String did,
+    Wallet wallet,
+  ) async {
     final url = '${wallet.networkInfo.lcdUrl}/identities/${did}';
     final response = await Network.queryChain(url);
     if (response == null) {
@@ -53,11 +56,11 @@ class IdHelper {
     );
   }
 
-  /// Creates a new Did power up request from [senderWallet] address for the
-  /// given [pairwiseDid] and of the given [amount].
-  /// Signs everything that needs to be signed (i.e. the signature JSON inside
-  /// the payload) with the private key contained inside the given
-  /// [senderWallet] and the [privateKey].
+  /// Creates a new transaction to request a Did PowerUp
+  /// of the given [amount] from the [senderWallet] wallet
+  /// for the given [pairwiseDid] address.
+  /// Signs everything that needs to be signed with the private key
+  /// contained inside the given wallet and the [privateKey].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> requestDidPowerUp(
     Wallet senderWallet,
