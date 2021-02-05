@@ -92,6 +92,11 @@ module.exports = {
         ],
       },
       {
+        title: 'Localnet',
+        collapsable: true,
+        children: [['localnet/testing', 'Testing locally']],
+      },
+      {
         title: 'Glossary',
         collapsable: true,
         children: [['lib/glossary', 'Glossary']],
