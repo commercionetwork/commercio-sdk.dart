@@ -76,10 +76,10 @@ void main() async {
   final doSign = CommercioDoSign(
     storageUri: 'http://www.commercio.network',
     signerIstance: 'did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj',
-    sdnData: const [
+    sdnData: const {
       CommercioSdnData.COMMON_NAME,
       CommercioSdnData.SURNAME,
-    ],
+    },
     vcrId: 'xxxxx',
     certificateProfile: 'xxxxx',
   );
@@ -99,7 +99,7 @@ void main() async {
       contentUri: 'https://example.com/document',
       checksum: checksum,
       doSign: doSign,
-      encryptedData: [CommercioEncryptedData.CONTENT_URI],
+      encryptedData: {CommercioEncryptedData.CONTENT_URI},
     );
     final response = await DocsHelper.shareDocumentsList(
       [commercioDoc],
