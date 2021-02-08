@@ -176,7 +176,7 @@ CommercioDocEncryptionData _$CommercioDocEncryptionDataFromJson(
         ?.toList(),
     encryptedData: (json['encrypted_data'] as List)
         ?.map((e) => _$enumDecodeNullable(_$CommercioEncryptedDataEnumMap, e))
-        ?.toList(),
+        ?.toSet(),
   );
 }
 
@@ -237,7 +237,7 @@ CommercioDoSign _$CommercioDoSignFromJson(Map<String, dynamic> json) {
     certificateProfile: json['certificate_profile'] as String,
     sdnData: (json['sdn_data'] as List)
         ?.map((e) => _$enumDecodeNullable(_$CommercioSdnDataEnumMap, e))
-        ?.toList(),
+        ?.toSet(),
   );
 }
 

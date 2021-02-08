@@ -34,7 +34,7 @@ _Pair _didDocumentToPair(DidDocument didDocument) {
 Future<CommercioDoc> encryptField(
   CommercioDoc doc,
   Key aesKey,
-  List<CommercioEncryptedData> encryptedData,
+  Set<CommercioEncryptedData> encryptedData,
   List<String> recipients,
   Wallet wallet,
 ) async {

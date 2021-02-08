@@ -15,7 +15,7 @@ class CommercioDocHelper {
     String contentUri,
     CommercioDocChecksum checksum,
     CommercioDoSign doSign,
-    List<CommercioEncryptedData> encryptedData,
+    Set<CommercioEncryptedData> encryptedData,
     Key aesKey,
   }) async {
     // Build a commercio document

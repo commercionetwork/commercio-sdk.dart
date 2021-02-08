@@ -181,7 +181,7 @@ class CommercioDocEncryptionData extends Equatable {
   final List<CommercioDocEncryptionDataKey> keys;
 
   @JsonKey(name: 'encrypted_data')
-  final List<CommercioEncryptedData> encryptedData;
+  final Set<CommercioEncryptedData> encryptedData;
 
   const CommercioDocEncryptionData({
     @required this.keys,
@@ -234,7 +234,7 @@ class CommercioDoSign extends Equatable {
   final String signerIstance;
 
   @JsonKey(name: 'sdn_data')
-  final List<CommercioSdnData> sdnData;
+  final Set<CommercioSdnData> sdnData;
 
   @JsonKey(name: 'vcr_id')
   final String vcrId;

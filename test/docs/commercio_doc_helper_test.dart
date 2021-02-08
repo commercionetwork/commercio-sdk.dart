@@ -44,7 +44,7 @@ void main() {
         id: uuid,
         metadata: metadata,
         contentUri: 'contentUri',
-        encryptedData: [CommercioEncryptedData.CONTENT_URI],
+        encryptedData: {CommercioEncryptedData.CONTENT_URI},
       );
 
       expect(
@@ -63,7 +63,7 @@ void main() {
           recipients: recipientDids,
           id: uuid,
           metadata: metadata,
-          encryptedData: [CommercioEncryptedData.CONTENT_URI],
+          encryptedData: {CommercioEncryptedData.CONTENT_URI},
         ),
         throwsArgumentError,
       );
@@ -82,7 +82,7 @@ void main() {
             schema: null,
             schemaType: 'schemaType',
           ),
-          encryptedData: [CommercioEncryptedData.METADATA_SCHEMA_URI],
+          encryptedData: {CommercioEncryptedData.METADATA_SCHEMA_URI},
         ),
         throwsArgumentError,
       );

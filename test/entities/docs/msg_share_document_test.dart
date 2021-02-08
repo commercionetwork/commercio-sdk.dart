@@ -24,7 +24,7 @@ void main() {
       signerIstance: 'signer',
       vcrId: 'vcrId',
       certificateProfile: 'profile',
-      sdnData: const [CommercioSdnData.COMMON_NAME],
+      sdnData: const {CommercioSdnData.COMMON_NAME},
     ),
     encryptionData: CommercioDocEncryptionData(
       keys: [
@@ -33,7 +33,7 @@ void main() {
           value: 'value',
         ),
       ],
-      encryptedData: const [CommercioEncryptedData.CONTENT_URI],
+      encryptedData: const {CommercioEncryptedData.CONTENT_URI},
     ),
   );
   final correctMsgShareDoc = MsgShareDocument(document: correctCommercioDoc);

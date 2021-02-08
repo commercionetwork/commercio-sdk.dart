@@ -31,11 +31,11 @@ void main() {
     signerIstance: 'signer',
     vcrId: 'vcrId',
     certificateProfile: 'profile',
-    sdnData: const [CommercioSdnData.COMMON_NAME],
+    sdnData: const {CommercioSdnData.COMMON_NAME},
   );
   final correctCommercioEncryptionData = CommercioDocEncryptionData(
     keys: [correctCommercioDocEncryptionDataKey],
-    encryptedData: const [CommercioEncryptedData.CONTENT_URI],
+    encryptedData: const {CommercioEncryptedData.CONTENT_URI},
   );
   final correctCommercioDoc = CommercioDoc(
     senderDid: correctDid,
@@ -717,7 +717,7 @@ void main() {
 
       expect(
         () => CommercioDocEncryptionData(
-          encryptedData: const [CommercioEncryptedData.CONTENT_URI],
+          encryptedData: const {CommercioEncryptedData.CONTENT_URI},
           keys: null,
         ),
         throwsA(isA<AssertionError>()),
