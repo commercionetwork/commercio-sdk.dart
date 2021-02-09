@@ -25,7 +25,6 @@ class Network {
 
       return json['result'];
     } catch (exception) {
-      print(exception.toString());
       return null;
     }
   }
@@ -45,7 +44,6 @@ class Network {
 
       return response.body;
     } catch (exception) {
-      print(exception.toString());
       return null;
     }
   }

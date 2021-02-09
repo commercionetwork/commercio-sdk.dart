@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart';
@@ -10,11 +9,18 @@ import 'package:test/test.dart';
 part 'network_test.g.dart';
 
 void main() {
+  final testData = [
+    TestData(
+      'did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v',
+      '6a881ef0-04da-4524-b7ca-6e5e3b7e61dc',
+    ),
+  ];
+  final testResponse = TestResponse(testData);
+
   test('query returns correct data', () async {
     // Build the mock client
-    final clientMock = MockClient((request) async {
-      final responseFile = File('test_resources/sent_documents_response.json');
-      final responseBody = await responseFile.readAsString();
+    final clientMock = MockClient((_) async {
+      final responseBody = jsonEncode(testResponse);
       return Response(responseBody, 200);
     });
 
@@ -23,17 +29,17 @@ void main() {
       client: clientMock,
     ) as List<dynamic>;
     final testDataList = result.map((json) => TestData.fromJson(json)).toList();
-    expect(testDataList.length, 4);
-    expect('did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v',
-        testDataList[0].sender);
-    expect('6a881ef0-04da-4524-b7ca-6e5e3b7e61dc', testDataList[1].uuid);
+    expect(testDataList.length, 1);
+    expect(
+      'did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v',
+      testDataList[0].sender,
+    );
+    expect('6a881ef0-04da-4524-b7ca-6e5e3b7e61dc', testDataList[0].uuid);
   });
 
   test('query with response status != 200 should return null', () async {
     // Build the mock client
-    final clientMock = MockClient((request) async {
-      return Response('', 400);
-    });
+    final clientMock = MockClient((_) async => Response('', 400));
 
     final result = await Network.query(
       'http://example.com',
@@ -47,9 +53,7 @@ void main() {
       'queryChain should return null if the returned JSON does not have the key "result"',
       () async {
     // Build the mock client
-    final clientMock = MockClient((request) async {
-      return Response(jsonEncode({}), 200);
-    });
+    final clientMock = MockClient((_) async => Response(jsonEncode({}), 200));
 
     final result = await Network.queryChain(
       'http://example.com',
@@ -76,6 +80,18 @@ void main() {
 
     expect(response, isNull);
   });
+}
+
+@JsonSerializable(explicitToJson: true)
+class TestResponse {
+  final List<TestData> result;
+
+  TestResponse(this.result);
+
+  factory TestResponse.fromJson(Map<String, dynamic> json) =>
+      _$TestResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TestResponseToJson(this);
 }
 
 @JsonSerializable()
