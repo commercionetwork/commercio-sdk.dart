@@ -2,7 +2,7 @@ import 'package:commerciosdk/entities/docs/commercio_doc_receipt.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const correctCommercioDocReceipt = CommercioDocReceipt(
+  final correctCommercioDocReceipt = CommercioDocReceipt(
     uuid: 'deeb0998-15fb-4a2f-ba47-e402b9ef0ac5',
     senderDid: 'did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v',
     recipientDid: 'did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v',
@@ -66,18 +66,6 @@ void main() {
       ),
       throwsA(isA<AssertionError>()),
     );
-
-    expect(
-      () => CommercioDocReceipt(
-        uuid: correctCommercioDocReceipt.uuid,
-        senderDid: correctCommercioDocReceipt.senderDid,
-        recipientDid: correctCommercioDocReceipt.recipientDid,
-        txHash: correctCommercioDocReceipt.txHash,
-        documentUuid: correctCommercioDocReceipt.documentUuid,
-        proof: null,
-      ),
-      throwsA(isA<AssertionError>()),
-    );
   });
 
   test('Props should contains all the object fields', () {
@@ -120,8 +108,25 @@ void main() {
       );
     });
 
-    test('toJson() should behave correctly', () {
-      expect(correctCommercioDocReceipt.toJson(), json);
+    group('toJson() should behave correctly', () {
+      test('All fields should be correctly represented', () {
+        expect(correctCommercioDocReceipt.toJson(), json);
+      });
+
+      test('Null fields should not be present in json', () {
+        final docRecepit = CommercioDocReceipt(
+          uuid: 'deeb0998-15fb-4a2f-ba47-e402b9ef0ac5',
+          senderDid: 'did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v',
+          recipientDid: 'did:com:1zfhgwfgex8rc9t00pk6jm6xj6vx5cjr4ngy32v',
+          txHash:
+              '922CCEE18C8EE1652756F48494B900E3835CDC370113B46D47267FA4C7A0151B',
+          documentUuid: '1196e661-bbc2-43da-8184-2ebdcf02053f',
+        );
+
+        final docReceiptJson = docRecepit.toJson();
+
+        expect(docReceiptJson.containsKey('json'), isFalse);
+      });
     });
   });
 }

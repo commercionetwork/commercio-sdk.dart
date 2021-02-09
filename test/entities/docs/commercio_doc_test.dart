@@ -101,6 +101,22 @@ void main() {
       );
     });
 
+    test('Invalid enum should return an error', () {
+      expect(
+        () => CommercioDoc(
+          senderDid: correctDid,
+          recipientDids: const [correctDid],
+          uuid: correctUuid,
+          metadata: correctMetadata,
+          checksum: CommercioDocChecksum(
+            value: 'value',
+            algorithm: null,
+          ),
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
     test('Bech32 addresses should have a valid format', () {
       // Empty did string
 

@@ -102,7 +102,7 @@ class DocsHelper {
     @required String txHash,
     @required String documentId,
     @required Wallet wallet,
-    String proof = '',
+    String proof,
     StdFee fee,
     BroadcastingMode mode,
   }) {

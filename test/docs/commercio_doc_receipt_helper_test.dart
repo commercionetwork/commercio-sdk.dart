@@ -10,13 +10,13 @@ void main() {
     final mnemonic = mnemonicString.split(' ');
     final wallet = Wallet.derive(mnemonic, networkInfo);
 
+    final uuid = Uuid().v4();
+    const recipientDid = 'did:com:14ttg3eyu88jda8udvxpwjl2pwxemh72w0grsau';
+    const txHash = 'txHash';
+    final documentId = Uuid().v4();
+
     test('"fromWallet()" returns a well-formed "CommercioDocReceipt" object.',
         () {
-      final uuid = Uuid().v4();
-      const recipientDid = 'did:com:id';
-      const txHash = 'txHash';
-      const documentId = 'documentId';
-
       final expectedDocReceipt = CommercioDocReceipt(
         uuid: uuid,
         senderDid: wallet.bech32Address,
@@ -37,6 +37,33 @@ void main() {
       expect(commercioDocReceipt.recipientDid, expectedDocReceipt.recipientDid);
       expect(commercioDocReceipt.txHash, expectedDocReceipt.txHash);
       expect(commercioDocReceipt.documentUuid, expectedDocReceipt.documentUuid);
+      expect(commercioDocReceipt.proof, isNull);
+    });
+
+    test('Invalid sender bech32 format should throw an assertion error', () {
+      expect(
+        () => CommercioDocReceiptHelper.fromWallet(
+          wallet: wallet,
+          recipient: 'invalid bech32',
+          txHash: txHash,
+          documentId: documentId,
+        ),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
+    test(
+        'Invalid document uuid (not v4) format should throw an assertion error',
+        () {
+      expect(
+        () => CommercioDocReceiptHelper.fromWallet(
+          wallet: wallet,
+          recipient: recipientDid,
+          txHash: txHash,
+          documentId: 'doc invalid uuid',
+        ),
+        throwsA(isA<AssertionError>()),
+      );
     });
   });
 }

@@ -13,7 +13,7 @@ class CommercioDocReceiptHelper {
     @required String recipient,
     @required String txHash,
     @required String documentId,
-    String proof = '',
+    String proof,
   }) {
     return CommercioDocReceipt(
       uuid: Uuid().v4(),
