@@ -1,7 +1,7 @@
 import 'package:commerciosdk/export.dart';
 import 'package:sacco/sacco.dart';
 
-/// Allows to easily perform CommercioMINT related transactions.
+/// Allows to easily perform the Commercio Mint module related transactions.
 class MintHelper {
   /// Mints the CCCs having the given [mintCccs] list as being
   /// associated with the address present inside the specified [wallet].
@@ -46,7 +46,8 @@ class MintHelper {
   /// Returns the list of all the [ExchangeTradePosition]
   /// that the specified wallet has minted
   static Future<List<ExchangeTradePosition>> getExchangeTradePositions(
-      Wallet wallet) async {
+    Wallet wallet,
+  ) async {
     final url =
         '${wallet.networkInfo.lcdUrl}/commerciomint/etps/${wallet.bech32Address}';
     final response = await Network.queryChain(url) as List;

@@ -3,7 +3,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:uuid/uuid.dart';
 import 'package:commerciosdk/export.dart';
 
-void main() async {
+Future<void> main() async {
   // --------------------------------------------
   // --- Setup network info
   // --------------------------------------------
@@ -34,11 +34,16 @@ void main() async {
 
   try {
     final didDocument = DidDocumentHelper.fromWallet(
-        wallet: wallet, pubKeys: [rsaVerificationPubKey, rsaSignaturePubKey]);
+      wallet: wallet,
+      pubKeys: [rsaVerificationPubKey, rsaSignaturePubKey],
+    );
     print('DDO:\n${didDocument.toJson()}');
     print('');
 
-    final response = await IdHelper.setDidDocumentsList([didDocument], wallet);
+    final response = await IdHelper.setDidDocumentsList(
+      [didDocument],
+      wallet,
+    );
 
     if (response.success) {
       print('TX successfully sent:\n$lcdUrl/txs/${response.hash}');

@@ -15,11 +15,13 @@ void main() {
       final expectedMintCcc = MintCcc(
         depositAmount: depositAmount,
         signerDid: wallet.bech32Address,
+        id: 'f18e7aac-6659-43bd-be26-9842b80d3c29',
       );
 
       final mintCcc = MintCccHelper.fromWallet(
         wallet: wallet,
         amount: depositAmount,
+        id: 'f18e7aac-6659-43bd-be26-9842b80d3c29',
       );
 
       expect(

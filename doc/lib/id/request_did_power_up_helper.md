@@ -1,41 +1,35 @@
-# Request Did PowerUp Helper
+# RequestDidPowerUpHelper
 
-Request Did PowerUp Helper allows to easily create a Did PowerUp request.
+`RequestDidPowerUpHelper` allows to easily create a `RequestDidPowerUp` object.
 
 ## Provided Operations
 
-1. Creates a RequestDidPowerUpHelper from the given `wallet`, `pairwiseDid`, `amount` and `privateKey`.
+1. `fromWallet`, creates a `RequestDidPowerUp` from the given `wallet`, `pairwiseDid`, `amount` and `privateKey`.
 
     ```dart
-    static Future<RequestDidPowerUp> fromWallet(
-      Wallet wallet,
-      String pairwiseDid,
-      List<StdCoin> amount,
-      RSAPrivateKey privateKey,
-    ) async
+    static Future<RequestDidPowerUp> fromWallet({
+      @required Wallet wallet,
+      @required String pairwiseDid,
+      @required List<StdCoin> amount,
+      @required RSAPrivateKey privateKey,
+    })
     ```
 
 ## Usage examples
 
 ```dart
-final networkInfo = NetworkInfo(
-  bech32Hrp: 'did:com:',
-  lcdUrl: 'http://localhost:1317',
-);
-
-final mnemonic = ['will', 'hard', ..., 'man'];
 final wallet = Wallet.derive(mnemonic, networkInfo);
-final walletPariwaised = Wallet.derive(
-  mnemonic, networkInfo, lastDerivationPathSegment: '1',
+final pairwaiseWallet = Wallet.derive(
+  mnemonic,
+  networkInfo,
+  lastDerivationPathSegment: '1',
 );
-
 final amount = [
   StdCoin(
-    denom: 'ucommercio',
-    amount: '100',
+    denom: 'uccc',
+    amount: '10',
   )
 ];
-
 final rsaKey = RSAKeyParser.parseKeyFromPem(
   """
   -----BEGIN PRIVATE KEY-----
@@ -46,12 +40,12 @@ final rsaKey = RSAKeyParser.parseKeyFromPem(
 final rsaPrivateKey = RSAPrivateKey(rsaKey);
 
 try {
-  // --- Create Did PowerUp request
+  // Create Did PowerUp request
   final requestDidPowerUp = await RequestDidPowerUpHelper.fromWallet(
-    wallet,
-    walletPariwaised.bech32Address,
-    amount,
-    rsaPrivateKey,
+    wallet: wallet,
+    pairwiseDid: pairwaiseWallet.bech32Address,
+    amount: amount,
+    privateKey: rsaPrivateKey,
   );
 } catch (error) {
   throw error;

@@ -9,13 +9,21 @@ void main() {
     final mnemonic = mnemonicString.split(' ');
     final wallet = Wallet.derive(mnemonic, networkInfo);
 
-    test('"fromWallet()" returns a well-formed "BuyMembership" object.', () {
+    test('if "fromWallet()" returns a well-formed "BuyMembership" object.', () {
       final membershipType = MembershipType.BLACK.value;
-      final expectedBuyMembership = BuyMembership(
-          membershipType: membershipType, buyerDid: wallet.bech32Address);
+      final tsp = "did:com:id";
 
-      final buyMembership =
-          BuyMembershipHelper.fromWallet(wallet, MembershipType.BLACK);
+      final expectedBuyMembership = BuyMembership(
+        membershipType: membershipType,
+        buyerDid: wallet.bech32Address,
+        tsp: tsp,
+      );
+
+      final buyMembership = BuyMembershipHelper.fromWallet(
+        wallet: wallet,
+        membershipType: MembershipType.BLACK,
+        tsp: tsp,
+      );
 
       expect(buyMembership.toJson(), expectedBuyMembership.toJson());
     });

@@ -1,6 +1,5 @@
-import 'package:commerciosdk/entities/membership/invite_user.dart';
+import 'package:commerciosdk/export.dart';
 import 'package:meta/meta.dart';
-import 'package:sacco/sacco.dart';
 
 /// Represents the transaction message that must be used when wanting to
 /// invite a new user to join the system and being recognized as his invitee.
