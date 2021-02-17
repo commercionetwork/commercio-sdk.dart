@@ -20,7 +20,7 @@ dependencies:
   # Crypto utils
   sacco: ^0.1.5
   encrypt: ^4.0.3
-  ed25519_hd_key: ^1.0.1
+  ed25519_hd_key: 1.0.1
   pointycastle: ^1.0.2
   steel_crypt: ^1.7.1+1
 
