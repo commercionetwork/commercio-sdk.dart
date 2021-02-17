@@ -33,7 +33,7 @@ class EncryptionHelper {
     );
 
     if (identityResponseRaw == null) {
-      throw const FormatException('Cannot get government RSA public key');
+      throw const FormatException('Cannot get tumbler RSA public key');
     }
 
     final identityResponse =
