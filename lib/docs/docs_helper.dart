@@ -6,20 +6,20 @@ import 'package:meta/meta.dart';
 class DocsHelper {
   /// Creates a new transaction that allows to share the document associated
   /// with the given [metadata] and having the optional [contentUri], [doSign],
-  /// [checksum], [fee] and broadcasting [mode]. If [encryptedData] is specified,
-  /// encrypts the proper data for the specified [recipients]
+  /// [checksum], [fee] and broadcasting [mode]. If [encryptedData] is
+  /// specified then encrypts the proper data for the specified [recipients]
   /// and then sends the transaction to the blockchain.
   static Future<TransactionResult> shareDocument({
     @required String id,
     @required CommercioDocMetadata metadata,
     @required List<String> recipients,
     @required Wallet wallet,
+    String contentUri,
     CommercioDoSign doSign,
     CommercioDocChecksum checksum,
     Key aesKey,
     Set<CommercioEncryptedData> encryptedData,
     StdFee fee,
-    String contentUri,
     BroadcastingMode mode,
   }) async {
     // Build a generic document
@@ -35,7 +35,7 @@ class DocsHelper {
       aesKey: aesKey,
     );
 
-    // Build the tx message
+    // Build, sign and send the tx message
     final msg = MsgShareDocument(document: commercioDoc);
     return TxHelper.createSignAndSendTx(
       [msg],
@@ -45,8 +45,8 @@ class DocsHelper {
     );
   }
 
-  /// Create a new transaction that allows to share
-  /// a list of previously generated documents [commercioDocsList].
+  /// Create a new transaction that allows to share a list of previously
+  /// generated documents [commercioDocsList] signing with [wallet].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> shareDocumentsList(
     List<CommercioDoc> commercioDocsList,
@@ -67,9 +67,9 @@ class DocsHelper {
     );
   }
 
-  /// Returns the list of all the [CommercioDoc] that the
-  /// specified [address] has sent.
-  static Future<List<CommercioDoc>> getSendDocuments({
+  /// Returns the list of all the [CommercioDoc] that the specified [address]
+  /// has sent.
+  static Future<List<CommercioDoc>> getSentDocuments({
     @required String address,
     @required NetworkInfo networkInfo,
     http.Client client,
@@ -80,8 +80,8 @@ class DocsHelper {
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
   }
 
-  /// Returns the list of all the [CommercioDoc] that the
-  /// specified [address] has received.
+  /// Returns the list of all the [CommercioDoc] that the specified [address]
+  /// has been received.
   static Future<List<CommercioDoc>> getReceivedDocuments({
     @required String address,
     @required NetworkInfo networkInfo,
