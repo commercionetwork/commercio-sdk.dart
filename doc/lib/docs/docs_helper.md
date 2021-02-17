@@ -4,7 +4,7 @@ Docs helper allows to easily perform all the operations related to the commercio
 
 ## Provided operations
 
-1. Creates a new transaction that allows to share the document associated with the given `metadata` and having the optional fields `contentUri`, `doSign`, `checksum`, `fee` and broadcasting `mode`.
+1. Creates a new transaction that allows to share the document associated with the given `metadata`, document `id`, `recipients` and with the sender `wallet`. Optional fields are `contentUri`, `doSign`, `checksum`, `fee` and the broadcasting `mode`.
 
    If `encryptedData` is specified, encrypts the proper data and optional `aesKey` for the specified `recipients` and then sends the transaction to the blockchain.
 
@@ -14,17 +14,31 @@ Docs helper allows to easily perform all the operations related to the commercio
       @required CommercioDocMetadata metadata,
       @required List<String> recipients,
       @required Wallet wallet,
+      String contentUri,
       CommercioDoSign doSign,
       CommercioDocChecksum checksum,
       Key aesKey,
-      List<EncryptedData> encryptedData,
+      Set<CommercioEncryptedData> encryptedData,
       StdFee fee,
-      String contentUri,
       BroadcastingMode mode,
     }) async
     ```
 
-2. Create a new transaction that allows to share a list of previously generated documents `commercioDocsList`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+    Example:
+
+    ```dart
+    final txResult = await DocsHelper.shareDocument(
+      wallet: wallet,
+      id: Uuid().v4(),
+      recipients: ['did:com:14ttg3eyu88jda8udvxpwjl2pwxemh72w0grsau'],
+      metadata: CommercioDocMetadata(
+        contentUri: 'https://example.com/document.pdf',
+        schemaType: '-',
+      ),
+    );
+    ```
+
+2. Create a new transaction that allows to share a list of previously generated documents `commercioDocsList` signing the transaction with `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> shareDocumentsList(
@@ -35,13 +49,39 @@ Docs helper allows to easily perform all the operations related to the commercio
     })
     ```
 
+    Example:
+
+    ```dart
+    final commercioDoc = await CommercioDocHelper.fromWallet(
+      wallet: wallet,
+      id: Uuid().v4(),
+      recipients: ['did:com:14ttg3eyu88jda8udvxpwjl2pwxemh72w0grsau'],
+      metadata: CommercioDocMetadata(
+        contentUri: 'https://example.com/document.pdf',
+        schemaType: '-',
+      ),
+    );
+
+    final txResult = await DocsHelper.shareDocumentsList([commercioDoc], wallet);
+    ```
+
 3. Returns the list of all the `CommercioDoc` that the specified `address` has sent
 
     ```dart
-    static Future<List<CommercioDoc>> getSendDocuments(
-      String address,
-      Wallet wallet,
-    ) async
+    static Future<List<CommercioDoc>> getSentDocuments({
+      @required String address,
+      @required NetworkInfo networkInfo,
+      http.Client client,
+    }) async
+    ```
+
+    Example:
+
+    ```dart
+    final documents = await DocsHelper.getSentDocuments(
+      address: wallet.bech32Address,
+      networkInfo: networkInfo,
+    );
     ```
 
 4. Returns the list of all the `CommercioDoc` that the specified `address` has received
@@ -51,6 +91,15 @@ Docs helper allows to easily perform all the operations related to the commercio
       String address,
       Wallet wallet,
     ) async
+    ```
+
+    Example:
+
+    ```dart
+    final documents = await DocsHelper.getSentDocuments(
+      address: wallet.bech32Address,
+      networkInfo: networkInfo,
+    );
     ```
 
 5. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with `txHash` has been properly seen; optionally `proof` of reading, `fee` and broadcasting `mode`.
@@ -144,11 +193,9 @@ try {
     checksum: checksum,
     encryptedData: [EncryptedData.CONTENT_URI],
     doSign: doSign,
-    fee: StdFee(
+    fee: const StdFee(
       gas: '200000',
-      amount: [
-        StdCoin(denom: 'ucommercio', amount: '10000'),
-      ],
+      amount: [StdCoin(denom: 'ucommercio', amount: '10000')],
     ),
   );
 
