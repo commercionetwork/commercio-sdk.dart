@@ -1,13 +1,18 @@
 import 'package:commerciosdk/export.dart';
+import 'package:http/http.dart' as http;
 import 'package:sacco/sacco.dart';
 
 /// Allows to perform common operations related to CommercioID.
 class IdHelper {
   /// Returns the Did Document associated with the given [did],
   /// or `null` if no Did Document was found.
-  static Future<DidDocument> getDidDocument(String did, Wallet wallet) async {
+  static Future<DidDocument> getDidDocument(
+    String did,
+    Wallet wallet, {
+    http.Client client,
+  }) async {
     final url = '${wallet.networkInfo.lcdUrl}/identities/${did}';
-    final response = await Network.queryChain(url);
+    final response = await Network.queryChain(url, client: client);
     if (response == null) {
       return null;
     }
@@ -43,9 +48,7 @@ class IdHelper {
     BroadcastingMode mode,
   }) {
     final msgs = didDocuments
-        .map(
-          (didDocument) => MsgSetDidDocument(didDocument: didDocument),
-        )
+        .map((didDocument) => MsgSetDidDocument(didDocument: didDocument))
         .toList();
     return TxHelper.createSignAndSendTx(
       msgs,
@@ -55,11 +58,11 @@ class IdHelper {
     );
   }
 
-  /// Creates a new Did power up request from [senderWallet] address for the
-  /// given [pairwiseDid] and of the given [amount].
-  /// Signs everything that needs to be signed (i.e. the signature JSON inside
-  /// the payload) with the private key contained inside the given
-  /// [senderWallet] and the [privateKey].
+  /// Creates a new transaction to request a Did PowerUp
+  /// of the given [amount] from the [senderWallet] wallet
+  /// for the given [pairwiseDid] address.
+  /// Signs everything that needs to be signed with the private key
+  /// contained inside the given wallet and the [privateKey].
   /// Optionally [fee] and broadcasting [mode] parameters can be specified.
   static Future<TransactionResult> requestDidPowerUp(
     Wallet senderWallet,
@@ -71,10 +74,10 @@ class IdHelper {
   }) async {
     // Build the RequestDidPowerUp
     final requestDidPowerUp = await RequestDidPowerUpHelper.fromWallet(
-      senderWallet,
-      pairwiseDid,
-      amount,
-      privateKey,
+      wallet: senderWallet,
+      pairwiseDid: pairwiseDid,
+      amount: amount,
+      privateKey: privateKey,
     );
 
     // Build the message and send the tx
@@ -100,10 +103,8 @@ class IdHelper {
     BroadcastingMode mode,
   }) {
     final msgs = requestDidPowerUpsList
-        .map(
-          (requestDidPowerUp) =>
-              MsgRequestDidPowerUp(requestDidPowerUp: requestDidPowerUp),
-        )
+        .map((requestDidPowerUp) =>
+            MsgRequestDidPowerUp(requestDidPowerUp: requestDidPowerUp))
         .toList();
     return TxHelper.createSignAndSendTx(
       msgs,

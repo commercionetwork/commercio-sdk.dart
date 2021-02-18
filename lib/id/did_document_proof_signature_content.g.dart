@@ -16,13 +16,28 @@ DidDocumentProofSignatureContent _$DidDocumentProofSignatureContentFromJson(
             ? null
             : DidDocumentPublicKey.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    service: (json['service'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DidDocumentService.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
 Map<String, dynamic> _$DidDocumentProofSignatureContentToJson(
-        DidDocumentProofSignatureContent instance) =>
-    <String, dynamic>{
-      '@context': instance.context,
-      'id': instance.id,
-      'publicKey': instance.publicKeys,
-    };
+    DidDocumentProofSignatureContent instance) {
+  final val = <String, dynamic>{
+    '@context': instance.context,
+    'id': instance.id,
+    'publicKey': instance.publicKeys,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('service', instance.service);
+  return val;
+}

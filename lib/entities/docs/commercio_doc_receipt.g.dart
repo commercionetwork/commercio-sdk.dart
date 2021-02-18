@@ -17,13 +17,20 @@ CommercioDocReceipt _$CommercioDocReceiptFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CommercioDocReceiptToJson(
-        CommercioDocReceipt instance) =>
-    <String, dynamic>{
-      'uuid': instance.uuid,
-      'sender': instance.senderDid,
-      'recipient': instance.recipientDid,
-      'tx_hash': instance.txHash,
-      'document_uuid': instance.documentUuid,
-      'proof': instance.proof,
-    };
+Map<String, dynamic> _$CommercioDocReceiptToJson(CommercioDocReceipt instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('uuid', instance.uuid);
+  writeNotNull('sender', instance.senderDid);
+  writeNotNull('recipient', instance.recipientDid);
+  writeNotNull('tx_hash', instance.txHash);
+  writeNotNull('document_uuid', instance.documentUuid);
+  writeNotNull('proof', instance.proof);
+  return val;
+}

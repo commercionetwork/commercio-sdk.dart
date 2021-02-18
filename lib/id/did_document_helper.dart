@@ -1,18 +1,19 @@
 import 'dart:convert';
 
 import 'package:commerciosdk/export.dart';
+import 'package:meta/meta.dart';
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
   /// Creates a Did Document from the given [wallet], [pubKeys] and optional [service].
-  static DidDocument fromWallet(
-    Wallet wallet,
-    List<PublicKey> pubKeys, {
+  static DidDocument fromWallet({
+    @required Wallet wallet,
+    @required List<PublicKey> pubKeys,
     List<DidDocumentService> service,
   }) {
     if (pubKeys.length < 2) {
-      throw 'At least two keys are required';
+      throw ArgumentError('At least two keys are required');
     }
 
     final keys = mapIndexed(
@@ -23,12 +24,17 @@ class DidDocumentHelper {
       context: 'https://www.w3.org/ns/did/v1',
       id: wallet.bech32Address,
       publicKeys: keys,
+      service: service,
     );
 
     final verificationMethod = wallet.bech32PublicKey;
 
     final proof = _computeProof(
-        proofContent.id, verificationMethod, proofContent, wallet);
+      controller: proofContent.id,
+      verificationMethod: verificationMethod,
+      proofSignatureContent: proofContent,
+      wallet: wallet,
+    );
 
     return DidDocument(
       context: proofContent.context,
@@ -52,11 +58,11 @@ class DidDocumentHelper {
   }
 
   /// Computes the [DidDocumentProof] based on the given [controller], [verificationMethod] and [proofSignatureContent]
-  static DidDocumentProof _computeProof(
-    String controller,
-    String verificationMethod,
-    DidDocumentProofSignatureContent proofSignatureContent,
-    Wallet wallet, {
+  static DidDocumentProof _computeProof({
+    @required String controller,
+    @required String verificationMethod,
+    @required DidDocumentProofSignatureContent proofSignatureContent,
+    @required Wallet wallet,
     String proofPurpose,
   }) {
     proofPurpose = proofPurpose ?? 'authentication';

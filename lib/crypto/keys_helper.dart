@@ -16,7 +16,7 @@ class KeysHelper {
   }
 
   /// Generate a random nonce
-  static Uint8List generateRandomNonce(int length, {bit = 256}) {
+  static Uint8List generateRandomNonce(int length, {int bit = 256}) {
     final random = Random.secure();
     final nonce = List<int>.generate(length, (_) => random.nextInt(bit));
     return Uint8List.fromList(nonce);
