@@ -6,6 +6,20 @@ part of 'network_test.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+TestResponse _$TestResponseFromJson(Map<String, dynamic> json) {
+  return TestResponse(
+    (json['result'] as List)
+        ?.map((e) =>
+            e == null ? null : TestData.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$TestResponseToJson(TestResponse instance) =>
+    <String, dynamic>{
+      'result': instance.result?.map((e) => e?.toJson())?.toList(),
+    };
+
 TestData _$TestDataFromJson(Map<String, dynamic> json) {
   return TestData(
     json['sender'] as String,

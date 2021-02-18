@@ -8,7 +8,7 @@ part 'exchange_trade_position.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ExchangeTradePosition extends Equatable {
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final DateTime createdAt;
 
   @JsonKey(name: 'id')
   final String id;
@@ -25,14 +25,14 @@ class ExchangeTradePosition extends Equatable {
   @JsonKey(name: 'credits')
   final StdCoin credits;
 
-  ExchangeTradePosition(
-      {@required this.createdAt,
-      @required this.id,
-      @required this.owner,
-      @required this.exchangeRate,
-      @required this.collateral,
-      @required this.credits})
-      : assert(createdAt != null),
+  const ExchangeTradePosition({
+    @required this.createdAt,
+    @required this.id,
+    @required this.owner,
+    @required this.exchangeRate,
+    @required this.collateral,
+    @required this.credits,
+  })  : assert(createdAt != null),
         assert(id != null),
         assert(owner != null),
         assert(exchangeRate != null),
@@ -41,7 +41,7 @@ class ExchangeTradePosition extends Equatable {
 
   @override
   List<Object> get props =>
-      throw [createdAt, id, owner, exchangeRate, collateral, credits];
+      [createdAt, id, owner, exchangeRate, collateral, credits];
 
   factory ExchangeTradePosition.fromJson(Map<String, dynamic> json) =>
       _$ExchangeTradePositionFromJson(json);

@@ -1,10 +1,7 @@
-// To parse this JSON data, do
-//
-//     final identitiesResponse = identitiesResponseFromJson(jsonString);
+import 'dart:convert';
 
 import 'package:commerciosdk/entities/id/did_document.dart';
 import 'package:meta/meta.dart';
-import 'dart:convert';
 
 class IdentityResponse {
   final String height;

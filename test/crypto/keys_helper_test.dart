@@ -5,12 +5,12 @@ import 'package:test/test.dart';
 
 void main() {
   test('generateRsaKeyPair generates random keys', () async {
-    List<local.KeyPair<RSAPublicKey, RSAPrivateKey>> keys = [];
-    for (int i = 0; i < 10; i++) {
+    final keys = <local.KeyPair<RSAPublicKey, RSAPrivateKey>>[];
+    for (var i = 0; i < 10; i++) {
       keys.add(await KeysHelper.generateRsaKeyPair());
     }
 
-    var unique = keys
+    final unique = keys
         .map((keypair) => keypair.publicKey.pubKey.modulus)
         .toSet()
         .toList();
@@ -18,14 +18,14 @@ void main() {
   });
 
   test('generateAesKey generates random keys', () async {
-    List<Key> keys = [];
-    for (int i = 0; i < 100; i++) {
+    final keys = <Key>[];
+    for (var i = 0; i < 100; i++) {
       final key = await KeysHelper.generateAesKey();
       expect(16, key.bytes.length);
       keys.add(key);
     }
 
-    var unique = keys.map((key) => key.base64).toSet().toList();
+    final unique = keys.map((key) => key.base64).toSet().toList();
     expect(unique.length, 100);
   });
 }

@@ -13,7 +13,7 @@ class InviteUser extends Equatable {
   @JsonKey(name: 'sender')
   final String senderDid;
 
-  InviteUser({
+  const InviteUser({
     @required this.recipientDid,
     @required this.senderDid,
   })  : assert(recipientDid != null),

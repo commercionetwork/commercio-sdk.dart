@@ -4,7 +4,7 @@ export 'crypto/export.dart';
 export 'docs/export.dart';
 export 'entities/export.dart' hide RSAKeyParser;
 export 'id/export.dart';
-export 'membership/export.dart';
+export 'kyc/export.dart';
 export 'mint/export.dart';
 export 'networking/network.dart';
 export 'tx/tx_helper.dart';
