@@ -17,6 +17,7 @@ Commercio Doc Helper allows to easily create a Commercio Doc.
      CommercioDoSign doSign,
      Set<CommercioEncryptedData> encryptedData,
      Key aesKey,
+     http.Client client,
    }) async
    ```
 

@@ -9,8 +9,9 @@
     ```dart
     static Future<DidDocument> getDidDocument(
       String did,
-      Wallet wallet,
-    )
+      Wallet wallet, {
+      http.Client client,
+    })
     ```
 
 2. `setDidDocument`, performs a transaction setting the specified `didDocument` as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
