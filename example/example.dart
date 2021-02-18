@@ -25,6 +25,13 @@ Future<void> main() async {
   // --- Creating setIdentity transaction
   // --------------------------------------------
 
+  // Note that to set an identity and, in general, to perform operations on the
+  // blockchain the [wallet] requires some tokens, for example given from the
+  // tumbler or from another wallet.
+  //
+  // See https://docs.commercio.network/developers/create-sign-broadcast-tx.html
+  // to send tokens.
+
   final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
   final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
 
@@ -77,6 +84,14 @@ Future<void> main() async {
     value: 'a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c',
     algorithm: CommercioDocChecksumAlgorithm.SHA256,
   );
+
+  // Note that to perform a DoSign on the document that [senderWallet] would
+  // share then the [recipientWallet] must have an identity on the blockchain.
+  //
+  // The steps needed to set an identity are described in
+  // "Creating setIdentity transaction".
+  //
+  // See https://docs.commercio.network/x/id/tx/create-an-identity.html
 
   final doSign = CommercioDoSign(
     storageUri: 'http://www.commercio.network',
