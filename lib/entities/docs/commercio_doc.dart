@@ -30,6 +30,7 @@ class CommercioDoc extends Equatable {
   @JsonKey(name: 'encryption_data')
   final CommercioDocEncryptionData encryptionData;
 
+  /// If [doSign] is specified then the field [checksum] must be also provided.
   @JsonKey(name: 'do_sign')
   final CommercioDoSign doSign;
 
@@ -49,7 +50,8 @@ class CommercioDoc extends Equatable {
         assert(uuid != null && matchUuidv4(uuid)),
         assert(metadata != null),
         assert(contentUri == null ||
-            (contentUri != null && checkStringBytesLen(contentUri, 512)));
+            (contentUri != null && checkStringBytesLen(contentUri, 512))),
+        assert(_checksumMustBePresentIfDoSign(checksum, doSign));
 
   @override
   List<Object> get props {
@@ -252,7 +254,8 @@ class CommercioDoSign extends Equatable {
         assert(signerIstance != null),
         assert(vcrId != null && checkStringBytesLen(vcrId, 64)),
         assert(certificateProfile != null &&
-            checkStringBytesLen(certificateProfile, 32));
+            checkStringBytesLen(certificateProfile, 32)),
+        assert(_sdnDataNotEmpty(sdnData));
 
   @override
   List<Object> get props {
@@ -342,4 +345,18 @@ extension CommercioEncryptedDataExt on CommercioEncryptedData {
         return null;
     }
   }
+}
+
+/// Return [true] if the fields [doSign] and [checksum] are both not null if the
+/// first is specified.
+bool _checksumMustBePresentIfDoSign(
+  CommercioDocChecksum checksum,
+  CommercioDoSign doSign,
+) {
+  return doSign != null ? checksum != null : true;
+}
+
+/// Returns [true] if [sdnData] is [null] or, if specified, must be not empty.
+bool _sdnDataNotEmpty(Set<CommercioSdnData> sdnData) {
+  return sdnData != null ? sdnData.isNotEmpty : true;
 }
