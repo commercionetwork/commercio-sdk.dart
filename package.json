@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "1.0.0",
+  "version": "2.2.0",
   "description": "Commercio.network SDK (Dart) documentation",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "vuepress": "^1.8.0"
+    "vuepress": "^1.8.1"
   }
 }
