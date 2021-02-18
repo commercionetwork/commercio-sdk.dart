@@ -345,7 +345,6 @@ void main() {
         'recipients': correctCommercioDoc.recipientDids,
         'uuid': correctCommercioDoc.uuid,
         'metadata': correctCommercioDoc.metadata.toJson(),
-        'checksum': null,
       };
 
       final jsonWithContentUri = Map<String, Object>.from(jsonMinimal)
@@ -360,7 +359,8 @@ void main() {
         });
 
       final jsonWithDoSign = Map<String, Object>.from(jsonMinimal)
-        ..addAll({'do_sign': correctCommercioDoc.doSign.toJson()});
+        ..addAll({'do_sign': correctCommercioDoc.doSign.toJson()})
+        ..addAll({'checksum': correctCommercioDocChecksum.toJson()});
 
       test('fromJson() shoul behave correctly', () {
         final obj = CommercioDoc.fromJson(jsonMinimal);
@@ -432,7 +432,7 @@ void main() {
             correctCommercioDoc.recipientDids,
             null,
             correctCommercioDoc.metadata,
-            null,
+            correctCommercioDocChecksum,
             null,
             correctCommercioDoc.doSign,
           ],
@@ -481,6 +481,7 @@ void main() {
           recipientDids: correctCommercioDoc.recipientDids,
           metadata: correctCommercioDoc.metadata,
           doSign: correctCommercioDoc.doSign,
+          checksum: correctCommercioDoc.checksum,
         );
         expect(docWithDoSign.toJson(), jsonWithDoSign);
       });
