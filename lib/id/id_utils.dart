@@ -9,7 +9,7 @@ class ProofGenerationResult extends Equatable {
   final String encodedProof;
   final String encodedAesKey;
 
-  ProofGenerationResult({
+  const ProofGenerationResult({
     @required this.encodedProof,
     @required this.encodedAesKey,
   })  : assert(encodedProof != null),
@@ -24,7 +24,9 @@ class ProofGenerationResult extends Equatable {
 /// Given a [payload], creates a new AES-256 key and uses that to encrypt
 /// the payload itself.
 Future<ProofGenerationResult> generateProof(
-    dynamic payload, String lcdUrl) async {
+  Object payload,
+  String lcdUrl,
+) async {
   // Generate the AES key
   final aesKey = await KeysHelper.generateAesKey();
 

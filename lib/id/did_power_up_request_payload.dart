@@ -17,7 +17,7 @@ class DidPowerUpRequestPayload extends Equatable {
   @JsonKey(name: 'signature')
   final String signature;
 
-  DidPowerUpRequestPayload({
+  const DidPowerUpRequestPayload({
     @required this.senderDid,
     @required this.pairwiseDid,
     @required this.timestamp,

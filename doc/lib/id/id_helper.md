@@ -1,39 +1,42 @@
-# Id helper
+# IdHelper
 
-Id helper allows to easily perform all the operations related to the commercio.network `id` module.
+`IdHelper` allows to easily perform all the operations related to the commercio.network `id` module.
 
 ## Provided operations
 
-1. Returns the [DidDocument](../glossary.md) associated with the given [did](../glossary.md), or `null` if no `DidDocument` was found
+1. `getDidDocument`, returns the `DidDocument` associated with the given `did` and `wallet`, or `null` if no `DidDocument` was found.
 
-   ```dart
-   static Future<DidDocument> getDidDocument(String did, Wallet wallet) async
-   ```
+    ```dart
+    static Future<DidDocument> getDidDocument(
+      String did,
+      Wallet wallet, {
+      http.Client client,
+    })
+    ```
 
-2. Performs a transaction setting the specified `didDocument` as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+2. `setDidDocument`, performs a transaction setting the specified `didDocument` as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
-   ```dart
-   static Future<TransactionResult> setDidDocument(
+    ```dart
+    static Future<TransactionResult> setDidDocument(
       DidDocument didDocument,
       Wallet wallet, {
       StdFee fee,
       BroadcastingMode mode,
     })
-   ```
+    ```
 
-3. Performs a transaction setting the `didDocuments` list as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+3. `setDidDocumentsList`, performs a transaction setting the `didDocuments` list as being associated with the address present inside the specified `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> setDidDocumentsList(
-        List<DidDocument> didDocuments,
-        Wallet wallet, {
-        StdFee fee,
-        BroadcastingMode mode,
-      })
+      List<DidDocument> didDocuments,
+      Wallet wallet, {
+      StdFee fee,
+      BroadcastingMode mode,
+    })
     ```
 
-4. Create a new [Did power up request](../glossary.md) from `senderWallet` address for the given `pairwiseDid` and of the given `amount`.  
-Signs everything that needs to be signed (i.e. the signature JSON inside the payload) with the private key contained inside the given `senderWallet` and the `private key`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+4. `requestDidPowerUp`, creates a new transaction to request a Did PowerUp of the given `amount` from the `senderWallet` wallet for the given `pairwiseDid` address. Signs everything that needs to be signed with the private key contained inside the given wallet and the `privateKey`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> requestDidPowerUp(
@@ -46,7 +49,7 @@ Signs everything that needs to be signed (i.e. the signature JSON inside the pay
     }) async
     ```
 
-5. Sends a new transaction from the sender `wallet` to request a list of Did PowerUp `requestDidPowerUpsList`. Optionally `fee` and broadcasting `mode` parameters can be specified.
+5. `requestDidPowerUpsList`, creates a new transaction from the sender `wallet` to request a list of Did PowerUp `requestDidPowerUpsList`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
     static Future<TransactionResult> requestDidPowerUpsList(
@@ -60,47 +63,57 @@ Signs everything that needs to be signed (i.e. the signature JSON inside the pay
 ## Usage examples
 
 ```dart
-final info = NetworkInfo(
+final networkInfo = NetworkInfo(
   bech32Hrp: 'did:com:',
   lcdUrl: 'http://localhost:1317',
 );
-
 final mnemonic = ['will', 'hard', ..., 'man'];
-final wallet = Wallet.derive(mnemonic, info);
-
-final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
-final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
-final rsaSignatureKeyPair =
-    await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
-final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
-
-// --- Create Did Document
-final didDocument =  DidDocumentHelper.fromWallet(
-    wallet,
-    [rsaVerificationPubKey, rsaSignaturePubKey]
+final wallet = Wallet.derive(mnemonic, networkInfo);
+final pubKeys = [rsaVerificationPubKey, rsaSignaturePubKey];
+final didDocument = DidDocumentHelper.fromWallet(
+  wallet: wallet,
+  pubKeys: pubKeys,
 );
 
 try {
-  // --- Set the Did Document
+  // Set the Did Document
   await IdHelper.setDidDocument(didDocument, wallet);
-
-  // Send Power Up to the Tumbler
-  final depositAmount = [StdCoin(denom: 'ucommercio', amount: '100')];
-  final msgDeposit = MsgSend(...
-
-  await TxHelper.createSignAndSendTx([msgDeposit], wallet);
-
-  // --- Request the Did power up
-  final pairwiseWallet = Wallet.derive(
-    userMnemonic, info, lastDerivationPathSegment: '1'
+  // Send the PowerUp amount to the Tumbler
+  final amount = [
+    StdCoin(
+      denom: 'uccc',
+      amount: '10',
+    )
+  ];
+  await TxHelper.createSignAndSendTx(
+    [
+      MsgSend(
+        fromAddress: wallet.bech32Address,
+        toAddress: tumblerAddress,
+        amount: amount,
+      ),
+    ],
+    wallet,
   );
-  await IdHelper.requestDidPowerUp(
-    userWallet,
-    pairwiseWallet.bech32Address,
-    depositAmount,
-    rsaSignatureKeyPair.privateKey
+  // Generate a pairwise wallet
+  final pairwaiseWallet = Wallet.derive(
+    mnemonic,
+    networkInfo,
+    lastDerivationPathSegment: '1',
+  );
+  // Generate a PowerUp request
+  final requestDidPowerUp = await RequestDidPowerUpHelper.fromWallet(
+    wallet: wallet,
+    pairwiseDid: pairwaiseWallet.bech32Address,
+    amount: amount,
+    privateKey: rsaSignaturePriKey
+  );
+  // Send the PowerUp request
+  await IdHelper.requestDidPowerUpsList(
+    [requestDidPowerUp],
+    wallet,
   );
 } catch (error) {
-  throw error;
+throw error;
 }
 ```

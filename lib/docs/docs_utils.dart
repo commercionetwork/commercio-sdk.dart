@@ -1,66 +1,71 @@
-import 'package:commerciosdk/entities/export.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
-import 'package:sacco/sacco.dart';
+import 'package:http/http.dart' as http;
 
-/// Represents a pair that associates a Did document to its encryption key.
-class _Pair {
-  final DidDocument first;
-  final RSAPublicKey second;
-
-  _Pair({this.first, this.second});
-}
-
-/// Converts a [didDocument] to a [_Pair].
-_Pair _didDocumentToPair(DidDocument didDocument) {
-  final key = didDocument.encryptionKey;
-  if (key == null) {
-    return null;
-  }
-
-  return _Pair(first: didDocument, second: key);
-}
-
-/// Transforms [this] document into one having the proper fields encrypted as
+/// Transforms [doc] into one having the proper fields encrypted as
 /// specified inside the [encryptedData] list.
 /// All the fields will be encrypted using the specified [aesKey].
 /// This key will later be encrypted for each and every Did specified into
 /// the [recipients] list.
 /// The overall encrypted data will be put inside the proper document field.
+///
+/// Throws [ArgumentError] if:
+/// * Is provided [CommercioEncryptedData.CONTENT_URI] without a valid
+///   [contentUri].
+/// *Is provided [CommercioEncryptedData.METADATA_SCHEMA_URI] without a
+/// [schema].
 Future<CommercioDoc> encryptField(
   CommercioDoc doc,
   Key aesKey,
-  List<EncryptedData> encryptedData,
+  Set<CommercioEncryptedData> encryptedData,
   List<String> recipients,
-  Wallet wallet,
-) async {
+  Wallet wallet, {
+  http.Client client,
+}) async {
   // -----------------
   // --- Encryption
   // -----------------
 
   // Encrypt the contents
-  var encryptedContentUri;
-  if (encryptedData.contains(EncryptedData.CONTENT_URI)) {
-    encryptedContentUri = HEX.encode(
-      EncryptionHelper.encryptStringWithAes(doc.contentUri, aesKey),
-    );
-  }
-
-  var encryptedMetadataContentUri;
-  if (encryptedData.contains(EncryptedData.METADATA_CONTENT_URI)) {
-    encryptedMetadataContentUri = HEX.encode(
-      EncryptionHelper.encryptStringWithAes(doc.metadata.contentUri, aesKey),
-    );
-  }
-
-  var encryptedMetadataSchemaUri;
-  if (encryptedData.contains(EncryptedData.METADATA_SCHEMA_URI)) {
-    var schemaUri = doc.metadata.schema?.uri;
-    if (schemaUri != null) {
-      encryptedMetadataSchemaUri = HEX.encode(
-        EncryptionHelper.encryptStringWithAes(schemaUri, aesKey),
+  String encryptedContentUri;
+  if (encryptedData.contains(CommercioEncryptedData.CONTENT_URI)) {
+    if (doc.contentUri == null) {
+      throw ArgumentError(
+        'Document contentUri field can not be null if the encryptedData arguments contains CommercioEncryptedData.CONTENT_URI',
       );
     }
+
+    encryptedContentUri = HEX.encode(
+      EncryptionHelper.encryptStringWithAes(
+        doc.contentUri,
+        aesKey,
+      ),
+    );
+  }
+
+  String encryptedMetadataContentUri;
+  if (encryptedData.contains(CommercioEncryptedData.METADATA_CONTENT_URI)) {
+    encryptedMetadataContentUri = HEX.encode(
+      EncryptionHelper.encryptStringWithAes(
+        doc.metadata.contentUri,
+        aesKey,
+      ),
+    );
+  }
+
+  String encryptedMetadataSchemaUri;
+  if (encryptedData.contains(CommercioEncryptedData.METADATA_SCHEMA_URI)) {
+    if (doc.metadata.schema == null) {
+      throw ArgumentError(
+        'Document metadata.schema field can not be null if the encryptedData arguments contains CommercioEncryptedData.METADATA_SCHEMA_URI',
+      );
+    }
+    encryptedMetadataSchemaUri = HEX.encode(
+      EncryptionHelper.encryptStringWithAes(
+        doc.metadata.schema.uri,
+        aesKey,
+      ),
+    );
   }
 
   // ---------------------
@@ -68,24 +73,27 @@ Future<CommercioDoc> encryptField(
   // ---------------------
 
   // Get the recipients Did Documents
-  final recipientsDidDocs = Future.wait(recipients.map((r) async {
-    return IdHelper.getDidDocument(r, wallet);
+  final recipientsWithDDO = await Future.wait(recipients.map((r) async {
+    final didDoc = await IdHelper.getDidDocument(r, wallet, client: client);
+
+    return MapEntry(r, didDoc);
   }));
 
-  // Get a list of al the Did Documents and the associated encryption key
-  final keys = (await recipientsDidDocs)
-      .where((didDocument) => didDocument != null)
-      .map((didDocument) => _didDocumentToPair(didDocument))
-      .where((pair) => pair != null);
+  // Throw if any of the recipients does not have an identity associated to them
+  for (final recipient in recipientsWithDDO) {
+    if (recipient.value == null) {
+      throw WalletIdentityNotFoundException.fromAddress(recipient.key);
+    }
+  }
 
   // Create the encryption key field
-  final encryptionKeys = keys.map((pair) {
+  final encryptionKeys = recipientsWithDDO.map((recipient) {
     final encryptedAesKey = EncryptionHelper.encryptBytesWithRsa(
       aesKey.bytes,
-      pair.second,
+      recipient.value.encryptionKey,
     );
     return CommercioDocEncryptionDataKey(
-      recipientDid: pair.first.id,
+      recipientDid: recipient.key,
       value: HEX.encode(encryptedAesKey),
     );
   }).toList();
@@ -113,25 +121,31 @@ Future<CommercioDoc> encryptField(
     ),
     encryptionData: CommercioDocEncryptionData(
       keys: encryptionKeys,
-      encryptedData: encryptedData.map((e) => e.value).toList(),
+      encryptedData: encryptedData,
     ),
     doSign: doc.doSign,
   );
 }
 
-enum EncryptedData { CONTENT_URI, METADATA_CONTENT_URI, METADATA_SCHEMA_URI }
+class WalletIdentityNotFoundException implements Exception {
+  /// Exception used to notify the caller that he tried to share an
+  /// **encrypted** [CommercioDoc] but one or more recipients does not have
+  /// an associated identity.
+  ///
+  /// In general this exception should be instantiated with the factory
+  /// constructor `fromAddress()`.
+  ///
+  /// Please refer to
+  /// https://docs.commercio.network/x/id/tx/create-an-identity.html
+  /// on how create an identity and associate it to a wallet.
+  const WalletIdentityNotFoundException(this.message) : assert(message != null);
 
-extension EncryptedDataExt on EncryptedData {
-  String get value {
-    switch (this) {
-      case EncryptedData.CONTENT_URI:
-        return 'content_uri';
-      case EncryptedData.METADATA_CONTENT_URI:
-        return 'metadata.content_uri';
-      case EncryptedData.METADATA_SCHEMA_URI:
-        return 'metadata.schema.uri';
-      default:
-        return null;
-    }
-  }
+  /// Create a default-message exception that refers to the missing identity of
+  /// the provided `walletAddress`.
+  factory WalletIdentityNotFoundException.fromAddress(String walletAddress) =>
+      WalletIdentityNotFoundException(
+          'Could not find the identity of the wallet $walletAddress. Please make sure that all your recipients have an identity to send encrypted documents to them.');
+
+  /// The exception message.
+  final String message;
 }

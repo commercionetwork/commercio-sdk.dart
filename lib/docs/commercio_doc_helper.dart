@@ -1,4 +1,5 @@
 import 'package:commerciosdk/export.dart';
+import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 
 /// Allows to easily create a CommercioDoc and perform common related operations
@@ -15,8 +16,9 @@ class CommercioDocHelper {
     String contentUri,
     CommercioDocChecksum checksum,
     CommercioDoSign doSign,
-    List<EncryptedData> encryptedData,
+    Set<CommercioEncryptedData> encryptedData,
     Key aesKey,
+    http.Client client,
   }) async {
     // Build a commercio document
     var commercioDocument = CommercioDoc(
@@ -41,6 +43,7 @@ class CommercioDocHelper {
         encryptedData,
         recipients,
         wallet,
+        client: client,
       );
     }
 

@@ -9,18 +9,18 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   group('Functions of "RequestDidPowerUpHelper" class', () {
-    final lcdUrl = 'url';
-    final networkInfo = NetworkInfo(bech32Hrp: "did:com:", lcdUrl: lcdUrl);
-    final mnemonicString =
-        "dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology";
-    final mnemonic = mnemonicString.split(" ");
+    const lcdUrl = 'url';
+    final networkInfo = NetworkInfo(bech32Hrp: 'did:com:', lcdUrl: lcdUrl);
+    const mnemonicString =
+        'dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology';
+    final mnemonic = mnemonicString.split(' ');
     final wallet = Wallet.derive(mnemonic, networkInfo);
     final pairwaisedWallet = Wallet.derive(
       mnemonic,
       networkInfo,
       lastDerivationPathSegment: '1',
     );
-    final amount = [
+    const amount = [
       StdCoin(
         denom: 'denom',
         amount: '10',
@@ -29,7 +29,7 @@ void main() {
 
     test('"fromWallet()" returns a well-formed "RequestDidPowerUp" object.',
         () async {
-      Network.client = MockClient((request) async {
+      final clientMock = MockClient((request) async {
         if (request.url.path == '$lcdUrl/government/tumbler') {
           final body =
               await File('test_resources/tumbler_address.json').readAsString();
@@ -43,9 +43,9 @@ void main() {
 
       final keyPair = await KeysHelper.generateRsaKeyPair();
 
-      final powerUpProof = 'powerUpProof';
+      const powerUpProof = 'powerUpProof';
       final uuid = Uuid().v4();
-      final encryptionKey = 'encryptionKey';
+      const encryptionKey = 'encryptionKey';
 
       final expectedRequestDidPowerUp = RequestDidPowerUp(
         claimantDid: wallet.bech32Address,
@@ -64,6 +64,7 @@ void main() {
         pairwiseDid: pairwaisedWallet.bech32Address,
         amount: amount,
         privateKey: keyPair.privateKey,
+        client: clientMock,
       );
 
       expect(
