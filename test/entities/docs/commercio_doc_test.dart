@@ -919,6 +919,7 @@ void main() {
       final minimalJson = <String, Object>{
         'storage_uri': correctCommercioDoSign.storageUri,
         'signer_instance': correctCommercioDoSign.signerIstance,
+        'sdn_data': null,
         'vcr_id': correctCommercioDoSign.vcrId,
         'certificate_profile': correctCommercioDoSign.certificateProfile,
       };

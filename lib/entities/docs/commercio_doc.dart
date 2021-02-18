@@ -233,7 +233,7 @@ class CommercioDoSign extends Equatable {
   @JsonKey(name: 'signer_instance')
   final String signerIstance;
 
-  @JsonKey(name: 'sdn_data')
+  @JsonKey(name: 'sdn_data', includeIfNull: true)
   final Set<CommercioSdnData> sdnData;
 
   @JsonKey(name: 'vcr_id')

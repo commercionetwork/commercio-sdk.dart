@@ -252,8 +252,8 @@ Map<String, dynamic> _$CommercioDoSignToJson(CommercioDoSign instance) {
 
   writeNotNull('storage_uri', instance.storageUri);
   writeNotNull('signer_instance', instance.signerIstance);
-  writeNotNull('sdn_data',
-      instance.sdnData?.map((e) => _$CommercioSdnDataEnumMap[e])?.toList());
+  val['sdn_data'] =
+      instance.sdnData?.map((e) => _$CommercioSdnDataEnumMap[e])?.toList();
   writeNotNull('vcr_id', instance.vcrId);
   writeNotNull('certificate_profile', instance.certificateProfile);
   return val;
