@@ -345,6 +345,7 @@ void main() {
         'recipients': correctCommercioDoc.recipientDids,
         'uuid': correctCommercioDoc.uuid,
         'metadata': correctCommercioDoc.metadata.toJson(),
+        'checksum': null,
       };
 
       final jsonWithContentUri = Map<String, Object>.from(jsonMinimal)

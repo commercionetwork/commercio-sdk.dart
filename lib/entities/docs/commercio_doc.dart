@@ -24,7 +24,7 @@ class CommercioDoc extends Equatable {
   @JsonKey(name: 'metadata')
   final CommercioDocMetadata metadata;
 
-  @JsonKey(name: 'checksum')
+  @JsonKey(name: 'checksum', includeIfNull: true)
   final CommercioDocChecksum checksum;
 
   @JsonKey(name: 'encryption_data')

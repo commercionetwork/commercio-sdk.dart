@@ -45,7 +45,7 @@ Map<String, dynamic> _$CommercioDocToJson(CommercioDoc instance) {
   writeNotNull('uuid', instance.uuid);
   writeNotNull('content_uri', instance.contentUri);
   writeNotNull('metadata', instance.metadata?.toJson());
-  writeNotNull('checksum', instance.checksum?.toJson());
+  val['checksum'] = instance.checksum?.toJson();
   writeNotNull('encryption_data', instance.encryptionData?.toJson());
   writeNotNull('do_sign', instance.doSign?.toJson());
   return val;
