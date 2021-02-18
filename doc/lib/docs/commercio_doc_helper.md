@@ -4,7 +4,7 @@ Commercio Doc Helper allows to easily create a Commercio Doc.
 
 ## Provide Operations
 
-1. Creates a `CommercioDoc` from the given `wallet`, the list of recipients `recipients`, an unique document `id` (UUID v4 format) and document `metadata`. Optionally `contentUri`, `checksum`, `doSign`, `encryptedData`, `aesKey` can be provided.
+1. Creates a `CommercioDoc` from the given `wallet`, the list of recipients `recipients`, an unique document `id` (UUID v4 format) and document `metadata`. Optionally `contentUri`, `checksum`, `doSign`, `encryptedData`, `aesKey` can be provided. If `doSign` is provided then also the `checksum` field is required.
 
    ```dart
    static Future<CommercioDoc> fromWallet({
@@ -88,6 +88,6 @@ try {
     senderWallet,
   );
 } catch (error) {
-  rethrow;
+  // Handle error
 }
 ```

@@ -9,6 +9,8 @@ class DocsHelper {
   /// [checksum], [fee] and broadcasting [mode]. If [encryptedData] is
   /// specified then encrypts the proper data for the specified [recipients]
   /// and then sends the transaction to the blockchain.
+  ///
+  /// If [doSign] is specified then the field [checksum] must be also provided.
   static Future<TransactionResult> shareDocument({
     @required String id,
     @required CommercioDocMetadata metadata,

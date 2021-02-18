@@ -6,7 +6,7 @@ Docs helper allows to easily perform all the operations related to the commercio
 
 1. Creates a new transaction that allows to share the document associated with the given `metadata`, document `id`, `recipients` and with the sender `wallet`. Optional fields are `contentUri`, `doSign`, `checksum`, `fee` and the broadcasting `mode`.
 
-   If `encryptedData` is specified, encrypts the proper data and optional `aesKey` for the specified `recipients` and then sends the transaction to the blockchain.
+   If `encryptedData` is specified, encrypts the proper data and optional `aesKey` for the specified `recipients` and then sends the transaction to the blockchain. If `doSign` is provided then also the `checksum` field is required.
 
     ```dart
     static Future<TransactionResult> shareDocument({
@@ -21,7 +21,7 @@ Docs helper allows to easily perform all the operations related to the commercio
       Set<CommercioEncryptedData> encryptedData,
       StdFee fee,
       BroadcastingMode mode,
-    }) async
+    })
     ```
 
     Example:
@@ -87,30 +87,32 @@ Docs helper allows to easily perform all the operations related to the commercio
 4. Returns the list of all the `CommercioDoc` that the specified `address` has received
 
     ```dart
-    static Future<List<CommercioDoc>> getReceivedDocuments(
-      String address,
-      Wallet wallet,
-    ) async
+    static Future<List<CommercioDoc>> getReceivedDocuments({
+      @required String address,
+      @required NetworkInfo networkInfo,
+      http.Client client,
+    })
     ```
 
     Example:
 
     ```dart
-    final documents = await DocsHelper.getSentDocuments(
-      address: wallet.bech32Address,
-      networkInfo: networkInfo,
-    );
+    final documents = await DocsHelper.getSentDocuments({
+      @required String address,
+      @required NetworkInfo networkInfo,
+      http.Client client,
+    });
     ```
 
 5. Creates a new transaction which tells the `recipient` that the document having the specified `documentId` and present inside the transaction with `txHash` has been properly seen; optionally `proof` of reading, `fee` and broadcasting `mode`.
 
     ```dart
     static Future<TransactionResult> sendDocumentReceipt({
-      String recipient,
-      String txHash,
-      String documentId,
-      Wallet wallet,
-      String proof = '',
+      @required String recipient,
+      @required String txHash,
+      @required String documentId,
+      @required Wallet wallet,
+      String proof,
       StdFee fee,
       BroadcastingMode mode,
     })
@@ -130,19 +132,21 @@ Docs helper allows to easily perform all the operations related to the commercio
 7. Returns the list of all the `CommercioDocReceipt` that have been sent from the given `address`
 
     ```dart
-    static Future<List<CommercioDocReceipt>> getSentReceipts(
-      String address,
-      Wallet wallet,
-    ) async
+    static Future<List<CommercioDocReceipt>> getSentReceipts({
+      @required String address,
+      @required NetworkInfo networkInfo,
+      http.Client client,
+    })
     ```
 
 8. Returns the list of all the `CommercioDocRecepit` that have been received from the given `address`
 
     ```dart
-    static Future<List<CommercioDocReceipt>> getReceivedReceipts(
-      String address,
-      Wallet wallet,
-    ) async
+    static Future<List<CommercioDocReceipt>> getReceivedReceipts({
+      @required String address,
+      @required NetworkInfo networkInfo,
+      http.Client client,
+    })
     ```
 
 ## Usage examples
@@ -168,10 +172,10 @@ final checksum = CommercioDocChecksum(
 final doSign = CommercioDoSign(
   storageUri: "http://www.commercio.network",
   signerIstance: "did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj",
-  sdnData: [
+  sdnData: {
     CommercioSdnData.COMMON_NAME,
     CommercioSdnData.SURNAME,
-  ],
+  },
   vcrId: "xxxxx",
   certificateProfile: "xxxxx",
 );
@@ -191,7 +195,7 @@ try {
     recipients: [recipientDid],
     wallet: senderWallet,
     checksum: checksum,
-    encryptedData: [EncryptedData.CONTENT_URI],
+    encryptedData: const {CommercioEncryptedData.CONTENT_URI},
     doSign: doSign,
     fee: const StdFee(
       gas: '200000',
@@ -209,6 +213,6 @@ try {
     wallet: recipientWallet,
   );
 } catch (error) {
-  throw error;
+  // Handle error
 }
 ```
