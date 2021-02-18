@@ -4,7 +4,7 @@
 [![Compatible](https://img.shields.io/badge/compatible-flutter-blue)](https://flutter.dev)
 
 This repository contains the code of the official [Commercio.network](https://commercio.network) Dart SDK,
-entirely based on [Sacco.dart](https://github.com/commercionetwork/sacco.dart). 
+entirely based on [Sacco.dart](https://github.com/commercionetwork/sacco.dart).
 
 The main features are:
 
@@ -30,26 +30,26 @@ We highly suggest you checking it out to have a complete reference of the SDK.
 * Generate AES key
 * Generate RSA key
 
-### CommercioDOCS
+### Docs
 
 * Share document
 * Send receipt
 * List documents
 * List receipts
 
-### CommercioID
+### Id
 
 * Create Did Document
+* Associate Did Document
 * Request power up
-* Create connection invitation
-* Verify connection invitation
 
-### CommercioMINT
+### CommercioMint
 
-* Open CDP
-* Close CDP
+* Mint CCC
+* Burn CCC
 
-### CommercioMEMBERSHIP
+### CommercioKYC
 
 * Invite user
 * Buy membership
+* Deposit into reward pool

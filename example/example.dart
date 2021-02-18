@@ -3,14 +3,14 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:uuid/uuid.dart';
 import 'package:commerciosdk/export.dart';
 
-void main() async {
+Future<void> main() async {
   // --------------------------------------------
   // --- Setup network info
   // --------------------------------------------
 
-  final lcdUrl = "http://localhost:1317";
+  const lcdUrl = 'http://localhost:1317';
   final networkInfo = NetworkInfo(
-    bech32Hrp: "did:com:",
+    bech32Hrp: 'did:com:',
     lcdUrl: lcdUrl,
   );
 
@@ -25,6 +25,13 @@ void main() async {
   // --- Creating setIdentity transaction
   // --------------------------------------------
 
+  // Note that to set an identity and, in general, to perform operations on the
+  // blockchain the [wallet] requires some tokens, for example given from the
+  // tumbler or from another wallet.
+  //
+  // See https://docs.commercio.network/developers/create-sign-broadcast-tx.html
+  // to send tokens.
+
   final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
   final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
 
@@ -34,21 +41,26 @@ void main() async {
 
   try {
     final didDocument = DidDocumentHelper.fromWallet(
-        wallet: wallet, pubKeys: [rsaVerificationPubKey, rsaSignaturePubKey]);
+      wallet: wallet,
+      pubKeys: [rsaVerificationPubKey, rsaSignaturePubKey],
+    );
     print('DDO:\n${didDocument.toJson()}');
     print('');
 
-    final response = await IdHelper.setDidDocumentsList([didDocument], wallet);
+    final response = await IdHelper.setDidDocumentsList(
+      [didDocument],
+      wallet,
+    );
 
     if (response.success) {
-      print("TX successfully sent:\n$lcdUrl/txs/${response.hash}");
+      print('TX successfully sent:\n$lcdUrl/txs/${response.hash}');
       print('----- You can retrive your did from below url -----');
       print('Endpoint:\n$lcdUrl/identities/${wallet.bech32Address}');
     } else {
-      print("TX error:\n${response.error.errorMessage}");
+      print('TX error:\n${response.error.errorMessage}');
     }
   } catch (error) {
-    print("Error while testing set DDO:\n$error");
+    print('Error while testing set DDO:\n$error');
   }
 
   // --------------------------------------------
@@ -69,19 +81,27 @@ void main() async {
   final docId = Uuid().v4();
 
   final checksum = CommercioDocChecksum(
-    value: "a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c",
+    value: 'a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c',
     algorithm: CommercioDocChecksumAlgorithm.SHA256,
   );
 
+  // Note that to perform a DoSign on the document that [senderWallet] would
+  // share then the [recipientWallet] must have an identity on the blockchain.
+  //
+  // The steps needed to set an identity are described in
+  // "Creating setIdentity transaction".
+  //
+  // See https://docs.commercio.network/x/id/tx/create-an-identity.html
+
   final doSign = CommercioDoSign(
-    storageUri: "http://www.commercio.network",
-    signerIstance: "did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj",
-    sdnData: [
+    storageUri: 'http://www.commercio.network',
+    signerIstance: 'did:com:1cc65t29yuwuc32ep2h9uqhnwrregfq230lf2rj',
+    sdnData: const {
       CommercioSdnData.COMMON_NAME,
       CommercioSdnData.SURNAME,
-    ],
-    vcrId: "xxxxx",
-    certificateProfile: "xxxxx",
+    },
+    vcrId: 'xxxxx',
+    certificateProfile: 'xxxxx',
   );
 
   try {
@@ -99,7 +119,7 @@ void main() async {
       contentUri: 'https://example.com/document',
       checksum: checksum,
       doSign: doSign,
-      encryptedData: [EncryptedData.CONTENT_URI],
+      encryptedData: {CommercioEncryptedData.CONTENT_URI},
     );
     final response = await DocsHelper.shareDocumentsList(
       [commercioDoc],
@@ -107,13 +127,13 @@ void main() async {
     );
 
     if (response.success) {
-      print("TX successfully sent:\n$lcdUrl/txs/${response.hash}");
+      print('TX successfully sent:\n$lcdUrl/txs/${response.hash}');
       print('----- You can retrive your sent documents from url below -----');
       print('Endpoint:\n$lcdUrl/docs/${senderWallet.bech32Address}/sent');
     } else {
-      print("TX error:\n${response.error.errorMessage}");
+      print('TX error:\n${response.error.errorMessage}');
     }
   } catch (error) {
-    print("Error while sharing a document:\n$error");
+    print('Error while sharing a document:\n$error');
   }
 }

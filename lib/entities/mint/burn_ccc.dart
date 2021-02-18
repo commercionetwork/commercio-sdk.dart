@@ -26,7 +26,7 @@ class BurnCcc extends Equatable {
         assert(id != null && matchUuidv4(id));
 
   @override
-  List<Object> get props => throw [signerDid, amount, id];
+  List<Object> get props => [signerDid, amount, id];
 
   factory BurnCcc.fromJson(Map<String, dynamic> json) =>
       _$BurnCccFromJson(json);

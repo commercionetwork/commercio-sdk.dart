@@ -9,7 +9,8 @@ class MsgSendDocumentReceipt extends StdMsg {
 
   MsgSendDocumentReceipt({
     @required this.receipt,
-  }) : super(
+  })  : assert(receipt != null),
+        super(
             type: 'commercio/MsgSendDocumentReceipt',
             value: <String, String>{});
 

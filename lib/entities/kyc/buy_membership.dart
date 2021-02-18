@@ -16,7 +16,7 @@ class BuyMembership extends Equatable {
   @JsonKey(name: 'tsp')
   final String tsp;
 
-  BuyMembership({
+  const BuyMembership({
     @required this.membershipType,
     @required this.buyerDid,
     @required this.tsp,
