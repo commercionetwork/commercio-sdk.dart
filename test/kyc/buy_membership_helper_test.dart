@@ -11,7 +11,7 @@ void main() {
 
     test('if "fromWallet()" returns a well-formed "BuyMembership" object.', () {
       final membershipType = MembershipType.BLACK.value;
-      final tsp = "did:com:id";
+      const tsp = 'did:com:id';
 
       final expectedBuyMembership = BuyMembership(
         membershipType: membershipType,

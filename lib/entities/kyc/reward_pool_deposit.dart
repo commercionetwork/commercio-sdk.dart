@@ -14,14 +14,14 @@ class RewardPoolDeposit extends Equatable {
   @JsonKey(name: 'depositor')
   final String depositorDid;
 
-  RewardPoolDeposit({
+  const RewardPoolDeposit({
     @required this.depositAmount,
     @required this.depositorDid,
   })  : assert(depositAmount != null),
         assert(depositorDid != null);
 
   @override
-  List<Object> get props => throw [depositAmount, depositorDid];
+  List<Object> get props => [depositAmount, depositorDid];
 
   factory RewardPoolDeposit.fromJson(Map<String, dynamic> json) =>
       _$RewardPoolDepositFromJson(json);
