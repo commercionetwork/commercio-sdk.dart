@@ -1,4 +1,5 @@
 import 'package:commerciosdk/export.dart';
+import 'package:http/http.dart' as http;
 import 'package:sacco/sacco.dart';
 
 /// Allows to perform common operations related to CommercioID.
@@ -7,10 +8,11 @@ class IdHelper {
   /// or `null` if no Did Document was found.
   static Future<DidDocument> getDidDocument(
     String did,
-    Wallet wallet,
-  ) async {
+    Wallet wallet, {
+    http.Client client,
+  }) async {
     final url = '${wallet.networkInfo.lcdUrl}/identities/${did}';
-    final response = await Network.queryChain(url);
+    final response = await Network.queryChain(url, client: client);
     if (response == null) {
       return null;
     }

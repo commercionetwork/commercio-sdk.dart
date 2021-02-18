@@ -1,23 +1,6 @@
 import 'package:commerciosdk/export.dart';
 import 'package:hex/hex.dart';
-
-/// Represents a pair that associates a Did document to its encryption key.
-class _Pair {
-  final DidDocument first;
-  final RSAPublicKey second;
-
-  _Pair({this.first, this.second});
-}
-
-/// Converts a [didDocument] to a [_Pair].
-_Pair _didDocumentToPair(DidDocument didDocument) {
-  final key = didDocument.encryptionKey;
-  if (key == null) {
-    return null;
-  }
-
-  return _Pair(first: didDocument, second: key);
-}
+import 'package:http/http.dart' as http;
 
 /// Transforms [doc] into one having the proper fields encrypted as
 /// specified inside the [encryptedData] list.
@@ -36,8 +19,9 @@ Future<CommercioDoc> encryptField(
   Key aesKey,
   Set<CommercioEncryptedData> encryptedData,
   List<String> recipients,
-  Wallet wallet,
-) async {
+  Wallet wallet, {
+  http.Client client,
+}) async {
   // -----------------
   // --- Encryption
   // -----------------
@@ -89,24 +73,27 @@ Future<CommercioDoc> encryptField(
   // ---------------------
 
   // Get the recipients Did Documents
-  final recipientsDidDocs = Future.wait(recipients.map((r) async {
-    return IdHelper.getDidDocument(r, wallet);
+  final recipientsWithDDO = await Future.wait(recipients.map((r) async {
+    final didDoc = await IdHelper.getDidDocument(r, wallet, client: client);
+
+    return MapEntry(r, didDoc);
   }));
 
-  // Get a list of al the Did Documents and the associated encryption key
-  final keys = (await recipientsDidDocs)
-      .where((didDocument) => didDocument != null)
-      .map((didDocument) => _didDocumentToPair(didDocument))
-      .where((pair) => pair != null);
+  // Throw if any of the recipients does not have an identity associated to them
+  for (final recipient in recipientsWithDDO) {
+    if (recipient.value == null) {
+      throw WalletIdentityNotFoundException.fromAddress(recipient.key);
+    }
+  }
 
   // Create the encryption key field
-  final encryptionKeys = keys.map((pair) {
+  final encryptionKeys = recipientsWithDDO.map((recipient) {
     final encryptedAesKey = EncryptionHelper.encryptBytesWithRsa(
       aesKey.bytes,
-      pair.second,
+      recipient.value.encryptionKey,
     );
     return CommercioDocEncryptionDataKey(
-      recipientDid: pair.first.id,
+      recipientDid: recipient.key,
       value: HEX.encode(encryptedAesKey),
     );
   }).toList();
@@ -138,4 +125,27 @@ Future<CommercioDoc> encryptField(
     ),
     doSign: doc.doSign,
   );
+}
+
+class WalletIdentityNotFoundException implements Exception {
+  /// Exception used to notify the caller that he tried to share an
+  /// **encrypted** [CommercioDoc] but one or more recipients does not have
+  /// an associated identity.
+  ///
+  /// In general this exception should be instantiated with the factory
+  /// constructor `fromAddress()`.
+  ///
+  /// Please refer to
+  /// https://docs.commercio.network/x/id/tx/create-an-identity.html
+  /// on how create an identity and associate it to a wallet.
+  const WalletIdentityNotFoundException(this.message) : assert(message != null);
+
+  /// Create a default-message exception that refers to the missing identity of
+  /// the provided `walletAddress`.
+  factory WalletIdentityNotFoundException.fromAddress(String walletAddress) =>
+      WalletIdentityNotFoundException(
+          'Could not find the identity of the wallet $walletAddress. Please make sure that all your recipients have an identity to send encrypted documents to them.');
+
+  /// The exception message.
+  final String message;
 }

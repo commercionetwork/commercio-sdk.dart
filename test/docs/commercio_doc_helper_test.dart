@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:commerciosdk/export.dart';
+import 'package:http/http.dart';
+import 'package:http/testing.dart';
 import 'package:test/test.dart';
 import 'package:uuid/uuid.dart';
 
@@ -11,6 +15,7 @@ void main() {
     final wallet = Wallet.derive(mnemonic, networkInfo);
     final senderDid = wallet.bech32Address;
     final recipientDids = ['did:com:1acdefg', 'did:com:1acdefg'];
+    const recipientWithDDO = 'did:com:1fswhnd44fv2qk7ls4gflxh7spu7xpqdue54s3m';
     final uuid = Uuid().v4();
     final metadata = CommercioDocMetadata(
       contentUri: 'https://example.com/document/metadata',
@@ -19,19 +24,25 @@ void main() {
         version: '7.0.0',
       ),
     );
+    final getWalletIdentityResponse =
+        File('test_resources/get_wallet_identity_response.json')
+            .readAsStringSync();
 
     test('"fromWallet()" returns a well-formed "CommercioDoc" object.',
         () async {
+      final mockClient =
+          MockClient((req) async => Response(getWalletIdentityResponse, 200));
+
       final expectedCommercioDoc = CommercioDoc(
         senderDid: senderDid,
-        recipientDids: recipientDids,
+        recipientDids: const [recipientWithDDO],
         uuid: uuid,
         metadata: metadata,
       );
 
       final commercioDoc = await CommercioDocHelper.fromWallet(
         wallet: wallet,
-        recipients: recipientDids,
+        recipients: const [recipientWithDDO],
         id: uuid,
         metadata: metadata,
       );
@@ -40,17 +51,59 @@ void main() {
 
       final commercioDocWithEncryptedData = await CommercioDocHelper.fromWallet(
         wallet: wallet,
-        recipients: recipientDids,
+        recipients: const [recipientWithDDO],
         id: uuid,
         metadata: metadata,
         contentUri: 'contentUri',
         encryptedData: {CommercioEncryptedData.CONTENT_URI},
+        client: mockClient,
       );
 
       expect(
         commercioDocWithEncryptedData.contentUri !=
             expectedCommercioDoc.contentUri,
         isTrue,
+      );
+    });
+
+    test(
+        'fromWallet() should throw a WalletIdentityNotFoundException if any of the recipients does not have a DDO',
+        () {
+      final mockClientEveryoneNotFound =
+          MockClient((req) async => Response(null, 404));
+
+      expect(
+        () => CommercioDocHelper.fromWallet(
+          wallet: wallet,
+          recipients: recipientDids,
+          id: uuid,
+          metadata: metadata,
+          contentUri: 'contentUri',
+          encryptedData: {CommercioEncryptedData.CONTENT_URI},
+          client: mockClientEveryoneNotFound,
+        ),
+        throwsA(isA<WalletIdentityNotFoundException>()),
+      );
+
+      final mockClientOnyOneNotFound = MockClient((req) async {
+        if (req.url.path.contains(recipientDids.last)) {
+          Response(getWalletIdentityResponse, 200);
+        }
+
+        return Response(null, 404);
+      });
+
+      expect(
+        () => CommercioDocHelper.fromWallet(
+          wallet: wallet,
+          recipients: recipientDids,
+          id: uuid,
+          metadata: metadata,
+          contentUri: 'contentUri',
+          encryptedData: {CommercioEncryptedData.CONTENT_URI},
+          client: mockClientOnyOneNotFound,
+        ),
+        throwsA(isA<WalletIdentityNotFoundException>()),
       );
     });
 
