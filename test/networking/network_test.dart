@@ -25,7 +25,7 @@ void main() {
     });
 
     final result = await Network.queryChain(
-      'http://example.com',
+      Uri.parse('http://example.com'),
       client: clientMock,
     ) as List<dynamic>;
     final testDataList = result.map((json) => TestData.fromJson(json)).toList();
@@ -42,7 +42,7 @@ void main() {
     final clientMock = MockClient((_) async => Response('', 400));
 
     final result = await Network.query(
-      'http://example.com',
+      Uri.parse('http://example.com'),
       client: clientMock,
     );
 
@@ -56,7 +56,7 @@ void main() {
     final clientMock = MockClient((_) async => Response(jsonEncode({}), 200));
 
     final result = await Network.queryChain(
-      'http://example.com',
+      Uri.parse('http://example.com'),
       client: clientMock,
     );
 
@@ -69,14 +69,16 @@ void main() {
       return Response('', 200);
     });
 
-    final result =
-        await Network.queryChain('http://example.com', client: clientMock);
+    final result = await Network.queryChain(
+      Uri.parse('http://example.com'),
+      client: clientMock,
+    );
 
     expect(result, isNull);
   });
 
   test('Default client should return null in test', () async {
-    final response = await Network.query('');
+    final response = await Network.query(Uri.parse(''));
 
     expect(response, isNull);
   });

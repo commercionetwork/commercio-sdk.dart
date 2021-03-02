@@ -48,8 +48,9 @@ class MintHelper {
   static Future<List<ExchangeTradePosition>> getExchangeTradePositions(
     Wallet wallet,
   ) async {
-    final url =
-        '${wallet.networkInfo.lcdUrl}/commerciomint/etps/${wallet.bech32Address}';
+    final url = Uri.parse(
+      '${wallet.networkInfo.lcdUrl}/commerciomint/etps/${wallet.bech32Address}',
+    );
     final response = await Network.queryChain(url) as List;
     return response
         .map((json) => ExchangeTradePosition.fromJson(json))

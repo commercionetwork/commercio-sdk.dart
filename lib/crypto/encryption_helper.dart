@@ -5,7 +5,6 @@ import 'package:commerciosdk/entities/crypto/identity_response.dart';
 import 'package:commerciosdk/entities/crypto/tumbler_response.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
-import 'package:steel_crypt/steel_crypt.dart';
 
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
@@ -17,7 +16,7 @@ class EncryptionHelper {
     http.Client client,
   }) async {
     final tumblerResponse = await Network.query(
-      '$lcdUrl/government/tumbler',
+      Uri.parse('$lcdUrl/government/tumbler'),
       client: client,
     );
 
@@ -28,7 +27,7 @@ class EncryptionHelper {
     final tumbler = TumblerResponse.fromJson(jsonDecode(tumblerResponse));
     final tumblerAddress = tumbler.result.tumblerAddress;
     final identityResponseRaw = await Network.query(
-      '$lcdUrl/identities/$tumblerAddress',
+      Uri.parse('$lcdUrl/identities/$tumblerAddress'),
       client: client,
     );
 
@@ -55,14 +54,14 @@ class EncryptionHelper {
     final nonce = KeysHelper.generateRandomNonceUtf8(12);
 
     // Create an AES-GCM crypter
-    final aesGcmCrypter =
-        AesCrypt(String.fromCharCodes(key.bytes), 'gcm', 'none');
+    final aesGcmCrypter = PaddedBlockCipher('AES/GCM/None');
+    final params = AEADParameters(KeyParameter(key.bytes), 128, nonce, null);
+    aesGcmCrypter.init(true, params);
 
     // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT
-    final base64Enc = aesGcmCrypter.encrypt(data, utf8.decode(nonce));
+    final chiperText = aesGcmCrypter.process(utf8.encode(data));
 
     // Concatenate bytes of CIPHERTEXT and N
-    final chiperText = base64.decode(base64Enc);
     final chiperTextWithNonce = nonce + chiperText;
 
     return Uint8List.fromList(chiperTextWithNonce);

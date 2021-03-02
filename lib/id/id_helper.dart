@@ -11,7 +11,7 @@ class IdHelper {
     Wallet wallet, {
     http.Client client,
   }) async {
-    final url = '${wallet.networkInfo.lcdUrl}/identities/${did}';
+    final url = Uri.parse('${wallet.networkInfo.lcdUrl}/identities/${did}');
     final response = await Network.queryChain(url, client: client);
     if (response == null) {
       return null;
