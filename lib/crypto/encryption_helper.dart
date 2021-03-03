@@ -13,7 +13,7 @@ class EncryptionHelper {
   /// Returns the RSA public key associated to the government that should be used when
   static Future<RSAPublicKey> getGovernmentRsaPubKey(
     String lcdUrl, {
-    http.Client client,
+    http.Client? client,
   }) async {
     final tumblerResponse = await Network.query(
       Uri.parse('$lcdUrl/government/tumbler'),
@@ -46,7 +46,8 @@ class EncryptionHelper {
 
   /// Encrypts the given [data] with AES using the specified [key].
   static Uint8List encryptStringWithAes(String data, Key key) {
-    return AES(key, mode: AESMode.ecb).encrypt(utf8.encode(data)).bytes;
+    final dataToEncrypt = Uint8List.fromList(utf8.encode(data));
+    return AES(key, mode: AESMode.ecb).encrypt(dataToEncrypt).bytes;
   }
 
   static Uint8List encryptStringWithAesGCM(String data, Key key) {
@@ -59,7 +60,8 @@ class EncryptionHelper {
     aesGcmCrypter.init(true, params);
 
     // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT
-    final chiperText = aesGcmCrypter.process(utf8.encode(data));
+    final dataToEncrypt = Uint8List.fromList(utf8.encode(data));
+    final chiperText = aesGcmCrypter.process(dataToEncrypt);
 
     // Concatenate bytes of CIPHERTEXT and N
     final chiperTextWithNonce = nonce + chiperText;
@@ -79,7 +81,8 @@ class EncryptionHelper {
 
   /// Encrypts the given [data] with RSA using the specified [key].
   static Uint8List encryptStringWithRsa(String data, RSAPublicKey key) {
-    return RSA(publicKey: key.pubKey).encrypt(utf8.encode(data)).bytes;
+    final dataToEncrypt = Uint8List.fromList(utf8.encode(data));
+    return RSA(publicKey: key.pubKey).encrypt(dataToEncrypt).bytes;
   }
 
   /// Encrypts the given [data] with RSA using the specified [key].

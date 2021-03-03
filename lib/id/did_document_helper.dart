@@ -1,16 +1,15 @@
 import 'dart:convert';
 
 import 'package:commerciosdk/export.dart';
-import 'package:meta/meta.dart';
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily create a Did Document and perform common related operations
 class DidDocumentHelper {
   /// Creates a Did Document from the given [wallet], [pubKeys] and optional [service].
   static DidDocument fromWallet({
-    @required Wallet wallet,
-    @required List<PublicKey> pubKeys,
-    List<DidDocumentService> service,
+    required Wallet wallet,
+    required List<PublicKey> pubKeys,
+    List<DidDocumentService>? service,
   }) {
     if (pubKeys.length < 2) {
       throw ArgumentError('At least two keys are required');
@@ -48,7 +47,10 @@ class DidDocumentHelper {
   /// Converts the given [pubKey] into a [DidDocumentPublicKey] placed at position [index],
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
   static DidDocumentPublicKey _convertKey(
-      PublicKey pubKey, int index, Wallet wallet) {
+    PublicKey pubKey,
+    int index,
+    Wallet wallet,
+  ) {
     return DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-$index',
       type: pubKey.getType(),
@@ -59,11 +61,11 @@ class DidDocumentHelper {
 
   /// Computes the [DidDocumentProof] based on the given [controller], [verificationMethod] and [proofSignatureContent]
   static DidDocumentProof _computeProof({
-    @required String controller,
-    @required String verificationMethod,
-    @required DidDocumentProofSignatureContent proofSignatureContent,
-    @required Wallet wallet,
-    String proofPurpose,
+    required String controller,
+    required String verificationMethod,
+    required DidDocumentProofSignatureContent proofSignatureContent,
+    required Wallet wallet,
+    String? proofPurpose,
   }) {
     proofPurpose = proofPurpose ?? 'authentication';
 

@@ -1,7 +1,6 @@
 import 'package:commerciosdk/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'commercio_doc_receipt.g.dart';
 
@@ -32,23 +31,22 @@ class CommercioDocReceipt extends Equatable {
 
   /// Optional reading proof
   @JsonKey(name: 'proof')
-  final String proof;
+  final String? proof;
 
   CommercioDocReceipt({
-    @required this.uuid,
-    @required this.senderDid,
-    @required this.recipientDid,
-    @required this.txHash,
-    @required this.documentUuid,
+    required this.uuid,
+    required this.senderDid,
+    required this.recipientDid,
+    required this.txHash,
+    required this.documentUuid,
     this.proof,
-  })  : assert(uuid != null && matchUuidv4(uuid)),
-        assert(senderDid != null && matchBech32Format(senderDid)),
-        assert(recipientDid != null && matchBech32Format(recipientDid)),
-        assert(txHash != null),
-        assert(documentUuid != null && matchUuidv4(documentUuid));
+  })  : assert(matchUuidv4(uuid)),
+        assert(matchBech32Format(senderDid)),
+        assert(matchBech32Format(recipientDid)),
+        assert(matchUuidv4(documentUuid));
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [uuid, senderDid, recipientDid, txHash, documentUuid, proof];
   }
 

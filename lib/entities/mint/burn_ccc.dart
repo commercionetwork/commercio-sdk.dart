@@ -1,7 +1,6 @@
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'burn_ccc.g.dart';
 
@@ -18,12 +17,11 @@ class BurnCcc extends Equatable {
   final String id;
 
   BurnCcc({
-    @required this.signerDid,
-    @required this.amount,
-    @required this.id,
-  })  : assert(signerDid != null && matchBech32Format(signerDid)),
-        assert(amount != null),
-        assert(id != null && matchUuidv4(id));
+    required this.signerDid,
+    required this.amount,
+    required this.id,
+  })   : assert(matchBech32Format(signerDid)),
+        assert(matchUuidv4(id));
 
   @override
   List<Object> get props => [signerDid, amount, id];

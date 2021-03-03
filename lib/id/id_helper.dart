@@ -6,10 +6,10 @@ import 'package:sacco/sacco.dart';
 class IdHelper {
   /// Returns the Did Document associated with the given [did],
   /// or `null` if no Did Document was found.
-  static Future<DidDocument> getDidDocument(
+  static Future<DidDocument?> getDidDocument(
     String did,
     Wallet wallet, {
-    http.Client client,
+    http.Client? client,
   }) async {
     final url = Uri.parse('${wallet.networkInfo.lcdUrl}/identities/${did}');
     final response = await Network.queryChain(url, client: client);
@@ -26,8 +26,8 @@ class IdHelper {
   static Future<TransactionResult> setDidDocument(
     DidDocument didDocument,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) {
     final msg = MsgSetDidDocument(didDocument: didDocument);
     return TxHelper.createSignAndSendTx(
@@ -44,8 +44,8 @@ class IdHelper {
   static Future<TransactionResult> setDidDocumentsList(
     List<DidDocument> didDocuments,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) {
     final msgs = didDocuments
         .map((didDocument) => MsgSetDidDocument(didDocument: didDocument))
@@ -69,8 +69,8 @@ class IdHelper {
     String pairwiseDid,
     List<StdCoin> amount,
     RSAPrivateKey privateKey, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) async {
     // Build the RequestDidPowerUp
     final requestDidPowerUp = await RequestDidPowerUpHelper.fromWallet(
@@ -99,8 +99,8 @@ class IdHelper {
   static Future<TransactionResult> requestDidPowerUpsList(
     List<RequestDidPowerUp> requestDidPowerUpsList,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) {
     final msgs = requestDidPowerUpsList
         .map((requestDidPowerUp) =>

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
 /// Allows to easily create a RequestDidPowerUp
@@ -11,11 +10,11 @@ class RequestDidPowerUpHelper {
   /// Creates a RequestDidPowerUpHelper
   /// from the given [wallet], [pairwiseDid], [amount] and [privateKey]
   static Future<RequestDidPowerUp> fromWallet({
-    @required Wallet wallet,
-    @required String pairwiseDid,
-    @required List<StdCoin> amount,
-    @required RSAPrivateKey privateKey,
-    http.Client client,
+    required Wallet wallet,
+    required String pairwiseDid,
+    required List<StdCoin> amount,
+    required RSAPrivateKey privateKey,
+    http.Client? client,
   }) async {
     // Get the timestamp
     final timestamp = DateTime.now().toUtc().millisecondsSinceEpoch.toString();

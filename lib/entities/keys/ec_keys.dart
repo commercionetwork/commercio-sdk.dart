@@ -6,7 +6,7 @@ import 'package:pointycastle/export.dart' as pointy_castle;
 /// Wrapper of the pointyCastle ECPublicKey
 class ECPublicKey implements PublicKey {
   final pointy_castle.ECPublicKey pubKey;
-  final String keyType;
+  final String? keyType;
 
   ECPublicKey(
     this.pubKey, {

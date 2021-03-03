@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'did_power_up_request_payload.g.dart';
 
@@ -18,14 +17,11 @@ class DidPowerUpRequestPayload extends Equatable {
   final String signature;
 
   const DidPowerUpRequestPayload({
-    @required this.senderDid,
-    @required this.pairwiseDid,
-    @required this.timestamp,
-    @required this.signature,
-  })  : assert(senderDid != null),
-        assert(pairwiseDid != null),
-        assert(timestamp != null),
-        assert(signature != null);
+    required this.senderDid,
+    required this.pairwiseDid,
+    required this.timestamp,
+    required this.signature,
+  });
 
   @override
   List<Object> get props {

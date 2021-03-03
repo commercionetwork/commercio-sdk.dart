@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'did_document_public_key.g.dart';
 
@@ -20,14 +19,11 @@ class DidDocumentPublicKey extends Equatable {
   final String publicKeyPem;
 
   const DidDocumentPublicKey({
-    @required this.id,
-    @required this.type,
-    @required this.controller,
-    @required this.publicKeyPem,
-  })  : assert(id != null),
-        assert(type != null),
-        assert(controller != null),
-        assert(publicKeyPem != null);
+    required this.id,
+    required this.type,
+    required this.controller,
+    required this.publicKeyPem,
+  });
 
   @override
   List<Object> get props {

@@ -9,8 +9,8 @@ class KycHelper {
   static Future<TransactionResult> buyMembershipsList(
     List<BuyMembership> buyMemberships,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) async {
     final msgs = buyMemberships
         .map((buyMembership) => MsgBuyMembership(buyMembership: buyMembership))
@@ -29,8 +29,8 @@ class KycHelper {
   static Future<TransactionResult> inviteUsersList(
     List<InviteUser> inviteUsers,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) async {
     final msgs = inviteUsers
         .map((inviteUser) => MsgInviteUser(inviteUser: inviteUser))
@@ -49,8 +49,8 @@ class KycHelper {
   static Future<TransactionResult> rewardPoolDepositsList(
     List<RewardPoolDeposit> rewardPoolDeposits,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) async {
     final msgs = rewardPoolDeposits
         .map((rewardPoolDeposit) =>

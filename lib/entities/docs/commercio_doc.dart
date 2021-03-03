@@ -1,7 +1,6 @@
 import 'package:commerciosdk/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'commercio_doc.g.dart';
 
@@ -19,42 +18,39 @@ class CommercioDoc extends Equatable {
   final String uuid;
 
   @JsonKey(name: 'content_uri')
-  final String contentUri;
+  final String? contentUri;
 
   @JsonKey(name: 'metadata')
   final CommercioDocMetadata metadata;
 
   @JsonKey(name: 'checksum')
-  final CommercioDocChecksum checksum;
+  final CommercioDocChecksum? checksum;
 
   @JsonKey(name: 'encryption_data')
-  final CommercioDocEncryptionData encryptionData;
+  final CommercioDocEncryptionData? encryptionData;
 
   /// If [doSign] is specified then the field [checksum] must be also provided.
   @JsonKey(name: 'do_sign')
-  final CommercioDoSign doSign;
+  final CommercioDoSign? doSign;
 
   CommercioDoc({
-    @required this.senderDid,
-    @required this.recipientDids,
-    @required this.uuid,
-    @required this.metadata,
+    required this.senderDid,
+    required this.recipientDids,
+    required this.uuid,
+    required this.metadata,
     this.contentUri,
     this.checksum,
     this.encryptionData,
     this.doSign,
-  })  : assert(senderDid != null && matchBech32Format(senderDid)),
-        assert(recipientDids != null &&
-            recipientDids.isNotEmpty &&
+  })  : assert(matchBech32Format(senderDid)),
+        assert(recipientDids.isNotEmpty &&
             recipientDids.every((e) => matchBech32Format(e))),
-        assert(uuid != null && matchUuidv4(uuid)),
-        assert(metadata != null),
-        assert(contentUri == null ||
-            (contentUri != null && checkStringBytesLen(contentUri, 512))),
+        assert(matchUuidv4(uuid)),
+        assert(contentUri == null || checkStringBytesLen(contentUri, 512)),
         assert(_checksumMustBePresentIfDoSign(checksum, doSign));
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       uuid,
       senderDid,
@@ -79,23 +75,23 @@ class CommercioDocMetadata extends Equatable {
   final String contentUri;
 
   @JsonKey(name: 'schema_type')
-  final String schemaType;
+  final String? schemaType;
 
   @JsonKey(name: 'schema')
-  final CommercioDocMetadataSchema schema;
+  final CommercioDocMetadataSchema? schema;
 
   CommercioDocMetadata({
-    @required this.contentUri,
+    required this.contentUri,
     this.schemaType,
     this.schema,
-  })  : assert(contentUri != null && checkStringBytesLen(contentUri, 512)),
+  })  : assert(checkStringBytesLen(contentUri, 512)),
         assert((schemaType != null &&
                 schemaType.isNotEmpty &&
                 checkStringBytesLen(schemaType, 512)) ||
             schema != null);
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [contentUri, schema, schemaType];
   }
 
@@ -114,12 +110,10 @@ class CommercioDocMetadataSchema extends Equatable {
   final String version;
 
   CommercioDocMetadataSchema({
-    @required this.uri,
-    @required this.version,
-  })  : assert(uri != null && uri.isNotEmpty && checkStringBytesLen(uri, 512)),
-        assert(version != null &&
-            uri.isNotEmpty &&
-            checkStringBytesLen(version, 32));
+    required this.uri,
+    required this.version,
+  })   : assert(uri.isNotEmpty && checkStringBytesLen(uri, 512)),
+        assert(uri.isNotEmpty && checkStringBytesLen(version, 32));
 
   @override
   List<Object> get props {
@@ -141,10 +135,9 @@ class CommercioDocChecksum extends Equatable {
   final CommercioDocChecksumAlgorithm algorithm;
 
   CommercioDocChecksum({
-    @required this.value,
-    @required this.algorithm,
-  })  : assert(value != null && value.isNotEmpty),
-        assert(algorithm != null);
+    required this.value,
+    required this.algorithm,
+  }) : assert(value.isNotEmpty);
 
   @override
   List<Object> get props {
@@ -186,10 +179,9 @@ class CommercioDocEncryptionData extends Equatable {
   final Set<CommercioEncryptedData> encryptedData;
 
   const CommercioDocEncryptionData({
-    @required this.keys,
-    @required this.encryptedData,
-  })  : assert(keys != null),
-        assert(encryptedData != null);
+    required this.keys,
+    required this.encryptedData,
+  });
 
   @override
   List<Object> get props {
@@ -211,10 +203,9 @@ class CommercioDocEncryptionDataKey extends Equatable {
   final String value;
 
   CommercioDocEncryptionDataKey({
-    @required this.recipientDid,
-    @required this.value,
-  })  : assert(recipientDid != null),
-        assert(value != null && checkStringBytesLen(value, 512));
+    required this.recipientDid,
+    required this.value,
+  }) : assert(checkStringBytesLen(value, 512));
 
   @override
   List<Object> get props {
@@ -236,7 +227,7 @@ class CommercioDoSign extends Equatable {
   final String signerIstance;
 
   @JsonKey(name: 'sdn_data', includeIfNull: true)
-  final Set<CommercioSdnData> sdnData;
+  final Set<CommercioSdnData>? sdnData;
 
   @JsonKey(name: 'vcr_id')
   final String vcrId;
@@ -245,20 +236,17 @@ class CommercioDoSign extends Equatable {
   final String certificateProfile;
 
   CommercioDoSign({
-    @required this.storageUri,
-    @required this.signerIstance,
-    @required this.vcrId,
-    @required this.certificateProfile,
+    required this.storageUri,
+    required this.signerIstance,
+    required this.vcrId,
+    required this.certificateProfile,
     this.sdnData,
-  })  : assert(storageUri != null),
-        assert(signerIstance != null),
-        assert(vcrId != null && checkStringBytesLen(vcrId, 64)),
-        assert(certificateProfile != null &&
-            checkStringBytesLen(certificateProfile, 32)),
+  })  : assert(checkStringBytesLen(vcrId, 64)),
+        assert(checkStringBytesLen(certificateProfile, 32)),
         assert(_sdnDataNotEmpty(sdnData));
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [storageUri, signerIstance, sdnData, vcrId, certificateProfile];
   }
 
@@ -314,7 +302,7 @@ enum CommercioEncryptedData {
 
 extension CommercioEncryptedDataExt on CommercioEncryptedData {
   /// Returns the string representation of the [EncryptedData] enum.
-  String get value {
+  String? get value {
     switch (this) {
       case CommercioEncryptedData.CONTENT:
         return 'content';
@@ -331,7 +319,7 @@ extension CommercioEncryptedDataExt on CommercioEncryptedData {
 
   /// Returns the [EncryptedData] that corresponds to the [value] or [null] if
   /// the [value] is not valid.
-  static CommercioEncryptedData fromValue(String value) {
+  static CommercioEncryptedData? fromValue(String value) {
     switch (value) {
       case 'content':
         return CommercioEncryptedData.CONTENT;
@@ -350,13 +338,13 @@ extension CommercioEncryptedDataExt on CommercioEncryptedData {
 /// Return [true] if the fields [doSign] and [checksum] are both not null if the
 /// first is specified.
 bool _checksumMustBePresentIfDoSign(
-  CommercioDocChecksum checksum,
-  CommercioDoSign doSign,
+  CommercioDocChecksum? checksum,
+  CommercioDoSign? doSign,
 ) {
   return doSign != null ? checksum != null : true;
 }
 
 /// Returns [true] if [sdnData] is [null] or, if specified, must be not empty.
-bool _sdnDataNotEmpty(Set<CommercioSdnData> sdnData) {
+bool _sdnDataNotEmpty(Set<CommercioSdnData>? sdnData) {
   return sdnData != null ? sdnData.isNotEmpty : true;
 }

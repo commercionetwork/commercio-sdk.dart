@@ -1,7 +1,6 @@
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'mint_ccc.g.dart';
 
@@ -18,12 +17,11 @@ class MintCcc extends Equatable {
   final String id;
 
   MintCcc({
-    @required this.depositAmount,
-    @required this.signerDid,
-    @required this.id,
-  })  : assert(depositAmount != null),
-        assert(signerDid != null && matchBech32Format(signerDid)),
-        assert(id != null && matchUuidv4(id));
+    required this.depositAmount,
+    required this.signerDid,
+    required this.id,
+  })   : assert(matchBech32Format(signerDid)),
+        assert(matchUuidv4(id));
 
   @override
   List<Object> get props => [depositAmount, signerDid, id];
