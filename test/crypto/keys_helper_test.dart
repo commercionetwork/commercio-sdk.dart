@@ -1,11 +1,13 @@
+import 'dart:convert';
+
 import 'package:commerciosdk/crypto/export.dart';
-import 'package:commerciosdk/entities/export.dart';
-import 'package:commerciosdk/entities/keys/key_pair.dart' as local;
+import 'package:commerciosdk/export.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('generateRsaKeyPair generates random keys', () async {
-    final keys = <local.KeyPair<RSAPublicKey, RSAPrivateKey>>[];
+    final keys =
+        <CommercioKeyPair<CommercioRSAPublicKey, CommercioRSAPrivateKey>>[];
     for (var i = 0; i < 10; i++) {
       keys.add(await KeysHelper.generateRsaKeyPair());
     }
@@ -18,14 +20,14 @@ void main() {
   });
 
   test('generateAesKey generates random keys', () async {
-    final keys = <Key>[];
+    final keys = <Uint8List>[];
     for (var i = 0; i < 100; i++) {
       final key = await KeysHelper.generateAesKey();
-      expect(16, key.bytes.length);
+      expect(16, key.length);
       keys.add(key);
     }
 
-    final unique = keys.map((key) => key.base64).toSet().toList();
+    final unique = keys.map((key) => base64Encode(key)).toSet().toList();
     expect(unique.length, 100);
   });
 }

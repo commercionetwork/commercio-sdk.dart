@@ -4,7 +4,7 @@ import 'package:commerciosdk/entities/export.dart';
 import 'package:ed25519_hd_key/ed25519_hd_key.dart' as ed25519;
 
 ///Wrapper of the Ed25519_hd_key
-class Ed25519PublicKey implements PublicKey {
+class Ed25519PublicKey implements CommercioPublicKey {
   final Uint8List seed;
   final String keyType;
 

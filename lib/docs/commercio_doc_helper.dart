@@ -17,7 +17,7 @@ class CommercioDocHelper {
     CommercioDocChecksum checksum,
     CommercioDoSign doSign,
     Set<CommercioEncryptedData> encryptedData,
-    Key aesKey,
+    Uint8List aesKey,
     http.Client client,
   }) async {
     // Build a commercio document

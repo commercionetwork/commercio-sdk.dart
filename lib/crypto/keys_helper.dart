@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:commerciosdk/export.dart';
-import 'package:encrypt/encrypt.dart' hide SecureRandom;
 
 /// Allows to easily generate new keys either to be used with AES or RSA key.
 class KeysHelper {
@@ -27,13 +26,14 @@ class KeysHelper {
   }
 
   /// Generates a new AES key having the desired [length].
-  static Future<Key> generateAesKey({int length = 256}) async {
-    return Key.fromSecureRandom(length ~/ 16);
+  static Future<Uint8List> generateAesKey({int length = 256}) async {
+    return SecureRandom().nextBytes(length ~/ 16);
   }
 
   /// Generates a new RSA key pair having the given [bytes] length.
   /// If no length is specified, the default is going to be 2048.
-  static Future<KeyPair<RSAPublicKey, RSAPrivateKey>> generateRsaKeyPair({
+  static Future<CommercioKeyPair<CommercioRSAPublicKey, CommercioRSAPrivateKey>>
+      generateRsaKeyPair({
     int bytes = 2048,
     String type,
   }) async {
@@ -42,22 +42,22 @@ class KeysHelper {
     final keyGenerator = RSAKeyGenerator();
     keyGenerator.init(params);
     final keyPair = keyGenerator.generateKeyPair();
-    return KeyPair(
-      RSAPublicKey(keyPair.publicKey, keyType: type),
-      RSAPrivateKey(keyPair.privateKey),
+    return CommercioKeyPair(
+      CommercioRSAPublicKey(keyPair.publicKey, keyType: type),
+      CommercioRSAPrivateKey(keyPair.privateKey),
     );
   }
 
   /// Generates a new random EC key pair.
-  static Future<KeyPair<ECPublicKey, ECPrivateKey>> generateEcKeyPair(
-      {String type}) async {
+  static Future<CommercioKeyPair<CommercioECPublicKey, CommercioECPrivateKey>>
+      generateEcKeyPair({String type}) async {
     final keyParams = ECKeyGeneratorParameters(ECCurve_secp256k1());
     final generator = ECKeyGenerator();
     generator.init(ParametersWithRandom(keyParams, _getSecureRandom()));
     final keyPair = generator.generateKeyPair();
-    return KeyPair(
-      ECPublicKey(keyPair.publicKey, keyType: type),
-      ECPrivateKey(keyPair.privateKey),
+    return CommercioKeyPair(
+      CommercioECPublicKey(keyPair.publicKey, keyType: type),
+      CommercioECPrivateKey(keyPair.privateKey),
     );
   }
 }

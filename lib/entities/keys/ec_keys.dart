@@ -4,11 +4,11 @@ import 'package:commerciosdk/entities/export.dart';
 import 'package:pointycastle/export.dart' as pointy_castle;
 
 /// Wrapper of the pointyCastle ECPublicKey
-class ECPublicKey implements PublicKey {
+class CommercioECPublicKey implements CommercioPublicKey {
   final pointy_castle.ECPublicKey pubKey;
   final String keyType;
 
-  ECPublicKey(
+  CommercioECPublicKey(
     this.pubKey, {
     this.keyType,
   });
@@ -23,8 +23,8 @@ class ECPublicKey implements PublicKey {
 }
 
 /// Wrapper of the pointyCastle ECPrivateKey
-class ECPrivateKey implements PrivateKey {
+class CommercioECPrivateKey implements CommercioPrivateKey {
   final pointy_castle.ECPrivateKey secretKey;
 
-  ECPrivateKey(this.secretKey);
+  CommercioECPrivateKey(this.secretKey);
 }

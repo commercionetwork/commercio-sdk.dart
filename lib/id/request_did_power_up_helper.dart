@@ -14,7 +14,7 @@ class RequestDidPowerUpHelper {
     @required Wallet wallet,
     @required String pairwiseDid,
     @required List<StdCoin> amount,
-    @required RSAPrivateKey privateKey,
+    @required CommercioRSAPrivateKey privateKey,
     http.Client client,
   }) async {
     // Get the timestamp
@@ -59,7 +59,7 @@ class RequestDidPowerUpHelper {
       client: client,
     );
     final encryptedProofKey =
-        EncryptionHelper.encryptBytesWithRsa(aesKey.bytes, rsaPubTkKey);
+        EncryptionHelper.encryptBytesWithRsa(aesKey, rsaPubTkKey.pubKey);
 
     // Build the RequestDidPowerUp
     return RequestDidPowerUp(

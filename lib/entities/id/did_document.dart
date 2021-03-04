@@ -43,16 +43,14 @@ class DidDocument extends Equatable {
   /// Returns the [PublicKey] that should be used as the public encryption
   /// key when encrypting data that can later be read only by the owner of
   /// this Did Document.
-  RSAPublicKey get encryptionKey {
+  CommercioRSAPublicKey get encryptionKey {
     final pubKey = publicKeys.firstWhere(
       (key) => key.type == 'RsaVerificationKey2018',
       orElse: () => null,
     );
     if (pubKey == null) return null;
 
-    return RSAPublicKey(
-      RSAKeyParser.parseKeyFromPem(pubKey.publicKeyPem),
-    );
+    return CommercioRSAPublicKey(RSAKeyParser.parse(pubKey.publicKeyPem));
   }
 
   factory DidDocument.fromJson(Map<String, dynamic> json) =>

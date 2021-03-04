@@ -1,8 +1,8 @@
 /// Represents a generic asymmetric private key
-abstract class PrivateKey {}
+abstract class CommercioPrivateKey {}
 
 /// Represents a generic asymmetric public key
-abstract class PublicKey {
+abstract class CommercioPublicKey {
   String getEncoded();
   String getType();
 }

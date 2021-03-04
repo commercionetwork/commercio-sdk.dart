@@ -2,7 +2,7 @@ export 'package:sacco/sacco.dart';
 
 export 'crypto/export.dart';
 export 'docs/export.dart';
-export 'entities/export.dart' hide RSAKeyParser;
+export 'entities/export.dart';
 export 'id/export.dart';
 export 'kyc/export.dart';
 export 'mint/export.dart';

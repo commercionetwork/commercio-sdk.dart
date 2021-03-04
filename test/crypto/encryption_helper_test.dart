@@ -5,7 +5,7 @@ import 'package:hex/hex.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final aesKey = Key.fromUtf8('Xn2r5u8x/A?D(G+KbPdSgVkYp3s6v9y\$');
+  final aesKey = utf8.encode('Xn2r5u8x/A?D(G+KbPdSgVkYp3s6v9y\$');
 
   test('AES encryption works properly with string data', () async {
     final result = EncryptionHelper.encryptStringWithAes('Test', aesKey);
@@ -38,11 +38,11 @@ void main() {
     const input = 'This is a test!';
     final encrypted = EncryptionHelper.encryptStringWithRsa(
       input,
-      keyPair.publicKey,
+      keyPair.publicKey.pubKey,
     );
     final decrypted = EncryptionHelper.decryptBytesWithRsa(
       encrypted,
-      keyPair.privateKey,
+      keyPair.privateKey.secretKey,
     );
     expect(utf8.decode(decrypted), input);
   });
@@ -54,11 +54,11 @@ void main() {
     final encoded = utf8.encode(input);
     final encrypted = EncryptionHelper.encryptBytesWithRsa(
       encoded,
-      keyPair.publicKey,
+      keyPair.publicKey.pubKey,
     );
     final decrypted = EncryptionHelper.decryptBytesWithRsa(
       encrypted,
-      keyPair.privateKey,
+      keyPair.privateKey.secretKey,
     );
     expect(utf8.decode(decrypted), input);
   });

@@ -9,7 +9,7 @@ class DidDocumentHelper {
   /// Creates a Did Document from the given [wallet], [pubKeys] and optional [service].
   static DidDocument fromWallet({
     @required Wallet wallet,
-    @required List<PublicKey> pubKeys,
+    @required List<CommercioPublicKey> pubKeys,
     List<DidDocumentService> service,
   }) {
     if (pubKeys.length < 2) {
@@ -48,7 +48,7 @@ class DidDocumentHelper {
   /// Converts the given [pubKey] into a [DidDocumentPublicKey] placed at position [index],
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
   static DidDocumentPublicKey _convertKey(
-      PublicKey pubKey, int index, Wallet wallet) {
+      CommercioPublicKey pubKey, int index, Wallet wallet) {
     return DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-$index',
       type: pubKey.getType(),

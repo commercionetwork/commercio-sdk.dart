@@ -16,7 +16,7 @@ void main() {
 
   final modulusVerification = BigInt.from(125);
   final exponentVerification = BigInt.from(126);
-  final rsaPubKeyVerification = RSAPublicKey(pointycastle.RSAPublicKey(
+  final rsaPubKeyVerification = CommercioRSAPublicKey(pointycastle.RSAPublicKey(
     modulusVerification,
     exponentVerification,
   ));
@@ -29,7 +29,7 @@ void main() {
 
   final modulusSignature = BigInt.from(135);
   final exponentSignature = BigInt.from(136);
-  final rsaPubKeySignature = RSAPublicKey(
+  final rsaPubKeySignature = CommercioRSAPublicKey(
     pointycastle.RSAPublicKey(
       modulusSignature,
       exponentSignature,

@@ -19,7 +19,7 @@ class DocsHelper {
     String contentUri,
     CommercioDoSign doSign,
     CommercioDocChecksum checksum,
-    Key aesKey,
+    Uint8List aesKey,
     Set<CommercioEncryptedData> encryptedData,
     StdFee fee,
     BroadcastingMode mode,
@@ -76,7 +76,7 @@ class DocsHelper {
     @required NetworkInfo networkInfo,
     http.Client client,
   }) async {
-    final url = Uri.parse('${networkInfo.lcdUrl}/docs/${address}/sent');
+    final url = Uri.parse('${networkInfo.lcdUrl}/docs/$address/sent');
     final response = await Network.queryChain(url, client: client) as List;
 
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
@@ -89,7 +89,7 @@ class DocsHelper {
     @required NetworkInfo networkInfo,
     http.Client client,
   }) async {
-    final url = Uri.parse('${networkInfo.lcdUrl}/docs/${address}/received');
+    final url = Uri.parse('${networkInfo.lcdUrl}/docs/$address/received');
     final response = await Network.queryChain(url, client: client) as List;
 
     return response.map((json) => CommercioDoc.fromJson(json)).toList();
@@ -156,7 +156,7 @@ class DocsHelper {
     @required NetworkInfo networkInfo,
     http.Client client,
   }) async {
-    final url = Uri.parse('${networkInfo.lcdUrl}/receipts/${address}/sent');
+    final url = Uri.parse('${networkInfo.lcdUrl}/receipts/$address/sent');
     final response = await Network.queryChain(url, client: client) as List;
 
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();
@@ -169,7 +169,7 @@ class DocsHelper {
     @required NetworkInfo networkInfo,
     http.Client client,
   }) async {
-    final url = Uri.parse('${networkInfo.lcdUrl}/receipts/${address}/received');
+    final url = Uri.parse('${networkInfo.lcdUrl}/receipts/$address/received');
     final response = await Network.queryChain(url, client: client) as List;
 
     return response.map((json) => CommercioDocReceipt.fromJson(json)).toList();

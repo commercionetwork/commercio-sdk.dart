@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:asn1lib/asn1lib.dart';
 import 'package:commerciosdk/entities/export.dart';
-import 'package:pointycastle/export.dart' as pointy_castle;
+import 'package:pointycastle/asn1.dart';
+import 'package:pointycastle/export.dart';
 
 /// Wrapper of the pointyCastle RSAPublicKey
-class RSAPublicKey implements PublicKey {
-  final pointy_castle.RSAPublicKey pubKey;
+class CommercioRSAPublicKey implements CommercioPublicKey {
+  final RSAPublicKey pubKey;
   final String keyType;
 
-  RSAPublicKey(
+  CommercioRSAPublicKey(
     this.pubKey, {
     this.keyType,
   });
@@ -28,10 +28,10 @@ class RSAPublicKey implements PublicKey {
 }
 
 /// Wrapper of the pointyCastle RSAPrivateKey
-class RSAPrivateKey implements PrivateKey {
-  final pointy_castle.RSAPrivateKey secretKey;
+class CommercioRSAPrivateKey implements CommercioPrivateKey {
+  final RSAPrivateKey secretKey;
 
-  RSAPrivateKey(this.secretKey);
+  CommercioRSAPrivateKey(this.secretKey);
 
   String encodePrivateKeyToPemPKCS1() {
     final topLevel = ASN1Sequence();
@@ -39,12 +39,12 @@ class RSAPrivateKey implements PrivateKey {
     final version = ASN1Integer(BigInt.from(0));
     final modulus = ASN1Integer(secretKey.n);
     final publicExponent = ASN1Integer(secretKey.exponent);
-    final privateExponent = ASN1Integer(secretKey.d);
+    final privateExponent = ASN1Integer(secretKey.privateExponent);
     final p = ASN1Integer(secretKey.p);
     final q = ASN1Integer(secretKey.q);
-    final dP = secretKey.d % (secretKey.p - BigInt.from(1));
+    final dP = secretKey.privateExponent % (secretKey.p - BigInt.from(1));
     final exp1 = ASN1Integer(dP);
-    final dQ = secretKey.d % (secretKey.q - BigInt.from(1));
+    final dQ = secretKey.privateExponent % (secretKey.q - BigInt.from(1));
     final exp2 = ASN1Integer(dQ);
     final iQ = secretKey.q.modInverse(secretKey.p);
     final co = ASN1Integer(iQ);

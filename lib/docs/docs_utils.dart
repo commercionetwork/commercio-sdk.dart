@@ -16,7 +16,7 @@ import 'package:http/http.dart' as http;
 /// [schema].
 Future<CommercioDoc> encryptField(
   CommercioDoc doc,
-  Key aesKey,
+  Uint8List aesKey,
   Set<CommercioEncryptedData> encryptedData,
   List<String> recipients,
   Wallet wallet, {
@@ -89,8 +89,8 @@ Future<CommercioDoc> encryptField(
   // Create the encryption key field
   final encryptionKeys = recipientsWithDDO.map((recipient) {
     final encryptedAesKey = EncryptionHelper.encryptBytesWithRsa(
-      aesKey.bytes,
-      recipient.value.encryptionKey,
+      aesKey,
+      recipient.value.encryptionKey.pubKey,
     );
     return CommercioDocEncryptionDataKey(
       recipientDid: recipient.key,
