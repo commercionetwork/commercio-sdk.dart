@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 class EncryptionHelper {
   /// encrypting the data that only it should see.
   /// Returns the RSA public key associated to the government that should be used when
-  static Future<RSAPublicKey> getGovernmentRsaPubKey(
+  static Future<CommercioRSAPublicKey> getGovernmentRsaPubKey(
     String lcdUrl, {
     http.Client client,
   }) async {
@@ -39,23 +39,23 @@ class EncryptionHelper {
         IdentityResponse.fromJson(jsonDecode(identityResponseRaw));
     final publicSignatureKeyPem =
         identityResponse.result.didDocument.publicKeys[1].publicKeyPem;
-    final rsaPublicKey = RSAKeyParser.parseKeyFromPem(publicSignatureKeyPem);
+    final rsaPublicKey = RSAKeyParser.parse(publicSignatureKeyPem);
 
-    return RSAPublicKey(rsaPublicKey);
+    return CommercioRSAPublicKey(rsaPublicKey);
   }
 
   /// Encrypts the given [data] with AES using the specified [key].
-  static Uint8List encryptStringWithAes(String data, Key key) {
-    return AES(key, mode: AESMode.ecb).encrypt(utf8.encode(data)).bytes;
+  static Uint8List encryptStringWithAes(String data, Uint8List key) {
+    return encryptBytesWithAes(utf8.encode(data), key);
   }
 
-  static Uint8List encryptStringWithAesGCM(String data, Key key) {
+  static Uint8List encryptStringWithAesGCM(String data, Uint8List key) {
     // Generate a random 96-bit nonce N
     final nonce = KeysHelper.generateRandomNonceUtf8(12);
 
     // Create an AES-GCM crypter
     final aesGcmCrypter = PaddedBlockCipher('AES/GCM/None');
-    final params = AEADParameters(KeyParameter(key.bytes), 128, nonce, null);
+    final params = AEADParameters(KeyParameter(key), 128, nonce, null);
     aesGcmCrypter.init(true, params);
 
     // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT
@@ -68,27 +68,39 @@ class EncryptionHelper {
   }
 
   /// Encrypts the given [data] with AES using the specified [key].
-  static Uint8List encryptBytesWithAes(Uint8List data, Key key) {
-    return AES(key, mode: AESMode.ecb).encrypt(data).bytes;
+  static Uint8List encryptBytesWithAes(Uint8List data, Uint8List key) {
+    final aesChiper = PaddedBlockCipher('AES/ECB/PKCS7');
+    aesChiper.init(true, PaddedBlockCipherParameters(KeyParameter(key), null));
+
+    return aesChiper.process(data);
   }
 
   /// Decrypts the given [data] with AES using the specified [key].
-  static Uint8List decryptWithAes(Uint8List data, Key key) {
-    return AES(key, mode: AESMode.ecb).decrypt(Encrypted(data));
+  static Uint8List decryptWithAes(Uint8List data, Uint8List key) {
+    final aesChiper = PaddedBlockCipher('AES/ECB/PKCS7');
+    aesChiper.init(false, PaddedBlockCipherParameters(KeyParameter(key), null));
+
+    return aesChiper.process(data);
   }
 
   /// Encrypts the given [data] with RSA using the specified [key].
   static Uint8List encryptStringWithRsa(String data, RSAPublicKey key) {
-    return RSA(publicKey: key.pubKey).encrypt(utf8.encode(data)).bytes;
+    return encryptBytesWithRsa(utf8.encode(data), key);
   }
 
   /// Encrypts the given [data] with RSA using the specified [key].
   static Uint8List encryptBytesWithRsa(Uint8List data, RSAPublicKey key) {
-    return RSA(publicKey: key.pubKey).encrypt(data).bytes;
+    final rsaChiper = AsymmetricBlockCipher('RSA/PKCS1');
+    rsaChiper.init(true, PublicKeyParameter<RSAPublicKey>(key));
+
+    return rsaChiper.process(data);
   }
 
   /// Decrypts the given data using the specified private [key].
   static Uint8List decryptBytesWithRsa(Uint8List data, RSAPrivateKey key) {
-    return RSA(privateKey: key.secretKey).decrypt(Encrypted(data));
+    final rsaChiper = AsymmetricBlockCipher('RSA/PKCS1');
+    rsaChiper.init(false, PrivateKeyParameter<RSAPrivateKey>(key));
+
+    return rsaChiper.process(data);
   }
 }
