@@ -36,10 +36,6 @@ void main() {
   });
 
   group('matchUuidv4', () {
-    test('Null value should throw ArgumentError', () {
-      expect(() => matchUuidv4(null), throwsArgumentError);
-    });
-
     test('Invalid strings should return false', () {
       // Empty
       expect(matchUuidv4(''), isFalse);

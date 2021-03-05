@@ -86,7 +86,7 @@ void main() {
 
 @JsonSerializable(explicitToJson: true)
 class TestResponse {
-  final List<TestData> result;
+  final List<TestData>? result;
 
   TestResponse(this.result);
 

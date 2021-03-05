@@ -43,7 +43,7 @@ Future<ProofGenerationResult> generateProof(
   final rsaKey = await EncryptionHelper.getGovernmentRsaPubKey(lcdUrl);
   final encryptedAesKey = EncryptionHelper.encryptBytesWithRsa(
     aesKey,
-    rsaKey.pubKey,
+    rsaKey.publicKey,
   );
   final encodedAesKey = base64.encode(encryptedAesKey);
 

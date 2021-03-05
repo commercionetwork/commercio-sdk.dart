@@ -59,7 +59,7 @@ class RequestDidPowerUpHelper {
       client: client,
     );
     final encryptedProofKey =
-        EncryptionHelper.encryptBytesWithRsa(aesKey, rsaPubTkKey.pubKey);
+        EncryptionHelper.encryptBytesWithRsa(aesKey, rsaPubTkKey.publicKey);
 
     // Build the RequestDidPowerUp
     return RequestDidPowerUp(

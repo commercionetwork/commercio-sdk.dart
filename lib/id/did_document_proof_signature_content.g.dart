@@ -11,16 +11,12 @@ DidDocumentProofSignatureContent _$DidDocumentProofSignatureContentFromJson(
   return DidDocumentProofSignatureContent(
     context: json['@context'] as String,
     id: json['id'] as String,
-    publicKeys: (json['publicKey'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DidDocumentPublicKey.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    service: (json['service'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DidDocumentService.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    publicKeys: (json['publicKey'] as List<dynamic>)
+        .map((e) => DidDocumentPublicKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    service: (json['service'] as List<dynamic>?)
+        ?.map((e) => DidDocumentService.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

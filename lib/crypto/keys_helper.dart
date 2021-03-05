@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:commerciosdk/export.dart';
+import 'package:pointycastle/export.dart';
 
 /// Allows to easily generate new keys either to be used with AES or RSA key.
 class KeysHelper {
@@ -30,30 +31,34 @@ class KeysHelper {
   /// If no length is specified, the default is going to be 2048.
   static Future<CommercioKeyPair<CommercioRSAPublicKey, CommercioRSAPrivateKey>>
       generateRsaKeyPair({
+    required CommercioRSAKeyType keyType,
     int bytes = 2048,
-    String type,
   }) async {
     final rsa = RSAKeyGeneratorParameters(BigInt.from(65537), bytes, 5);
     final params = ParametersWithRandom(rsa, _getSecureRandom());
     final keyGenerator = RSAKeyGenerator();
     keyGenerator.init(params);
     final keyPair = keyGenerator.generateKeyPair();
+
     return CommercioKeyPair(
-      CommercioRSAPublicKey(keyPair.publicKey, keyType: type),
-      CommercioRSAPrivateKey(keyPair.privateKey),
+      CommercioRSAPublicKey(
+        keyPair.publicKey as RSAPublicKey,
+        keyType: keyType,
+      ),
+      CommercioRSAPrivateKey(keyPair.privateKey as RSAPrivateKey),
     );
   }
 
   /// Generates a new random EC key pair.
   static Future<CommercioKeyPair<CommercioECPublicKey, CommercioECPrivateKey>>
-      generateEcKeyPair({String type}) async {
+      generateEcKeyPair({String? type}) async {
     final keyParams = ECKeyGeneratorParameters(ECCurve_secp256k1());
     final generator = ECKeyGenerator();
     generator.init(ParametersWithRandom(keyParams, _getSecureRandom()));
     final keyPair = generator.generateKeyPair();
     return CommercioKeyPair(
-      CommercioECPublicKey(keyPair.publicKey, keyType: type),
-      CommercioECPrivateKey(keyPair.privateKey),
+      CommercioECPublicKey(keyPair.publicKey as ECPublicKey, keyType: type),
+      CommercioECPrivateKey(keyPair.privateKey as ECPrivateKey),
     );
   }
 }

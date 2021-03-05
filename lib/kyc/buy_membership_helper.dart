@@ -11,7 +11,7 @@ class BuyMembershipHelper {
   }) {
     return BuyMembership(
       buyerDid: wallet.bech32Address,
-      membershipType: membershipType.value!,
+      membershipType: membershipType.value,
       tsp: tsp,
     );
   }

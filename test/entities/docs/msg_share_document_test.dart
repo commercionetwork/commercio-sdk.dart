@@ -38,13 +38,6 @@ void main() {
   );
   final correctMsgShareDoc = MsgShareDocument(document: correctCommercioDoc);
 
-  test('Null should throw assert error', () {
-    expect(
-      () => MsgShareDocument(document: null),
-      throwsA(isA<AssertionError>()),
-    );
-  });
-
   test('Type should be "commercio/MsgShareDocument"', () {
     expect(
       correctMsgShareDoc.type,

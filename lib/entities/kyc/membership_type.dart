@@ -1,7 +1,7 @@
 enum MembershipType { GREEN, BRONZE, SILVER, GOLD, BLACK }
 
 extension MembershipTypeExt on MembershipType {
-  String? get value {
+  String get value {
     switch (this) {
       case MembershipType.GREEN:
         return 'green';
@@ -13,8 +13,6 @@ extension MembershipTypeExt on MembershipType {
         return 'gold';
       case MembershipType.BLACK:
         return 'black';
-      default:
-        return null;
     }
   }
 }

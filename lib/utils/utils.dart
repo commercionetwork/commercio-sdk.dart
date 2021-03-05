@@ -13,7 +13,9 @@ String getTimeStamp() {
 ///[transform] function that takes the [index] of an [item] and the [item] itself and
 ///returns the result of the transform applied to the [item].
 Iterable<E> mapIndexed<E, T>(
-    Iterable<T> items, E Function(int index, T item) transform) sync* {
+  Iterable<T> items,
+  E Function(int index, T item) transform,
+) sync* {
   var index = 0;
 
   for (final item in items) {

@@ -70,7 +70,7 @@ void main() {
         'fromWallet() should throw a WalletIdentityNotFoundException if any of the recipients does not have a DDO',
         () {
       final mockClientEveryoneNotFound =
-          MockClient((req) async => Response(null, 404));
+          MockClient((req) async => Response('', 404));
 
       expect(
         () => CommercioDocHelper.fromWallet(
@@ -90,7 +90,7 @@ void main() {
           Response(getWalletIdentityResponse, 200);
         }
 
-        return Response(null, 404);
+        return Response('', 404);
       });
 
       expect(

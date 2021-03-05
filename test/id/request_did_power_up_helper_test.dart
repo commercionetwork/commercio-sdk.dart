@@ -41,7 +41,9 @@ void main() {
         return Future.value(Response(body, 200));
       });
 
-      final keyPair = await KeysHelper.generateRsaKeyPair();
+      final keyPair = await KeysHelper.generateRsaKeyPair(
+        keyType: CommercioRSAKeyType.verification,
+      );
 
       const powerUpProof = 'powerUpProof';
       final uuid = Uuid().v4();

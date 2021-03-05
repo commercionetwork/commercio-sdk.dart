@@ -13,12 +13,6 @@ void main() {
   );
   final correctMsgSendDocumentReceipt =
       MsgSendDocumentReceipt(receipt: correctCommercioDocReceipt);
-  test('Null should throw assert error', () {
-    expect(
-      () => MsgSendDocumentReceipt(receipt: null),
-      throwsA(isA<AssertionError>()),
-    );
-  });
 
   test('Type should be "commercio/MsgSendDocumentReceipt"', () {
     expect(

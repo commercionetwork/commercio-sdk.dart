@@ -1,7 +1,7 @@
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
+import 'package:pointycastle/export.dart';
 
 part 'did_document.g.dart';
 
@@ -16,7 +16,7 @@ class DidDocument extends Equatable {
   final String id;
 
   @JsonKey(name: 'publicKey')
-  final List<DidDocumentPublicKey> publicKeys;
+  final List<DidDocumentPublicKey?> publicKeys;
 
   @JsonKey(name: 'proof')
   final DidDocumentProof proof;
@@ -40,18 +40,19 @@ class DidDocument extends Equatable {
   /// Returns the [PublicKey] that should be used as the public encryption
   /// key when encrypting data that can later be read only by the owner of
   /// this Did Document.
-  CommercioRSAPublicKey get encryptionKey {
+  CommercioRSAPublicKey? get encryptionKey {
     final pubKey = publicKeys.firstWhere(
-      (key) => key.type == 'RsaVerificationKey2018',
+      (key) => key?.type == CommercioRSAKeyType.verification.value,
       orElse: () => null,
     );
-  CommercioRSAPublicKey? get encryptionKey {
-    final pubKey = publicKeys
-        .firstWhereOrNull((key) => key.type == 'RsaVerificationKey2018');
-    if (pubKey == null) return null;
+
+    if (pubKey == null) {
+      return null;
+    }
 
     return CommercioRSAPublicKey(
-      RSAKeyParser.parseFromPem(pubKey.publicKeyPem),
+      RSAKeyParser.parseFromPem(pubKey.publicKeyPem) as RSAPublicKey,
+      keyType: CommercioRSAKeyType.verification,
     );
   }
 
@@ -59,13 +60,4 @@ class DidDocument extends Equatable {
       _$DidDocumentFromJson(json);
 
   Map<String, dynamic> toJson() => _$DidDocumentToJson(this);
-}
-
-extension FirstWhereOrNullExtension<E> on Iterable<E> {
-  E? firstWhereOrNull(bool Function(E) test) {
-    for (final element in this) {
-      if (test(element)) return element;
-    }
-    return null;
-  }
 }

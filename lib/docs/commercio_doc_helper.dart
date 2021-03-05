@@ -8,16 +8,16 @@ class CommercioDocHelper {
   /// and optionally [contentUri], [checksum],
   /// [doSign], [encryptedData], [aesKey].
   static Future<CommercioDoc> fromWallet({
-    @required Wallet wallet,
-    @required List<String> recipients,
-    @required String id,
-    @required CommercioDocMetadata metadata,
-    String contentUri,
-    CommercioDocChecksum checksum,
-    CommercioDoSign doSign,
-    Set<CommercioEncryptedData> encryptedData,
-    Uint8List aesKey,
-    http.Client client,
+    required Wallet wallet,
+    required List<String> recipients,
+    required String id,
+    required CommercioDocMetadata metadata,
+    String? contentUri,
+    CommercioDocChecksum? checksum,
+    CommercioDoSign? doSign,
+    Set<CommercioEncryptedData>? encryptedData,
+    Uint8List? aesKey,
+    http.Client? client,
   }) async {
     // Build a commercio document
     var commercioDocument = CommercioDoc(

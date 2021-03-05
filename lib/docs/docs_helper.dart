@@ -11,18 +11,18 @@ class DocsHelper {
   ///
   /// If [doSign] is specified then the field [checksum] must be also provided.
   static Future<TransactionResult> shareDocument({
-    @required String id,
-    @required CommercioDocMetadata metadata,
-    @required List<String> recipients,
-    @required Wallet wallet,
-    String contentUri,
-    CommercioDoSign doSign,
-    CommercioDocChecksum checksum,
-    Uint8List aesKey,
-    Set<CommercioEncryptedData> encryptedData,
-    StdFee fee,
-    BroadcastingMode mode,
-    http.Client client,
+    required String id,
+    required CommercioDocMetadata metadata,
+    required List<String> recipients,
+    required Wallet wallet,
+    String? contentUri,
+    CommercioDoSign? doSign,
+    CommercioDocChecksum? checksum,
+    Uint8List? aesKey,
+    Set<CommercioEncryptedData>? encryptedData,
+    StdFee? fee,
+    BroadcastingMode? mode,
+    http.Client? client,
   }) async {
     // Build a generic document
     final commercioDoc = await CommercioDocHelper.fromWallet(
@@ -54,9 +54,9 @@ class DocsHelper {
   static Future<TransactionResult> shareDocumentsList(
     List<CommercioDoc> commercioDocsList,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
-    http.Client client,
+    StdFee? fee,
+    BroadcastingMode? mode,
+    http.Client? client,
   }) {
     final msgs = commercioDocsList
         .map((commercioDoc) => MsgShareDocument(document: commercioDoc))
@@ -101,14 +101,14 @@ class DocsHelper {
   /// with [txHash] has been properly seen; optionally [proof] of reading,
   /// [fee] and broadcasting [mode].
   static Future<TransactionResult> sendDocumentReceipt({
-    @required String recipient,
-    @required String txHash,
-    @required String documentId,
-    @required Wallet wallet,
-    String proof,
-    StdFee fee,
-    BroadcastingMode mode,
-    http.Client client,
+    required String recipient,
+    required String txHash,
+    required String documentId,
+    required Wallet wallet,
+    String? proof,
+    StdFee? fee,
+    BroadcastingMode? mode,
+    http.Client? client,
   }) {
     final commercioDocReceipt = CommercioDocReceiptHelper.fromWallet(
       wallet: wallet,
@@ -135,9 +135,9 @@ class DocsHelper {
   static Future<TransactionResult> sendDocumentReceiptsList(
     List<CommercioDocReceipt> commercioDocReceiptsList,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
-    http.Client client,
+    StdFee? fee,
+    BroadcastingMode? mode,
+    http.Client? client,
   }) {
     final msgs = commercioDocReceiptsList
         .map((commercioDocReceipt) =>

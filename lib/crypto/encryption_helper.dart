@@ -5,6 +5,7 @@ import 'package:commerciosdk/entities/crypto/identity_response.dart';
 import 'package:commerciosdk/entities/crypto/tumbler_response.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
+import 'package:pointycastle/export.dart';
 
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
@@ -37,16 +38,25 @@ class EncryptionHelper {
 
     final identityResponse =
         IdentityResponse.fromJson(jsonDecode(identityResponseRaw));
-    final publicSignatureKeyPem =
-        identityResponse.result.didDocument.publicKeys[1].publicKeyPem;
-    final rsaPublicKey = RSAKeyParser.parseFromPem(publicSignatureKeyPem);
 
-    return CommercioRSAPublicKey(rsaPublicKey);
+    final didPubKey = identityResponse.result.didDocument.publicKeys[1];
+
+    if (didPubKey == null) {
+      throw Exception('Could not find the governement public key');
+    }
+
+    final rsaPublicKey =
+        RSAKeyParser.parseFromPem(didPubKey.publicKeyPem) as RSAPublicKey;
+
+    return CommercioRSAPublicKey(
+      rsaPublicKey,
+      keyType: CommercioRSAKeyType.verification,
+    );
   }
 
   /// Encrypts the given [data] with AES using the specified [key].
   static Uint8List encryptStringWithAes(String data, Uint8List key) {
-    return encryptBytesWithAes(utf8.encode(data), key);
+    return encryptBytesWithAes(Uint8List.fromList(utf8.encode(data)), key);
   }
 
   static Uint8List encryptStringWithAesGCM(String data, Uint8List key) {
@@ -89,7 +99,7 @@ class EncryptionHelper {
 
   /// Encrypts the given [data] with RSA using the specified [key].
   static Uint8List encryptStringWithRsa(String data, RSAPublicKey key) {
-    return encryptBytesWithRsa(utf8.encode(data), key);
+    return encryptBytesWithRsa(Uint8List.fromList(utf8.encode(data)), key);
   }
 
   /// Encrypts the given [data] with RSA using the specified [key].

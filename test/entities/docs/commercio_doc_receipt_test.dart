@@ -11,63 +11,6 @@ void main() {
     proof: 'proof',
   );
 
-  test('Null values should throw assert errors', () {
-    expect(
-      () => CommercioDocReceipt(
-        uuid: null,
-        senderDid: correctCommercioDocReceipt.senderDid,
-        recipientDid: correctCommercioDocReceipt.recipientDid,
-        txHash: correctCommercioDocReceipt.txHash,
-        documentUuid: correctCommercioDocReceipt.documentUuid,
-      ),
-      throwsA(isA<AssertionError>()),
-    );
-
-    expect(
-      () => CommercioDocReceipt(
-        uuid: correctCommercioDocReceipt.uuid,
-        senderDid: null,
-        recipientDid: correctCommercioDocReceipt.recipientDid,
-        txHash: correctCommercioDocReceipt.txHash,
-        documentUuid: correctCommercioDocReceipt.documentUuid,
-      ),
-      throwsA(isA<AssertionError>()),
-    );
-
-    expect(
-      () => CommercioDocReceipt(
-        uuid: correctCommercioDocReceipt.uuid,
-        senderDid: correctCommercioDocReceipt.senderDid,
-        recipientDid: null,
-        txHash: correctCommercioDocReceipt.txHash,
-        documentUuid: correctCommercioDocReceipt.documentUuid,
-      ),
-      throwsA(isA<AssertionError>()),
-    );
-
-    expect(
-      () => CommercioDocReceipt(
-        uuid: correctCommercioDocReceipt.uuid,
-        senderDid: correctCommercioDocReceipt.senderDid,
-        recipientDid: correctCommercioDocReceipt.recipientDid,
-        txHash: null,
-        documentUuid: correctCommercioDocReceipt.documentUuid,
-      ),
-      throwsA(isA<AssertionError>()),
-    );
-
-    expect(
-      () => CommercioDocReceipt(
-        uuid: correctCommercioDocReceipt.uuid,
-        senderDid: correctCommercioDocReceipt.senderDid,
-        recipientDid: correctCommercioDocReceipt.recipientDid,
-        txHash: correctCommercioDocReceipt.txHash,
-        documentUuid: null,
-      ),
-      throwsA(isA<AssertionError>()),
-    );
-  });
-
   test('Props should contains all the object fields', () {
     expect(
       correctCommercioDocReceipt.props,
@@ -89,7 +32,7 @@ void main() {
       'recipient': correctCommercioDocReceipt.recipientDid,
       'tx_hash': correctCommercioDocReceipt.txHash,
       'document_uuid': correctCommercioDocReceipt.documentUuid,
-      'proof': correctCommercioDocReceipt.proof,
+      'proof': correctCommercioDocReceipt.proof!,
     };
 
     test('fromJson() shoul behave correctly', () {

@@ -1,5 +1,5 @@
 import 'package:commerciosdk/export.dart';
-import 'package:hex/hex.dart';
+import 'package:convert/convert.dart';
 import 'package:http/http.dart' as http;
 
 /// Transforms [doc] into one having the proper fields encrypted as
@@ -27,7 +27,7 @@ Future<CommercioDoc> encryptField(
   // -----------------
 
   // Encrypt the contents
-  String encryptedContentUri;
+  String? encryptedContentUri;
   if (encryptedData.contains(CommercioEncryptedData.CONTENT_URI)) {
     if (doc.contentUri == null) {
       throw ArgumentError(
@@ -35,7 +35,7 @@ Future<CommercioDoc> encryptField(
       );
     }
 
-    encryptedContentUri = HEX.encode(
+    encryptedContentUri = hex.encode(
       EncryptionHelper.encryptStringWithAes(
         doc.contentUri!,
         aesKey,
@@ -43,9 +43,9 @@ Future<CommercioDoc> encryptField(
     );
   }
 
-  String encryptedMetadataContentUri;
+  String? encryptedMetadataContentUri;
   if (encryptedData.contains(CommercioEncryptedData.METADATA_CONTENT_URI)) {
-    encryptedMetadataContentUri = HEX.encode(
+    encryptedMetadataContentUri = hex.encode(
       EncryptionHelper.encryptStringWithAes(
         doc.metadata.contentUri,
         aesKey,
@@ -53,14 +53,14 @@ Future<CommercioDoc> encryptField(
     );
   }
 
-  String encryptedMetadataSchemaUri;
+  String? encryptedMetadataSchemaUri;
   if (encryptedData.contains(CommercioEncryptedData.METADATA_SCHEMA_URI)) {
     if (doc.metadata.schema == null) {
       throw ArgumentError(
         'Document metadata.schema field can not be null if the encryptedData arguments contains CommercioEncryptedData.METADATA_SCHEMA_URI',
       );
     }
-    encryptedMetadataSchemaUri = HEX.encode(
+    encryptedMetadataSchemaUri = hex.encode(
       EncryptionHelper.encryptStringWithAes(
         doc.metadata.schema!.uri,
         aesKey,
@@ -90,11 +90,11 @@ Future<CommercioDoc> encryptField(
   final encryptionKeys = recipientsWithDDO.map((recipient) {
     final encryptedAesKey = EncryptionHelper.encryptBytesWithRsa(
       aesKey,
-      recipient.value.encryptionKey.pubKey,
+      recipient.value!.encryptionKey!.publicKey,
     );
     return CommercioDocEncryptionDataKey(
       recipientDid: recipient.key,
-      value: HEX.encode(encryptedAesKey),
+      value: hex.encode(encryptedAesKey),
     );
   }).toList();
 

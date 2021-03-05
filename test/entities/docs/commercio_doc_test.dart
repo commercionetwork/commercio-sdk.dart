@@ -49,74 +49,6 @@ void main() {
   );
 
   group('CommercioDoc', () {
-    test('Null values in requirements should throw assert error', () {
-      expect(
-        () => CommercioDoc(
-          senderDid: null,
-          recipientDids: const [correctDid],
-          uuid: correctUuid,
-          metadata: correctMetadata,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDoc(
-          senderDid: correctDid,
-          recipientDids: null,
-          uuid: correctUuid,
-          metadata: correctMetadata,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDoc(
-          senderDid: correctDid,
-          recipientDids: const [],
-          uuid: correctUuid,
-          metadata: correctMetadata,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDoc(
-          senderDid: correctDid,
-          recipientDids: const [correctDid],
-          uuid: null,
-          metadata: correctMetadata,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDoc(
-          senderDid: correctDid,
-          recipientDids: const [correctDid],
-          uuid: correctUuid,
-          metadata: null,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
-    test('Invalid enum should return an error', () {
-      expect(
-        () => CommercioDoc(
-          senderDid: correctDid,
-          recipientDids: const [correctDid],
-          uuid: correctUuid,
-          metadata: correctMetadata,
-          checksum: CommercioDocChecksum(
-            value: 'value',
-            algorithm: null,
-          ),
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
     test('Bech32 addresses should have a valid format', () {
       // Empty did string
 
@@ -348,18 +280,18 @@ void main() {
       };
 
       final jsonWithContentUri = Map<String, Object>.from(jsonMinimal)
-        ..addAll({'content_uri': correctCommercioDoc.contentUri});
+        ..addAll({'content_uri': correctCommercioDoc.contentUri!});
 
       final jsonWithChecksum = Map<String, Object>.from(jsonMinimal)
-        ..addAll({'checksum': correctCommercioDoc.checksum.toJson()});
+        ..addAll({'checksum': correctCommercioDoc.checksum!.toJson()});
 
       final jsonWithEncryptionData = Map<String, Object>.from(jsonMinimal)
         ..addAll({
-          'encryption_data': correctCommercioDoc.encryptionData.toJson(),
+          'encryption_data': correctCommercioDoc.encryptionData!.toJson(),
         });
 
       final jsonWithDoSign = Map<String, Object>.from(jsonMinimal)
-        ..addAll({'do_sign': correctCommercioDoc.doSign.toJson()})
+        ..addAll({'do_sign': correctCommercioDoc.doSign!.toJson()})
         ..addAll({'checksum': correctCommercioDocChecksum.toJson()});
 
       test('fromJson() shoul behave correctly', () {
@@ -489,13 +421,6 @@ void main() {
   });
 
   group('CommercioDocMetadata', () {
-    test('contentUri should not be null', () {
-      expect(
-        () => CommercioDocMetadata(contentUri: null),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
     test('contentUri should be < 512 bytes len', () {
       expect(
         () => CommercioDocMetadata(contentUri: invalid520CharactersString),
@@ -545,14 +470,14 @@ void main() {
     group('JSON serialization', () {
       final jsonWithSchemaType = <String, Object>{
         'content_uri': correctMetadata.contentUri,
-        'schema_type': correctMetadata.schemaType,
+        'schema_type': correctMetadata.schemaType!,
       };
 
       final jsonWithSchema = <String, Object>{
         'content_uri': correctMetadata.contentUri,
         'schema': {
-          'uri': correctMetadata.schema.uri,
-          'version': correctMetadata.schema.version,
+          'uri': correctMetadata.schema!.uri,
+          'version': correctMetadata.schema!.version,
         },
       };
 
@@ -595,24 +520,6 @@ void main() {
   });
 
   group('CommercioDocMetadataSchema', () {
-    test('Null required parameters should throw an assert error', () {
-      expect(
-        () => CommercioDocMetadataSchema(
-          uri: null,
-          version: '1',
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDocMetadataSchema(
-          uri: 'http://example.com/',
-          version: null,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
     test('uri should be <= 512 bytes len', () {
       expect(
         () => CommercioDocMetadataSchema(
@@ -668,27 +575,6 @@ void main() {
   });
 
   group('CommercioDocChecksum', () {
-    test('Null arguments should throw assertion erorr', () {
-      expect(
-        () => CommercioDocChecksum(algorithm: null, value: 'value'),
-        throwsA(isA<AssertionError>()),
-      );
-
-      // Empty value also should throw
-      expect(
-        () => CommercioDocChecksum(algorithm: null, value: ''),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDocChecksum(
-          algorithm: CommercioDocChecksumAlgorithm.MD5,
-          value: null,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
     test('Props should contains all the object fields', () {
       expect(
         correctCommercioDocChecksum.props,
@@ -724,24 +610,6 @@ void main() {
   });
 
   group('CommercioDocEncryptionData', () {
-    test('Null arguments should throw assertion erorr', () {
-      expect(
-        () => CommercioDocEncryptionData(
-          encryptedData: null,
-          keys: [correctCommercioDocEncryptionDataKey],
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDocEncryptionData(
-          encryptedData: const {CommercioEncryptedData.CONTENT_URI},
-          keys: null,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
     test('Props should contains all the object fields', () {
       expect(
         correctCommercioEncryptionData.props,
@@ -777,21 +645,6 @@ void main() {
   });
 
   group('CommercioDocEncryptionDataKey', () {
-    test('Null arguments should throw assertion erorr', () {
-      expect(
-        () => CommercioDocEncryptionDataKey(recipientDid: null, value: 'value'),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDocEncryptionDataKey(
-          recipientDid: correctDid,
-          value: null,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
     test('value lenght should be <= 512 bytes', () {
       expect(
         () => CommercioDocEncryptionDataKey(
@@ -837,48 +690,6 @@ void main() {
   });
 
   group('CommercioDoSign', () {
-    test('Null arguments should throw assertion erorr', () {
-      expect(
-        () => CommercioDoSign(
-          certificateProfile: null,
-          signerIstance: '',
-          storageUri: '',
-          vcrId: '',
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDoSign(
-          certificateProfile: '',
-          signerIstance: null,
-          storageUri: '',
-          vcrId: '',
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDoSign(
-          certificateProfile: '',
-          signerIstance: '',
-          storageUri: null,
-          vcrId: '',
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-
-      expect(
-        () => CommercioDoSign(
-          certificateProfile: '',
-          signerIstance: '',
-          storageUri: '',
-          vcrId: null,
-        ),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
     test('vcrId length should be <= 64 bytes', () {
       expect(
         () => CommercioDoSign(
@@ -920,7 +731,6 @@ void main() {
       final minimalJson = <String, Object>{
         'storage_uri': correctCommercioDoSign.storageUri,
         'signer_instance': correctCommercioDoSign.signerIstance,
-        'sdn_data': null,
         'vcr_id': correctCommercioDoSign.vcrId,
         'certificate_profile': correctCommercioDoSign.certificateProfile,
       };

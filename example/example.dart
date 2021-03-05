@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:sacco/sacco.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:uuid/uuid.dart';
@@ -8,8 +10,8 @@ Future<void> main() async {
   // --- Setup network info
   // --------------------------------------------
 
-  const lcdUrl = 'http://localhost:1317';
-  final networkInfo = NetworkInfo(
+  const lcdUrl = 'http://localhost:1337';
+  const networkInfo = NetworkInfo(
     bech32Hrp: 'did:com:',
     lcdUrl: lcdUrl,
   );
@@ -32,11 +34,14 @@ Future<void> main() async {
   // See https://docs.commercio.network/developers/create-sign-broadcast-tx.html
   // to send tokens.
 
-  final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
+  final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair(
+    keyType: CommercioRSAKeyType.verification,
+  );
   final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
 
-  final rsaSignatureKeyPair =
-      await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
+  final rsaSignatureKeyPair = await KeysHelper.generateRsaKeyPair(
+    keyType: CommercioRSAKeyType.signature,
+  );
   final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
 
   try {

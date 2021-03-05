@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:commerciosdk/export.dart';
-import 'package:pointycastle/export.dart' as pointycastle;
+import 'package:pointycastle/export.dart';
 import 'package:sacco/sacco.dart';
 import 'package:test/test.dart';
 
@@ -16,10 +16,13 @@ void main() {
 
   final modulusVerification = BigInt.from(125);
   final exponentVerification = BigInt.from(126);
-  final rsaPubKeyVerification = CommercioRSAPublicKey(pointycastle.RSAPublicKey(
-    modulusVerification,
-    exponentVerification,
-  ));
+  final rsaPubKeyVerification = CommercioRSAPublicKey(
+    RSAPublicKey(
+      modulusVerification,
+      exponentVerification,
+    ),
+    keyType: CommercioRSAKeyType.verification,
+  );
 
   final verificationPubKey = DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-1',
@@ -30,11 +33,11 @@ void main() {
   final modulusSignature = BigInt.from(135);
   final exponentSignature = BigInt.from(136);
   final rsaPubKeySignature = CommercioRSAPublicKey(
-    pointycastle.RSAPublicKey(
+    RSAPublicKey(
       modulusSignature,
       exponentSignature,
     ),
-    keyType: 'RsaSignatureKey2018',
+    keyType: CommercioRSAKeyType.signature,
   );
 
   final signaturePubKey = DidDocumentPublicKey(

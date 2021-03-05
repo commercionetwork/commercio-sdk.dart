@@ -7,15 +7,15 @@ import 'package:sacco/sacco.dart';
 class DidDocumentHelper {
   /// Creates a Did Document from the given [wallet], [pubKeys] and optional [service].
   static DidDocument fromWallet({
-    @required Wallet wallet,
-    @required List<CommercioPublicKey> pubKeys,
-    List<DidDocumentService> service,
+    required Wallet wallet,
+    required List<CommercioPublicKey> pubKeys,
+    List<DidDocumentService>? service,
   }) {
     if (pubKeys.length < 2) {
       throw ArgumentError('At least two keys are required');
     }
 
-    final keys = mapIndexed(
+    final keys = mapIndexed<DidDocumentPublicKey, CommercioPublicKey>(
       pubKeys,
       (index, item) => _convertKey(item, index + 1, wallet),
     ).toList();
