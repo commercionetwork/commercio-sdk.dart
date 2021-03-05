@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:commerciosdk/entities/export.dart';
-import 'package:pointycastle/asn1.dart';
 import 'package:pointycastle/export.dart';
+import 'package:asn1lib/asn1lib.dart'; // Do not use pointycastle one
 
 /// Wrapper of the pointyCastle RSAPublicKey
 class CommercioRSAPublicKey implements CommercioPublicKey {
@@ -22,7 +22,7 @@ class CommercioRSAPublicKey implements CommercioPublicKey {
     final pubKeySequence = ASN1Sequence();
     pubKeySequence.add(ASN1Integer(pubKey.modulus));
     pubKeySequence.add(ASN1Integer(pubKey.exponent));
-    final dataBase64 = base64.encode(pubKeySequence.encodedBytes);
+    final dataBase64 = base64Encode(pubKeySequence.encodedBytes);
     return '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A$dataBase64\n-----END PUBLIC KEY-----';
   }
 }

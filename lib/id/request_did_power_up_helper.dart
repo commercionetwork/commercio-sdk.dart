@@ -23,10 +23,11 @@ class RequestDidPowerUpHelper {
 
     // Build and sign the signature
     final signedSignatureHash = SignHelper.signPowerUpSignature(
-        senderDid: senderDid,
-        pairwiseDid: pairwiseDid,
-        timestamp: timestamp,
-        rsaPrivateKey: privateKey);
+      senderDid: senderDid,
+      pairwiseDid: pairwiseDid,
+      timestamp: timestamp,
+      rsaPrivateKey: privateKey,
+    );
 
     // Build the payload
     final payload = DidPowerUpRequestPayload(

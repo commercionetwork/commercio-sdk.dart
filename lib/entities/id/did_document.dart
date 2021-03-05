@@ -50,7 +50,9 @@ class DidDocument extends Equatable {
     );
     if (pubKey == null) return null;
 
-    return CommercioRSAPublicKey(RSAKeyParser.parse(pubKey.publicKeyPem));
+    return CommercioRSAPublicKey(
+      RSAKeyParser.parseFromPem(pubKey.publicKeyPem),
+    );
   }
 
   factory DidDocument.fromJson(Map<String, dynamic> json) =>

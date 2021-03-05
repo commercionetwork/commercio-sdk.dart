@@ -23,6 +23,7 @@ class DocsHelper {
     Set<CommercioEncryptedData> encryptedData,
     StdFee fee,
     BroadcastingMode mode,
+    http.Client client,
   }) async {
     // Build a generic document
     final commercioDoc = await CommercioDocHelper.fromWallet(
@@ -44,6 +45,7 @@ class DocsHelper {
       wallet,
       fee: fee,
       mode: mode,
+      client: client,
     );
   }
 
@@ -55,17 +57,17 @@ class DocsHelper {
     Wallet wallet, {
     StdFee fee,
     BroadcastingMode mode,
+    http.Client client,
   }) {
     final msgs = commercioDocsList
-        .map(
-          (commercioDoc) => MsgShareDocument(document: commercioDoc),
-        )
+        .map((commercioDoc) => MsgShareDocument(document: commercioDoc))
         .toList();
     return TxHelper.createSignAndSendTx(
       msgs,
       wallet,
       fee: fee,
       mode: mode,
+      client: client,
     );
   }
 
@@ -107,6 +109,7 @@ class DocsHelper {
     String proof,
     StdFee fee,
     BroadcastingMode mode,
+    http.Client client,
   }) {
     final commercioDocReceipt = CommercioDocReceiptHelper.fromWallet(
       wallet: wallet,
@@ -123,6 +126,7 @@ class DocsHelper {
       wallet,
       fee: fee,
       mode: mode,
+      client: client,
     );
   }
 
@@ -134,18 +138,18 @@ class DocsHelper {
     Wallet wallet, {
     StdFee fee,
     BroadcastingMode mode,
+    http.Client client,
   }) {
     final msgs = commercioDocReceiptsList
-        .map(
-          (commercioDocReceipt) =>
-              MsgSendDocumentReceipt(receipt: commercioDocReceipt),
-        )
+        .map((commercioDocReceipt) =>
+            MsgSendDocumentReceipt(receipt: commercioDocReceipt))
         .toList();
     return TxHelper.createSignAndSendTx(
       msgs,
       wallet,
       fee: fee,
       mode: mode,
+      client: client,
     );
   }
 

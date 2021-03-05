@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   group('Functions of "BurnCccHelper" class', () {
-    final networkInfo = NetworkInfo(bech32Hrp: 'did:com:', lcdUrl: '');
+    const networkInfo = NetworkInfo(bech32Hrp: 'did:com:', lcdUrl: '');
     const mnemonicString =
         'dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology';
     final mnemonic = mnemonicString.split(' ');

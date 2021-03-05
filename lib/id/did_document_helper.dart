@@ -17,8 +17,9 @@ class DidDocumentHelper {
     }
 
     final keys = mapIndexed(
-            pubKeys, (index, item) => _convertKey(item, index + 1, wallet))
-        .toList();
+      pubKeys,
+      (index, item) => _convertKey(item, index + 1, wallet),
+    ).toList();
 
     final proofContent = DidDocumentProofSignatureContent(
       context: 'https://www.w3.org/ns/did/v1',
@@ -48,7 +49,10 @@ class DidDocumentHelper {
   /// Converts the given [pubKey] into a [DidDocumentPublicKey] placed at position [index],
   /// [wallet] used to get the controller field of each [DidDocumentPublicKey].
   static DidDocumentPublicKey _convertKey(
-      CommercioPublicKey pubKey, int index, Wallet wallet) {
+    CommercioPublicKey pubKey,
+    int index,
+    Wallet wallet,
+  ) {
     return DidDocumentPublicKey(
       id: '${wallet.bech32Address}#keys-$index',
       type: pubKey.getType(),
@@ -73,7 +77,7 @@ class DidDocumentHelper {
       proofPurpose: proofPurpose,
       controller: controller,
       verificationMethod: verificationMethod,
-      signatureValue: base64.encode(
+      signatureValue: base64Encode(
         SignHelper.signSorted(proofSignatureContent.toJson(), wallet),
       ),
     );

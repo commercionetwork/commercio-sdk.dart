@@ -1,4 +1,5 @@
 import 'package:commerciosdk/utils/utils.dart';
+import 'package:http/http.dart' as http;
 import 'package:sacco/sacco.dart';
 
 /// Allows to easily perform common transaction operations.
@@ -16,6 +17,7 @@ class TxHelper {
     Wallet wallet, {
     StdFee fee,
     BroadcastingMode mode,
+    http.Client client,
   }) async {
     // Set values for optional parameters
 
@@ -30,7 +32,11 @@ class TxHelper {
     mode = mode ?? BroadcastingMode.SYNC;
 
     final stdTx = TxBuilder.buildStdTx(stdMsgs: msgs, fee: fee);
-    final signedTx = await TxSigner.signStdTx(wallet: wallet, stdTx: stdTx);
+    final signedTx = await TxSigner.signStdTx(
+      wallet: wallet,
+      stdTx: stdTx,
+      client: client,
+    );
     return TxSender.broadcastStdTx(
       wallet: wallet,
       stdTx: signedTx,

@@ -28,6 +28,7 @@ class IdHelper {
     Wallet wallet, {
     StdFee fee,
     BroadcastingMode mode,
+    http.Client client,
   }) {
     final msg = MsgSetDidDocument(didDocument: didDocument);
     return TxHelper.createSignAndSendTx(
@@ -35,6 +36,7 @@ class IdHelper {
       wallet,
       fee: fee,
       mode: mode,
+      client: client,
     );
   }
 
@@ -46,6 +48,7 @@ class IdHelper {
     Wallet wallet, {
     StdFee fee,
     BroadcastingMode mode,
+    http.Client client,
   }) {
     final msgs = didDocuments
         .map((didDocument) => MsgSetDidDocument(didDocument: didDocument))
@@ -55,6 +58,7 @@ class IdHelper {
       wallet,
       fee: fee,
       mode: mode,
+      client: client,
     );
   }
 
