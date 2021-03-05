@@ -39,7 +39,7 @@ class EncryptionHelper {
         IdentityResponse.fromJson(jsonDecode(identityResponseRaw));
     final publicSignatureKeyPem =
         identityResponse.result.didDocument.publicKeys[1].publicKeyPem;
-    final rsaPublicKey = RSAKeyParser.parse(publicSignatureKeyPem);
+    final rsaPublicKey = RSAKeyParser.parseFromPem(publicSignatureKeyPem);
 
     return CommercioRSAPublicKey(rsaPublicKey);
   }
@@ -51,12 +51,15 @@ class EncryptionHelper {
 
   static Uint8List encryptStringWithAesGCM(String data, Uint8List key) {
     // Generate a random 96-bit nonce N
-    final nonce = KeysHelper.generateRandomNonceUtf8(12);
+    final nonce = KeysHelper.generateRandomNonce(12);
 
     // Create an AES-GCM crypter
-    final aesGcmCrypter = PaddedBlockCipher('AES/GCM/None');
+    final aesGcmCrypter = PaddedBlockCipher('AES/GCM/PKCS7');
     final params = AEADParameters(KeyParameter(key), 128, nonce, null);
-    aesGcmCrypter.init(true, params);
+
+    // Set padding to null because the blockchain doesn't want it
+    final paddedParams = PaddedBlockCipherParameters(params, null);
+    aesGcmCrypter.init(true, paddedParams);
 
     // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT
     final chiperText = aesGcmCrypter.process(utf8.encode(data));
