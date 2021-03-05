@@ -14,8 +14,9 @@ class SignHelper {
   /// JSON object and signs its content using the given [wallet].
   static Uint8List signSorted(Map<String, dynamic> data, Wallet wallet) {
     final sorted = MapSorter.sort(data);
+    final dataToSign = Uint8List.fromList(utf8.encode(json.encode(sorted)));
 
-    return wallet.sign(utf8.encode(json.encode(sorted)));
+    return wallet.sign(dataToSign);
   }
 
   /// Takes [senderDid], [pairwiseDid], [timestamp] and:

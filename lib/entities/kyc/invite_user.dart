@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'invite_user.g.dart';
 
@@ -14,10 +13,9 @@ class InviteUser extends Equatable {
   final String senderDid;
 
   const InviteUser({
-    @required this.recipientDid,
-    @required this.senderDid,
-  })  : assert(recipientDid != null),
-        assert(senderDid != null);
+    required this.recipientDid,
+    required this.senderDid,
+  });
 
   @override
   List<Object> get props => [recipientDid, senderDid];

@@ -15,9 +15,9 @@ class TxHelper {
   static Future<TransactionResult> createSignAndSendTx(
     List<StdMsg> msgs,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
-    http.Client client,
+    StdFee? fee,
+    BroadcastingMode? mode,
+    http.Client? client,
   }) async {
     // Set values for optional parameters
 
@@ -40,7 +40,7 @@ class TxHelper {
     return TxSender.broadcastStdTx(
       wallet: wallet,
       stdTx: signedTx,
-      mode: mode.value,
+      mode: mode.value!,
     );
   }
 }
@@ -52,7 +52,7 @@ enum BroadcastingMode {
 }
 
 extension BroadcastingModeExt on BroadcastingMode {
-  String get value {
+  String? get value {
     switch (this) {
       case BroadcastingMode.ASYNC:
         return 'async';

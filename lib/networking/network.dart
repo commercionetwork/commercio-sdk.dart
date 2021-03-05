@@ -11,19 +11,21 @@ class Network {
   /// with a `result` field in where we are interested.
   static Future<dynamic> queryChain(
     Uri url, {
-    http.Client client,
+    http.Client? client,
   }) async {
     try {
       final responseBody = await query(url, client: client);
 
       // Return the result part of the response
-      final json = jsonDecode(responseBody) as Map<String, dynamic>;
+      final json = responseBody != null
+          ? jsonDecode(responseBody) as Map<String, dynamic>
+          : null;
 
-      if (!json.containsKey('result')) {
+      if (json != null && !json.containsKey('result')) {
         throw Exception('The JSON response does not contains the "result" key');
       }
 
-      return json['result'];
+      return json!['result'];
     } catch (exception) {
       return null;
     }
@@ -31,7 +33,7 @@ class Network {
 
   /// Sends a GET request to [url] with optional [client] and returns the
   /// response body or `null` if any exception happens.
-  static Future<String> query(Uri url, {http.Client client}) async {
+  static Future<String?> query(Uri url, {http.Client? client}) async {
     client = client ?? http.Client();
 
     try {

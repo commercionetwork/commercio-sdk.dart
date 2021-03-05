@@ -5,9 +5,9 @@ import 'package:pointycastle/export.dart';
 import 'package:asn1lib/asn1lib.dart'; // Do not use pointycastle one
 
 /// Wrapper of the pointyCastle RSAPublicKey
-class CommercioRSAPublicKey implements CommercioPublicKey {
-  final RSAPublicKey pubKey;
-  final String keyType;
+class CommercioRSAPublicKey implements PublicKey {
+  final pointy_castle.RSAPublicKey pubKey;
+  final String? keyType;
 
   CommercioRSAPublicKey(
     this.pubKey, {

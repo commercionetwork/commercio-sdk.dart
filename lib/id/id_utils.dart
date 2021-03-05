@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:commerciosdk/crypto/export.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 /// Contains the data that is returned from the [generateProof] method.
 class ProofGenerationResult extends Equatable {
@@ -10,10 +9,9 @@ class ProofGenerationResult extends Equatable {
   final String encodedAesKey;
 
   const ProofGenerationResult({
-    @required this.encodedProof,
-    @required this.encodedAesKey,
-  })  : assert(encodedProof != null),
-        assert(encodedAesKey != null);
+    required this.encodedProof,
+    required this.encodedAesKey,
+  });
 
   @override
   List<Object> get props {

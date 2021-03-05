@@ -1,6 +1,5 @@
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
 
 /// Allows to easily create a CommercioDoc and perform common related operations
 class CommercioDocHelper {

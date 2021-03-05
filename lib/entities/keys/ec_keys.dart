@@ -6,7 +6,7 @@ import 'package:pointycastle/export.dart' as pointy_castle;
 /// Wrapper of the pointyCastle ECPublicKey
 class CommercioECPublicKey implements CommercioPublicKey {
   final pointy_castle.ECPublicKey pubKey;
-  final String keyType;
+  final String? keyType;
 
   CommercioECPublicKey(
     this.pubKey, {

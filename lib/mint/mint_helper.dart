@@ -9,8 +9,8 @@ class MintHelper {
   static Future<TransactionResult> mintCccsList(
     List<MintCcc> mintCccs,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) {
     final msgs =
         mintCccs.map((mintCcc) => MsgMintCcc(mintCcc: mintCcc)).toList();
@@ -29,8 +29,8 @@ class MintHelper {
   static Future<TransactionResult> burnCccsList(
     List<BurnCcc> burnCccs,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) {
     final msgs =
         burnCccs.map((burnCcc) => MsgBurnCcc(burnCcc: burnCcc)).toList();

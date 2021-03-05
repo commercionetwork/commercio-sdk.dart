@@ -20,7 +20,7 @@ Future<CommercioDoc> encryptField(
   Set<CommercioEncryptedData> encryptedData,
   List<String> recipients,
   Wallet wallet, {
-  http.Client client,
+  http.Client? client,
 }) async {
   // -----------------
   // --- Encryption
@@ -37,7 +37,7 @@ Future<CommercioDoc> encryptField(
 
     encryptedContentUri = HEX.encode(
       EncryptionHelper.encryptStringWithAes(
-        doc.contentUri,
+        doc.contentUri!,
         aesKey,
       ),
     );
@@ -62,7 +62,7 @@ Future<CommercioDoc> encryptField(
     }
     encryptedMetadataSchemaUri = HEX.encode(
       EncryptionHelper.encryptStringWithAes(
-        doc.metadata.schema.uri,
+        doc.metadata.schema!.uri,
         aesKey,
       ),
     );
@@ -99,7 +99,7 @@ Future<CommercioDoc> encryptField(
   }).toList();
 
   // Copy the metadata
-  var metadataSchema = doc.metadata?.schema;
+  var metadataSchema = doc.metadata.schema;
   if (metadataSchema != null) {
     metadataSchema = CommercioDocMetadataSchema(
       version: metadataSchema.version,

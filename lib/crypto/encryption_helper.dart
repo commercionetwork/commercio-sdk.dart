@@ -13,7 +13,7 @@ class EncryptionHelper {
   /// Returns the RSA public key associated to the government that should be used when
   static Future<CommercioRSAPublicKey> getGovernmentRsaPubKey(
     String lcdUrl, {
-    http.Client client,
+    http.Client? client,
   }) async {
     final tumblerResponse = await Network.query(
       Uri.parse('$lcdUrl/government/tumbler'),
@@ -62,7 +62,8 @@ class EncryptionHelper {
     aesGcmCrypter.init(true, paddedParams);
 
     // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT
-    final chiperText = aesGcmCrypter.process(utf8.encode(data));
+    final dataToEncrypt = Uint8List.fromList(utf8.encode(data));
+    final chiperText = aesGcmCrypter.process(dataToEncrypt);
 
     // Concatenate bytes of CIPHERTEXT and N
     final chiperTextWithNonce = nonce + chiperText;

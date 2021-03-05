@@ -6,7 +6,7 @@ import 'package:ed25519_hd_key/ed25519_hd_key.dart' as ed25519;
 ///Wrapper of the Ed25519_hd_key
 class Ed25519PublicKey implements CommercioPublicKey {
   final Uint8List seed;
-  final String keyType;
+  final String? keyType;
 
   Ed25519PublicKey(
     this.seed, {
@@ -19,7 +19,7 @@ class Ed25519PublicKey implements CommercioPublicKey {
   @override
   String getEncoded() {
     final masterKey = ed25519.ED25519_HD_KEY.getMasterKeyFromSeed(seed);
-
-    return base64.encode(ed25519.ED25519_HD_KEY.getPublicKey(masterKey.key));
+    final key = Uint8List.fromList(masterKey.key);
+    return base64.encode(ed25519.ED25519_HD_KEY.getPublicKey(key));
   }
 }

@@ -1,7 +1,6 @@
 import 'package:commerciosdk/docs/commercio_doc_receipt_helper.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
 
 class DocsHelper {
   /// Creates a new transaction that allows to share the document associated
@@ -74,9 +73,9 @@ class DocsHelper {
   /// Returns the list of all the [CommercioDoc] that the specified [address]
   /// has sent.
   static Future<List<CommercioDoc>> getSentDocuments({
-    @required String address,
-    @required NetworkInfo networkInfo,
-    http.Client client,
+    required String address,
+    required NetworkInfo networkInfo,
+    http.Client? client,
   }) async {
     final url = Uri.parse('${networkInfo.lcdUrl}/docs/$address/sent');
     final response = await Network.queryChain(url, client: client) as List;
@@ -87,9 +86,9 @@ class DocsHelper {
   /// Returns the list of all the [CommercioDoc] that the specified [address]
   /// has been received.
   static Future<List<CommercioDoc>> getReceivedDocuments({
-    @required String address,
-    @required NetworkInfo networkInfo,
-    http.Client client,
+    required String address,
+    required NetworkInfo networkInfo,
+    http.Client? client,
   }) async {
     final url = Uri.parse('${networkInfo.lcdUrl}/docs/$address/received');
     final response = await Network.queryChain(url, client: client) as List;
@@ -156,9 +155,9 @@ class DocsHelper {
   /// Returns the list of all the [CommercioDocReceipt] that
   /// have been sent from the given [address].
   static Future<List<CommercioDocReceipt>> getSentReceipts({
-    @required String address,
-    @required NetworkInfo networkInfo,
-    http.Client client,
+    required String address,
+    required NetworkInfo networkInfo,
+    http.Client? client,
   }) async {
     final url = Uri.parse('${networkInfo.lcdUrl}/receipts/$address/sent');
     final response = await Network.queryChain(url, client: client) as List;
@@ -169,9 +168,9 @@ class DocsHelper {
   /// Returns the list of all the [CommercioDocReceipt] that
   /// have been received from the given [address].
   static Future<List<CommercioDocReceipt>> getReceivedReceipts({
-    @required String address,
-    @required NetworkInfo networkInfo,
-    http.Client client,
+    required String address,
+    required NetworkInfo networkInfo,
+    http.Client? client,
   }) async {
     final url = Uri.parse('${networkInfo.lcdUrl}/receipts/$address/received');
     final response = await Network.queryChain(url, client: client) as List;

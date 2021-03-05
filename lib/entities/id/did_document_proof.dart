@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'did_document_proof.g.dart';
 
@@ -28,18 +27,13 @@ class DidDocumentProof extends Equatable {
   final String signatureValue;
 
   const DidDocumentProof({
-    @required this.type,
-    @required this.timestamp,
-    @required this.proofPurpose,
-    @required this.controller,
-    @required this.verificationMethod,
-    @required this.signatureValue,
-  })  : assert(type != null),
-        assert(timestamp != null),
-        assert(proofPurpose != null),
-        assert(controller != null),
-        assert(verificationMethod != null),
-        assert(signatureValue != null);
+    required this.type,
+    required this.timestamp,
+    required this.proofPurpose,
+    required this.controller,
+    required this.verificationMethod,
+    required this.signatureValue,
+  });
 
   @override
   List<Object> get props {

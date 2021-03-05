@@ -22,21 +22,18 @@ class DidDocument extends Equatable {
   final DidDocumentProof proof;
 
   @JsonKey(name: 'service', includeIfNull: false)
-  final List<DidDocumentService> service;
+  final List<DidDocumentService>? service;
 
   const DidDocument({
-    @required this.context,
-    @required this.id,
-    @required this.publicKeys,
-    @required this.proof,
+    required this.context,
+    required this.id,
+    required this.publicKeys,
+    required this.proof,
     this.service,
-  })  : assert(context != null),
-        assert(id != null),
-        assert(publicKeys != null),
-        assert(proof != null);
+  });
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [context, id, publicKeys, proof, service];
   }
 
@@ -48,6 +45,9 @@ class DidDocument extends Equatable {
       (key) => key.type == 'RsaVerificationKey2018',
       orElse: () => null,
     );
+  CommercioRSAPublicKey? get encryptionKey {
+    final pubKey = publicKeys
+        .firstWhereOrNull((key) => key.type == 'RsaVerificationKey2018');
     if (pubKey == null) return null;
 
     return CommercioRSAPublicKey(
@@ -59,4 +59,13 @@ class DidDocument extends Equatable {
       _$DidDocumentFromJson(json);
 
   Map<String, dynamic> toJson() => _$DidDocumentToJson(this);
+}
+
+extension FirstWhereOrNullExtension<E> on Iterable<E> {
+  E? firstWhereOrNull(bool Function(E) test) {
+    for (final element in this) {
+      if (test(element)) return element;
+    }
+    return null;
+  }
 }
