@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  asn1lib:
+    dependency: transitive
+    description:
+      name: asn1lib
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.1"
   async:
     dependency: transitive
     description:
@@ -240,7 +247,7 @@ packages:
     source: hosted
     version: "0.1.2"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -386,12 +393,19 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
+  rsa_pkcs:
+    dependency: "direct main"
+    description:
+      name: rsa_pkcs
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.4"
   sacco:
     dependency: "direct main"
     description:
       path: "."
       ref: "fix/null-safety"
-      resolved-ref: "5fa2d60d89067d3706b667efc79af057c48d9533"
+      resolved-ref: bddb6e0500cd0dd7cc8a60bc04e107dec0905c70
       url: "git@github.com:commercionetwork/sacco.dart.git"
     source: git
     version: "0.1.5"

@@ -8,18 +8,16 @@ environment:
   sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
-  equatable: ">=2.0.0 <3.0.0"
-  http: ">=0.13.0 <0.14.0"
-  json_annotation: ">=4.0.0 <5.0.0"
-  uuid: ">=2.0.0 <3.0.0"
-
-  # Crypto utils
   ed25519_hd_key: ">=1.1.0 <2.0.0"
-  sacco: #^0.1.5
-  #  path: ../sacco.dart
-    git:
-      url: git@github.com:commercionetwork/sacco.dart.git
-      ref: fix/null-safety
+  equatable: ">=2.0.0 <3.0.0"
+  json_annotation: ">=4.0.0 <5.0.0"
+  rsa_pkcs: ">=1.0.0 <2.0.0"
+  sacco:
+    # path: ../sacco.dart
+   git:
+     url: git@github.com:commercionetwork/sacco.dart.git
+     ref: fix/null-safety
+  uuid: ">=2.0.0 <3.0.0"
 
 dev_dependencies:
   build_runner: ">=1.11.0 <1.12.0"
