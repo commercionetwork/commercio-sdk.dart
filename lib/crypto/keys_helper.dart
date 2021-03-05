@@ -21,13 +21,9 @@ class KeysHelper {
     return Uint8List.fromList(nonce);
   }
 
-  static Uint8List generateRandomNonceUtf8(int length) {
-    return generateRandomNonce(length, bit: 128);
-  }
-
   /// Generates a new AES key having the desired [length].
   static Future<Uint8List> generateAesKey({int length = 256}) async {
-    return SecureRandom().nextBytes(length ~/ 16);
+    return generateRandomNonce(length ~/ 16);
   }
 
   /// Generates a new RSA key pair having the given [bytes] length.
