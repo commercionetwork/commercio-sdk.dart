@@ -728,11 +728,12 @@ void main() {
     });
 
     group('JSON serialization', () {
-      final minimalJson = <String, Object>{
+      final minimalJson = <String, Object?>{
         'storage_uri': correctCommercioDoSign.storageUri,
         'signer_instance': correctCommercioDoSign.signerIstance,
         'vcr_id': correctCommercioDoSign.vcrId,
         'certificate_profile': correctCommercioDoSign.certificateProfile,
+        'sdn_data': null,
       };
 
       final json2 = Map<String, Object>.from(minimalJson);
