@@ -15,7 +15,7 @@ jobs:
 
       script:
         - dart analyze
-        - pub run test
+        - dart --no-sound-null-safety run test
 
     ## ----------------------------------------------------
     ## --- Steps to build and publish the documentation
