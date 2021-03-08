@@ -23,7 +23,7 @@ packages:
     source: hosted
     version: "2.0.0"
   asn1lib:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: asn1lib
       url: "https://pub.dartlang.org"
@@ -386,13 +386,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
-  rsa_pkcs:
-    dependency: "direct main"
-    description:
-      name: rsa_pkcs
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.4"
   sacco:
     dependency: "direct main"
     description:
