@@ -16,7 +16,7 @@ dependencies:
   sacco:
     # path: ../sacco.dart
    git:
-     url: git@github.com:commercionetwork/sacco.dart.git
+     url: https://github.com/commercionetwork/sacco.dart.git
      ref: fix/null-safety
   uuid: ">=2.0.0 <4.0.0"
 
