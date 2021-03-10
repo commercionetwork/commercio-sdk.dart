@@ -36,20 +36,14 @@ Future<CommercioDoc> encryptField(
     }
 
     encryptedContentUri = hex.encode(
-      EncryptionHelper.encryptStringWithAes(
-        doc.contentUri!,
-        aesKey,
-      ),
+      EncryptionHelper.encryptStringWithAes(doc.contentUri!, aesKey),
     );
   }
 
   String? encryptedMetadataContentUri;
   if (encryptedData.contains(CommercioEncryptedData.METADATA_CONTENT_URI)) {
     encryptedMetadataContentUri = hex.encode(
-      EncryptionHelper.encryptStringWithAes(
-        doc.metadata.contentUri,
-        aesKey,
-      ),
+      EncryptionHelper.encryptStringWithAes(doc.metadata.contentUri, aesKey),
     );
   }
 
@@ -61,10 +55,7 @@ Future<CommercioDoc> encryptField(
       );
     }
     encryptedMetadataSchemaUri = hex.encode(
-      EncryptionHelper.encryptStringWithAes(
-        doc.metadata.schema!.uri,
-        aesKey,
-      ),
+      EncryptionHelper.encryptStringWithAes(doc.metadata.schema!.uri, aesKey),
     );
   }
 
