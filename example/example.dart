@@ -10,8 +10,8 @@ Future<void> main() async {
   // --- Setup network info
   // --------------------------------------------
 
-  const lcdUrl = 'http://localhost:1337';
-  const networkInfo = NetworkInfo(
+  final lcdUrl = Uri.parse('http://localhost:1337');
+  final networkInfo = NetworkInfo(
     bech32Hrp: 'did:com:',
     lcdUrl: lcdUrl,
   );

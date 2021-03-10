@@ -23,7 +23,7 @@ class ProofGenerationResult extends Equatable {
 /// the payload itself.
 Future<ProofGenerationResult> generateProof(
   Object payload,
-  String lcdUrl,
+  Uri lcdUrl,
 ) async {
   // Generate the AES key
   final aesKey = await KeysHelper.generateAesKey();

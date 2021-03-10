@@ -13,11 +13,11 @@ class EncryptionHelper {
   /// encrypting the data that only it should see.
   /// Returns the RSA public key associated to the government that should be used when
   static Future<CommercioRSAPublicKey> getGovernmentRsaPubKey(
-    String lcdUrl, {
+    Uri lcdUrl, {
     http.Client? client,
   }) async {
     final tumblerResponse = await Network.query(
-      Uri.parse('$lcdUrl/government/tumbler'),
+      Uri.parse('${lcdUrl.toString()}/government/tumbler'),
       client: client,
     );
 
@@ -28,7 +28,7 @@ class EncryptionHelper {
     final tumbler = TumblerResponse.fromJson(jsonDecode(tumblerResponse));
     final tumblerAddress = tumbler.result.tumblerAddress;
     final identityResponseRaw = await Network.query(
-      Uri.parse('$lcdUrl/identities/$tumblerAddress'),
+      Uri.parse('${lcdUrl.toString()}/identities/$tumblerAddress'),
       client: client,
     );
 

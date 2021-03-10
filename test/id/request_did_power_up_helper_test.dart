@@ -10,7 +10,10 @@ import 'package:uuid/uuid.dart';
 void main() {
   group('Functions of "RequestDidPowerUpHelper" class', () {
     const lcdUrl = 'url';
-    const networkInfo = NetworkInfo(bech32Hrp: 'did:com:', lcdUrl: lcdUrl);
+    final networkInfo = NetworkInfo(
+      bech32Hrp: 'did:com:',
+      lcdUrl: Uri.parse(''),
+    );
     const mnemonicString =
         'dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology';
     final mnemonic = mnemonicString.split(' ');

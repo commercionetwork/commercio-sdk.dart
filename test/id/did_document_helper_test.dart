@@ -7,7 +7,10 @@ import 'package:sacco/sacco.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const networkInfo = NetworkInfo(bech32Hrp: 'did:com:', lcdUrl: '');
+  final networkInfo = NetworkInfo(
+    bech32Hrp: 'did:com:',
+    lcdUrl: Uri.parse(''),
+  );
   const mnemonicString =
       'dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet '
       'sound ostrich increase resist short ship lift town ice split payment round apology';
