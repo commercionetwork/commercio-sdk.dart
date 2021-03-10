@@ -64,12 +64,9 @@ class EncryptionHelper {
     final nonce = KeysHelper.generateRandomNonce(12);
 
     // Create an AES-GCM crypter
-    final aesGcmCrypter = PaddedBlockCipher('AES/GCM/PKCS7');
+    final aesGcmCrypter = GCMBlockCipher(AESFastEngine());
     final params = AEADParameters(KeyParameter(key), 128, nonce, null);
-
-    // Set padding to null because the blockchain doesn't want it
-    final paddedParams = PaddedBlockCipherParameters(params, null);
-    aesGcmCrypter.init(true, paddedParams);
+    aesGcmCrypter.init(true, params);
 
     // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT
     final dataToEncrypt = Uint8List.fromList(utf8.encode(data));
@@ -83,18 +80,20 @@ class EncryptionHelper {
 
   /// Encrypts the given [data] with AES using the specified [key].
   static Uint8List encryptBytesWithAes(Uint8List data, Uint8List key) {
-    final aesChiper = PaddedBlockCipher('AES/ECB/PKCS7');
-    aesChiper.init(true, PaddedBlockCipherParameters(KeyParameter(key), null));
+    final ecbChiper = PaddedBlockCipher('AES/ECB/PKCS7');
+    final params = PaddedBlockCipherParameters(KeyParameter(key), null);
+    ecbChiper.init(true, params);
 
-    return aesChiper.process(data);
+    return ecbChiper.process(data);
   }
 
   /// Decrypts the given [data] with AES using the specified [key].
   static Uint8List decryptWithAes(Uint8List data, Uint8List key) {
-    final aesChiper = PaddedBlockCipher('AES/ECB/PKCS7');
-    aesChiper.init(false, PaddedBlockCipherParameters(KeyParameter(key), null));
+    final ecbChiper = PaddedBlockCipher('AES/ECB/PKCS7');
+    final params = PaddedBlockCipherParameters(KeyParameter(key), null);
+    ecbChiper.init(false, params);
 
-    return aesChiper.process(data);
+    return ecbChiper.process(data);
   }
 
   /// Encrypts the given [data] with RSA using the specified [key].
@@ -104,7 +103,7 @@ class EncryptionHelper {
 
   /// Encrypts the given [data] with RSA using the specified [key].
   static Uint8List encryptBytesWithRsa(Uint8List data, RSAPublicKey key) {
-    final rsaChiper = AsymmetricBlockCipher('RSA/PKCS1');
+    final rsaChiper = PKCS1Encoding(RSAEngine());
     rsaChiper.init(true, PublicKeyParameter<RSAPublicKey>(key));
 
     return rsaChiper.process(data);
@@ -112,7 +111,7 @@ class EncryptionHelper {
 
   /// Decrypts the given data using the specified private [key].
   static Uint8List decryptBytesWithRsa(Uint8List data, RSAPrivateKey key) {
-    final rsaChiper = AsymmetricBlockCipher('RSA/PKCS1');
+    final rsaChiper = PKCS1Encoding(RSAEngine());
     rsaChiper.init(false, PrivateKeyParameter<RSAPrivateKey>(key));
 
     return rsaChiper.process(data);
