@@ -27,7 +27,6 @@ class CommercioDocHelper {
       contentUri: contentUri,
       metadata: metadata,
       checksum: checksum,
-      encryptionData: null,
       doSign: doSign,
     );
 
