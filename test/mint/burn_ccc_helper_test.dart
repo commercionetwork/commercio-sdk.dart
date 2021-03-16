@@ -16,7 +16,7 @@ void main() {
 
     test('if "fromwallet()" returns a well-formed "BurnCcc" object', () {
       const amount = StdCoin(denom: 'uccc', amount: '10');
-      final id = Uuid().v4();
+      final id = const Uuid().v4();
 
       final expectedBurnCcc = BurnCcc(
         signerDid: wallet.bech32Address,

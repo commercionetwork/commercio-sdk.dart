@@ -6,6 +6,6 @@ export 'entities/export.dart';
 export 'id/export.dart';
 export 'kyc/export.dart';
 export 'mint/export.dart';
-export 'networking/network.dart';
+export 'networking/networking.dart';
 export 'tx/tx_helper.dart';
 export 'utils/utils.dart';

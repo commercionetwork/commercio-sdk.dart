@@ -6,6 +6,7 @@ import 'package:commerciosdk/entities/crypto/tumbler_response.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
 import 'package:pointycastle/export.dart';
+import 'package:pointycastle/api.dart';
 
 /// Allows to perform common encryption operations such as
 /// RSA/AES encryption and decryption.
@@ -65,7 +66,12 @@ class EncryptionHelper {
 
     // Create an AES-GCM crypter
     final aesGcmCrypter = GCMBlockCipher(AESFastEngine());
-    final params = AEADParameters(KeyParameter(key), 128, nonce, null);
+    final params = AEADParameters(
+      KeyParameter(key),
+      128,
+      nonce,
+      Uint8List.fromList([]),
+    );
     aesGcmCrypter.init(true, params);
 
     // Encrypt the data with the key F and nonce N obtaining CIPHERTEXT

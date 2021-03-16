@@ -86,7 +86,7 @@ class RSAKeyParser {
     final modulus = seq.elements[0] as ASN1Integer;
     final pubExp = seq.elements[1] as ASN1Integer;
 
-    return RSAPublicKey(modulus.valueAsBigInteger, pubExp.valueAsBigInteger);
+    return RSAPublicKey(modulus.valueAsBigInteger!, pubExp.valueAsBigInteger!);
   }
 
   /// Format:
@@ -116,17 +116,15 @@ class RSAKeyParser {
     final seq = parser.nextObject() as ASN1Sequence;
 
     final modulus = seq.elements[1] as ASN1Integer;
-    final pubExp = seq.elements[2] as ASN1Integer;
     final privExp = seq.elements[3] as ASN1Integer;
     final p = seq.elements[4] as ASN1Integer;
     final q = seq.elements[5] as ASN1Integer;
 
     return RSAPrivateKey(
-      modulus.valueAsBigInteger,
-      privExp.valueAsBigInteger,
+      modulus.valueAsBigInteger!,
+      privExp.valueAsBigInteger!,
       p.valueAsBigInteger,
       q.valueAsBigInteger,
-      pubExp.valueAsBigInteger,
     );
   }
 

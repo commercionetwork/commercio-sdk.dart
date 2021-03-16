@@ -9,7 +9,6 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   group('Functions of "RequestDidPowerUpHelper" class', () {
-    const lcdUrl = 'url';
     final networkInfo = NetworkInfo(
       bech32Hrp: 'did:com:',
       lcdUrl: Uri.parse(''),
@@ -33,7 +32,7 @@ void main() {
     test('"fromWallet()" returns a well-formed "RequestDidPowerUp" object.',
         () async {
       final clientMock = MockClient((request) async {
-        if (request.url.path == '$lcdUrl/government/tumbler') {
+        if (request.url.path == '/government/tumbler') {
           final body =
               await File('test_resources/tumbler_address.json').readAsString();
           return Future.value(Response(body, 200));
@@ -49,7 +48,7 @@ void main() {
       );
 
       const powerUpProof = 'powerUpProof';
-      final uuid = Uuid().v4();
+      final uuid = const Uuid().v4();
       const encryptionKey = 'encryptionKey';
 
       final expectedRequestDidPowerUp = RequestDidPowerUp(

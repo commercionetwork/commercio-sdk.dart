@@ -19,18 +19,18 @@ class CommercioRSAPublicKey implements CommercioPublicKey {
 
   String getPKCS1Encoded() {
     final pubKeySequence = ASN1Sequence();
-    pubKeySequence.add(ASN1Integer(publicKey.modulus));
-    pubKeySequence.add(ASN1Integer(publicKey.exponent));
+    pubKeySequence.add(ASN1Integer(publicKey.modulus!));
+    pubKeySequence.add(ASN1Integer(publicKey.exponent!));
     final dataBase64 = base64Encode(pubKeySequence.encodedBytes);
 
     return '-----BEGIN RSA PUBLIC KEY-----\n$dataBase64\n-----END RSA PUBLIC KEY-----';
   }
 
   @override
-  String getEncoded() {
+  Future<String> getEncoded() async {
     final pubKeySequence = ASN1Sequence();
-    pubKeySequence.add(ASN1Integer(publicKey.modulus));
-    pubKeySequence.add(ASN1Integer(publicKey.exponent));
+    pubKeySequence.add(ASN1Integer(publicKey.modulus!));
+    pubKeySequence.add(ASN1Integer(publicKey.exponent!));
     final dataBase64 = base64Encode(pubKeySequence.encodedBytes);
 
     return '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A$dataBase64\n-----END PUBLIC KEY-----';
@@ -87,16 +87,16 @@ class CommercioRSAPrivateKey implements CommercioPrivateKey {
     final topLevel = ASN1Sequence();
 
     final version = ASN1Integer.fromInt(0);
-    final modulus = ASN1Integer(privateKey.n);
-    final publicExponent = ASN1Integer(privateKey.exponent);
-    final privateExponent = ASN1Integer(privateKey.privateExponent);
-    final p = ASN1Integer(privateKey.p);
-    final q = ASN1Integer(privateKey.q);
-    final dP = privateKey.privateExponent % (privateKey.p - BigInt.from(1));
+    final modulus = ASN1Integer(privateKey.n!);
+    final publicExponent = ASN1Integer(privateKey.exponent!);
+    final privateExponent = ASN1Integer(privateKey.privateExponent!);
+    final p = ASN1Integer(privateKey.p!);
+    final q = ASN1Integer(privateKey.q!);
+    final dP = privateKey.privateExponent! % (privateKey.p! - BigInt.from(1));
     final exp1 = ASN1Integer(dP);
-    final dQ = privateKey.privateExponent % (privateKey.q - BigInt.from(1));
+    final dQ = privateKey.privateExponent! % (privateKey.q! - BigInt.from(1));
     final exp2 = ASN1Integer(dQ);
-    final iQ = privateKey.q.modInverse(privateKey.p);
+    final iQ = privateKey.q!.modInverse(privateKey.p!);
     final co = ASN1Integer(iQ);
 
     topLevel.add(version);

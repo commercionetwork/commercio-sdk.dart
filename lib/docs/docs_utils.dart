@@ -129,7 +129,7 @@ class WalletIdentityNotFoundException implements Exception {
   /// Please refer to
   /// https://docs.commercio.network/x/id/tx/create-an-identity.html
   /// on how create an identity and associate it to a wallet.
-  const WalletIdentityNotFoundException(this.message) : assert(message != null);
+  const WalletIdentityNotFoundException(this.message);
 
   /// Create a default-message exception that refers to the missing identity of
   /// the provided `walletAddress`.

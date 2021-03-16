@@ -736,7 +736,7 @@ void main() {
         'sdn_data': null,
       };
 
-      final json2 = Map<String, Object>.from(minimalJson);
+      final json2 = Map<String, Object?>.from(minimalJson);
       json2['sdn_data'] = ['common_name'];
 
       test('fromJson() shoul behave correctly', () {

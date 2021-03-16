@@ -302,7 +302,7 @@ enum CommercioEncryptedData {
 
 extension CommercioEncryptedDataExt on CommercioEncryptedData {
   /// Returns the string representation of the [EncryptedData] enum.
-  String? get value {
+  String get value {
     switch (this) {
       case CommercioEncryptedData.CONTENT:
         return 'content';
@@ -312,14 +312,12 @@ extension CommercioEncryptedDataExt on CommercioEncryptedData {
         return 'metadata.content_uri';
       case CommercioEncryptedData.METADATA_SCHEMA_URI:
         return 'metadata.schema.uri';
-      default:
-        return null;
     }
   }
 
   /// Returns the [EncryptedData] that corresponds to the [value] or [null] if
   /// the [value] is not valid.
-  static CommercioEncryptedData? fromValue(String value) {
+  static CommercioEncryptedData fromValue(String value) {
     switch (value) {
       case 'content':
         return CommercioEncryptedData.CONTENT;
@@ -330,7 +328,8 @@ extension CommercioEncryptedDataExt on CommercioEncryptedData {
       case 'metadata.schema.uri':
         return CommercioEncryptedData.METADATA_SCHEMA_URI;
       default:
-        return null;
+        throw ArgumentError(
+            'Invalid argument $value. Valid values are "content", "content_uri", "metadata.content_uri" and "metadata.schema.uri"');
     }
   }
 }

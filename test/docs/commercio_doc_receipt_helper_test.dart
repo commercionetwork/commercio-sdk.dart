@@ -13,10 +13,10 @@ void main() {
     final mnemonic = mnemonicString.split(' ');
     final wallet = Wallet.derive(mnemonic, networkInfo);
 
-    final uuid = Uuid().v4();
+    final uuid = const Uuid().v4();
     const recipientDid = 'did:com:14ttg3eyu88jda8udvxpwjl2pwxemh72w0grsau';
     const txHash = 'txHash';
-    final documentId = Uuid().v4();
+    final documentId = const Uuid().v4();
 
     test('"fromWallet()" returns a well-formed "CommercioDocReceipt" object.',
         () {

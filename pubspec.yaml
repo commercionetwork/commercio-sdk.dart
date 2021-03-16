@@ -8,17 +8,17 @@ environment:
   sdk: ">=2.12.0-0 <3.0.0"
 
 dependencies:
-  asn1lib: ">=0.8.1 <0.9.0"
-  convert: ">=2.0.0 <3.0.0"
-  ed25519_hd_key: ">=1.1.0 <2.0.0"
+  asn1lib: ^0.9.0-nullsafety.0
+  convert: ">=3.0.0 <4.0.0"
+  # ed25519_hd_key: ">=1.1.0 <2.0.0"
+  cryptography: ^2.0.1
   equatable: ">=2.0.0 <3.0.0"
   json_annotation: ">=4.0.0 <5.0.0"
   sacco:
-    # path: ../sacco.dart
    git:
      url: https://github.com/commercionetwork/sacco.dart.git
      ref: fix/null-safety
-  uuid: ">=2.0.0 <4.0.0"
+  uuid: ">=3.0.0 <4.0.0"
 
 dev_dependencies:
   build_runner: ">=1.11.0 <1.12.0"
@@ -26,7 +26,3 @@ dev_dependencies:
   mockito: any
   pedantic: ">=1.11.0 <2.0.0"
   test: ">=1.16.0 <2.0.0"
-  # test_coverage: any
-
-dependency_overrides:
-  pointycastle: 2.0.0

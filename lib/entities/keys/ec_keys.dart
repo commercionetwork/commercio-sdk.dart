@@ -17,8 +17,8 @@ class CommercioECPublicKey implements CommercioPublicKey {
   String getType() => keyType ?? 'Secp256k1VerificationKey2018';
 
   @override
-  String getEncoded() {
-    return base64.encode(pubKey.Q.getEncoded(false));
+  Future<String> getEncoded() async {
+    return base64.encode(pubKey.Q!.getEncoded(false));
   }
 }
 

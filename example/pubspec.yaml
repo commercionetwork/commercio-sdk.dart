@@ -5,10 +5,5 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  bip39: '>=1.0.0 <1.1.0'
   commerciosdk:
     path: ../
-  uuid: '>=2.2.0 <2.3.0'
-
-dependency_overrides:
-  pointycastle: 2.0.0

@@ -66,7 +66,7 @@ class RequestDidPowerUpHelper {
       claimantDid: senderDid,
       amount: amount,
       powerUpProof: base64Encode(encryptedProof),
-      uuid: Uuid().v4(),
+      uuid: const Uuid().v4(),
       encryptionKey: base64Encode(encryptedProofKey),
     );
   }

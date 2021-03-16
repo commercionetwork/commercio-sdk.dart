@@ -1,5 +1,3 @@
-//@dart=2.9
-
 import 'dart:io';
 
 import 'package:commerciosdk/export.dart';
@@ -21,7 +19,7 @@ void main() {
     final senderDid = wallet.bech32Address;
     final recipientDids = ['did:com:1acdefg', 'did:com:1acdefg'];
     const recipientWithDDO = 'did:com:1fswhnd44fv2qk7ls4gflxh7spu7xpqdue54s3m';
-    final uuid = Uuid().v4();
+    final uuid = const Uuid().v4();
     final metadata = CommercioDocMetadata(
       contentUri: 'https://example.com/document/metadata',
       schema: CommercioDocMetadataSchema(

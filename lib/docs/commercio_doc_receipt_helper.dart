@@ -22,7 +22,7 @@ class CommercioDocReceiptHelper {
     String? proof,
   }) {
     return CommercioDocReceipt(
-      uuid: Uuid().v4(),
+      uuid: const Uuid().v4(),
       senderDid: wallet.bech32Address,
       recipientDid: recipient,
       txHash: txHash,

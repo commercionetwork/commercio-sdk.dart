@@ -29,9 +29,7 @@ class TumblerResponse {
 class Result {
   final String tumblerAddress;
 
-  Result({
-    required this.tumblerAddress,
-  });
+  Result({required this.tumblerAddress});
 
   factory Result.fromRawJson(String str) => Result.fromJson(json.decode(str));
 

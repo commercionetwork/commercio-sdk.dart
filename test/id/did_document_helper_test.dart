@@ -6,7 +6,7 @@ import 'package:pointycastle/export.dart';
 import 'package:sacco/sacco.dart';
 import 'package:test/test.dart';
 
-void main() {
+void main() async {
   final networkInfo = NetworkInfo(
     bech32Hrp: 'did:com:',
     lcdUrl: Uri.parse(''),
@@ -27,11 +27,13 @@ void main() {
     keyType: CommercioRSAKeyType.verification,
   );
 
+  final encodedPubKeyPem = await rsaPubKeyVerification.getEncoded();
   final verificationPubKey = DidDocumentPublicKey(
-      id: '${wallet.bech32Address}#keys-1',
-      type: 'RsaVerificationKey2018',
-      controller: wallet.bech32Address,
-      publicKeyPem: rsaPubKeyVerification.getEncoded());
+    id: '${wallet.bech32Address}#keys-1',
+    type: 'RsaVerificationKey2018',
+    controller: wallet.bech32Address,
+    publicKeyPem: encodedPubKeyPem,
+  );
 
   final modulusSignature = BigInt.from(135);
   final exponentSignature = BigInt.from(136);
@@ -43,11 +45,13 @@ void main() {
     keyType: CommercioRSAKeyType.signature,
   );
 
+  final signaturePubKeyEncodedPubKeyPem = await rsaPubKeySignature.getEncoded();
   final signaturePubKey = DidDocumentPublicKey(
-      id: '${wallet.bech32Address}#keys-2',
-      type: 'RsaSignatureKey2018',
-      controller: wallet.bech32Address,
-      publicKeyPem: rsaPubKeySignature.getEncoded());
+    id: '${wallet.bech32Address}#keys-2',
+    type: 'RsaSignatureKey2018',
+    controller: wallet.bech32Address,
+    publicKeyPem: signaturePubKeyEncodedPubKeyPem,
+  );
 
   final proofSignatureContent = DidDocumentProofSignatureContent(
     context: 'https://www.w3.org/ns/did/v1',
@@ -76,11 +80,15 @@ void main() {
 
   test(
       'fromWallet return a well-formed, ready to be send to blockchain, did document',
-      () {
-    final didDocument = DidDocumentHelper.fromWallet(wallet: wallet, pubKeys: [
-      rsaPubKeyVerification,
-      rsaPubKeySignature,
-    ]);
+      () async {
+    final didDocument = await DidDocumentHelper.fromWallet(
+      wallet: wallet,
+      pubKeys: [
+        rsaPubKeyVerification,
+        rsaPubKeySignature,
+      ],
+    );
+
     expect(didDocument.context, expectedDidDocument.context);
     expect(didDocument.id, expectedDidDocument.id);
     final eq = const DeepCollectionEquality().equals;
