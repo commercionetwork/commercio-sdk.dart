@@ -1,0 +1,28 @@
+{
+    "node_info": {
+        "protocol_version": {
+            "p2p": "7",
+            "block": "10",
+            "app": "0"
+        },
+        "id": "a027e8bdc6f0bdf5ec2e9418f25ce9b2e6d4bb73",
+        "listen_addr": "tcp://0.0.0.0:26656",
+        "network": "chain-gisHED",
+        "version": "0.33.3",
+        "channels": "4020212223303800",
+        "moniker": "node0",
+        "other": {
+            "tx_index": "on",
+            "rpc_address": "tcp://0.0.0.0:26657"
+        }
+    },
+    "application_version": {
+        "name": "commercionetwork",
+        "server_name": "cnd",
+        "client_name": "cndcli",
+        "version": "2.1.2-1-gc3a9439d",
+        "commit": "c3a9439d40978eba17686526aa128131b513b0ab",
+        "build_tags": "netgo,ledger",
+        "go": "go version go1.14.2 linux/amd64"
+    }
+}

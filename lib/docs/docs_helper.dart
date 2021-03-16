@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:commerciosdk/docs/commercio_doc_receipt_helper.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:commerciosdk/entities/docs/legacy/21/legacy.dart' as legacy;
 
 class DocsHelper {
   /// Creates a new transaction that allows to share the document associated
@@ -36,9 +40,19 @@ class DocsHelper {
       encryptedData: encryptedData,
       aesKey: aesKey,
     );
+    StdMsg msg = MsgShareDocument(document: commercioDoc);
+
+    final isLegacy21Chain = await wallet.networkInfo.isVersion(version: '2.1');
+
+    if (isLegacy21Chain) {
+      // Convert the new CommercioDoc entity to the old format
+      final legacy21Doc = legacy.CommercioDocMapper.toLegacy(commercioDoc);
+
+      // Replace the msg with the newer document with the legacy one
+      msg = legacy.MsgShareDocument(document: legacy21Doc);
+    }
 
     // Build, sign and send the tx message
-    final msg = MsgShareDocument(document: commercioDoc);
     return TxHelper.createSignAndSendTx(
       [msg],
       wallet,
@@ -57,10 +71,25 @@ class DocsHelper {
     StdFee? fee,
     BroadcastingMode? mode,
     http.Client? client,
-  }) {
-    final msgs = commercioDocsList
-        .map((commercioDoc) => MsgShareDocument(document: commercioDoc))
-        .toList();
+  }) async {
+    List<StdMsg> msgs;
+
+    final isLegacy21Chain = await wallet.networkInfo.isVersion(version: '2.1');
+
+    if (isLegacy21Chain) {
+      msgs = commercioDocsList.map((commercioDoc) {
+        // Convert the new CommercioDoc entity to the old format
+        final legacy21Doc = legacy.CommercioDocMapper.toLegacy(commercioDoc);
+
+        // Replace the msg with the newer document with the legacy one
+        return legacy.MsgShareDocument(document: legacy21Doc);
+      }).toList();
+    } else {
+      msgs = commercioDocsList
+          .map((commercioDoc) => MsgShareDocument(document: commercioDoc))
+          .toList();
+    }
+
     return TxHelper.createSignAndSendTx(
       msgs,
       wallet,
