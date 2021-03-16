@@ -132,7 +132,7 @@ packages:
     description:
       path: "."
       ref: "fix/null-safety"
-      resolved-ref: "359756e1f3f8fc36c94777a54e5ff99c674e1ae8"
+      resolved-ref: b896dbc868fb474e91e03422eaa65e22cb514819
       url: "https://github.com/commercionetwork/sacco.dart.git"
     source: git
     version: "0.1.5"
