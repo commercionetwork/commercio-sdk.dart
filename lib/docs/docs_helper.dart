@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:commerciosdk/docs/commercio_doc_receipt_helper.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:http/http.dart' as http;
