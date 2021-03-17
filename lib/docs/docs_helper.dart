@@ -136,7 +136,7 @@ class DocsHelper {
     StdFee? fee,
     BroadcastingMode? mode,
     http.Client? client,
-  }) {
+  }) async {
     final commercioDocReceipt = CommercioDocReceiptHelper.fromWallet(
       wallet: wallet,
       recipient: recipient,
@@ -144,9 +144,19 @@ class DocsHelper {
       documentId: documentId,
       proof: proof,
     );
-    final msg = MsgSendDocumentReceipt(
-      receipt: commercioDocReceipt,
-    );
+    StdMsg msg = MsgSendDocumentReceipt(receipt: commercioDocReceipt);
+
+    final isLegacy21Chain = await wallet.networkInfo.isVersion(version: '2.1');
+
+    if (isLegacy21Chain) {
+      // Convert the new CommercioDocReceipt entity to the old format
+      final legacy21Receipt =
+          legacy.CommercioDocReceiptMapper.toLegacy(commercioDocReceipt);
+
+      // Replace the msg with the newer document with the legacy one
+      msg = legacy.MsgSendDocumentReceipt(receipt: legacy21Receipt);
+    }
+
     return TxHelper.createSignAndSendTx(
       [msg],
       wallet,
@@ -165,11 +175,27 @@ class DocsHelper {
     StdFee? fee,
     BroadcastingMode? mode,
     http.Client? client,
-  }) {
-    final msgs = commercioDocReceiptsList
-        .map((commercioDocReceipt) =>
-            MsgSendDocumentReceipt(receipt: commercioDocReceipt))
-        .toList();
+  }) async {
+    List<StdMsg> msgs;
+
+    final isLegacy21Chain = await wallet.networkInfo.isVersion(version: '2.1');
+
+    if (isLegacy21Chain) {
+      msgs = commercioDocReceiptsList.map((docReceipt) {
+        // Convert the new CommercioDocReceipt entity to the old format
+        final legacy21Receipt =
+            legacy.CommercioDocReceiptMapper.toLegacy(docReceipt);
+
+        // Replace the msg with the newer document with the legacy one
+        return legacy.MsgSendDocumentReceipt(receipt: legacy21Receipt);
+      }).toList();
+    } else {
+      msgs = commercioDocReceiptsList
+          .map((commercioDocReceipt) =>
+              MsgSendDocumentReceipt(receipt: commercioDocReceipt))
+          .toList();
+    }
+
     return TxHelper.createSignAndSendTx(
       msgs,
       wallet,
