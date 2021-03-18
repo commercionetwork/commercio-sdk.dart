@@ -40,7 +40,7 @@ class TxHelper {
     return TxSender.broadcastStdTx(
       wallet: wallet,
       stdTx: signedTx,
-      mode: mode.value!,
+      mode: mode.value,
     );
   }
 }
@@ -52,7 +52,7 @@ enum BroadcastingMode {
 }
 
 extension BroadcastingModeExt on BroadcastingMode {
-  String? get value {
+  String get value {
     switch (this) {
       case BroadcastingMode.ASYNC:
         return 'async';
@@ -60,8 +60,6 @@ extension BroadcastingModeExt on BroadcastingMode {
         return 'block';
       case BroadcastingMode.SYNC:
         return 'sync';
-      default:
-        return null;
     }
   }
 }
