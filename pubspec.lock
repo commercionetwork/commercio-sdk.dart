@@ -84,7 +84,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.12.1"
+    version: "1.12.2"
   build_runner_core:
     dependency: transitive
     description:
@@ -349,7 +349,7 @@ packages:
     description:
       path: "."
       ref: "fix/null-safety"
-      resolved-ref: e833f8cd7f156248fe164451bc30cf16a6d2a94e
+      resolved-ref: c158de8eb2fe7983d9bb5c954f6ec4d7fd4effda
       url: "https://github.com/commercionetwork/sacco.dart.git"
     source: git
     version: "0.1.5"
@@ -359,7 +359,7 @@ packages:
       name: shelf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0"
   shelf_packages_handler:
     dependency: transitive
     description:
@@ -380,7 +380,7 @@ packages:
       name: shelf_web_socket
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   source_gen:
     dependency: transitive
     description:
