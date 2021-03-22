@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'buy_membership.g.dart';
 
@@ -17,12 +16,10 @@ class BuyMembership extends Equatable {
   final String tsp;
 
   const BuyMembership({
-    @required this.membershipType,
-    @required this.buyerDid,
-    @required this.tsp,
-  })  : assert(membershipType != null),
-        assert(buyerDid != null),
-        assert(tsp != null);
+    required this.membershipType,
+    required this.buyerDid,
+    required this.tsp,
+  });
 
   @override
   List<Object> get props => [membershipType, buyerDid, tsp];

@@ -1,5 +1,4 @@
 import 'package:commerciosdk/export.dart';
-import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
 /// Allows to easily create a [CommercioDocReceipt] and perform common related
@@ -16,14 +15,14 @@ class CommercioDocReceiptHelper {
   /// The [proof] should be some kind of agreeded method between the
   /// [CommercioDoc] sender and receivers that the documen has been read.
   static CommercioDocReceipt fromWallet({
-    @required Wallet wallet,
-    @required String recipient,
-    @required String txHash,
-    @required String documentId,
-    String proof,
+    required Wallet wallet,
+    required String recipient,
+    required String txHash,
+    required String documentId,
+    String? proof,
   }) {
     return CommercioDocReceipt(
-      uuid: Uuid().v4(),
+      uuid: const Uuid().v4(),
       senderDid: wallet.bech32Address,
       recipientDid: recipient,
       txHash: txHash,

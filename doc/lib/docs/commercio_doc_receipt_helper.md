@@ -8,11 +8,11 @@ Allows to easily create a CommercioDocReceipt and perform common related operati
 
     ```dart
     static CommercioDocReceipt fromWallet({
-      @required Wallet wallet,
-      @required String recipient,
-      @required String txHash,
-      @required String documentId,
-      String proof,
+      required Wallet wallet,
+      required String recipient,
+      required String txHash,
+      required String documentId,
+      String? proof,
     })
     ```
 
@@ -24,7 +24,7 @@ Suppose that we received a `MsgShareDocument` with our wallet address in the `re
 // Configure the blockchain network
 final networkInfo = NetworkInfo(
   bech32Hrp: 'did:com:',
-  lcdUrl: 'http://localhost:1317',
+  lcdUrl: Uri.parse('http://localhost:1317'),
 );
 
 // Build our wallet from the mnemonics

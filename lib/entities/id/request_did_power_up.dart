@@ -1,7 +1,6 @@
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'request_did_power_up.g.dart';
 
@@ -25,17 +24,12 @@ class RequestDidPowerUp extends Equatable {
   final String encryptionKey;
 
   RequestDidPowerUp({
-    @required this.claimantDid,
-    @required this.amount,
-    @required this.powerUpProof,
-    @required this.uuid,
-    @required this.encryptionKey,
-  })  : assert(claimantDid != null),
-        assert(amount != null),
-        assert(amount.isNotEmpty),
-        assert(powerUpProof != null),
-        assert(uuid != null),
-        assert(encryptionKey != null);
+    required this.claimantDid,
+    required this.amount,
+    required this.powerUpProof,
+    required this.uuid,
+    required this.encryptionKey,
+  }) : assert(amount.isNotEmpty);
 
   @override
   List<Object> get props =>

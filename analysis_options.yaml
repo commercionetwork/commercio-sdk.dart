@@ -37,7 +37,6 @@ linter:
     - empty_constructor_bodies
     - empty_statements
     - file_names
-    - flutter_style_todos
     - hash_and_equals
     - join_return_with_assignment
     - library_names

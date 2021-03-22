@@ -10,17 +10,18 @@ Docs helper allows to easily perform all the operations related to the commercio
 
     ```dart
     static Future<TransactionResult> shareDocument({
-      @required String id,
-      @required CommercioDocMetadata metadata,
-      @required List<String> recipients,
-      @required Wallet wallet,
-      String contentUri,
-      CommercioDoSign doSign,
-      CommercioDocChecksum checksum,
-      Key aesKey,
-      Set<CommercioEncryptedData> encryptedData,
-      StdFee fee,
-      BroadcastingMode mode,
+      required String id,
+      required CommercioDocMetadata metadata,
+      required List<String> recipients,
+      required Wallet wallet,
+      String? contentUri,
+      CommercioDoSign? doSign,
+      CommercioDocChecksum? checksum,
+      Uint8List? aesKey,
+      Set<CommercioEncryptedData>? encryptedData,
+      StdFee? fee,
+      BroadcastingMode? mode,
+      http.Client? client,
     })
     ```
 
@@ -41,11 +42,10 @@ Docs helper allows to easily perform all the operations related to the commercio
 2. Create a new transaction that allows to share a list of previously generated documents `commercioDocsList` signing the transaction with `wallet`. Optionally `fee` and broadcasting `mode` parameters can be specified.
 
     ```dart
-    static Future<TransactionResult> shareDocumentsList(
-      List<CommercioDoc> commercioDocsList,
-      Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
+    static Future<List<CommercioDoc>> getSentDocuments({
+      required String address,
+      required NetworkInfo networkInfo,
+      http.Client? client,
     })
     ```
 
@@ -69,10 +69,10 @@ Docs helper allows to easily perform all the operations related to the commercio
 
     ```dart
     static Future<List<CommercioDoc>> getSentDocuments({
-      @required String address,
-      @required NetworkInfo networkInfo,
-      http.Client client,
-    }) async
+      required String address,
+      required NetworkInfo networkInfo,
+      http.Client? client,
+    })
     ```
 
     Example:
@@ -88,9 +88,9 @@ Docs helper allows to easily perform all the operations related to the commercio
 
     ```dart
     static Future<List<CommercioDoc>> getReceivedDocuments({
-      @required String address,
-      @required NetworkInfo networkInfo,
-      http.Client client,
+      required String address,
+      required NetworkInfo networkInfo,
+      http.Client? client,
     })
     ```
 
@@ -108,13 +108,14 @@ Docs helper allows to easily perform all the operations related to the commercio
 
     ```dart
     static Future<TransactionResult> sendDocumentReceipt({
-      @required String recipient,
-      @required String txHash,
-      @required String documentId,
-      @required Wallet wallet,
-      String proof,
-      StdFee fee,
-      BroadcastingMode mode,
+      required String recipient,
+      required String txHash,
+      required String documentId,
+      required Wallet wallet,
+      String? proof,
+      StdFee? fee,
+      BroadcastingMode? mode,
+      http.Client? client,
     })
     ```
 
@@ -124,18 +125,19 @@ Docs helper allows to easily perform all the operations related to the commercio
    static Future<TransactionResult> sendDocumentReceiptsList(
       List<CommercioDocReceipt> commercioDocReceiptsList,
       Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
-    })
+      StdFee? fee,
+      BroadcastingMode? mode,
+      http.Client? client,
+   })
    ```
 
 7. Returns the list of all the `CommercioDocReceipt` that have been sent from the given `address`
 
     ```dart
     static Future<List<CommercioDocReceipt>> getSentReceipts({
-      @required String address,
-      @required NetworkInfo networkInfo,
-      http.Client client,
+      required String address,
+      required NetworkInfo networkInfo,
+      http.Client? client,
     })
     ```
 
@@ -143,9 +145,9 @@ Docs helper allows to easily perform all the operations related to the commercio
 
     ```dart
     static Future<List<CommercioDocReceipt>> getReceivedReceipts({
-      @required String address,
-      @required NetworkInfo networkInfo,
-      http.Client client,
+      required String address,
+      required NetworkInfo networkInfo,
+      http.Client? client,
     })
     ```
 
@@ -154,7 +156,7 @@ Docs helper allows to easily perform all the operations related to the commercio
 ```dart
 final info = NetworkInfo(
   bech32Hrp: 'did:com:',
-  lcdUrl: 'http://localhost:1317',
+  lcdUrl: Uri.parse('http://localhost:1317'),
 );
 
 final senderMnemonic = ['will', 'hard', ..., 'man'];

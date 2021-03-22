@@ -9,8 +9,10 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   group('Functions of "RequestDidPowerUpHelper" class', () {
-    const lcdUrl = 'url';
-    final networkInfo = NetworkInfo(bech32Hrp: 'did:com:', lcdUrl: lcdUrl);
+    final networkInfo = NetworkInfo(
+      bech32Hrp: 'did:com:',
+      lcdUrl: Uri.parse(''),
+    );
     const mnemonicString =
         'dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology';
     final mnemonic = mnemonicString.split(' ');
@@ -30,7 +32,7 @@ void main() {
     test('"fromWallet()" returns a well-formed "RequestDidPowerUp" object.',
         () async {
       final clientMock = MockClient((request) async {
-        if (request.url.path == '$lcdUrl/government/tumbler') {
+        if (request.url.path == '/government/tumbler') {
           final body =
               await File('test_resources/tumbler_address.json').readAsString();
           return Future.value(Response(body, 200));
@@ -41,10 +43,12 @@ void main() {
         return Future.value(Response(body, 200));
       });
 
-      final keyPair = await KeysHelper.generateRsaKeyPair();
+      final keyPair = await KeysHelper.generateRsaKeyPair(
+        keyType: CommercioRSAKeyType.verification,
+      );
 
       const powerUpProof = 'powerUpProof';
-      final uuid = Uuid().v4();
+      final uuid = const Uuid().v4();
       const encryptionKey = 'encryptionKey';
 
       final expectedRequestDidPowerUp = RequestDidPowerUp(

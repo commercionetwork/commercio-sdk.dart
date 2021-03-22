@@ -1,7 +1,6 @@
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'reward_pool_deposit.g.dart';
 
@@ -15,10 +14,9 @@ class RewardPoolDeposit extends Equatable {
   final String depositorDid;
 
   const RewardPoolDeposit({
-    @required this.depositAmount,
-    @required this.depositorDid,
-  })  : assert(depositAmount != null),
-        assert(depositorDid != null);
+    required this.depositAmount,
+    required this.depositorDid,
+  });
 
   @override
   List<Object> get props => [depositAmount, depositorDid];

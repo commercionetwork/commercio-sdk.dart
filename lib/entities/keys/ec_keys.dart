@@ -4,11 +4,11 @@ import 'package:commerciosdk/entities/export.dart';
 import 'package:pointycastle/export.dart' as pointy_castle;
 
 /// Wrapper of the pointyCastle ECPublicKey
-class ECPublicKey implements PublicKey {
+class CommercioECPublicKey implements CommercioPublicKey {
   final pointy_castle.ECPublicKey pubKey;
-  final String keyType;
+  final String? keyType;
 
-  ECPublicKey(
+  CommercioECPublicKey(
     this.pubKey, {
     this.keyType,
   });
@@ -17,14 +17,14 @@ class ECPublicKey implements PublicKey {
   String getType() => keyType ?? 'Secp256k1VerificationKey2018';
 
   @override
-  String getEncoded() {
-    return base64.encode(pubKey.Q.getEncoded(false));
+  Future<String> getEncoded() async {
+    return base64.encode(pubKey.Q!.getEncoded(false));
   }
 }
 
 /// Wrapper of the pointyCastle ECPrivateKey
-class ECPrivateKey implements PrivateKey {
+class CommercioECPrivateKey implements CommercioPrivateKey {
   final pointy_castle.ECPrivateKey secretKey;
 
-  ECPrivateKey(this.secretKey);
+  CommercioECPrivateKey(this.secretKey);
 }

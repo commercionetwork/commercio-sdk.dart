@@ -8,7 +8,10 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   group('Functions of "CommercioDocHelper" class;', () {
-    final networkInfo = NetworkInfo(bech32Hrp: 'did:com:', lcdUrl: '');
+    final networkInfo = NetworkInfo(
+      bech32Hrp: 'did:com:',
+      lcdUrl: Uri.parse(''),
+    );
     const mnemonicString =
         'dash ordinary anxiety zone slot rail flavor tortoise guilt divert pet sound ostrich increase resist short ship lift town ice split payment round apology';
     final mnemonic = mnemonicString.split(' ');
@@ -16,7 +19,7 @@ void main() {
     final senderDid = wallet.bech32Address;
     final recipientDids = ['did:com:1acdefg', 'did:com:1acdefg'];
     const recipientWithDDO = 'did:com:1fswhnd44fv2qk7ls4gflxh7spu7xpqdue54s3m';
-    final uuid = Uuid().v4();
+    final uuid = const Uuid().v4();
     final metadata = CommercioDocMetadata(
       contentUri: 'https://example.com/document/metadata',
       schema: CommercioDocMetadataSchema(
@@ -70,7 +73,7 @@ void main() {
         'fromWallet() should throw a WalletIdentityNotFoundException if any of the recipients does not have a DDO',
         () {
       final mockClientEveryoneNotFound =
-          MockClient((req) async => Response(null, 404));
+          MockClient((req) async => Response('', 404));
 
       expect(
         () => CommercioDocHelper.fromWallet(
@@ -90,7 +93,7 @@ void main() {
           Response(getWalletIdentityResponse, 200);
         }
 
-        return Response(null, 404);
+        return Response('', 404);
       });
 
       expect(

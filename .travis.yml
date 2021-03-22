@@ -9,13 +9,14 @@ jobs:
       stage: Analyze and test
       if: branch != gh-pages
       install:
-        - pub get
-        - pub upgrade
-        - pub run build_runner build test --delete-conflicting-outputs
+        - dart pub get
+        - cd example/ && dart pub get && cd ..
+        - dart pub upgrade
+        - dart pub run build_runner build test --delete-conflicting-outputs
 
       script:
         - dart analyze
-        - pub run test
+        - dart run test
 
     ## ----------------------------------------------------
     ## --- Steps to build and publish the documentation

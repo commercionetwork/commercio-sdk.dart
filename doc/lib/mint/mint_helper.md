@@ -10,8 +10,8 @@
     static Future<TransactionResult> mintCccsList(
       List<MintCcc> mintCccs,
       Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
+      StdFee? fee,
+      BroadcastingMode? mode,
     })
     ```
 
@@ -21,8 +21,8 @@
     static Future<TransactionResult> burnCccsList(
       List<BurnCcc> burnCccs,
       Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
+      StdFee? fee,
+      BroadcastingMode? mode,
     })
     ```
 

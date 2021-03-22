@@ -8,10 +8,11 @@
 
     ```dart
     static Future<RequestDidPowerUp> fromWallet({
-      @required Wallet wallet,
-      @required String pairwiseDid,
-      @required List<StdCoin> amount,
-      @required RSAPrivateKey privateKey,
+      required Wallet wallet,
+      required String pairwiseDid,
+      required List<StdCoin> amount,
+      required CommercioRSAPrivateKey privateKey,
+      http.Client? client,
     })
     ```
 

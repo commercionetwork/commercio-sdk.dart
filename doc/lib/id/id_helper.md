@@ -7,10 +7,10 @@
 1. `getDidDocument`, returns the `DidDocument` associated with the given `did` and `wallet`, or `null` if no `DidDocument` was found.
 
     ```dart
-    static Future<DidDocument> getDidDocument(
+    static Future<DidDocument?> getDidDocument(
       String did,
       Wallet wallet, {
-      http.Client client,
+      http.Client? client,
     })
     ```
 
@@ -20,8 +20,9 @@
     static Future<TransactionResult> setDidDocument(
       DidDocument didDocument,
       Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
+      StdFee? fee,
+      BroadcastingMode? mode,
+      http.Client? client,
     })
     ```
 
@@ -31,8 +32,9 @@
     static Future<TransactionResult> setDidDocumentsList(
       List<DidDocument> didDocuments,
       Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
+      StdFee? fee,
+      BroadcastingMode? mode,
+      http.Client? client,
     })
     ```
 
@@ -43,10 +45,10 @@
       Wallet senderWallet,
       String pairwiseDid,
       List<StdCoin> amount,
-      RSAPrivateKey privateKey, {
-      StdFee fee,
-      BroadcastingMode mode,
-    }) async
+      CommercioRSAPrivateKey privateKey, {
+      StdFee? fee,
+      BroadcastingMode? mode,
+    })
     ```
 
 5. `requestDidPowerUpsList`, creates a new transaction from the sender `wallet` to request a list of Did PowerUp `requestDidPowerUpsList`. Optionally `fee` and broadcasting `mode` parameters can be specified.
@@ -55,8 +57,8 @@
     static Future<TransactionResult> requestDidPowerUpsList(
       List<RequestDidPowerUp> requestDidPowerUpsList,
       Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
+      StdFee? fee,
+      BroadcastingMode? mode,
     })
     ```
 
@@ -114,6 +116,6 @@ try {
     wallet,
   );
 } catch (error) {
-throw error;
+  throw error;
 }
 ```

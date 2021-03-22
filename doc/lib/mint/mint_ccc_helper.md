@@ -10,9 +10,9 @@
 
     ```dart
     static MintCcc fromWallet({
-      @required Wallet wallet,
-      @required List<StdCoin> amount,
-      @required String id,
+      required Wallet wallet,
+      required List<StdCoin> amount,
+      required String id,
     })
     ```
 

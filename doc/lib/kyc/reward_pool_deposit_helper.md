@@ -10,8 +10,8 @@
 
     ```dart
     static RewardPoolDeposit fromWallet({
-      @required Wallet wallet,
-      @required List<StdCoin> amount,
+      required Wallet wallet,
+      required List<StdCoin> amount,
     })
     ```
 

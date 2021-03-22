@@ -8,16 +8,15 @@ part of 'reward_pool_deposit.dart';
 
 RewardPoolDeposit _$RewardPoolDepositFromJson(Map<String, dynamic> json) {
   return RewardPoolDeposit(
-    depositAmount: (json['amount'] as List)
-        ?.map((e) =>
-            e == null ? null : StdCoin.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    depositAmount: (json['amount'] as List<dynamic>)
+        .map((e) => StdCoin.fromJson(e as Map<String, dynamic>))
+        .toList(),
     depositorDid: json['depositor'] as String,
   );
 }
 
 Map<String, dynamic> _$RewardPoolDepositToJson(RewardPoolDeposit instance) =>
     <String, dynamic>{
-      'amount': instance.depositAmount?.map((e) => e?.toJson())?.toList(),
+      'amount': instance.depositAmount.map((e) => e.toJson()).toList(),
       'depositor': instance.depositorDid,
     };

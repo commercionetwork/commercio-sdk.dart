@@ -1,7 +1,6 @@
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'exchange_trade_position.g.dart';
 
@@ -26,18 +25,13 @@ class ExchangeTradePosition extends Equatable {
   final StdCoin credits;
 
   const ExchangeTradePosition({
-    @required this.createdAt,
-    @required this.id,
-    @required this.owner,
-    @required this.exchangeRate,
-    @required this.collateral,
-    @required this.credits,
-  })  : assert(createdAt != null),
-        assert(id != null),
-        assert(owner != null),
-        assert(exchangeRate != null),
-        assert(collateral != null),
-        assert(credits != null);
+    required this.createdAt,
+    required this.id,
+    required this.owner,
+    required this.exchangeRate,
+    required this.collateral,
+    required this.credits,
+  });
 
   @override
   List<Object> get props =>

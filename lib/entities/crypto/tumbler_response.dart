@@ -1,14 +1,12 @@
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
-
 class TumblerResponse {
   final String height;
   final Result result;
 
   TumblerResponse({
-    @required this.height,
-    @required this.result,
+    required this.height,
+    required this.result,
   });
 
   factory TumblerResponse.fromRawJson(String str) =>
@@ -31,9 +29,7 @@ class TumblerResponse {
 class Result {
   final String tumblerAddress;
 
-  Result({
-    @required this.tumblerAddress,
-  });
+  Result({required this.tumblerAddress});
 
   factory Result.fromRawJson(String str) => Result.fromJson(json.decode(str));
 

@@ -8,9 +8,9 @@
 
     ```dart
     static BuyMembership fromWallet({
-      @required Wallet wallet,
-      @required MembershipType membershipType,
-      @required String tsp,
+      required Wallet wallet,
+      required MembershipType membershipType,
+      required String tsp,
     })
     ```
 

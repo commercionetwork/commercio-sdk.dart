@@ -1,15 +1,14 @@
 import 'dart:convert';
 
 import 'package:commerciosdk/entities/id/did_document.dart';
-import 'package:meta/meta.dart';
 
 class IdentityResponse {
   final String height;
   final Result result;
 
   IdentityResponse({
-    @required this.height,
-    @required this.result,
+    required this.height,
+    required this.result,
   });
 
   factory IdentityResponse.fromRawJson(String str) =>
@@ -34,8 +33,8 @@ class Result {
   final DidDocument didDocument;
 
   Result({
-    @required this.owner,
-    @required this.didDocument,
+    required this.owner,
+    required this.didDocument,
   });
 
   factory Result.fromRawJson(String str) => Result.fromJson(json.decode(str));

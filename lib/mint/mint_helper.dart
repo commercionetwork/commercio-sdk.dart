@@ -9,8 +9,8 @@ class MintHelper {
   static Future<TransactionResult> mintCccsList(
     List<MintCcc> mintCccs,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) {
     final msgs =
         mintCccs.map((mintCcc) => MsgMintCcc(mintCcc: mintCcc)).toList();
@@ -29,8 +29,8 @@ class MintHelper {
   static Future<TransactionResult> burnCccsList(
     List<BurnCcc> burnCccs,
     Wallet wallet, {
-    StdFee fee,
-    BroadcastingMode mode,
+    StdFee? fee,
+    BroadcastingMode? mode,
   }) {
     final msgs =
         burnCccs.map((burnCcc) => MsgBurnCcc(burnCcc: burnCcc)).toList();
@@ -48,8 +48,9 @@ class MintHelper {
   static Future<List<ExchangeTradePosition>> getExchangeTradePositions(
     Wallet wallet,
   ) async {
-    final url =
-        '${wallet.networkInfo.lcdUrl}/commerciomint/etps/${wallet.bech32Address}';
+    final url = Uri.parse(
+      '${wallet.networkInfo.lcdUrl}/commerciomint/etps/${wallet.bech32Address}',
+    );
     final response = await Network.queryChain(url) as List;
     return response
         .map((json) => ExchangeTradePosition.fromJson(json))

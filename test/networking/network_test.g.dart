@@ -8,16 +8,15 @@ part of 'network_test.dart';
 
 TestResponse _$TestResponseFromJson(Map<String, dynamic> json) {
   return TestResponse(
-    (json['result'] as List)
-        ?.map((e) =>
-            e == null ? null : TestData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['result'] as List<dynamic>?)
+        ?.map((e) => TestData.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$TestResponseToJson(TestResponse instance) =>
     <String, dynamic>{
-      'result': instance.result?.map((e) => e?.toJson())?.toList(),
+      'result': instance.result?.map((e) => e.toJson()).toList(),
     };
 
 TestData _$TestDataFromJson(Map<String, dynamic> json) {

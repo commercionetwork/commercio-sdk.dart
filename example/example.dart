@@ -1,5 +1,4 @@
 import 'package:sacco/sacco.dart';
-import 'package:bip39/bip39.dart' as bip39;
 import 'package:uuid/uuid.dart';
 import 'package:commerciosdk/export.dart';
 
@@ -8,7 +7,7 @@ Future<void> main() async {
   // --- Setup network info
   // --------------------------------------------
 
-  const lcdUrl = 'http://localhost:1317';
+  final lcdUrl = Uri.parse('http://localhost:1337');
   final networkInfo = NetworkInfo(
     bech32Hrp: 'did:com:',
     lcdUrl: lcdUrl,
@@ -18,7 +17,7 @@ Future<void> main() async {
   // --- Creating a wallet for setIdentity
   // --------------------------------------------
 
-  final mnemonic = bip39.generateMnemonic(strength: 256).split(' ');
+  final mnemonic = Bip39.generateMnemonic(strength: 256).split(' ');
   final wallet = Wallet.derive(mnemonic, networkInfo);
 
   // --------------------------------------------
@@ -32,15 +31,18 @@ Future<void> main() async {
   // See https://docs.commercio.network/developers/create-sign-broadcast-tx.html
   // to send tokens.
 
-  final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair();
+  final rsaVerificationKeyPair = await KeysHelper.generateRsaKeyPair(
+    keyType: CommercioRSAKeyType.verification,
+  );
   final rsaVerificationPubKey = rsaVerificationKeyPair.publicKey;
 
-  final rsaSignatureKeyPair =
-      await KeysHelper.generateRsaKeyPair(type: 'RsaSignatureKey2018');
+  final rsaSignatureKeyPair = await KeysHelper.generateRsaKeyPair(
+    keyType: CommercioRSAKeyType.signature,
+  );
   final rsaSignaturePubKey = rsaSignatureKeyPair.publicKey;
 
   try {
-    final didDocument = DidDocumentHelper.fromWallet(
+    final didDocument = await DidDocumentHelper.fromWallet(
       wallet: wallet,
       pubKeys: [rsaVerificationPubKey, rsaSignaturePubKey],
     );
@@ -57,7 +59,7 @@ Future<void> main() async {
       print('----- You can retrive your did from below url -----');
       print('Endpoint:\n$lcdUrl/identities/${wallet.bech32Address}');
     } else {
-      print('TX error:\n${response.error.errorMessage}');
+      print('TX error:\n${response.error?.errorMessage}');
     }
   } catch (error) {
     print('Error while testing set DDO:\n$error');
@@ -67,10 +69,10 @@ Future<void> main() async {
   // --- Creating wallets for shareDocument
   // --------------------------------------------
 
-  final senderMnemonic = bip39.generateMnemonic(strength: 256).split(' ');
+  final senderMnemonic = Bip39.generateMnemonic(strength: 256).split(' ');
   final senderWallet = Wallet.derive(senderMnemonic, networkInfo);
 
-  final recipientMnemonic = bip39.generateMnemonic(strength: 256).split(' ');
+  final recipientMnemonic = Bip39.generateMnemonic(strength: 256).split(' ');
   final recipientWallet = Wallet.derive(recipientMnemonic, networkInfo);
 
   // --------------------------------------------
@@ -78,7 +80,7 @@ Future<void> main() async {
   // --------------------------------------------
 
   final docRecipientDid = recipientWallet.bech32Address;
-  final docId = Uuid().v4();
+  final docId = const Uuid().v4();
 
   final checksum = CommercioDocChecksum(
     value: 'a00ab326fc8a3dd93ec84f7e7773ac2499b381c4833e53110107f21c3b90509c',
@@ -131,7 +133,7 @@ Future<void> main() async {
       print('----- You can retrive your sent documents from url below -----');
       print('Endpoint:\n$lcdUrl/docs/${senderWallet.bech32Address}/sent');
     } else {
-      print('TX error:\n${response.error.errorMessage}');
+      print('TX error:\n${response.error?.errorMessage}');
     }
   } catch (error) {
     print('Error while sharing a document:\n$error');

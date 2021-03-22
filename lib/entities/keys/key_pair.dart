@@ -1,9 +1,10 @@
 import 'package:commerciosdk/entities/keys/asymmetric_keys.dart';
 
 ///An asymmetric pair of public and private asymmetric keys
-class KeyPair<P extends PublicKey, S extends PrivateKey> {
+class CommercioKeyPair<P extends CommercioPublicKey,
+    S extends CommercioPrivateKey> {
   final P publicKey;
   final S privateKey;
 
-  KeyPair(this.publicKey, this.privateKey);
+  CommercioKeyPair(this.publicKey, this.privateKey);
 }

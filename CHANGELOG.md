@@ -1,5 +1,23 @@
 # Changelog
 
+## Version 2.2.0 - 2021-03-22
+* Legacy support for blockchain v2.1 for modules `Id` and `Docs`.
+* Update `sacco.dart` and supports Dart null-safety
+* `DidDocumentHelper.fromWallet()` now returns a `Future`
+* `RSAPublicKey` now is called `CommercioRSAPublicKey` and the private key is called `publicKey` instead of `pubKey`
+* `RSAPrivateKey` now is called `CommercioRSAPrivateKey` and the private key is called `privateKey` instead of `secretKey`
+* `ECPublicKey` now is called `CommercioECPublicKey`
+* `ECPrivateKey` now is called `CommercioECPrivateKey`
+* `KeyPair` now is called `CommercioKeyPair`
+* `getGovernmentRsaPubKey()` parameter `lcdUrl` now is a `Uri`
+* `encryptStringWithAes()` parameter `key` now is a `Uint8List`
+* Removed `generateRandomNonceUtf8()`
+* `generateAesKey()` now returns a `Future<Uint8List>` instead of `Future<Key>`
+* `generateRsaKeyPair()` parameter `type` now is a `CommercioRSAKeyType keyType` and the method returns a `Future<CommercioKeyPair<CommercioRSAPublicKey, CommercioRSAPrivateKey>>`
+* `generateEcKeyPair()` now returns `<CommercioKeyPair<CommercioECPublicKey, CommercioECPrivateKey>>`
+* `CommercioDocHelper.fromWallet()` parameter `aesKey` now is of type `Uint8List?`
+* Remove `mapIndexed()`
+
 ## Version 2.2.0-pre.1 - 2021-02-18
 
 * Updated `Id`, `Docs` and `CommercioMint` modules to match the new specification:

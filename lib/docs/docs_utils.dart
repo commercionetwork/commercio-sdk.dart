@@ -1,5 +1,5 @@
 import 'package:commerciosdk/export.dart';
-import 'package:hex/hex.dart';
+import 'package:convert/convert.dart';
 import 'package:http/http.dart' as http;
 
 /// Transforms [doc] into one having the proper fields encrypted as
@@ -16,18 +16,18 @@ import 'package:http/http.dart' as http;
 /// [schema].
 Future<CommercioDoc> encryptField(
   CommercioDoc doc,
-  Key aesKey,
+  Uint8List aesKey,
   Set<CommercioEncryptedData> encryptedData,
   List<String> recipients,
   Wallet wallet, {
-  http.Client client,
+  http.Client? client,
 }) async {
   // -----------------
   // --- Encryption
   // -----------------
 
   // Encrypt the contents
-  String encryptedContentUri;
+  String? encryptedContentUri;
   if (encryptedData.contains(CommercioEncryptedData.CONTENT_URI)) {
     if (doc.contentUri == null) {
       throw ArgumentError(
@@ -35,36 +35,27 @@ Future<CommercioDoc> encryptField(
       );
     }
 
-    encryptedContentUri = HEX.encode(
-      EncryptionHelper.encryptStringWithAes(
-        doc.contentUri,
-        aesKey,
-      ),
+    encryptedContentUri = hex.encode(
+      EncryptionHelper.encryptStringWithAes(doc.contentUri!, aesKey),
     );
   }
 
-  String encryptedMetadataContentUri;
+  String? encryptedMetadataContentUri;
   if (encryptedData.contains(CommercioEncryptedData.METADATA_CONTENT_URI)) {
-    encryptedMetadataContentUri = HEX.encode(
-      EncryptionHelper.encryptStringWithAes(
-        doc.metadata.contentUri,
-        aesKey,
-      ),
+    encryptedMetadataContentUri = hex.encode(
+      EncryptionHelper.encryptStringWithAes(doc.metadata.contentUri, aesKey),
     );
   }
 
-  String encryptedMetadataSchemaUri;
+  String? encryptedMetadataSchemaUri;
   if (encryptedData.contains(CommercioEncryptedData.METADATA_SCHEMA_URI)) {
     if (doc.metadata.schema == null) {
       throw ArgumentError(
         'Document metadata.schema field can not be null if the encryptedData arguments contains CommercioEncryptedData.METADATA_SCHEMA_URI',
       );
     }
-    encryptedMetadataSchemaUri = HEX.encode(
-      EncryptionHelper.encryptStringWithAes(
-        doc.metadata.schema.uri,
-        aesKey,
-      ),
+    encryptedMetadataSchemaUri = hex.encode(
+      EncryptionHelper.encryptStringWithAes(doc.metadata.schema!.uri, aesKey),
     );
   }
 
@@ -89,17 +80,17 @@ Future<CommercioDoc> encryptField(
   // Create the encryption key field
   final encryptionKeys = recipientsWithDDO.map((recipient) {
     final encryptedAesKey = EncryptionHelper.encryptBytesWithRsa(
-      aesKey.bytes,
-      recipient.value.encryptionKey,
+      aesKey,
+      recipient.value!.encryptionKey!.publicKey,
     );
     return CommercioDocEncryptionDataKey(
       recipientDid: recipient.key,
-      value: HEX.encode(encryptedAesKey),
+      value: hex.encode(encryptedAesKey),
     );
   }).toList();
 
   // Copy the metadata
-  var metadataSchema = doc.metadata?.schema;
+  var metadataSchema = doc.metadata.schema;
   if (metadataSchema != null) {
     metadataSchema = CommercioDocMetadataSchema(
       version: metadataSchema.version,
@@ -138,7 +129,7 @@ class WalletIdentityNotFoundException implements Exception {
   /// Please refer to
   /// https://docs.commercio.network/x/id/tx/create-an-identity.html
   /// on how create an identity and associate it to a wallet.
-  const WalletIdentityNotFoundException(this.message) : assert(message != null);
+  const WalletIdentityNotFoundException(this.message);
 
   /// Create a default-message exception that refers to the missing identity of
   /// the provided `walletAddress`.

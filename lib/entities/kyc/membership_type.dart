@@ -13,8 +13,6 @@ extension MembershipTypeExt on MembershipType {
         return 'gold';
       case MembershipType.BLACK:
         return 'black';
-      default:
-        return null;
     }
   }
 }

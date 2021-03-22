@@ -1,7 +1,6 @@
 import 'package:commerciosdk/export.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'did_document_proof_signature_content.g.dart';
 
@@ -17,19 +16,17 @@ class DidDocumentProofSignatureContent extends Equatable {
   final List<DidDocumentPublicKey> publicKeys;
 
   @JsonKey(name: 'service', includeIfNull: false)
-  final List<DidDocumentService> service;
+  final List<DidDocumentService>? service;
 
   const DidDocumentProofSignatureContent({
-    @required this.context,
-    @required this.id,
-    @required this.publicKeys,
+    required this.context,
+    required this.id,
+    required this.publicKeys,
     this.service,
-  })  : assert(context != null),
-        assert(id != null),
-        assert(publicKeys != null);
+  });
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [context, id, publicKeys, service];
   }
 
