@@ -7,10 +7,10 @@
 1. `fromWallet`, creates a `DidDocument` from the given `wallet` and the `pubKeys`. Optionally the list `service` can be specified.
 
     ```dart
-    static DidDocument fromWallet({
-      @required Wallet wallet,
-      @required List<PublicKey> pubKeys,
-      List<DidDocumentService> service,
+    static Future<DidDocument> fromWallet({
+      required Wallet wallet,
+      required List<CommercioPublicKey> pubKeys,
+      List<DidDocumentService>? service,
     })
     ```  
 

@@ -8,8 +8,8 @@
 
     ```dart
     static InviteUser fromWallet({
-      @required Wallet wallet,
-      @required String recipientDid,
+      required Wallet wallet,
+      required String recipientDid,
     })
     ```
 

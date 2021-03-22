@@ -10,9 +10,10 @@ Allows to easily perform common transaction operations.
 static Future<TransactionResult> createSignAndSendTx(
   List<StdMsg> msgs,
   Wallet wallet, {
-  StdFee fee,
-  BroadcastingMode mode,
-}) async
+  StdFee? fee,
+  BroadcastingMode? mode,
+    http.Client? client,
+})
 ```
 
 ## Usage examples

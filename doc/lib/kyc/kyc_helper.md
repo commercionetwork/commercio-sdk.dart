@@ -10,8 +10,8 @@
     static Future<TransactionResult> buyMembershipsList(
       List<BuyMembership> buyMemberships,
       Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
+      StdFee? fee,
+      BroadcastingMode? mode,
     })
     ```
 
@@ -21,8 +21,8 @@
     static Future<TransactionResult> inviteUsersList(
       List<InviteUser> inviteUsers,
       Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
+      StdFee? fee,
+      BroadcastingMode? mode,
     })
     ```
 
@@ -33,8 +33,8 @@ with the depositor `wallet`. Optionally `fee` and broadcasting `mode` parameters
     static Future<TransactionResult> rewardPoolDepositsList(
       List<RewardPoolDeposit> rewardPoolDeposits,
       Wallet wallet, {
-      StdFee fee,
-      BroadcastingMode mode,
+      StdFee? fee,
+      BroadcastingMode? mode,
     })
     ```
 

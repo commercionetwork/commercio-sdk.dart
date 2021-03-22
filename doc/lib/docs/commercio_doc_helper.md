@@ -8,17 +8,17 @@ Commercio Doc Helper allows to easily create a Commercio Doc.
 
    ```dart
    static Future<CommercioDoc> fromWallet({
-     @required Wallet wallet,
-     @required List<String> recipients,
-     @required String id,
-     @required CommercioDocMetadata metadata,
-     String contentUri,
-     CommercioDocChecksum checksum,
-     CommercioDoSign doSign,
-     Set<CommercioEncryptedData> encryptedData,
-     Key aesKey,
-     http.Client client,
-   }) async
+      required Wallet wallet,
+      required List<String> recipients,
+      required String id,
+      required CommercioDocMetadata metadata,
+      String? contentUri,
+      CommercioDocChecksum? checksum,
+      CommercioDoSign? doSign,
+      Set<CommercioEncryptedData>? encryptedData,
+      Uint8List? aesKey,
+      http.Client? client,
+   })
    ```
 
 ## Usage examples
