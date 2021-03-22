@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:commerciosdk/export.dart';
 import 'package:pointycastle/export.dart';
 import 'package:sacco/sacco.dart';
@@ -91,8 +90,11 @@ void main() async {
 
     expect(didDocument.context, expectedDidDocument.context);
     expect(didDocument.id, expectedDidDocument.id);
-    final eq = const DeepCollectionEquality().equals;
-    expect(eq(didDocument.publicKeys, expectedDidDocument.publicKeys), true);
+
+    for (var i = 0; i < expectedDidDocument.publicKeys.length; i++) {
+      expect(didDocument.publicKeys[i], expectedDidDocument.publicKeys[i]);
+    }
+
     expect(didDocument.proof.type, expectedDidDocument.proof.type);
     expect(
         didDocument.proof.proofPurpose, expectedDidDocument.proof.proofPurpose);
