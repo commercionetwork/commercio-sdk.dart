@@ -27,11 +27,11 @@ extension NetworkInfoExt on NetworkInfo {
 
     if (version.isEmpty) {
       throw ArgumentError(
-          'The version must not be empty. An valid example is "2.2"');
+          'The version must not be empty. A valid example is "2.2"');
     }
 
     final nodeInfoResponse = await fetchNetworkInfo(client: client);
 
-    return nodeInfoResponse.applicationVersion.version.contains(version);
+    return nodeInfoResponse.applicationVersion.version.startsWith(version);
   }
 }
